@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using cpu.m68000;
+using MAME.Core.Common;
 
 namespace mame
 {
@@ -17,9 +18,9 @@ namespace mame
         public static void PGMInit()
         {
             Machine.bRom = true;
-            mainbiosrom = Properties.Resources.pgmmainbios;
-            videobios = Properties.Resources.pgmvideobios;
-            audiobios = Properties.Resources.pgmaudiobios;
+            mainbiosrom = mainForm.resource.Get_pgmmainbios();
+            videobios = mainForm.resource.Get_pgmvideobios();
+            audiobios = mainForm.resource.Get_pgmaudiobios();
             ICS2115.icsrom = audiobios;
             byte[] bb1,bb2;
             int i3,n1,n2,n3;

@@ -59,7 +59,7 @@ namespace mame
                         zoom_x = (zoom_control >> 8) & 0x0f;
                         rows = y_control & 0x3f;
                     }
-                    Machine.FORM.neogeoform.tbResult.AppendText(sprite_number.ToString("X3") + " " + x_2.ToString("X4") + " " + y_control.ToString("X4") + " " + code_2.ToString("X4") + " " + zoom_control.ToString("X4") + "\r\n");
+                    Machine.FORM.neogeoform.tbResult.Add(sprite_number.ToString("X3") + " " + x_2.ToString("X4") + " " + y_control.ToString("X4") + " " + code_2.ToString("X4") + " " + zoom_control.ToString("X4") + "\r\n");
                     if (((x >= 0x140) && (x <= 0x1f0)) || rows == 0)
                         continue;
                     if (x == 0)
@@ -243,7 +243,7 @@ namespace mame
             string[] ss1, ss2, ss3;
             int i1, i2, i3, i4, n1, n2, width, height;
             lSprite.Clear();
-            ss1 = Machine.FORM.neogeoform.tbSprite.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            ss1 = Machine.FORM.neogeoform.tbSprite.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             n1 = ss1.Length;
             for (i1 = 0; i1 < n1; i1++)
             {
@@ -264,7 +264,7 @@ namespace mame
                     lSprite.Add(i2);
                 }
             }
-            ss3 = Machine.FORM.neogeoform.tbPoint.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            ss3 = Machine.FORM.neogeoform.tbPoint.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             width = int.Parse(ss3[0]);
             height = int.Parse(ss3[1]);
             Bitmap bm1 = new Bitmap(width, height), bm2;

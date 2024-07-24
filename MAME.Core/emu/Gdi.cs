@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
@@ -47,27 +43,27 @@ namespace mame
                 bitmapGDI.UnlockBits(bitmapData);
                 if (Wintime.osd_ticks() < popup_text_end)
                 {
-                    Machine.FORM.tsslStatus.Text = sDrawText;
+                    Machine.FORM.tsslStatus = sDrawText;
                 }
                 else
                 {
                     popup_text_end = 0;
                     if (Mame.paused)
                     {
-                        Machine.FORM.tsslStatus.Text = "pause";
+                        Machine.FORM.tsslStatus = "pause";
                     }
                     else
                     {
                         switch (Mame.playState)
                         {
                             case Mame.PlayState.PLAY_RECORDRUNNING:
-                                Machine.FORM.tsslStatus.Text = "record";
+                                Machine.FORM.tsslStatus = "record";
                                 break;
                             case Mame.PlayState.PLAY_REPLAYRUNNING:
-                                Machine.FORM.tsslStatus.Text = "replay";
+                                Machine.FORM.tsslStatus = "replay";
                                 break;
                             default:
-                                Machine.FORM.tsslStatus.Text = "run";
+                                Machine.FORM.tsslStatus = "run";
                                 break;
                         }
                     }
@@ -87,7 +83,8 @@ namespace mame
                         bbmp[iMode].RotateFlip(RotateFlipType.Rotate270FlipNone);
                         break;
                 }
-                Machine.FORM.pictureBox1.Image = bbmp[iMode];
+                //Machine.FORM.pictureBox1.Image = bbmp[iMode];
+                SubmitVideo(bbmp[iMode]);
             }
             catch
             {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using MAME.Core.Common;
 
 namespace mame
 {
@@ -38,7 +39,7 @@ namespace mame
             gfx2rom = Machine.GetRom("gfx2.rom");
             gfx3rom = ByteTo2byte(Machine.GetRom("gfx3.rom"));
             user1rom = Machine.GetRom("user1.rom");
-            mcurom = Properties.Resources.mcu;
+            mcurom = mainForm.resource.Get_mcu();
             voicerom = new byte[0xc0000];
             byte[] bb1 = Machine.GetRom("voice.rom");
             Array.Copy(bb1, voicerom, bb1.Length);

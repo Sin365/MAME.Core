@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MAME.Core;
+using MAME.Core.Common;
+using MAME.Core.run_interface;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
-using Microsoft.DirectX.DirectInput;
-using ui;
 
 namespace mame
 {
     public class Mame
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
         public enum PlayState
         {
             PLAY_RUNNING = 0,
@@ -28,7 +24,6 @@ namespace mame
             PLAY_REPLAYEND,
         }
         public static PlayState playState;
-        public static IntPtr handle1, handle2, handle3, handle4;
         public static bool is_foreground;
         public static bool paused, exit_pending;
         public static Timer.emu_timer soft_reset_timer;
@@ -137,51 +132,22 @@ namespace mame
         }
         public static void init_machine(mainForm form)
         {
-            //fileio_init();
-            //config_init();
             Inptport.input_init();
-            //output_init();
-
             Palette.palette_init();
-            //render_init();
-            //ui_init();
-
             Generic.generic_machine_init();
-
             Timer.timer_init();
             soft_reset_timer = Timer.timer_alloc_common(soft_reset, "soft_reset", false);
-
             Window.osd_init(form);
-
-            //time(&mame->base_time);
-
             Inptport.input_port_init();
-            //if (newbase != 0)
-            //    mame->base_time = newbase;
-
-            /* intialize UI input */
-            //ui_input_init();
-
-            //rom_init();
-            //memory_init();
             Cpuexec.cpuexec_init();
             Watchdog.watchdog_init();
             Cpuint.cpuint_init();
-
-            //cps1_gfx_decode();
-
-            //device_list_start();
             Machine.driver_init();
-
             Video.video_init();
-
             Tilemap.tilemap_init();
             Crosshair.crosshair_init();
-
             Sound.sound_init();
-
             State.state_init();
-
             Machine.machine_start();
         }
         public static void mame_pause(bool pause)
@@ -210,15 +176,8 @@ namespace mame
         }
         private static void handle_save()
         {
-            handle2 = GetForegroundWindow();
-            if (handle1 == handle2)
-            {
-                is_foreground = true;
-            }
-            else
-            {
-                is_foreground = false;
-            }
+            //是否焦点
+            is_foreground = true;
             if (is_foreground)
             {
                 Video.sDrawText = "Select position to save to";
@@ -260,15 +219,8 @@ namespace mame
         }
         private static void handle_load()
         {
-            handle2 = GetForegroundWindow();
-            if (handle1 == handle2)
-            {
-                is_foreground = true;
-            }
-            else
-            {
-                is_foreground = false;
-            }
+            //是否焦点
+            bool is_foreground = true;
             if (is_foreground)
             {
                 Video.sDrawText = "Select position to load from";
@@ -323,15 +275,8 @@ namespace mame
         }
         private static void handle_record()
         {
-            handle2 = GetForegroundWindow();
-            if (handle1 == handle2)
-            {
-                is_foreground = true;
-            }
-            else
-            {
-                is_foreground = false;
-            }
+            //是否焦点
+            bool is_foreground = true;
             if (is_foreground)
             {
                 if (playState == PlayState.PLAY_RECORDSTART)
@@ -393,15 +338,8 @@ namespace mame
         }
         private static void handle_replay()
         {
-            handle2 = GetForegroundWindow();
-            if (handle1 == handle2)
-            {
-                is_foreground = true;
-            }
-            else
-            {
-                is_foreground = false;
-            }
+            //是否焦点
+            bool is_foreground = true;
             if (is_foreground)
             {
                 if (playState == PlayState.PLAY_REPLAYSTART)

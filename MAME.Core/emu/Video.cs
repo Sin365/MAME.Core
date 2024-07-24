@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Windows.Forms;
+﻿using MAME.Core.run_interface;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -64,6 +60,24 @@ namespace mame
         private static int NEOGEO_VBEND = 0x010;
         private static int NEOGEO_VBSTART = 0x0f0;//240
         private static int NEOGEO_VBLANK_RELOAD_HPOS = 0x11f;//287
+
+
+        #region 抽象出去
+        static Action<Bitmap> Act_SubmitVideo;
+
+        public static void BindFunc(IVideoPlayer Ivp)
+        {
+            Act_SubmitVideo -= Act_SubmitVideo;
+
+            Act_SubmitVideo += Ivp.SubmitVideo;
+        }
+
+        static void SubmitVideo(Bitmap Bitmap)
+        {
+            Act_SubmitVideo?.Invoke(Bitmap);
+        }
+        #endregion
+
         public static void video_init()
         {
             Wintime.wintime_init();
@@ -878,7 +892,7 @@ namespace mame
             Mouse.Update();
             Inptport.frame_update_callback();
             UI.ui_update_and_render();
-            if(Machine.FORM.cheatform.lockState == ui.cheatForm.LockState.LOCK_FRAME)
+            if(Machine.FORM.cheatform.lockState == MAME.Core.Common.cheatForm.LockState.LOCK_FRAME)
             {
                 Machine.FORM.cheatform.ApplyCheat();
             }
@@ -1041,4 +1055,5 @@ namespace mame
             screenstate.frame_number = reader.ReadInt64();
         }
     }
+
 }

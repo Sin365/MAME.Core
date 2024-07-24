@@ -1,26 +1,18 @@
-﻿using Microsoft.DirectX.DirectInput;
-using System.Runtime.InteropServices;
-using System;
-using ui;
-using DIDevice = Microsoft.DirectX.DirectInput.Device;
+﻿using MAME.Core;
+using MAME.Core.Common;
 
 namespace mame
 {
     public class Keyboard
     {
         public static bool bF10;
-        public static DIDevice dIDevice;
-        // 需要引入的Windows API函数声明（此处省略具体实现）  
-
-        [DllImport("setupapi.dll", CharSet = CharSet.Auto, SetLastError = true)]
-        static extern IntPtr SetupDiGetClassDevs(ref Guid ClassGuid, string Enumerator, IntPtr hwndParent, uint Flags);
-
+        //public static DIDevice dIDevice;
 
         public static void InitializeInput(mainForm form1)
         {
-            dIDevice = new DIDevice(SystemGuid.Keyboard);
-            dIDevice.SetCooperativeLevel(form1, CooperativeLevelFlags.Background | CooperativeLevelFlags.NonExclusive);
-            dIDevice.Acquire();
+            //dIDevice = new DIDevice(SystemGuid.Keyboard);
+            //dIDevice.SetCooperativeLevel(form1, CooperativeLevelFlags.Background | CooperativeLevelFlags.NonExclusive);
+            //dIDevice.Acquire();
         }
         struct KeyState
         {
@@ -39,7 +31,8 @@ namespace mame
         }
         public static void Update()
         {
-            for (int i = 0; i < 256; i++)
+            //TODO
+            /*for (int i = 0; i < 256; i++)
             {
                 m_KeyStates[i].IsPressed = false;
             }
@@ -67,6 +60,7 @@ namespace mame
                     m_KeyStates[i].IsTriggered = false;
                 }
             }
+            */
         }
     }
 }

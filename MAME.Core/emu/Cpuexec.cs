@@ -5,6 +5,7 @@ using cpu.m6805;
 using cpu.m6809;
 using cpu.nec;
 using cpu.z80;
+using MAME.Core.Common;
 using System;
 using System.IO;
 

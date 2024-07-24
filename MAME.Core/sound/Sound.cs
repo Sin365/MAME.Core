@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX.DirectSound;
+﻿using MAME.Core.run_interface;
 using System;
 
 namespace mame
@@ -11,15 +11,50 @@ namespace mame
         private static int sound_muted;
         public static ushort[] latched_value, utempdata;
         public static Action sound_update;
-        public static SecondaryBuffer buf2;
+        //public static SecondaryBuffer buf2;
         private static int stream_buffer_in;
+
+        #region 抽象出去
+        static Action<int, byte[]> Act_BufferWirte;
+        static Action<int> Act_SetVolume;
+        public delegate void DGetCurrentPosition(out int play_position, out int write_position);
+        public static event DGetCurrentPosition Act_DGetCurrentPosition;
+
+        public static void BindFunc(ISoundPlayer Isp)
+        {
+            Act_BufferWirte -= Act_BufferWirte;
+            Act_SetVolume -= Act_SetVolume;
+            Act_DGetCurrentPosition -= Act_DGetCurrentPosition;
+
+
+            Act_BufferWirte += Isp.BufferWirte;
+            Act_SetVolume += Isp.SetVolume;
+            Act_DGetCurrentPosition += Isp.GetCurrentPosition;
+        }
+
+        static void BufferWirte(int Off, byte[] Data)
+        {
+            Act_BufferWirte?.Invoke(Off, Data);
+        }
+        public static void SetVolume(int Vol)
+        {
+            Act_SetVolume?.Invoke(Vol);
+        }
+        static void GetCurrentPosition(out int play_position, out int write_position)
+        {
+            play_position = 0;
+            write_position = 0;
+            Act_DGetCurrentPosition?.Invoke(out play_position, out write_position);
+        }
+        #endregion
+
         public static void sound_init()
         {
             leftmix = new int[0x3c0];
             rightmix = new int[0x3c0];
             finalmixb = new byte[0xf00];
             sound_muted = 0;
-            buf2.Play(0, BufferPlayFlags.Looping);
+            //buf2.Play(0, BufferPlayFlags.Looping);
             last_update_second = 0;
             //WavWrite.CreateSoundFile(@"\VS2008\compare1\compare1\bin\Debug\2.wav");
             Atime update_frequency = new Atime(0, Attotime.ATTOSECONDS_PER_SECOND / 50);
@@ -657,12 +692,14 @@ namespace mame
             if (pause)
             {
                 sound_muted |= 0x02;
-                Sound.buf2.Volume = -10000;
+                //buf2.Volume = -10000;
+                Sound.SetVolume(-10000);
             }
             else
             {
                 sound_muted &= ~0x02;
-                Sound.buf2.Volume = 0;
+                //Sound.buf2.Volume = 0;
+                Sound.SetVolume(0);
             }
             //osd_set_mastervolume(sound_muted ? -32 : 0);
         }
@@ -1694,7 +1731,8 @@ namespace mame
             int stream_in;
             byte[] buffer1, buffer2;
             int length1, length2;
-            buf2.GetCurrentPosition(out play_position, out write_position);
+            //buf2.GetCurrentPosition(out play_position, out write_position);
+            GetCurrentPosition(out play_position, out write_position);
             if (write_position < play_position)
             {
                 write_position += 0x9400;
@@ -1721,7 +1759,8 @@ namespace mame
                 length2 = 0;
                 buffer1 = new byte[length1];
                 Array.Copy(buffer, buffer1, length1);
-                buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
+                //buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
+                BufferWirte(stream_buffer_in, buffer1);
                 stream_buffer_in = stream_buffer_in + 0xf00;
             }
             else if (stream_buffer_in + 0xf00 == 0x9400)
@@ -1730,7 +1769,8 @@ namespace mame
                 length2 = 0;
                 buffer1 = new byte[length1];
                 Array.Copy(buffer, buffer1, length1);
-                buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
+                //buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
+                BufferWirte(stream_buffer_in, buffer1);
                 stream_buffer_in = 0;
             }
             else if (stream_buffer_in + 0xf00 > 0x9400)
@@ -1741,8 +1781,10 @@ namespace mame
                 buffer2 = new byte[length2];
                 Array.Copy(buffer, buffer1, length1);
                 Array.Copy(buffer, length1, buffer2, 0, length2);
-                buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
-                buf2.Write(0, buffer2, LockFlag.None);
+                //buf2.Write(stream_buffer_in, buffer1, LockFlag.None);
+                BufferWirte(stream_buffer_in, buffer1);
+                //buf2.Write(0, buffer2, LockFlag.None);
+                BufferWirte(0, buffer2);
                 stream_buffer_in = length2;
             }
         }

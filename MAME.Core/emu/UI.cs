@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Threading;
+﻿using MAME.Core;
+using MAME.Core.Common;
+using System;
 using System.Runtime.InteropServices;
-using Microsoft.DirectX.DirectInput;
-using ui;
 
 namespace mame
 {
@@ -182,15 +177,16 @@ namespace mame
         }
         public static void handler_ingame()
         {
-            Mame.handle2 = GetForegroundWindow();
-            if (Mame.handle1 == Mame.handle2)
-            {
-                Mame.is_foreground = true;
-            }
-            else
-            {
-                Mame.is_foreground = false;
-            }
+            //Mame.handle2 = GetForegroundWindow();
+            //if (Mame.handle1 == Mame.handle2)
+            //{
+            //    Mame.is_foreground = true;
+            //}
+            //else
+            //{
+            //    Mame.is_foreground = false;
+            //}
+            Mame.is_foreground = true;
             bool is_paused = Mame.mame_is_paused();
             if (single_step)
             {
@@ -260,9 +256,9 @@ namespace mame
         public static void cpurun()
         {
             m68000Form.m68000State = m68000Form.M68000State.M68000_RUN;
-            Machine.FORM.m68000form.tsslStatus.Text = "run";
+            Machine.FORM.m68000form.mTx_tsslStatus = "run";
             z80Form.z80State = z80Form.Z80AState.Z80A_RUN;
-            Machine.FORM.z80form.tsslStatus.Text = "run";
+            Machine.FORM.z80form.mTx_tsslStatus = "run";
         }
         private static double ui_get_line_height()
         {

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
-using System.IO;
 
 namespace mame
 {
@@ -1047,7 +1044,7 @@ namespace mame
             string[] ss1, ss2, ss3;
             int i1, i2, i3, i4, n1, n2;
             lSprite.Clear();
-            ss1 = Machine.FORM.konami68000form.tbSprite.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            ss1 = Machine.FORM.konami68000form.tbSprite.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             n1 = ss1.Length;
             for (i1 = 0; i1 < n1; i1++)
             {
@@ -1068,7 +1065,7 @@ namespace mame
                     lSprite.Add(i2);
                 }
             }
-            ss3 = Machine.FORM.neogeoform.tbPoint.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            ss3 = Machine.FORM.neogeoform.tbPoint.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             Bitmap bm1 = new Bitmap(0x200, 0x100), bm2;
             Graphics g = Graphics.FromImage(bm1);
             Color c1 = Color.FromArgb((int)Palette.entry_color[16 * bg_colorbase]);

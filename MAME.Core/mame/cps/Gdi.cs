@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Drawing;
 using System.Drawing.Imaging;
 
@@ -73,7 +71,7 @@ namespace mame
         }
         public static void GetData()
         {
-            string[] ss1 = Machine.FORM.cpsform.tbInput.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            string[] ss1 = Machine.FORM.cpsform.tbInput.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             int n1 = ss1.Length;
             int i1, iR, iG, iB;
             int bright;
@@ -90,7 +88,7 @@ namespace mame
             baseTilemap1G = (cps_a_regs[2] * 0x100) & 0x3ffff;
             baseTilemap2G = (cps_a_regs[3] * 0x100) & 0x3ffff;
             basePaletteG = (cps_a_regs[5] * 0x100) & 0x3ffff;
-            if (!Machine.FORM.cpsform.cbLockpal.Checked)
+            if (!Machine.FORM.cpsform.cbLockpal)
             {
                 for (i1 = 0; i1 < nColorG * 2; i1++)
                 {
@@ -122,7 +120,7 @@ namespace mame
                     cc1G[startpage * 0x200 + i1] = Color.FromArgb(iR, iG, iB);
                 }
             }
-            if (Machine.FORM.cpsform.cbRowscroll.Checked == true)
+            if (Machine.FORM.cpsform.cbRowscroll == true)
             {
                 videocontrolG = cps_a_regs[0x22 / 2];
             }
@@ -691,7 +689,7 @@ namespace mame
                 rows = iAttr / 256 / 16 + 1;
                 if (lsColor.IndexOf(iColor) < 0)
                 {
-                    Machine.FORM.cpsform.tbResult.AppendText(iColor.ToString() + ",");
+                    Machine.FORM.cpsform.tbResult.Add(iColor.ToString() + ",");
                     lsColor.Add(iColor);
                 }
                 if (Array.IndexOf(iiCutColorG, iColor) >= 0)
@@ -1122,7 +1120,7 @@ namespace mame
         }
         public static Bitmap GetAllGDI()
         {
-            string[] ss1 = Machine.FORM.cpsform.tbPoint.Text.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
+            string[] ss1 = Machine.FORM.cpsform.tbPoint.Split(sde2, StringSplitOptions.RemoveEmptyEntries);
             int width, height;
             width = int.Parse(ss1[0]);
             height = int.Parse(ss1[1]);

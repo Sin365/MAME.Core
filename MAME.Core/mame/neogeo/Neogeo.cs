@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using MAME.Core.run_interface;
+using MAME.Core.Common;
 
 namespace mame
 {
@@ -43,10 +45,10 @@ namespace mame
             Memory.audioram = new byte[0x800];
             Machine.bRom = true;
             dsw = 0xff;
-            fixedbiosrom = Properties.Resources.sfix;
-            zoomyrom = Properties.Resources._000_lo;
-            audiobiosrom = Properties.Resources.sm1;
-            mainbiosrom = Properties.Resources.mainbios;
+            fixedbiosrom = mainForm.resource.Get_sfix();
+            zoomyrom = mainForm.resource.Get__000_lo();
+            audiobiosrom = mainForm.resource.Get_sm1();
+            mainbiosrom = mainForm.resource.Get_mainbios();
             Memory.mainrom = Machine.GetRom("maincpu.rom");
             Memory.audiorom = Machine.GetRom("audiocpu.rom");
             fixedrom = Machine.GetRom("fixed.rom");
