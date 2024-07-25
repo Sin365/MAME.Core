@@ -10,5 +10,7 @@
         byte[] Get_pgmvideobios();
         byte[] Get_pgmaudiobios();
         byte[] Get_mcu();
+
+        string Get_mame_xml();
     }
 }

@@ -1,5 +1,5 @@
-﻿using MAME.Core;
-using MAME.Core.Common;
+﻿using MAME.Core.Common;
+using MAME.Core.run_interface;
 using System;
 using System.Runtime.InteropServices;
 

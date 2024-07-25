@@ -1,34 +1,29 @@
 ﻿using MAME.Core;
 using MAME.Core.Common;
+using MAME.Core.run_interface;
 
 namespace mame
 {
     public class Keyboard
     {
         public static bool bF10;
-        //public static DIDevice dIDevice;
 
-        public static void InitializeInput(mainForm form1)
+        static IKeyboard mKeyboard;
+
+        public static void InitializeInput(mainForm form1,IKeyboard ikb)
         {
-            //dIDevice = new DIDevice(SystemGuid.Keyboard);
-            //dIDevice.SetCooperativeLevel(form1, CooperativeLevelFlags.Background | CooperativeLevelFlags.NonExclusive);
-            //dIDevice.Acquire();
+            mKeyboard = ikb;
         }
-        struct KeyState
-        {
-            public bool IsPressed;
-            public bool IsTriggered;
-            public bool WasPressed;
-        };
-        private static KeyState[] m_KeyStates = new KeyState[256];
+
         public static bool IsPressed(Key key)
         {
-            return m_KeyStates[(int)key].IsPressed;
+            return mKeyboard.IsPressed(key);
         }
         public static bool IsTriggered(Key key)
         {
-            return m_KeyStates[(int)key].IsTriggered;
+            return mKeyboard.IsTriggered(key);
         }
+
         public static void Update()
         {
             //TODO

@@ -7,6 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="ImageProcessor.Core" Version="1.1.0" />
+    <PackageReference Include="LamarCodeGeneration" Version="6.3.0" />
   </ItemGroup>
 
 </Project>

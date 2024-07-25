@@ -1,4 +1,4 @@
-﻿namespace MAME.Core
+﻿namespace MAME.Core.run_interface
 {
 
     public enum Key

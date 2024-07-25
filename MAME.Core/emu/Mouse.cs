@@ -1,21 +1,25 @@
 ﻿using MAME.Core.Common;
+using MAME.Core.run_interface;
 
 namespace mame
 {
     public class Mouse
     {
-        //public static DIDevice mouseDevice;
         public static int deltaX, deltaY, oldX, oldY;
         public static byte[] buttons;
-        public static void InitialMouse(mainForm form1)
+        static IMouse iMouse;
+        public static void InitialMouse(mainForm form1,IMouse im)
         {
-            //mouseDevice = new Microsoft.DirectX.DirectInput.Device(SystemGuid.Mouse);
-            //mouseDevice.Properties.AxisModeAbsolute = true;
-            //mouseDevice.SetCooperativeLevel(form1, CooperativeLevelFlags.NonExclusive | CooperativeLevelFlags.Background);
-            //mouseDevice.Acquire();
+            iMouse = im;
         }
+
         public static void Update()
         {
+            iMouse.MouseXY(out int X, out int Y);
+            deltaX = X - oldX;
+            deltaY = Y - oldY;
+            oldX = X;
+            oldY = Y;
             //TODO
             //MouseState mouseState = mouseDevice.CurrentMouseState;
             //deltaX = mouseState.X - oldX;

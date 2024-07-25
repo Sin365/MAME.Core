@@ -1,11 +1,10 @@
 ﻿using mame;
 using MAME.Core.run_interface;
-using System.IO;
-using System.Security.Cryptography;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Xml.Linq;
-using System.Drawing;
 
 namespace MAME.Core.Common
 {
@@ -34,10 +33,13 @@ namespace MAME.Core.Common
             konami68000form = new konami68000Form(this);
         }
 
-        public void Init(IVideoPlayer Ivp,ISoundPlayer isp,IResources iRes)
+        public void Init(IResources iRes,
+            IVideoPlayer ivp,
+            ISoundPlayer isp,
+            IKeyboard ikb,
+            IMouse imou)
         {
-
-            Video.BindFunc(Ivp);
+            Video.BindFunc(ivp);
             Sound.BindFunc(isp);
             resource = iRes;
 
@@ -45,15 +47,40 @@ namespace MAME.Core.Common
             sr1.ReadLine();
             sSelect = sr1.ReadLine();
             sr1.Close();
-            
-            RomInfo.Rom = new RomInfo();
 
+
+            RomInfo.Rom = new RomInfo();
+            LoadROMXML();
             //TODO Wavebuffer
             //desc1.BufferBytes = 0x9400;
-            Keyboard.InitializeInput(this);
-            Mouse.InitialMouse(this);
+            Keyboard.InitializeInput(this, ikb);
+            Mouse.InitialMouse(this, imou);
         }
 
+        private void LoadROMXML()
+        {
+            XElement xe = XElement.Parse(resource.Get_mame_xml());
+            IEnumerable<XElement> elements = from ele in xe.Elements("game") select ele;
+            showInfoByElements(elements);
+        }
+
+        private void showInfoByElements(IEnumerable<XElement> elements)
+        {
+            RomInfo.romList = new List<RomInfo>();
+            foreach (var ele in elements)
+            {
+                RomInfo rom = new RomInfo();
+                rom.Name = ele.Attribute("name").Value;
+                rom.Board = ele.Attribute("board").Value;
+                rom.Parent = ele.Element("parent").Value;
+                rom.Direction = ele.Element("direction").Value;
+                rom.Description = ele.Element("description").Value;
+                rom.Year = ele.Element("year").Value;
+                rom.Manufacturer = ele.Element("manufacturer").Value;
+                RomInfo.romList.Add(rom);
+                //loadform.listView1.Items.Add(new ListViewItem(new string[] { rom.Description, rom.Year, rom.Name, rom.Parent, rom.Direction, rom.Manufacturer, rom.Board }));
+            }
+        }
 
         public void LoadRom(string Name)
         {
@@ -189,7 +216,6 @@ namespace MAME.Core.Common
                 Console.Write("error rom");
             }
         }
-
 
         private void itemSelect()
         {

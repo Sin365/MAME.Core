@@ -1,4 +1,4 @@
-﻿using MAME.Core;
+﻿using MAME.Core.run_interface;
 using System.Collections.Generic;
 
 namespace mame
