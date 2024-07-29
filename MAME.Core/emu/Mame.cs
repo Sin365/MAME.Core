@@ -180,7 +180,7 @@ namespace mame
             {
                 Video.sDrawText = "Select position to save to";
                 Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                if (Keyboard.IsTriggered(Corekey.Escape))
+                if (Keyboard.IsTriggered(MotionKey.Escape))
                 {
                     Video.sDrawText = "Save cancelled";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -199,7 +199,7 @@ namespace mame
             {
                 Video.sDrawText = "Select position to load from";
                 Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                if (Keyboard.IsTriggered(Corekey.Escape))
+                if (Keyboard.IsTriggered(MotionKey.Escape))
                 {
                     Video.sDrawText = "Load cancelled";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -220,7 +220,7 @@ namespace mame
                 {
                     Video.sDrawText = "Select position to record to";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                    if (Keyboard.IsTriggered(Corekey.Escape))
+                    if (Keyboard.IsTriggered(MotionKey.Escape))
                     {
                         Video.sDrawText = "Record cancelled";
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -250,7 +250,7 @@ namespace mame
                 {
                     Video.sDrawText = "Select position to replay from";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                    if (Keyboard.IsTriggered(Corekey.Escape))
+                    if (Keyboard.IsTriggered(MotionKey.Escape))
                     {
                         Video.sDrawText = "Replay cancelled";
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;

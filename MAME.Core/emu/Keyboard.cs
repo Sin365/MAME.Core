@@ -1,5 +1,4 @@
-﻿using MAME.Core.Common;
-using MAME.Core.run_interface;
+﻿using MAME.Core.run_interface;
 
 namespace mame
 {
@@ -9,28 +8,37 @@ namespace mame
 
         static IKeyboard mKeyboard;
 
-        public static void InitializeInput(mainMotion form1, IKeyboard ikb)
+        struct KeyState
+        {
+            public bool IsPressed;
+            public bool IsTriggered;
+            public bool WasPressed;
+        };
+        private static KeyState[] m_KeyStates = new KeyState[(byte)MotionKey.FinalKey];
+
+        MotionKey[] mKeyName;
+        public static void InitializeInput(IKeyboard ikb)
         {
             mKeyboard = ikb;
         }
 
-        public static bool IsPressed(Corekey key)
+        public static bool IsPressed(MotionKey key)
         {
-            return mKeyboard.IsPressed(key);
+            return m_KeyStates[(int)key].IsPressed;
         }
-        public static bool IsTriggered(Corekey key)
+        public static bool IsTriggered(MotionKey key)
         {
-            return mKeyboard.IsTriggered(key);
+            return m_KeyStates[(int)key].IsTriggered;
         }
 
         public static void Update()
         {
-            //TODO
-            /*for (int i = 0; i < 256; i++)
+            byte finalIndex = (byte)MotionKey.FinalKey;
+            for (byte i = 0; i < finalIndex; i++)
             {
                 m_KeyStates[i].IsPressed = false;
             }
-            foreach (Key key in dIDevice.GetPressedKeys())
+            foreach (MotionKey key in mKeyboard.GetPressedKeys())
             {
                 m_KeyStates[(int)key].IsPressed = true;
             }
@@ -54,7 +62,7 @@ namespace mame
                     m_KeyStates[i].IsTriggered = false;
                 }
             }
-            */
+            
         }
     }
 }

@@ -643,13 +643,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -678,13 +678,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -701,13 +701,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 keypressed = true;
                 delta -= analog_p0.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 keypressed = true;
                 delta += analog_p0.delta * 0x200;
@@ -724,13 +724,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -747,13 +747,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -770,13 +770,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -793,13 +793,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -816,13 +816,13 @@ namespace mame
             int value2;
             value2 = apply_analog_min_max(analog, analog.accum);
             analog.previous = analog.accum = value2;
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -847,13 +847,13 @@ namespace mame
                 delta = rawvalue;
                 analog.lastdigital = 0;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -892,13 +892,13 @@ namespace mame
                 delta = rawvalue;
                 analog.lastdigital = 0;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 keypressed = true;
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;

@@ -6,7 +6,7 @@ namespace mame
     {
         public static void loop_inputports_igs011_drgnwrld()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbytec &= ~0x01;
             }
@@ -14,7 +14,7 @@ namespace mame
             {
                 sbytec |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 sbytec &= ~0x02;
             }
@@ -22,7 +22,7 @@ namespace mame
             {
                 sbytec |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 sbyte0 &= ~0x01;
             }
@@ -30,7 +30,7 @@ namespace mame
             {
                 sbyte0 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 sbyte2 &= ~0x10;
             }
@@ -38,7 +38,8 @@ namespace mame
             {
                 sbyte2 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D))// || Mouse.deltaX > 0)
+            //if (Keyboard.IsPressed(Corekey.D))// || Mouse.deltaX > 0)
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))// || Mouse.deltaX > 0)
             {
                 sbyte0 &= ~0x10;
             }
@@ -46,7 +47,7 @@ namespace mame
             {
                 sbyte0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.A))// || Mouse.deltaX < 0)
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))// || Mouse.deltaX < 0)
             {
                 sbyte2 &= ~0x02;
             }
@@ -54,7 +55,7 @@ namespace mame
             {
                 sbyte2 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.S))// || Mouse.deltaY > 0)
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))// || Mouse.deltaY > 0)
             {
                 sbyte0 &= ~0x04;
             }
@@ -62,7 +63,7 @@ namespace mame
             {
                 sbyte0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.W))// || Mouse.deltaY < 0)
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))// || Mouse.deltaY < 0)
             {
                 sbyte2 &= ~0x01;
             }
@@ -70,7 +71,7 @@ namespace mame
             {
                 sbyte2 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.J))// || Mouse.buttons[0] != 0)
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))// || Mouse.buttons[0] != 0)
             {
                 sbyte2 &= ~0x04;
             }
@@ -78,7 +79,7 @@ namespace mame
             {
                 sbyte2 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.K))// || Mouse.buttons[1] != 0)
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))// || Mouse.buttons[1] != 0)
             {
                 sbyte0 &= ~0x40;
             }
@@ -86,7 +87,7 @@ namespace mame
             {
                 sbyte0 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 sbyte2 &= ~0x08;
             }
@@ -94,7 +95,7 @@ namespace mame
             {
                 sbyte2 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
 
             }
@@ -102,7 +103,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
 
             }
@@ -110,7 +111,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
 
             }
@@ -118,7 +119,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 sbyte2 &= ~0x40;
             }
@@ -126,7 +127,7 @@ namespace mame
             {
                 sbyte2 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 sbyte1 &= ~0x08;
             }
@@ -134,7 +135,7 @@ namespace mame
             {
                 sbyte1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 sbyte2 &= ~0x20;
             }
@@ -142,7 +143,7 @@ namespace mame
             {
                 sbyte2 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 sbyte1 &= ~0x02;
             }
@@ -150,7 +151,7 @@ namespace mame
             {
                 sbyte1 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 sbyte1 &= ~0x20;
             }
@@ -158,7 +159,7 @@ namespace mame
             {
                 sbyte1 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 sbyte2 &= unchecked((sbyte)~0x80);
             }
@@ -166,7 +167,7 @@ namespace mame
             {
                 sbyte2 |= unchecked((sbyte)0x80);
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 sbyte1 &= unchecked((sbyte)~0x80);
             }
@@ -174,7 +175,7 @@ namespace mame
             {
                 sbyte1 |= unchecked((sbyte)0x80);
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
 
             }
@@ -182,7 +183,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
 
             }
@@ -190,7 +191,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
 
             }
@@ -198,7 +199,7 @@ namespace mame
             {
 
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 sbytec &= ~0x08;
             }
@@ -206,7 +207,7 @@ namespace mame
             {
                 sbytec |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 sbytec &= ~0x10;
             }
@@ -217,7 +218,8 @@ namespace mame
         }
         public static void loop_inputports_igs011_lhb()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            /*
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbytec &= ~0x10;
             }
@@ -225,7 +227,7 @@ namespace mame
             {
                 sbytec |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 bkey0 &= unchecked((byte)~0x20);
             }
@@ -233,7 +235,7 @@ namespace mame
             {
                 bkey0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 bkey1 &= unchecked((byte)~0x20);
             }
@@ -257,7 +259,7 @@ namespace mame
             {
                 bkey4 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 bkey0 &= unchecked((byte)~0x01);
             }
@@ -281,7 +283,7 @@ namespace mame
             {
                 bkey2 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 bkey3 &= unchecked((byte)~0x01);
             }
@@ -321,7 +323,7 @@ namespace mame
             {
                 bkey3 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 bkey0 &= unchecked((byte)~0x04);
             }
@@ -329,7 +331,7 @@ namespace mame
             {
                 bkey0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 bkey1 &= unchecked((byte)~0x04);
             }
@@ -337,7 +339,7 @@ namespace mame
             {
                 bkey1 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 bkey2 &= unchecked((byte)~0x04);
             }
@@ -345,7 +347,7 @@ namespace mame
             {
                 bkey2 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 bkey3 &= unchecked((byte)~0x04);
             }
@@ -353,7 +355,7 @@ namespace mame
             {
                 bkey3 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.M))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_M))//if (Keyboard.IsPressed(Corekey.M))
             {
                 bkey0 &= unchecked((byte)~0x08);
             }
@@ -361,7 +363,7 @@ namespace mame
             {
                 bkey0 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.N))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_N))//if (Keyboard.IsPressed(Corekey.N))
             {
                 bkey1 &= unchecked((byte)~0x08);
             }
@@ -369,7 +371,7 @@ namespace mame
             {
                 bkey1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 bkey4 &= unchecked((byte)~0x04);
             }
@@ -377,7 +379,7 @@ namespace mame
             {
                 bkey4 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.Q))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_Q))//if (Keyboard.IsPressed(Corekey.Q))
             {
                 bkey0 &= unchecked((byte)~0x10);
             }
@@ -385,7 +387,7 @@ namespace mame
             {
                 bkey0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 bkey1 &= unchecked((byte)~0x10);
             }
@@ -393,7 +395,7 @@ namespace mame
             {
                 bkey1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 bkey2 &= unchecked((byte)~0x08);
             }
@@ -401,7 +403,7 @@ namespace mame
             {
                 bkey2 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 bkey4 &= unchecked((byte)~0x02);
             }
@@ -409,7 +411,7 @@ namespace mame
             {
                 bkey4 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 bkey3 &= unchecked((byte)~0x08);
             }
@@ -433,10 +435,12 @@ namespace mame
             {
                 bkey2 |= 0x10;
             }
+            */
         }
         public static void loop_inputports_igs011_lhb2()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            /*
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbytec &= ~0x10;
             }
@@ -444,7 +448,7 @@ namespace mame
             {
                 sbytec |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 bkey0 &= unchecked((byte)~0x20);
             }
@@ -452,7 +456,7 @@ namespace mame
             {
                 bkey0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 bkey1 &= unchecked((byte)~0x20);
             }
@@ -460,7 +464,7 @@ namespace mame
             {
                 bkey1 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 bkey0 &= unchecked((byte)~0x01);
             }
@@ -484,7 +488,7 @@ namespace mame
             {
                 bkey2 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 bkey3 &= unchecked((byte)~0x01);
             }
@@ -524,7 +528,7 @@ namespace mame
             {
                 bkey3 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 bkey0 &= unchecked((byte)~0x04);
             }
@@ -532,7 +536,7 @@ namespace mame
             {
                 bkey0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 bkey1 &= unchecked((byte)~0x04);
             }
@@ -540,7 +544,7 @@ namespace mame
             {
                 bkey1 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 bkey2 &= unchecked((byte)~0x04);
             }
@@ -548,7 +552,7 @@ namespace mame
             {
                 bkey2 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 bkey3 &= unchecked((byte)~0x04);
             }
@@ -556,7 +560,7 @@ namespace mame
             {
                 bkey3 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.M))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_M))//if (Keyboard.IsPressed(Corekey.M))
             {
                 bkey0 &= unchecked((byte)~0x08);
             }
@@ -564,7 +568,7 @@ namespace mame
             {
                 bkey0 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.N))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_N))//if (Keyboard.IsPressed(Corekey.N))
             {
                 bkey1 &= unchecked((byte)~0x08);
             }
@@ -572,7 +576,7 @@ namespace mame
             {
                 bkey1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.Q))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_Q))//if (Keyboard.IsPressed(Corekey.Q))
             {
                 bkey0 &= unchecked((byte)~0x10);
             }
@@ -580,7 +584,7 @@ namespace mame
             {
                 bkey0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 bkey1 &= unchecked((byte)~0x10);
             }
@@ -588,7 +592,7 @@ namespace mame
             {
                 bkey1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 bkey2 &= unchecked((byte)~0x08);
             }
@@ -596,7 +600,7 @@ namespace mame
             {
                 bkey2 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 bkey3 &= unchecked((byte)~0x08);
             }
@@ -612,6 +616,7 @@ namespace mame
             {
                 bkey2 |= 0x10;
             }
+            */
         }
         public static void record_port_drgnwrld()
         {

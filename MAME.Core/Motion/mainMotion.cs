@@ -61,7 +61,7 @@ namespace MAME.Core.Common
             LoadROMXML();
             //TODO Wavebuffer
             //desc1.BufferBytes = 0x9400;
-            Keyboard.InitializeInput(this, ikb);
+            Keyboard.InitializeInput(ikb);
             Mouse.InitialMouse(this, imou);
         }
 

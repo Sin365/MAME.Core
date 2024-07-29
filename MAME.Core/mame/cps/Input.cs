@@ -6,7 +6,7 @@ namespace mame
     {
         public static void loop_inputports_cps1_6b()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbyte0 &= ~0x01;
             }
@@ -14,7 +14,7 @@ namespace mame
             {
                 sbyte0 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 sbyte0 &= ~0x02;
             }
@@ -22,7 +22,7 @@ namespace mame
             {
                 sbyte0 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 sbyte0 &= ~0x10;
             }
@@ -30,7 +30,7 @@ namespace mame
             {
                 sbyte0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 sbyte0 &= ~0x20;
             }
@@ -38,7 +38,7 @@ namespace mame
             {
                 sbyte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short1 &= ~0x01;
             }
@@ -46,7 +46,7 @@ namespace mame
             {
                 short1 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short1 &= ~0x02;
             }
@@ -54,7 +54,7 @@ namespace mame
             {
                 short1 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short1 &= ~0x04;
             }
@@ -62,7 +62,7 @@ namespace mame
             {
                 short1 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short1 &= ~0x08;
             }
@@ -70,7 +70,7 @@ namespace mame
             {
                 short1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short1 &= ~0x10;
             }
@@ -78,7 +78,7 @@ namespace mame
             {
                 short1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short1 &= ~0x20;
             }
@@ -86,7 +86,7 @@ namespace mame
             {
                 short1 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short1 &= ~0x40;
             }
@@ -94,7 +94,7 @@ namespace mame
             {
                 short1 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short2 &= ~0x01;
             }
@@ -102,7 +102,7 @@ namespace mame
             {
                 short2 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 short2 &= ~0x02;
             }
@@ -110,7 +110,7 @@ namespace mame
             {
                 short2 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 short2 &= ~0x04;
             }
@@ -118,7 +118,7 @@ namespace mame
             {
                 short2 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short1 &= ~0x0100;
             }
@@ -126,7 +126,7 @@ namespace mame
             {
                 short1 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short1 &= ~0x0200;
             }
@@ -134,7 +134,7 @@ namespace mame
             {
                 short1 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short1 &= ~0x0400;
             }
@@ -142,7 +142,7 @@ namespace mame
             {
                 short1 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short1 &= ~0x0800;
             }
@@ -150,7 +150,7 @@ namespace mame
             {
                 short1 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short1 &= ~0x1000;
             }
@@ -158,7 +158,7 @@ namespace mame
             {
                 short1 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short1 &= ~0x2000;
             }
@@ -166,7 +166,7 @@ namespace mame
             {
                 short1 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short1 &= ~0x4000;
             }
@@ -174,7 +174,7 @@ namespace mame
             {
                 short1 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short2 &= ~0x10;
             }
@@ -182,7 +182,7 @@ namespace mame
             {
                 short2 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 short2 &= ~0x20;
             }
@@ -190,7 +190,7 @@ namespace mame
             {
                 short2 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
                 short2 &= ~0x40;
             }
@@ -198,7 +198,7 @@ namespace mame
             {
                 short2 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 sbyte0 &= ~0x04;
             }
@@ -206,7 +206,7 @@ namespace mame
             {
                 sbyte0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 sbyte0 &= ~0x40;
             }
@@ -217,7 +217,7 @@ namespace mame
         }
         public static void loop_inputports_cps1_forgottn()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbyte0 &= ~0x01;
             }
@@ -225,7 +225,7 @@ namespace mame
             {
                 sbyte0 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 sbyte0 &= ~0x02;
             }
@@ -233,7 +233,7 @@ namespace mame
             {
                 sbyte0 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 sbyte0 &= ~0x10;
             }
@@ -241,7 +241,7 @@ namespace mame
             {
                 sbyte0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 sbyte0 &= ~0x20;
             }
@@ -249,7 +249,7 @@ namespace mame
             {
                 sbyte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short1 &= ~0x01;
             }
@@ -257,7 +257,7 @@ namespace mame
             {
                 short1 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short1 &= ~0x02;
             }
@@ -265,7 +265,7 @@ namespace mame
             {
                 short1 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short1 &= ~0x04;
             }
@@ -273,7 +273,7 @@ namespace mame
             {
                 short1 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short1 &= ~0x08;
             }
@@ -281,7 +281,7 @@ namespace mame
             {
                 short1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short1 &= ~0x10;
             }
@@ -289,7 +289,7 @@ namespace mame
             {
                 short1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short1 &= ~0x0100;
             }
@@ -297,7 +297,7 @@ namespace mame
             {
                 short1 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short1 &= ~0x0200;
             }
@@ -305,7 +305,7 @@ namespace mame
             {
                 short1 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short1 &= ~0x0400;
             }
@@ -313,7 +313,7 @@ namespace mame
             {
                 short1 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short1 &= ~0x0800;
             }
@@ -321,7 +321,7 @@ namespace mame
             {
                 short1 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short1 &= ~0x1000;
             }
@@ -329,7 +329,7 @@ namespace mame
             {
                 short1 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 sbyte0 &= ~0x04;
             }
@@ -337,7 +337,7 @@ namespace mame
             {
                 sbyte0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 sbyte0 &= ~0x40;
             }
@@ -350,7 +350,7 @@ namespace mame
         }
         public static void loop_inputports_cps1_sf2hack()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbyte0 &= ~0x01;
             }
@@ -358,7 +358,7 @@ namespace mame
             {
                 sbyte0 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 sbyte0 &= ~0x02;
             }
@@ -366,7 +366,7 @@ namespace mame
             {
                 sbyte0 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 sbyte0 &= ~0x10;
             }
@@ -374,7 +374,7 @@ namespace mame
             {
                 sbyte0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 sbyte0 &= ~0x20;
             }
@@ -382,7 +382,7 @@ namespace mame
             {
                 sbyte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short1 &= ~0x01;
             }
@@ -390,7 +390,7 @@ namespace mame
             {
                 short1 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short1 &= ~0x02;
             }
@@ -398,7 +398,7 @@ namespace mame
             {
                 short1 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short1 &= ~0x04;
             }
@@ -406,7 +406,7 @@ namespace mame
             {
                 short1 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short1 &= ~0x08;
             }
@@ -414,7 +414,7 @@ namespace mame
             {
                 short1 |= 0x08;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short1 &= ~0x10;
             }
@@ -422,7 +422,7 @@ namespace mame
             {
                 short1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short1 &= ~0x20;
             }
@@ -430,7 +430,7 @@ namespace mame
             {
                 short1 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short1 &= ~0x40;
             }
@@ -438,7 +438,7 @@ namespace mame
             {
                 short1 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short2 &= ~0x0100;
             }
@@ -446,7 +446,7 @@ namespace mame
             {
                 short2 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 short2 &= ~0x0200;
             }
@@ -454,7 +454,7 @@ namespace mame
             {
                 short2 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 short2 &= ~0x0400;
             }
@@ -462,7 +462,7 @@ namespace mame
             {
                 short2 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short1 &= ~0x0100;
             }
@@ -470,7 +470,7 @@ namespace mame
             {
                 short1 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short1 &= ~0x0200;
             }
@@ -478,7 +478,7 @@ namespace mame
             {
                 short1 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short1 &= ~0x0400;
             }
@@ -486,7 +486,7 @@ namespace mame
             {
                 short1 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short1 &= ~0x0800;
             }
@@ -494,7 +494,7 @@ namespace mame
             {
                 short1 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short1 &= ~0x1000;
             }
@@ -502,7 +502,7 @@ namespace mame
             {
                 short1 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short1 &= ~0x2000;
             }
@@ -510,7 +510,7 @@ namespace mame
             {
                 short1 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short1 &= ~0x4000;
             }
@@ -518,7 +518,7 @@ namespace mame
             {
                 short1 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short2 &= ~0x1000;
             }
@@ -526,7 +526,7 @@ namespace mame
             {
                 short2 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 short2 &= ~0x2000;
             }
@@ -534,7 +534,7 @@ namespace mame
             {
                 short2 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
                 short2 &= ~0x4000;
             }
@@ -542,7 +542,7 @@ namespace mame
             {
                 short2 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 sbyte0 &= ~0x04;
             }
@@ -550,7 +550,7 @@ namespace mame
             {
                 sbyte0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 sbyte0 &= ~0x40;
             }
@@ -561,7 +561,7 @@ namespace mame
         }
         public static void loop_inputports_cps1_cworld2j()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 sbyte0 &= ~0x01;
             }
@@ -569,7 +569,7 @@ namespace mame
             {
                 sbyte0 |= 0x01;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 sbyte0 &= ~0x02;
             }
@@ -577,7 +577,7 @@ namespace mame
             {
                 sbyte0 |= 0x02;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 sbyte0 &= ~0x10;
             }
@@ -585,7 +585,7 @@ namespace mame
             {
                 sbyte0 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 sbyte0 &= ~0x20;
             }
@@ -593,7 +593,7 @@ namespace mame
             {
                 sbyte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short1 &= ~0x10;
             }
@@ -601,7 +601,7 @@ namespace mame
             {
                 short1 |= 0x10;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short1 &= ~0x20;
             }
@@ -609,7 +609,7 @@ namespace mame
             {
                 short1 |= 0x20;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short1 &= ~0x40;
             }
@@ -617,7 +617,7 @@ namespace mame
             {
                 short1 |= 0x40;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short1 &= ~0x80;
             }
@@ -625,7 +625,7 @@ namespace mame
             {
                 short1 |= 0x80;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short1 &= ~0x1000;
             }
@@ -633,7 +633,7 @@ namespace mame
             {
                 short1 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short1 &= ~0x2000;
             }
@@ -641,7 +641,7 @@ namespace mame
             {
                 short1 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short1 &= ~0x4000;
             }
@@ -649,7 +649,7 @@ namespace mame
             {
                 short1 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short1 &= unchecked((short)~0x8000);
             }
@@ -657,7 +657,7 @@ namespace mame
             {
                 short1 |= unchecked((short)0x8000);
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 sbyte0 &= ~0x04;
             }
@@ -665,7 +665,7 @@ namespace mame
             {
                 sbyte0 |= 0x04;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 sbyte0 &= ~0x40;
             }
@@ -676,7 +676,7 @@ namespace mame
         }
         public static void loop_inputports_cps2_2p6b()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 short2 &= ~0x1000;
             }
@@ -684,7 +684,7 @@ namespace mame
             {
                 short2 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 short2 &= ~0x2000;
             }
@@ -692,7 +692,7 @@ namespace mame
             {
                 short2 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 short2 &= ~0x0100;
             }
@@ -700,7 +700,7 @@ namespace mame
             {
                 short2 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 short2 &= ~0x0200;
             }
@@ -708,7 +708,7 @@ namespace mame
             {
                 short2 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short0 &= ~0x0001;
             }
@@ -716,7 +716,7 @@ namespace mame
             {
                 short0 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short0 &= ~0x0002;
             }
@@ -724,7 +724,7 @@ namespace mame
             {
                 short0 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short0 &= ~0x0004;
             }
@@ -732,7 +732,7 @@ namespace mame
             {
                 short0 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short0 &= ~0x0008;
             }
@@ -740,7 +740,7 @@ namespace mame
             {
                 short0 |= 0x0008;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short0 &= ~0x0010;
             }
@@ -748,7 +748,7 @@ namespace mame
             {
                 short0 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short0 &= ~0x0020;
             }
@@ -756,7 +756,7 @@ namespace mame
             {
                 short0 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short0 &= ~0x0040;
             }
@@ -764,7 +764,7 @@ namespace mame
             {
                 short0 |= 0x0040;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short1 &= ~0x0001;
             }
@@ -772,7 +772,7 @@ namespace mame
             {
                 short1 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 short1 &= ~0x0002;
             }
@@ -780,7 +780,7 @@ namespace mame
             {
                 short1 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 short1 &= ~0x0004;
             }
@@ -788,7 +788,7 @@ namespace mame
             {
                 short1 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short0 &= ~0x0100;
             }
@@ -796,7 +796,7 @@ namespace mame
             {
                 short0 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short0 &= ~0x0200;
             }
@@ -804,7 +804,7 @@ namespace mame
             {
                 short0 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short0 &= ~0x0400;
             }
@@ -812,7 +812,7 @@ namespace mame
             {
                 short0 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short0 &= ~0x0800;
             }
@@ -820,7 +820,7 @@ namespace mame
             {
                 short0 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short0 &= ~0x1000;
             }
@@ -828,7 +828,7 @@ namespace mame
             {
                 short0 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short0 &= ~0x2000;
             }
@@ -836,7 +836,7 @@ namespace mame
             {
                 short0 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short0 &= ~0x4000;
             }
@@ -844,7 +844,7 @@ namespace mame
             {
                 short0 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short1 &= ~0x0010;
             }
@@ -852,7 +852,7 @@ namespace mame
             {
                 short1 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 short1 &= ~0x0020;
             }
@@ -860,7 +860,7 @@ namespace mame
             {
                 short1 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
                 short2 &= ~0x4000;
             }
@@ -868,7 +868,7 @@ namespace mame
             {
                 short2 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 short2 &= ~0x0004;
             }
@@ -876,7 +876,7 @@ namespace mame
             {
                 short2 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 short2 &= ~0x0002;
             }
@@ -887,7 +887,7 @@ namespace mame
         }
         public static void loop_inputports_cps2_pzloop2()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 short2 &= ~0x1000;
             }
@@ -895,7 +895,7 @@ namespace mame
             {
                 short2 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 short2 &= ~0x2000;
             }
@@ -903,7 +903,7 @@ namespace mame
             {
                 short2 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 short2 &= ~0x0100;
             }
@@ -911,7 +911,7 @@ namespace mame
             {
                 short2 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 short2 &= ~0x0200;
             }
@@ -919,7 +919,7 @@ namespace mame
             {
                 short2 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short0 &= ~0x0001;
             }
@@ -927,7 +927,7 @@ namespace mame
             {
                 short0 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short0 &= ~0x0002;
             }
@@ -935,7 +935,7 @@ namespace mame
             {
                 short0 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short0 &= ~0x0004;
             }
@@ -943,7 +943,7 @@ namespace mame
             {
                 short0 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short0 &= ~0x0008;
             }
@@ -959,7 +959,7 @@ namespace mame
             {
                 short0 |= 0x000c;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short0 &= ~0x0010;
             }
@@ -967,7 +967,7 @@ namespace mame
             {
                 short0 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short0 &= ~0x0020;
             }
@@ -975,7 +975,7 @@ namespace mame
             {
                 short0 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short0 &= ~0x0040;
             }
@@ -983,7 +983,7 @@ namespace mame
             {
                 short0 |= 0x0040;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short1 &= ~0x0001;
             }
@@ -991,7 +991,7 @@ namespace mame
             {
                 short1 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.I))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_4))//if (Keyboard.IsPressed(Corekey.I))
             {
                 short1 &= ~0x0002;
             }
@@ -999,7 +999,7 @@ namespace mame
             {
                 short1 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 short1 &= ~0x0004;
             }
@@ -1007,7 +1007,7 @@ namespace mame
             {
                 short1 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short0 &= ~0x0100;
             }
@@ -1015,7 +1015,7 @@ namespace mame
             {
                 short0 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short0 &= ~0x0200;
             }
@@ -1023,7 +1023,7 @@ namespace mame
             {
                 short0 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short0 &= ~0x0400;
             }
@@ -1031,7 +1031,7 @@ namespace mame
             {
                 short0 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short0 &= ~0x0800;
             }
@@ -1047,7 +1047,7 @@ namespace mame
             {
                 short0 |= 0x0c00;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short0 &= ~0x1000;
             }
@@ -1055,7 +1055,7 @@ namespace mame
             {
                 short0 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short0 &= ~0x2000;
             }
@@ -1063,7 +1063,7 @@ namespace mame
             {
                 short0 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short0 &= ~0x4000;
             }
@@ -1071,7 +1071,7 @@ namespace mame
             {
                 short0 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short1 &= ~0x0010;
             }
@@ -1079,7 +1079,7 @@ namespace mame
             {
                 short1 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad5))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_4))//if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 short1 &= ~0x0020;
             }
@@ -1087,7 +1087,7 @@ namespace mame
             {
                 short1 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
                 short2 &= ~0x4000;
             }
@@ -1095,7 +1095,7 @@ namespace mame
             {
                 short2 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 short2 &= ~0x0004;
             }
@@ -1103,7 +1103,7 @@ namespace mame
             {
                 short2 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 short2 &= ~0x0002;
             }
@@ -1114,7 +1114,7 @@ namespace mame
         }
         public static void loop_inputports_cps2_ecofghtr()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 short2 &= ~0x1000;
             }
@@ -1122,7 +1122,7 @@ namespace mame
             {
                 short2 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 short2 &= ~0x2000;
             }
@@ -1130,7 +1130,7 @@ namespace mame
             {
                 short2 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 short2 &= ~0x0100;
             }
@@ -1138,7 +1138,7 @@ namespace mame
             {
                 short2 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 short2 &= ~0x0200;
             }
@@ -1146,7 +1146,7 @@ namespace mame
             {
                 short2 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.D))
+            if (Keyboard.IsPressed(MotionKey.P1_RIGHT))//if (Keyboard.IsPressed(Corekey.D))
             {
                 short0 &= ~0x0001;
             }
@@ -1154,7 +1154,7 @@ namespace mame
             {
                 short0 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.A))
+            if (Keyboard.IsPressed(MotionKey.P1_LEFT))//if (Keyboard.IsPressed(Corekey.A))
             {
                 short0 &= ~0x0002;
             }
@@ -1162,7 +1162,7 @@ namespace mame
             {
                 short0 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.S))
+            if (Keyboard.IsPressed(MotionKey.P1_DOWN))//if (Keyboard.IsPressed(Corekey.S))
             {
                 short0 &= ~0x0004;
             }
@@ -1170,7 +1170,7 @@ namespace mame
             {
                 short0 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.W))
+            if (Keyboard.IsPressed(MotionKey.P1_UP))//if (Keyboard.IsPressed(Corekey.W))
             {
                 short0 &= ~0x0008;
             }
@@ -1178,7 +1178,7 @@ namespace mame
             {
                 short0 |= 0x0008;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short0 &= ~0x0010;
             }
@@ -1186,7 +1186,7 @@ namespace mame
             {
                 short0 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short0 &= ~0x0020;
             }
@@ -1194,7 +1194,7 @@ namespace mame
             {
                 short0 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short0 &= ~0x0040;
             }
@@ -1202,7 +1202,7 @@ namespace mame
             {
                 short0 |= 0x0040;
             }
-            if (Keyboard.IsPressed(Corekey.Right))
+            if (Keyboard.IsPressed(MotionKey.P2_RIGHT))//if (Keyboard.IsPressed(Corekey.Right))
             {
                 short0 &= ~0x0100;
             }
@@ -1210,7 +1210,7 @@ namespace mame
             {
                 short0 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.Left))
+            if (Keyboard.IsPressed(MotionKey.P2_LEFT))//if (Keyboard.IsPressed(Corekey.Left))
             {
                 short0 &= ~0x0200;
             }
@@ -1218,7 +1218,7 @@ namespace mame
             {
                 short0 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.Down))
+            if (Keyboard.IsPressed(MotionKey.P2_DOWN)) //if (Keyboard.IsPressed(Corekey.Down))
             {
                 short0 &= ~0x0400;
             }
@@ -1226,7 +1226,7 @@ namespace mame
             {
                 short0 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.Up))
+            if (Keyboard.IsPressed(MotionKey.P2_UP))//if (Keyboard.IsPressed(Corekey.Up))
             {
                 short0 &= ~0x0800;
             }
@@ -1234,7 +1234,7 @@ namespace mame
             {
                 short0 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short0 &= ~0x1000;
             }
@@ -1242,7 +1242,7 @@ namespace mame
             {
                 short0 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short0 &= ~0x2000;
             }
@@ -1250,7 +1250,7 @@ namespace mame
             {
                 short0 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short0 &= ~0x4000;
             }
@@ -1258,7 +1258,7 @@ namespace mame
             {
                 short0 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 short2 &= ~0x0004;
             }
@@ -1266,7 +1266,7 @@ namespace mame
             {
                 short2 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 short2 &= ~0x0002;
             }
@@ -1279,7 +1279,7 @@ namespace mame
         }
         public static void loop_inputports_cps2_qndream()
         {
-            if (Keyboard.IsPressed(Corekey.D5))
+            if (Keyboard.IsPressed(MotionKey.P1_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D5))
             {
                 short2 &= ~0x1000;
             }
@@ -1287,7 +1287,7 @@ namespace mame
             {
                 short2 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Corekey.D6))
+            if (Keyboard.IsPressed(MotionKey.P2_INSERT_COIN))//if (Keyboard.IsPressed(Corekey.D6))
             {
                 short2 &= ~0x2000;
             }
@@ -1295,7 +1295,7 @@ namespace mame
             {
                 short2 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Corekey.D1))
+            if (Keyboard.IsPressed(MotionKey.P1_GAMESTART))//if (Keyboard.IsPressed(Corekey.D1))
             {
                 short2 &= ~0x0100;
             }
@@ -1303,7 +1303,7 @@ namespace mame
             {
                 short2 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.D2))
+            if (Keyboard.IsPressed(MotionKey.P2_GAMESTART))//if (Keyboard.IsPressed(Corekey.D2))
             {
                 short2 &= ~0x0200;
             }
@@ -1311,7 +1311,7 @@ namespace mame
             {
                 short2 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.J))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_1))//if (Keyboard.IsPressed(Corekey.J))
             {
                 short0 &= ~0x0008;
             }
@@ -1319,7 +1319,7 @@ namespace mame
             {
                 short0 |= 0x0008;
             }
-            if (Keyboard.IsPressed(Corekey.K))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_2))//if (Keyboard.IsPressed(Corekey.K))
             {
                 short0 &= ~0x0004;
             }
@@ -1327,7 +1327,7 @@ namespace mame
             {
                 short0 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 short0 &= ~0x0002;
             }
@@ -1335,7 +1335,7 @@ namespace mame
             {
                 short0 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Corekey.U))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_3))//if (Keyboard.IsPressed(Corekey.U))
             {
                 short0 &= ~0x0001;
             }
@@ -1343,7 +1343,7 @@ namespace mame
             {
                 short0 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad1))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_1))//if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 short0 &= ~0x0800;
             }
@@ -1351,7 +1351,7 @@ namespace mame
             {
                 short0 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad2))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_2))//if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 short0 &= ~0x0400;
             }
@@ -1359,7 +1359,7 @@ namespace mame
             {
                 short0 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 short0 &= ~0x0200;
             }
@@ -1367,7 +1367,7 @@ namespace mame
             {
                 short0 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Corekey.NumPad4))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_3))//if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 short0 &= ~0x0100;
             }
@@ -1375,7 +1375,7 @@ namespace mame
             {
                 short0 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Corekey.R))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_R)) //if (Keyboard.IsPressed(Corekey.R))
             {
                 short2 &= ~0x0004;
             }
@@ -1383,7 +1383,7 @@ namespace mame
             {
                 short2 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Corekey.T))
+            if (Keyboard.IsPressed(MotionKey.UNKNOW_T)) //if (Keyboard.IsPressed(Corekey.T))
             {
                 short2 &= ~0x0002;
             }

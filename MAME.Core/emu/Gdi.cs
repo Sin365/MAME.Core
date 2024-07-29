@@ -144,6 +144,7 @@ namespace mame
         {
             try
             {
+                //TODO
                 //int[] TempData = AxiBitmapEx.CloneIntColorArr(Video.bitmapcolor, Video.fullwidth, Video.fullheight, new Rectangle(offsetx, offsety, width, height));
                 //drawcrosshair(TempData);
                 //bbmp[iMode] = drawcrosshair(bitmapGDI.Clone(new Rectangle(offsetx, offsety, width, height)));

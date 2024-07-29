@@ -1737,8 +1737,8 @@ namespace mame
         private static void osd_update_audio_stream(byte[] buffer, int samples_this_frame)
         {
             ////只需要这部分逻辑
-            //SubmitSamples(buffer, samples_this_frame);
-            //return;
+            SubmitSamples(buffer, samples_this_frame);
+            return;
 
             //TODO后面才考虑原样的处理
 

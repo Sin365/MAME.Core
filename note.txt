@@ -1,0 +1,40 @@
+TODO
+
+mainMotion：
+
+ sSelect  上次默认选择
+
+Wavebuffer
+//desc1.BufferBytes = 0x9400;
+
+
+ResizeMain()
+
+igs011/Input：
+ 貌似比较特殊 需要单独定理
+
+emu/gdi：
+
+public static int[] drawcrosshair_opwolf(int[] bm1)
+{
+    int[] bm2 = bm1;
+    //TODO
+    return bm2;
+}
+
+//待处理
+drawcrosshair(TempData);
+
+emu/Mouse：
+
+Update()
+
+
+Neoprot：
+//TODO 暂时注释 用不上
+//public static int BITSWAP16
+
+Sound: //考虑清楚
+osd_update_audio_stream
+
+
