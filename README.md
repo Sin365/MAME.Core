@@ -10,10 +10,23 @@
 变成一个MAME模拟器核心类库。并尝开发联机功能
 
 原项目gdi的扩展类里都是Bitmap用unsafe处理指针来填充RGBA
-这部分我在寻求不依赖System.Drawing(脱离平台依赖)方案上面，好像不得不重写BitmapData的逻辑
+这部分我已经做到脱离System.Drawing(脱离平台依赖)，重写BitmapData的逻辑，使其可以跨平台
 
 git.axibug.com/sin365/MAME.Core
 总之 ，研究过程很欢乐。
 
-原始逻辑来 一个Winform项目 @shunninghuang
-https://www.codeproject.com/Articles/1275365/The-Main-Architecture-of-MAME-NET
+# References
+
+shunninghuang - https://www.codeproject.com/Articles/1275365/The-Main-Architecture-of-MAME-NET
+
+MAME-Multiple Arcade Machine Emulator - https://github.com/mamedev
+
+MSDN - https://msdn.microsoft.com
+
+BizHawk M68000 and Z80 code - https://github.com/TASEmulators/BizHawk/tree/master/src/BizHawk.Emulation.Cores/CPUs
+
+VCMAME detail by Bryan McPhail - https://www.codeproject.com/Articles/4923/VCMAME-Multiple-Arcade-Machine-Emulator-for-Visual
+
+MAME and MAMEUI Visual C Project Files - http://www.mikesarcade.com/arcade/vcmame.html
+
+CPS1.NET - https://www.codeproject.com/Articles/998595/CPS1-NET-A-Csharp-Based-CPS1-MAME-Emulator
