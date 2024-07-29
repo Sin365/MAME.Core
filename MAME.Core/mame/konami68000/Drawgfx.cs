@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Konami68000
     {
@@ -105,7 +100,7 @@ namespace mame
                 }
             }
         }
-        public static void common_drawgfxzoom_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley,uint pri_mask)
+        public static void common_drawgfxzoom_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley, uint pri_mask)
         {
             if ((scalex == 0) || (scaley == 0))
             {
@@ -272,7 +267,7 @@ namespace mame
         }
         public static void blockmove_8toN_transpen_pri16_konami68000(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,
                 int leftskip, int topskip, int flipx, int flipy,
-                int dstwidth, int dstheight, int colorbase,uint pmask, int sx, int sy)
+                int dstwidth, int dstheight, int colorbase, uint pmask, int sx, int sy)
         {
             int ydir, xdir, col, i, j, offsetx, offsety;
             int srcdata_offset = code * 0x100;
@@ -307,9 +302,9 @@ namespace mame
                     col = bb1[srcdata_offset + srcmodulo * i + j];
                     if (col != 0)
                     {
-                        if (((1 << (Tilemap.priority_bitmap[offsety+ydir*i,offsetx+xdir*j] & 0x1f)) & pmask) == 0)
+                        if (((1 << (Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x1f)) & pmask) == 0)
                         {
-                            if ((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x80)!=0)
+                            if ((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x80) != 0)
                             {
                                 Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);//palette_shadow_table[paldata[col]];
                             }

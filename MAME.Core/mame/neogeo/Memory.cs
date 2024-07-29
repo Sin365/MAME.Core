@@ -5,8 +5,8 @@ namespace mame
 {
     public partial class Neogeo
     {
-        public static short short0, short1, short2, short3, short4,short5,short6;
-        public static short short0_old, short1_old, short2_old, short3_old, short4_old,short5_old,short6_old;
+        public static short short0, short1, short2, short3, short4, short5, short6;
+        public static short short0_old, short1_old, short2_old, short3_old, short4_old, short5_old, short6_old;
         public static sbyte MReadOpByte(int address)
         {
             address &= 0xffffff;
@@ -45,7 +45,7 @@ namespace mame
             return result;
         }
         public static sbyte MReadByte(int address)
-        {            
+        {
             address &= 0xffffff;
             sbyte result = 0;
             if (address >= 0x000000 && address <= 0x00007f)
@@ -218,7 +218,7 @@ namespace mame
             return result;
         }
         public static short MReadWord(int address)
-        {            
+        {
             address &= 0xffffff;
             short result = 0;
             if (address >= 0x000000 && address + 1 <= 0x00007f)
@@ -307,10 +307,10 @@ namespace mame
             return result;
         }
         public static int MReadOpLong(int address)
-        {            
+        {
             address &= 0xffffff;
             int result = 0;
-            if(address>=0x000000&&address+3<0x00007f)
+            if (address >= 0x000000 && address + 3 < 0x00007f)
             {
                 if (main_cpu_vector_table_source == 0)
                 {
@@ -348,7 +348,7 @@ namespace mame
             return result;
         }
         public static int MReadLong(int address)
-        {            
+        {
             address &= 0xffffff;
             int result = 0;
             if (address >= 0x000000 && address + 3 <= 0x00007f)
@@ -379,7 +379,7 @@ namespace mame
                 result = Memory.mainrom[main_cpu_bank_address + (address & 0xfffff)] * 0x1000000 + Memory.mainrom[main_cpu_bank_address + (address & 0xfffff) + 1] * 0x10000 + Memory.mainrom[main_cpu_bank_address + (address & 0xfffff) + 2] * 0x100 + Memory.mainrom[main_cpu_bank_address + (address & 0xfffff) + 3];
             }
             else if (address >= 0x300000 && address <= 0x31ffff)
-            {                
+            {
                 result = 0;
             }
             else if (address >= 0x320000 && address <= 0x33ffff)
@@ -420,11 +420,11 @@ namespace mame
         public static void MWriteByte(int address, sbyte value)
         {
             address &= 0xffffff;
-            m68000Form.iWAddress = address;
-            m68000Form.iWOp = 0x01;
+            m68000Motion.iWAddress = address;
+            m68000Motion.iWOp = 0x01;
             if (address >= 0x100000 && address <= 0x1fffff)
             {
-                if (address == 0x100d0b&&value==0x06)//&&MC68000.m1.TotalExecutedCycles>0x3F6FC8C)
+                if (address == 0x100d0b && value == 0x06)//&&MC68000.m1.TotalExecutedCycles>0x3F6FC8C)
                 {
                     ulong l1 = MC68000.m1.TotalExecutedCycles;
                     int i2 = 1;
@@ -497,8 +497,8 @@ namespace mame
         public static void MWriteWord(int address, short value)
         {
             address &= 0xffffff;
-            m68000Form.iWAddress = address;
-            m68000Form.iWOp = 0x02;
+            m68000Motion.iWAddress = address;
+            m68000Motion.iWOp = 0x02;
             if (address >= 0x100000 && address + 1 <= 0x1fffff)
             {
                 if (address == 0x1007c4 && value == unchecked((short)0xb102))
@@ -550,8 +550,8 @@ namespace mame
         public static void MWriteLong(int address, int value)
         {
             address &= 0xffffff;
-            m68000Form.iWAddress = address;
-            m68000Form.iWOp = 0x03;
+            m68000Motion.iWAddress = address;
+            m68000Motion.iWOp = 0x03;
             if (address >= 0x100000 && address + 3 <= 0x1fffff)
             {
                 if (address == 0x1051e4 && value == 0x00130070)
@@ -608,7 +608,7 @@ namespace mame
             {
                 int i1 = 1;
             }
-        }        
+        }
         public static sbyte MReadByte_fatfury2(int address)
         {
             address &= 0xffffff;
@@ -663,7 +663,7 @@ namespace mame
             }
             else
             {
-                MWriteByte(address,value);
+                MWriteByte(address, value);
             }
         }
         public static void MWriteWord_fatfury2(int address, short value)
@@ -676,7 +676,7 @@ namespace mame
             }
             else
             {
-                MWriteWord(address,value);
+                MWriteWord(address, value);
             }
         }
         public static void MWriteLong_fatfury2(int address, int value)
@@ -1243,11 +1243,11 @@ namespace mame
                 else if (offset >= 0xff8)
                     pvc_write_bankswitch();
 
-                if (offset+1 == 0xff0)
+                if (offset + 1 == 0xff0)
                     pvc_prot1();
-                else if (offset+1 >= 0xff4 && offset+1 <= 0xff5)
+                else if (offset + 1 >= 0xff4 && offset + 1 <= 0xff5)
                     pvc_prot2();
-                else if (offset+1 >= 0xff8)
+                else if (offset + 1 >= 0xff8)
                     pvc_write_bankswitch();
             }
             else
@@ -1473,7 +1473,7 @@ namespace mame
             if (address >= 0x2fe000 && address + 1 <= 0x2fffff)
             {
                 int offset = address - 0x2fe000;
-                extra_ram[offset] = (byte)(value>>8);
+                extra_ram[offset] = (byte)(value >> 8);
                 extra_ram[offset + 1] = (byte)value;
                 kof2003_w(offset / 2);
             }
@@ -1493,7 +1493,7 @@ namespace mame
                 extra_ram[offset + 2] = (byte)(value >> 8);
                 extra_ram[offset + 3] = (byte)value;
                 kof2003_w(offset / 2);
-                kof2003_w((offset+2) / 2);
+                kof2003_w((offset + 2) / 2);
             }
             else
             {
@@ -1553,7 +1553,7 @@ namespace mame
             sbyte result = 0;
             if (address >= 0x00200 && address <= 0x001fff)
             {
-                int offset=address-0x200;
+                int offset = address - 0x200;
                 result = (sbyte)sbp_protection_r(offset);
             }
             else
@@ -1598,7 +1598,7 @@ namespace mame
             sbyte result = 0;
             if (address >= 0x2fe000 && address <= 0x2fffff)
             {
-                int offset=address-0x2fe000;
+                int offset = address - 0x2fe000;
                 result = (sbyte)extra_ram[offset];
             }
             else
@@ -1703,7 +1703,7 @@ namespace mame
                 int offset = address - 0x200000;
                 kof10th_custom_w(offset, (ushort)value);
             }
-            else if (address >= 0x240000 && address+1 <= 0x2fffff)
+            else if (address >= 0x240000 && address + 1 <= 0x2fffff)
             {
                 int offset = address - 0x240000;
                 kof10th_bankswitch_w(offset, (ushort)value);
@@ -1737,7 +1737,7 @@ namespace mame
             sbyte result = 0;
             if (address >= 0x200000 && address <= 0x201fff)
             {
-                int offset=address-0x200000;
+                int offset = address - 0x200000;
                 result = (sbyte)extra_ram[offset];
             }
             else
@@ -1796,7 +1796,7 @@ namespace mame
             {
                 int offset = address - 0x200000;
                 extra_ram[offset] = (byte)(value >> 8);
-                extra_ram[offset+1] = (byte)(value);
+                extra_ram[offset + 1] = (byte)(value);
             }
             else
             {
@@ -2049,7 +2049,7 @@ namespace mame
         public static byte ZReadHardware(ushort address)
         {
             byte result = 0;
-            int add1,add2;
+            int add1, add2;
             address &= 0xffff;
             add1 = address & 0xff;
             if (add1 == 0)

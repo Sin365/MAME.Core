@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace cpu.nec
+﻿namespace cpu.nec
 {
     partial class Nec
     {
@@ -820,7 +815,7 @@ namespace cpu.nec
         void i_repnc()
         {
             int next = fetchop();
-            ushort c = (ushort)(I.regs.b[2]+I.regs.b[3]*0x100);// I.regs.w[1];
+            ushort c = (ushort)(I.regs.b[2] + I.regs.b[3] * 0x100);// I.regs.w[1];
             switch (next)
             { /* Segments */
                 case 0x26: seg_prefix = 1; prefix_base = (I.sregs[0] << 4); next = fetchop(); CLK(2); break;
@@ -885,7 +880,7 @@ namespace cpu.nec
             tmp = FETCHWORD();
             PUSH((ushort)tmp);
             //CLKW(12, 12, 5, 12, 8, 5, I.regs.w[4]);
-            CLKW(12, 12, 5, 12, 8, 5, I.regs.b[8]+I.regs.b[9]*0x100);
+            CLKW(12, 12, 5, 12, 8, 5, I.regs.b[8] + I.regs.b[9] * 0x100);
         }
         void i_imul_d16()
         {
@@ -906,7 +901,7 @@ namespace cpu.nec
             int tmp = (ushort)((short)((sbyte)FETCH()));
             PUSH((ushort)tmp);
             //CLKW(11, 11, 5, 11, 7, 3, I.regs.w[4]);
-            CLKW(11, 11, 5, 11, 7, 3, I.regs.b[8]+I.regs.b[9]*0x100);
+            CLKW(11, 11, 5, 11, 7, 3, I.regs.b[8] + I.regs.b[9] * 0x100);
         }
         void i_imul_d8()
         {
@@ -919,7 +914,7 @@ namespace cpu.nec
             I.CarryVal = I.OverVal = (uint)(((((int)dst) >> 15 != 0) && (((int)dst) >> 15 != -1)) ? 1 : 0);
             //I.regs.w[mod_RM.regw[ModRM]] = (ushort)dst;
             I.regs.b[mod_RM.regw[ModRM] * 2] = (byte)(dst % 0x100);
-            I.regs.b[mod_RM.regw[ModRM] * 2+1] = (byte)(dst / 0x100);
+            I.regs.b[mod_RM.regw[ModRM] * 2 + 1] = (byte)(dst / 0x100);
             pendingCycles -= (ModRM >= 0xc0) ? 31 : 39;
         }
         void i_insb()
@@ -927,7 +922,7 @@ namespace cpu.nec
             //PutMemB(0, I.regs.w[7], ReadIOByte(I.regs.w[2]));
             PutMemB(0, I.regs.b[14] + I.regs.b[15] * 0x100, ReadIOByte(I.regs.b[4] + I.regs.b[5] * 0x100));
             //I.regs.w[7] += (ushort)(-2 * (I.DF ? 1 : 0) + 1);
-            ushort w7 =(ushort)(I.regs.b[14] + I.regs.b[15] * 0x100);
+            ushort w7 = (ushort)(I.regs.b[14] + I.regs.b[15] * 0x100);
             w7 += (ushort)(-2 * (I.DF ? 1 : 0) + 1);
             I.regs.b[14] = (byte)(w7 % 0x100);
             I.regs.b[15] = (byte)(w7 / 0x100);
@@ -1401,7 +1396,7 @@ namespace cpu.nec
         void i_cwd()
         {
             //I.regs.w[2] = (ushort)(((I.regs.b[1] & 0x80) != 0) ? 0xffff : 0);
-            ushort w2= (ushort)(((I.regs.b[1] & 0x80) != 0) ? 0xffff : 0);
+            ushort w2 = (ushort)(((I.regs.b[1] & 0x80) != 0) ? 0xffff : 0);
             I.regs.b[4] = (byte)(w2 % 0x100);
             I.regs.b[5] = (byte)(w2 / 0x100);
             CLK(4);
@@ -1573,7 +1568,7 @@ namespace cpu.nec
             ushort w7 = (ushort)(I.regs.b[14] + I.regs.b[15] * 0x100 + (-4 * (I.DF ? 1 : 0) + 2));
             I.regs.b[14] = (byte)(w7 % 0x100);
             I.regs.b[15] = (byte)(w7 / 0x100);
-            CLKW(8, 8, 5, 8, 4, 3, I.regs.b[14]+I.regs.b[15]*0x100);
+            CLKW(8, 8, 5, 8, 4, 3, I.regs.b[14] + I.regs.b[15] * 0x100);
         }
         void i_lodsb()
         {
@@ -1609,14 +1604,14 @@ namespace cpu.nec
         }
         void i_scasw()
         {
-            ushort src = GetMemW(0, I.regs.b[14]+I.regs.b[15]*0x100);
-            ushort dst = (ushort)(I.regs.b[0]+I.regs.b[1]*0x100);
+            ushort src = GetMemW(0, I.regs.b[14] + I.regs.b[15] * 0x100);
+            ushort dst = (ushort)(I.regs.b[0] + I.regs.b[1] * 0x100);
             SUBW(ref src, ref dst);
             //I.regs.w[7] += (ushort)(-4 * (I.DF ? 1 : 0) + 2);
             ushort w7 = (ushort)(I.regs.b[14] + I.regs.b[15] * 0x100 + (-4 * (I.DF ? 1 : 0) + 2));
             I.regs.b[14] = (byte)(w7 % 0x100);
             I.regs.b[15] = (byte)(w7 / 0x100);
-            CLKW(8, 8, 5, 8, 4, 3, I.regs.b[14]+I.regs.b[15]*0x100);
+            CLKW(8, 8, 5, 8, 4, 3, I.regs.b[14] + I.regs.b[15] * 0x100);
         }
         void i_mov_ald8()
         {
@@ -1832,7 +1827,7 @@ namespace cpu.nec
             }
             if (level != 0)
             {
-                PUSH((ushort)(I.regs.b[10]+I.regs.b[11]*0x100));
+                PUSH((ushort)(I.regs.b[10] + I.regs.b[11] * 0x100));
             }
         }
         void i_leave()
@@ -2010,7 +2005,7 @@ namespace cpu.nec
         }
         void i_trans()
         {
-            int dest = (I.regs.b[6]+I.regs.b[7]*0x100 + I.regs.b[0]) & 0xffff;
+            int dest = (I.regs.b[6] + I.regs.b[7] * 0x100 + I.regs.b[0]) & 0xffff;
             I.regs.b[0] = GetMemB(3, dest);
             CLKS(9, 9, 5);
         }
@@ -2161,7 +2156,7 @@ namespace cpu.nec
             ushort w0 = ReadIOWord(I.regs.b[4] + I.regs.b[5] * 0x100);
             I.regs.b[0] = (byte)(w0 % 0x100);
             I.regs.b[1] = (byte)(w0 / 0x100);
-            CLKW(12, 12, 7, 12, 8, 5, I.regs.b[4]+I.regs.b[5]*0x100);
+            CLKW(12, 12, 7, 12, 8, 5, I.regs.b[4] + I.regs.b[5] * 0x100);
         }
         void i_outdxal()
         {
@@ -2174,7 +2169,7 @@ namespace cpu.nec
             //WriteIOWord(I.regs.w[2], I.regs.w[0]);
             //CLKW(12, 12, 5, 12, 8, 3, I.regs.w[2]);
             WriteIOWord(I.regs.b[4] + I.regs.b[5] * 0x100, (ushort)(I.regs.b[0] + I.regs.b[1] * 0x100));
-            CLKW(12, 12, 5, 12, 8, 3, I.regs.b[4]+I.regs.b[5]*0x100);
+            CLKW(12, 12, 5, 12, 8, 3, I.regs.b[4] + I.regs.b[5] * 0x100);
         }
         void i_lock()
         {
@@ -2331,7 +2326,7 @@ namespace cpu.nec
                 case 0x10: PutbackRMWord(ModRM, (ushort)(~tmp)); pendingCycles -= (ModRM >= 0xc0) ? 2 : 16; break;
                 case 0x18: I.CarryVal = (uint)((tmp != 0) ? 1 : 0); tmp = (~tmp) + 1; SetSZPF_Word((int)tmp); PutbackRMWord(ModRM, (ushort)(tmp & 0xffff)); pendingCycles -= (ModRM >= 0xc0) ? 2 : 16; break;
                 case 0x20:
-                    uresult = (uint)((I.regs.b[0]+I.regs.b[1]*0x100) * tmp);
+                    uresult = (uint)((I.regs.b[0] + I.regs.b[1] * 0x100) * tmp);
                     //I.regs.w[0] = (ushort)(uresult & 0xffff);
                     //I.regs.w[2] = (ushort)(uresult >> 16);
                     I.regs.b[0] = (byte)((ushort)(uresult & 0xffff) % 0x100);
@@ -2342,13 +2337,13 @@ namespace cpu.nec
                     pendingCycles -= (ModRM >= 0xc0) ? 30 : 36;
                     break;
                 case 0x28:
-                    result = (int)((short)(I.regs.b[0]+I.regs.b[1]*0x100)) * (int)((short)tmp);
+                    result = (int)((short)(I.regs.b[0] + I.regs.b[1] * 0x100)) * (int)((short)tmp);
                     //I.regs.w[0] = (ushort)(result & 0xffff);
                     //I.regs.w[2] = (ushort)(result >> 16);
                     I.regs.b[0] = (byte)((ushort)(result & 0xffff) % 0x100);
                     I.regs.b[1] = (byte)((ushort)(result & 0xffff) / 0x100);
-                    I.regs.b[4] = (byte)((ushort)(result >>16) % 0x100);
-                    I.regs.b[5] = (byte)((ushort)(result >>16) / 0x100);
+                    I.regs.b[4] = (byte)((ushort)(result >> 16) % 0x100);
+                    I.regs.b[5] = (byte)((ushort)(result >> 16) / 0x100);
                     I.CarryVal = I.OverVal = (uint)(((I.regs.b[4] + I.regs.b[5] * 0x100) != 0) ? 1 : 0);
                     pendingCycles -= (ModRM >= 0xc0) ? 30 : 36;
                     break;

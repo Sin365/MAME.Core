@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.m6800;
-using cpu.m6809;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Namcos1
     {
@@ -31,7 +24,7 @@ namespace mame
             }
             else
             {
-                result= N3ReadMemory(address);
+                result = N3ReadMemory(address);
             }
             return result;
         }

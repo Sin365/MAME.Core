@@ -1,27 +1,26 @@
 ﻿using MAME.Core.Common;
 using MAME.Core.run_interface;
-using System;
-using System.Runtime.InteropServices;
 
 namespace mame
 {
-    public class UI
+    /// <summary>
+    /// 原依赖Form的内容
+    /// </summary>
+    public class Motion
     {
-        [DllImport("user32.dll")]
-        private static extern IntPtr GetForegroundWindow();
         private static uint UI_FILLCOLOR = Palette.make_argb(0xe0, 0x10, 0x10, 0x30);
-        public delegate void ui_delegate();
-        public static ui_delegate ui_handler_callback, ui_update_callback;
+        public delegate void motion_delegate();
+        public static motion_delegate motion_handler_callback, motion_update_callback;
         public static bool single_step;
-        public static mainForm mainform;
-        public static void ui_init(mainForm form1)
+        //public static mainMotion mainmotion;
+        public static void init()
         {
-            mainform = form1;
+            //mainmotion = motion;
         }
         public static void ui_update_and_render()
         {
-            ui_update_callback();
-            ui_handler_callback();
+            motion_update_callback();
+            motion_handler_callback();
         }
         public static void ui_updateC()
         {
@@ -195,7 +194,7 @@ namespace mame
             }
             if (Mame.is_foreground)
             {
-                if(Keyboard.IsPressed(Key.F3))
+                if (Keyboard.IsPressed(Key.F3))
                 {
                     cpurun();
                     Mame.playState = Mame.PlayState.PLAY_RESET;
@@ -209,7 +208,7 @@ namespace mame
                     }
                     else
                     {
-                        Mame.playState = Mame.PlayState.PLAY_LOAD;                        
+                        Mame.playState = Mame.PlayState.PLAY_LOAD;
                     }
                     return;
                 }
@@ -238,12 +237,12 @@ namespace mame
                     if (is_paused && (Keyboard.IsPressed(Key.LeftShift) || Keyboard.IsPressed(Key.RightShift)))
                     {
                         single_step = true;
-                        Mame.mame_pause(false);                        
+                        Mame.mame_pause(false);
                     }
                     else
                     {
                         Mame.mame_pause(!Mame.mame_is_paused());
-                    }                    
+                    }
                 }
                 if (Keyboard.IsTriggered(Key.F10))
                 {
@@ -255,10 +254,10 @@ namespace mame
         }
         public static void cpurun()
         {
-            m68000Form.m68000State = m68000Form.M68000State.M68000_RUN;
-            Machine.FORM.m68000form.mTx_tsslStatus = "run";
-            z80Form.z80State = z80Form.Z80AState.Z80A_RUN;
-            Machine.FORM.z80form.mTx_tsslStatus = "run";
+            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
+            Machine.FORM.m68000motion.mTx_tsslStatus = "run";
+            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
+            Machine.FORM.z80motion.mTx_tsslStatus = "run";
         }
         private static double ui_get_line_height()
         {
@@ -269,6 +268,6 @@ namespace mame
             one_to_one_line_height = (double)raw_font_pixel_height / (double)target_pixel_height;
             scale_factor = 1.0;
             return scale_factor * one_to_one_line_height;
-        }        
+        }
     }
 }

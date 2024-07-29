@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
     public partial class Taitob
     {
         public static ushort[][] framebuffer;
-        public static ushort[] taitob_scroll,TC0180VCU_ram, taitob_spriteram, taitob_pixelram;
+        public static ushort[] taitob_scroll, TC0180VCU_ram, taitob_spriteram, taitob_pixelram;
         public static ushort[] bg_rambank, fg_rambank, pixel_scroll, TC0180VCU_ctrl;
         public static ushort tx_rambank;
         public static byte framebuffer_page, video_control;
@@ -22,7 +19,7 @@ namespace mame
             video_control = data;
             if ((video_control & 0x80) != 0)
             {
-                framebuffer_page = (byte)((~video_control & 0x40) >> 6);                
+                framebuffer_page = (byte)((~video_control & 0x40) >> 6);
             }
             //tilemap_set_flip(ALL_TILEMAPS, (video_control & 0x10) ? (TILEMAP_FLIPX | TILEMAP_FLIPY) : 0 );
         }
@@ -83,7 +80,7 @@ namespace mame
         public static void TC0180VCU_word_w(int offset, ushort data)
         {
             int row, col;
-            TC0180VCU_ram[offset]=data;
+            TC0180VCU_ram[offset] = data;
             if ((offset & 0x7000) == fg_rambank[0] || (offset & 0x7000) == fg_rambank[1])
             {
                 row = (offset & 0x0fff) / 64;
@@ -184,13 +181,13 @@ namespace mame
                     result = (byte)sbyte1;
                     break;
                 case 0x04:	/* coin counters and lockout */
-                    result= TC0220IOC_regs[4];
+                    result = TC0220IOC_regs[4];
                     break;
                 case 0x07:	/* INB0-7 (coin) */
                     result = (byte)sbyte2;
                     break;
                 default:
-                    result= 0xff;
+                    result = 0xff;
                     break;
             }
             return result;
@@ -355,7 +352,7 @@ namespace mame
             }
             return result;
         }
-        public static void TC0640FIO_w(int offset,byte data)
+        public static void TC0640FIO_w(int offset, byte data)
         {
             TC0640FIO_regs[offset] = data;
             switch (offset)
@@ -381,9 +378,9 @@ namespace mame
         {
             TC0640FIO_w(offset, data);
         }
-        public static void TC0640FIO_halfword_byteswap_w(int offset,ushort data)
+        public static void TC0640FIO_halfword_byteswap_w(int offset, ushort data)
         {
-            TC0640FIO_w(offset,(byte)((data >> 8) & 0xff));
+            TC0640FIO_w(offset, (byte)((data >> 8) & 0xff));
         }
         public static RECT sect_rect(RECT dst, RECT src)
         {
@@ -510,7 +507,7 @@ namespace mame
                             ushort c = framebuffer[framebuffer_page][y * 512 + x];
                             if (c != 0)
                             {
-                                Video.bitmapbase[Video.curbitmap][(255 - y) * 512 + 319-x] = (ushort)(b_sp_color_base + c);
+                                Video.bitmapbase[Video.curbitmap][(255 - y) * 512 + 319 - x] = (ushort)(b_sp_color_base + c);
                             }
                         }
                     }

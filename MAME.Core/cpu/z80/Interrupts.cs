@@ -33,8 +33,8 @@ namespace cpu.z80
         private bool halted;
         public bool Halted { get { return halted; } set { halted = value; } }
 
-        public Func<int> IRQCallback = delegate() { return 0; };
-        public Action NMICallback = delegate() { };
+        public Func<int> IRQCallback = delegate () { return 0; };
+        public Action NMICallback = delegate () { };
 
         private void ResetInterrupts()
         {

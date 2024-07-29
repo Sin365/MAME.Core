@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -104,16 +101,16 @@ namespace mame
             int bankaddress;
             int[] bankoffset = new int[]
             {
-		        0x000000, 0x100000, 0x200000, 0x300000,
-		        0x3cc000, 0x4cc000, 0x3f2000, 0x4f2000,
-		        0x407800, 0x507800, 0x40d000, 0x50d000,
-		        0x417800, 0x517800, 0x420800, 0x520800,
-		        0x424800, 0x524800, 0x429000, 0x529000,
-		        0x42e800, 0x52e800, 0x431800, 0x531800,
-		        0x54d000, 0x551000, 0x567000, 0x592800,
-		        0x588800, 0x581800, 0x599800, 0x594800,
-		        0x598000
-	        };
+                0x000000, 0x100000, 0x200000, 0x300000,
+                0x3cc000, 0x4cc000, 0x3f2000, 0x4f2000,
+                0x407800, 0x507800, 0x40d000, 0x50d000,
+                0x417800, 0x517800, 0x420800, 0x520800,
+                0x424800, 0x524800, 0x429000, 0x529000,
+                0x42e800, 0x52e800, 0x431800, 0x531800,
+                0x54d000, 0x551000, 0x567000, 0x592800,
+                0x588800, 0x581800, 0x599800, 0x594800,
+                0x598000
+            };
             data =
                 (((data >> 14) & 1) << 0) +
                 (((data >> 6) & 1) << 1) +
@@ -122,14 +119,14 @@ namespace mame
                 (((data >> 12) & 1) << 4) +
                 (((data >> 5) & 1) << 5);
             bankaddress = 0x100000 + bankoffset[data];
-            main_cpu_bank_address=bankaddress;
+            main_cpu_bank_address = bankaddress;
         }
         public static void garou_bankswitch_w(int data)
         {
             int bankaddress;
             int[] bankoffset = new int[]
-	        {
-		        0x000000, 0x100000, 0x200000, 0x300000, // 00
+            {
+                0x000000, 0x100000, 0x200000, 0x300000, // 00
 		        0x280000, 0x380000, 0x2d0000, 0x3d0000, // 04
 		        0x2f0000, 0x3f0000, 0x400000, 0x500000, // 08
 		        0x420000, 0x520000, 0x440000, 0x540000, // 12
@@ -143,7 +140,7 @@ namespace mame
 		        0x488000, 0x588000, 0x490000, 0x590000, // 44
 		        0x5d0000, 0x5d8000, 0x5e0000, 0x5e8000, // 48
 		        0x5f0000, 0x5f8000, 0x600000
-	        };
+            };
             data =
                 (((data >> 5) & 1) << 0) +
                 (((data >> 9) & 1) << 1) +
@@ -158,8 +155,8 @@ namespace mame
         {
             int bankaddress;
             int[] bankoffset = new int[]
-	        {
-		        0x000000, 0x100000, 0x200000, 0x300000, // 00
+            {
+                0x000000, 0x100000, 0x200000, 0x300000, // 00
 		        0x280000, 0x380000, 0x2d0000, 0x3d0000, // 04
 		        0x2c8000, 0x3c8000, 0x400000, 0x500000, // 08
 		        0x420000, 0x520000, 0x440000, 0x540000, // 12
@@ -190,8 +187,8 @@ namespace mame
         {
             int bankaddress;
             int[] bankoffset = new int[]
-	        {
-	          0x000000, 0x020000, 0x040000, 0x060000, // 00
+            {
+              0x000000, 0x020000, 0x040000, 0x060000, // 00
 	          0x070000, 0x090000, 0x0b0000, 0x0d0000, // 04
 	          0x0e0000, 0x0f0000, 0x120000, 0x130000, // 08
 	          0x140000, 0x150000, 0x180000, 0x190000, // 12
@@ -204,7 +201,7 @@ namespace mame
 	          0x400000, 0x410000, 0x440000, 0x450000, // 40
 	          0x460000, 0x470000, 0x4a0000, 0x4b0000, // 44
 	          0x4c0000
-	        };
+            };
             data =
                 (((data >> 14) & 1) << 0) +
                 (((data >> 12) & 1) << 1) +
@@ -219,8 +216,8 @@ namespace mame
         {
             int bankaddress;
             int[] bankoffset = new int[]
-	        {
-		        0x000000, 0x100000, 0x200000, 0x300000, // 00
+            {
+                0x000000, 0x100000, 0x200000, 0x300000, // 00
 		        0x3f7800, 0x4f7800, 0x3ff800, 0x4ff800, // 04
 		        0x407800, 0x507800, 0x40f800, 0x50f800, // 08
 		        0x416800, 0x516800, 0x41d800, 0x51d800, // 12
@@ -258,14 +255,14 @@ namespace mame
             b3 = pvc_cartridge_ram[0x1fea];
             b4 = pvc_cartridge_ram[0x1feb];
             pvc_cartridge_ram[0x1fec] = (byte)((b4 >> 1) | ((b2 & 1) << 4) | ((b1 & 1) << 5) | ((b4 & 1) << 6) | ((b3 & 1) << 7));
-            pvc_cartridge_ram[0x1fed] = (byte)((b2 >> 1) | ((b1 >> 1) << 4));            
+            pvc_cartridge_ram[0x1fed] = (byte)((b2 >> 1) | ((b1 >> 1) << 4));
         }
         public static void pvc_write_bankswitch()
         {
             int bankaddress;
             bankaddress = pvc_cartridge_ram[0xff8 * 2] + pvc_cartridge_ram[0xff9 * 2] * 0x10000 + pvc_cartridge_ram[0xff9 * 2 + 1] * 0x100;
             pvc_cartridge_ram[0x1ff0] &= 0xfe;
-            pvc_cartridge_ram[0x1ff1] = 0xa0;            
+            pvc_cartridge_ram[0x1ff1] = 0xa0;
             pvc_cartridge_ram[0x1ff2] &= 0x7f;
             main_cpu_bank_address = bankaddress + 0x100000;
         }
@@ -273,9 +270,9 @@ namespace mame
         {
             int bankaddress;
             int[] cthd2003_banks = new int[8]
-	        {
-		        1,0,1,0,1,0,3,2,
-	        };
+            {
+                1,0,1,0,1,0,3,2,
+            };
             bankaddress = 0x100000 + cthd2003_banks[data & 7] * 0x100000;
             main_cpu_bank_address = bankaddress;
         }
@@ -283,7 +280,7 @@ namespace mame
         {
             return 0xa0;
         }
-        public static void ms5plus_bankswitch_w(int offset,int data)
+        public static void ms5plus_bankswitch_w(int offset, int data)
         {
             int bankaddress;
             if ((offset == 0) && (data == 0xa0))
@@ -305,7 +302,7 @@ namespace mame
                 int address = (extra_ram[0x1ff2] << 16) | (extra_ram[0x1ff3] << 8) | extra_ram[0x1ff0];
                 byte prt = extra_ram[0x1ff3];
                 extra_ram[0x1ff0] &= 0xfe;
-                extra_ram[0x1ff1] = 0xa0;                
+                extra_ram[0x1ff1] = 0xa0;
                 extra_ram[0x1ff2] &= 0x7f;
                 main_cpu_bank_address = address + 0x100000;
                 Memory.mainrom[0x58197] = prt;
@@ -328,7 +325,7 @@ namespace mame
             byte origdata = Memory.mainrom[offset + 0x200];
             byte data = (byte)BITSWAP8(origdata, 3, 2, 1, 0, 7, 6, 5, 4);
             int realoffset = 0x200 + offset;
-            if (realoffset == 0xd5e||realoffset==0xd5f)
+            if (realoffset == 0xd5e || realoffset == 0xd5f)
                 return origdata;
             return data;
         }
@@ -422,24 +419,26 @@ namespace mame
                 (BIT(val, B1) << 1) |
                 (BIT(val, B0) << 0));
         }
-        public static int BITSWAP16(int val, int B15, int B14, int B13, int B12, int B11, int B10, int B9, int B8, int B7, int B6, int B5, int B4, int B3, int B2, int B1, int B0)
-        {
-            return ((BIT(val, B15) << 15) |
-                (BIT(val, B14) << 14) |
-                (BIT(val, B13) << 13) |
-                (BIT(val, B12) << 12) |
-                (BIT(val, B11) << 11) |
-                (BIT(val, B10) << 10) |
-                (BIT(val, B9) << 9) |
-                (BIT(val, B8) << 8) |
-                (BIT(val, B7) << 7) |
-                (BIT(val, B6) << 6) |
-                (BIT(val, B5) << 5) |
-                (BIT(val, B4) << 4) |
-                (BIT(val, B3) << 3) |
-                (BIT(val, B2) << 2) |
-                (BIT(val, B1) << 1) |
-                (BIT(val, B0) << 0));
-        }
+
+        //TODO 暂时注释 用不上
+        //public static int BITSWAP16(int val, int B15, int B14, int B13, int B12, int B11, int B10, int B9, int B8, int B7, int B6, int B5, int B4, int B3, int B2, int B1, int B0)
+        //{
+        //    return ((BIT(val, B15) << 15) |
+        //        (BIT(val, B14) << 14) |
+        //        (BIT(val, B13) << 13) |
+        //        (BIT(val, B12) << 12) |
+        //        (BIT(val, B11) << 11) |
+        //        (BIT(val, B10) << 10) |
+        //        (BIT(val, B9) << 9) |
+        //        (BIT(val, B8) << 8) |
+        //        (BIT(val, B7) << 7) |
+        //        (BIT(val, B6) << 6) |
+        //        (BIT(val, B5) << 5) |
+        //        (BIT(val, B4) << 4) |
+        //        (BIT(val, B3) << 3) |
+        //        (BIT(val, B2) << 2) |
+        //        (BIT(val, B1) << 1) |
+        //        (BIT(val, B0) << 0));
+        //}
     }
 }

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using mame;
-
-namespace cpu.m6502
+﻿namespace cpu.m6502
 {
     public partial class M6502
     {
@@ -30,7 +24,7 @@ namespace cpu.m6502
         protected void m6502_21() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; AND(tmp); }
         protected void m6502_41() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; EOR(tmp); }
         protected void m6502_61() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; ADC(tmp); }
-        protected void m6502_81() { int tmp=0; STA(ref tmp); EA_IDX(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
+        protected void m6502_81() { int tmp = 0; STA(ref tmp); EA_IDX(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
         protected void m6502_a1() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; LDA(tmp); }
         protected void m6502_c1() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; CMP(tmp); }
         protected void m6502_e1() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; SBC(tmp); }
@@ -39,7 +33,7 @@ namespace cpu.m6502
         protected void m6502_31() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; AND(tmp); }
         protected void m6502_51() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; EOR(tmp); }
         protected void m6502_71() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; ADC(tmp); }
-        protected void m6502_91() { int tmp=0; STA(ref tmp); EA_IDY_NP(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
+        protected void m6502_91() { int tmp = 0; STA(ref tmp); EA_IDY_NP(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
         protected void m6502_b1() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; LDA(tmp); }
         protected void m6502_d1() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; CMP(tmp); }
         protected void m6502_f1() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; SBC(tmp); }
@@ -66,7 +60,7 @@ namespace cpu.m6502
         protected void m6502_23() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_43() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_63() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_83() { int tmp=0; SAX(ref tmp); EA_IDX(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
+        protected void m6502_83() { int tmp = 0; SAX(ref tmp); EA_IDX(); wrmem_id((ushort)ea.d, (byte)tmp); pendingCycles -= 1; }
         protected void m6502_a3() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; LAX(tmp); }
         protected void m6502_c3() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_e3() { int tmp; EA_IDX(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -75,7 +69,7 @@ namespace cpu.m6502
         protected void m6502_33() { int tmp; EA_IDY_NP(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_53() { int tmp; EA_IDY_NP(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_73() { int tmp; EA_IDY_NP(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_93() { int tmp=0; EA_IDY_NP(); SAH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_93() { int tmp = 0; EA_IDY_NP(); SAH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b3() { int tmp; EA_IDY_P(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; LAX(tmp); }
         protected void m6502_d3() { int tmp; EA_IDY_NP(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_f3() { int tmp; EA_IDY_NP(); tmp = rdmem_id((ushort)ea.d); pendingCycles -= 1; WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -84,7 +78,7 @@ namespace cpu.m6502
         protected void m6502_24() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); BIT(tmp); }
         protected void m6502_44() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_64() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); }
-        protected void m6502_84() { int tmp=0; STY(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_84() { int tmp = 0; STY(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_a4() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); LDY(tmp); }
         protected void m6502_c4() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); CPY(tmp); }
         protected void m6502_e4() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); CPX(tmp); }
@@ -93,7 +87,7 @@ namespace cpu.m6502
         protected void m6502_34() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_54() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_74() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); }
-        protected void m6502_94() { int tmp=0; STY(ref tmp); EA_ZPX(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_94() { int tmp = 0; STY(ref tmp); EA_ZPX(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b4() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); LDY(tmp); }
         protected void m6502_d4() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_f4() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); }
@@ -102,7 +96,7 @@ namespace cpu.m6502
         protected void m6502_25() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); AND(tmp); }
         protected void m6502_45() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); EOR(tmp); }
         protected void m6502_65() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); ADC(tmp); }
-        protected void m6502_85() { int tmp=0; STA(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_85() { int tmp = 0; STA(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_a5() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); LDA(tmp); }
         protected void m6502_c5() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); CMP(tmp); }
         protected void m6502_e5() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); SBC(tmp); }
@@ -111,7 +105,7 @@ namespace cpu.m6502
         protected void m6502_35() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); AND(tmp); }
         protected void m6502_55() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); EOR(tmp); }
         protected void m6502_75() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); ADC(tmp); }
-        protected void m6502_95() { int tmp=0; STA(ref tmp); EA_ZPX(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_95() { int tmp = 0; STA(ref tmp); EA_ZPX(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b5() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); LDA(tmp); }
         protected void m6502_d5() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); CMP(tmp); }
         protected void m6502_f5() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); SBC(tmp); }
@@ -120,7 +114,7 @@ namespace cpu.m6502
         protected void m6502_26() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROL(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_46() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); LSR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_66() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_86() { int tmp=0; STX(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_86() { int tmp = 0; STX(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_a6() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); LDX(tmp); }
         protected void m6502_c6() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DEC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_e6() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); INC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -129,7 +123,7 @@ namespace cpu.m6502
         protected void m6502_36() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROL(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_56() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); LSR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_76() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_96() { int tmp=0; STX(ref tmp); EA_ZPY(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_96() { int tmp = 0; STX(ref tmp); EA_ZPY(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b6() { int tmp; EA_ZPY(); tmp = RDMEM((ushort)ea.d); LDX(tmp); }
         protected void m6502_d6() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DEC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_f6() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); INC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -138,7 +132,7 @@ namespace cpu.m6502
         protected void m6502_27() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_47() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_67() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_87() { int tmp=0; SAX(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_87() { int tmp = 0; SAX(ref tmp); EA_ZPG(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_a7() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); LAX(tmp); }
         protected void m6502_c7() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_e7() { int tmp; EA_ZPG(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -147,7 +141,7 @@ namespace cpu.m6502
         protected void m6502_37() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_57() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_77() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_97() { int tmp=0; SAX(ref tmp); EA_ZPY(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_97() { int tmp = 0; SAX(ref tmp); EA_ZPY(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b7() { int tmp; EA_ZPY(); tmp = RDMEM((ushort)ea.d); LAX(tmp); }
         protected void m6502_d7() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_f7() { int tmp; EA_ZPX(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -183,7 +177,7 @@ namespace cpu.m6502
         protected void m6502_39() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); AND(tmp); }
         protected void m6502_59() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); EOR(tmp); }
         protected void m6502_79() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); ADC(tmp); }
-        protected void m6502_99() { int tmp=0; STA(ref tmp); EA_ABY_NP(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_99() { int tmp = 0; STA(ref tmp); EA_ABY_NP(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_b9() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); LDA(tmp); }
         protected void m6502_d9() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); CMP(tmp); }
         protected void m6502_f9() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); SBC(tmp); }
@@ -219,7 +213,7 @@ namespace cpu.m6502
         protected void m6502_3b() { int tmp; EA_ABY_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_5b() { int tmp; EA_ABY_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_7b() { int tmp; EA_ABY_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_9b() { int tmp=0; EA_ABY_NP(); SSH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_9b() { int tmp = 0; EA_ABY_NP(); SSH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_bb() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); AST(tmp); }
         protected void m6502_db() { int tmp; EA_ABY_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_fb() { int tmp; EA_ABY_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -228,7 +222,7 @@ namespace cpu.m6502
         protected void m6502_2c() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); BIT(tmp); }
         protected void m6502_4c() { EA_ABS(); JMP(); }
         protected void m6502_6c() { int tmp; EA_IND(); JMP(); }
-        protected void m6502_8c() { int tmp=0; STY(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_8c() { int tmp = 0; STY(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ac() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); LDY(tmp); }
         protected void m6502_cc() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); CPY(tmp); }
         protected void m6502_ec() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); CPX(tmp); }
@@ -237,7 +231,7 @@ namespace cpu.m6502
         protected void m6502_3c() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_5c() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_7c() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); }
-        protected void m6502_9c() { int tmp=0; EA_ABX_NP(); SYH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_9c() { int tmp = 0; EA_ABX_NP(); SYH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_bc() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); LDY(tmp); }
         protected void m6502_dc() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); }
         protected void m6502_fc() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); }
@@ -246,7 +240,7 @@ namespace cpu.m6502
         protected void m6502_2d() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); AND(tmp); }
         protected void m6502_4d() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); EOR(tmp); }
         protected void m6502_6d() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); ADC(tmp); }
-        protected void m6502_8d() { int tmp=0; STA(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_8d() { int tmp = 0; STA(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ad() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); LDA(tmp); }
         protected void m6502_cd() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); CMP(tmp); }
         protected void m6502_ed() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); SBC(tmp); }
@@ -255,7 +249,7 @@ namespace cpu.m6502
         protected void m6502_3d() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); AND(tmp); }
         protected void m6502_5d() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); EOR(tmp); }
         protected void m6502_7d() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); ADC(tmp); }
-        protected void m6502_9d() { int tmp=0; STA(ref tmp); EA_ABX_NP(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_9d() { int tmp = 0; STA(ref tmp); EA_ABX_NP(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_bd() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); LDA(tmp); }
         protected void m6502_dd() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); CMP(tmp); }
         protected void m6502_fd() { int tmp; EA_ABX_P(); tmp = RDMEM((ushort)ea.d); SBC(tmp); }
@@ -264,7 +258,7 @@ namespace cpu.m6502
         protected void m6502_2e() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROL(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_4e() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); LSR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_6e() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_8e() { int tmp=0; STX(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_8e() { int tmp = 0; STX(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ae() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); LDX(tmp); }
         protected void m6502_ce() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DEC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ee() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); INC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -273,7 +267,7 @@ namespace cpu.m6502
         protected void m6502_3e() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROL(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_5e() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); LSR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_7e() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ROR(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_9e() { int tmp=0; EA_ABY_NP(); SXH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_9e() { int tmp = 0; EA_ABY_NP(); SXH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_be() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); LDX(tmp); }
         protected void m6502_de() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DEC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_fe() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); INC(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -282,7 +276,7 @@ namespace cpu.m6502
         protected void m6502_2f() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_4f() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_6f() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_8f() { int tmp=0; SAX(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_8f() { int tmp = 0; SAX(ref tmp); EA_ABS(); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_af() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); LAX(tmp); }
         protected void m6502_cf() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ef() { int tmp; EA_ABS(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
@@ -291,7 +285,7 @@ namespace cpu.m6502
         protected void m6502_3f() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RLA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_5f() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); SRE(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_7f() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); RRA(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
-        protected void m6502_9f() { int tmp=0; EA_ABY_NP(); SAH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
+        protected void m6502_9f() { int tmp = 0; EA_ABY_NP(); SAH(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_bf() { int tmp; EA_ABY_P(); tmp = RDMEM((ushort)ea.d); LAX(tmp); }
         protected void m6502_df() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); DCP(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }
         protected void m6502_ff() { int tmp; EA_ABX_NP(); tmp = RDMEM((ushort)ea.d); WRMEM((ushort)ea.d, (byte)tmp); ISB(ref tmp); WRMEM((ushort)ea.d, (byte)tmp); }

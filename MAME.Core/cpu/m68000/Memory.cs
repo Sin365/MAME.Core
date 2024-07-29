@@ -542,7 +542,7 @@ namespace cpu.m68000
 
         int GetIndex()
         {
-            //Console.WriteLine("IN INDEX PORTION - NOT VERIFIED!!!");
+            //EmuLogger.Log("IN INDEX PORTION - NOT VERIFIED!!!");
             // TODO kid chameleon triggers this in startup sequence
 
             short extension = ReadOpWord(PC); PC += 2;
@@ -571,7 +571,7 @@ namespace cpu.m68000
 
         int PeekIndex()
         {
-            //Console.WriteLine("IN INDEX PORTION - NOT VERIFIED!!!");
+            //EmuLogger.Log("IN INDEX PORTION - NOT VERIFIED!!!");
 
             short extension = ReadOpWord(PC);
 

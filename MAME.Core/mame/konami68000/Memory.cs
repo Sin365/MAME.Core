@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {
@@ -28,7 +24,7 @@ namespace mame
             }
             else if (address >= 0x040000 && address <= 0x043fff)
             {
-                int offset=address-0x040000;
+                int offset = address - 0x040000;
                 result = (sbyte)Memory.mainram[offset];
             }
             else if (address >= 0x060000 && address <= 0x063fff)
@@ -143,7 +139,7 @@ namespace mame
             }
             else if (address >= 0x0b0000 && address <= 0x0b03ff)
             {
-                int offset=(address-0x0b0000)/2;
+                int offset = (address - 0x0b0000) / 2;
                 if (address % 2 == 0)
                 {
                     result = (sbyte)cuebrick_nv_r1(offset);
@@ -494,13 +490,13 @@ namespace mame
             if (address >= 0x040000 && address + 1 <= 0x043fff)
             {
                 int offset = address - 0x040000;
-                Memory.mainram[offset] = (byte)(value>>8);
-                Memory.mainram[offset+1] = (byte)value;
+                Memory.mainram[offset] = (byte)(value >> 8);
+                Memory.mainram[offset + 1] = (byte)value;
             }
             else if (address >= 0x060000 && address + 1 <= 0x063fff)
             {
                 int offset = address - 0x060000;
-                mainram2[offset] = (byte)(value>>8);
+                mainram2[offset] = (byte)(value >> 8);
                 mainram2[offset + 1] = (byte)value;
             }
             else if (address >= 0x080000 && address + 1 <= 0x080fff)
@@ -543,14 +539,14 @@ namespace mame
             else if (address >= 0x140000 && address + 1 <= 0x140007)
             {
                 int offset = address - 0x140000;
-                K051937_w(offset, (byte)(value>>8));
-                K051937_w(offset+1, (byte)value);
+                K051937_w(offset, (byte)(value >> 8));
+                K051937_w(offset + 1, (byte)value);
             }
             else if (address >= 0x140400 && address + 1 <= 0x1407ff)
             {
                 int offset = address - 0x140400;
-                K051960_w(offset, (byte)(value>>8));
-                K051960_w(offset+1, (byte)value);
+                K051960_w(offset, (byte)(value >> 8));
+                K051960_w(offset + 1, (byte)value);
             }
         }
         public static void MWriteLong_cuebrick(int address, int value)
@@ -791,7 +787,7 @@ namespace mame
             {
                 int offset = address - 0x060000;
                 result = (short)(mainram2[offset] * 0x100 + mainram2[offset + 1]);
-            }            
+            }
             return result;
         }
         public static short MReadWord_mia(int address)
@@ -1438,7 +1434,7 @@ namespace mame
             }
             return result;
         }
-        public static void MWriteByte_tmnt(int address,sbyte value)
+        public static void MWriteByte_tmnt(int address, sbyte value)
         {
             address &= 0xffffff;
             if (address >= 0x060000 && address <= 0x063fff)
@@ -1460,7 +1456,7 @@ namespace mame
             }
             else if (address >= 0x0a0000 && address <= 0x0a0001)
             {
-                if(address%2==0)
+                if (address % 2 == 0)
                 {
 
                 }
@@ -1468,7 +1464,7 @@ namespace mame
                 {
                     tmnt_0a0000_w2((byte)value);
                 }
-            }            
+            }
             else if (address >= 0x0a0008 && address <= 0x0a0009)
             {
                 if (address % 2 == 0)
@@ -1503,7 +1499,7 @@ namespace mame
             else if (address >= 0x140000 && address <= 0x140007)
             {
                 int offset = address - 0x140000;
-                K051937_w(offset,(byte)value);
+                K051937_w(offset, (byte)value);
             }
             else if (address >= 0x140400 && address <= 0x1407ff)
             {
@@ -1700,9 +1696,9 @@ namespace mame
             else if (address >= 0x0a0040 && address <= 0x0a0043)
             {
                 int offset = (address - 0x0a0040) / 2;
-                if(address%2==0)
+                if (address % 2 == 0)
                 {
-                    result=(sbyte)0;
+                    result = (sbyte)0;
                 }
                 else if (address % 2 == 1)
                 {
@@ -1755,8 +1751,8 @@ namespace mame
             else if (address >= 0x080000 && address + 1 <= 0x083fff)
             {
                 int offset = address - 0x080000;
-                result = (short)(Memory.mainram[offset]*0x100+Memory.mainram[offset+1]);
-            }            
+                result = (short)(Memory.mainram[offset] * 0x100 + Memory.mainram[offset + 1]);
+            }
             return result;
         }
         public static short MReadWord_punkshot(int address)
@@ -1872,7 +1868,7 @@ namespace mame
             else if (address >= 0x090000 && address + 3 <= 0x090fff)
             {
                 int offset = (address - 0x090000) / 2;
-                result = (int)(Generic.paletteram16[offset]*0x10000+Generic.paletteram16[offset+1]);
+                result = (int)(Generic.paletteram16[offset] * 0x10000 + Generic.paletteram16[offset + 1]);
             }
             else if (address >= 0x0a0040 && address + 3 <= 0x0a0043)
             {
@@ -1882,12 +1878,12 @@ namespace mame
             else if (address >= 0x100000 && address + 3 <= 0x107fff)
             {
                 int offset = (address - 0x100000) / 2;
-                result = (int)(K052109_word_noA12_r(offset)*0x10000+K052109_word_noA12_r(offset+1));
+                result = (int)(K052109_word_noA12_r(offset) * 0x10000 + K052109_word_noA12_r(offset + 1));
             }
             else if (address >= 0x110000 && address + 3 <= 0x110007)
             {
                 int offset = address - 0x110000;
-                result = (int)(K051937_r(offset) * 0x1000000 + K051937_r(offset + 1)*0x10000+K051937_r(offset +2)*0x100+K051937_r(offset +3));
+                result = (int)(K051937_r(offset) * 0x1000000 + K051937_r(offset + 1) * 0x10000 + K051937_r(offset + 2) * 0x100 + K051937_r(offset + 3));
             }
             else if (address >= 0x110400 && address + 3 <= 0x1107ff)
             {
@@ -1987,8 +1983,8 @@ namespace mame
             if (address >= 0x080000 && address + 1 <= 0x083fff)
             {
                 int offset = address - 0x080000;
-                Memory.mainram[offset] = (byte)(value>>8);
-                Memory.mainram[offset+1] = (byte)value;
+                Memory.mainram[offset] = (byte)(value >> 8);
+                Memory.mainram[offset + 1] = (byte)value;
             }
             else if (address >= 0x090000 && address + 1 <= 0x090fff)
             {
@@ -2037,27 +2033,27 @@ namespace mame
             {
                 int offset = address - 0x080000;
                 Memory.mainram[offset] = (byte)(value >> 24);
-                Memory.mainram[offset + 1] = (byte)(value>>16);
-                Memory.mainram[offset+2] = (byte)(value >> 8);
+                Memory.mainram[offset + 1] = (byte)(value >> 16);
+                Memory.mainram[offset + 2] = (byte)(value >> 8);
                 Memory.mainram[offset + 3] = (byte)value;
             }
             else if (address >= 0x090000 && address + 3 <= 0x090fff)
             {
                 int offset = (address - 0x090000) / 2;
-                Generic.paletteram16_xBBBBBGGGGGRRRRR_word_w(offset, (ushort)(value>>16));
-                Generic.paletteram16_xBBBBBGGGGGRRRRR_word_w(offset+1, (ushort)value);
+                Generic.paletteram16_xBBBBBGGGGGRRRRR_word_w(offset, (ushort)(value >> 16));
+                Generic.paletteram16_xBBBBBGGGGGRRRRR_word_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x0a0060 && address + 3 <= 0x0a007f)
             {
                 int offset = (address - 0x0a0060) / 2;
-                K053251_lsb_w(offset, (ushort)(value>>16));
-                K053251_lsb_w(offset+1, (ushort)value);
+                K053251_lsb_w(offset, (ushort)(value >> 16));
+                K053251_lsb_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x100000 && address + 3 <= 0x107fff)
             {
                 int offset = (address - 0x100000) / 2;
-                punkshot_K052109_word_noA12_w(offset, (ushort)(value>>16));
-                punkshot_K052109_word_noA12_w(offset+1, (ushort)value);
+                punkshot_K052109_word_noA12_w(offset, (ushort)(value >> 16));
+                punkshot_K052109_word_noA12_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x110000 && address + 3 <= 0x110007)
             {
@@ -2466,7 +2462,7 @@ namespace mame
                 int offset = (address - 0x0b0000) / 2;
                 if (address % 2 == 0)
                 {
-                    K053245_scattered_word_w1(offset,(byte)value);
+                    K053245_scattered_word_w1(offset, (byte)value);
                 }
                 else if (address % 2 == 1)
                 {
@@ -2478,7 +2474,7 @@ namespace mame
                 int offset = (address - 0x0c0000) / 2;
                 if (address % 2 == 0)
                 {
-                    K053244_word_noA1_w1(offset,(byte)value);
+                    K053244_word_noA1_w1(offset, (byte)value);
                 }
                 else if (address % 2 == 1)
                 {
@@ -2490,7 +2486,7 @@ namespace mame
                 int offset = (address - 0x0e0000) / 2;
                 if (address % 2 == 0)
                 {
-                    
+
                 }
                 else if (address % 2 == 1)
                 {
@@ -2502,7 +2498,7 @@ namespace mame
                 int offset = (address - 0x100000) / 2;
                 if (address % 2 == 0)
                 {
-                    K052109_word_noA12_w1(offset,(byte)value);
+                    K052109_word_noA12_w1(offset, (byte)value);
                 }
                 else if (address % 2 == 1)
                 {
@@ -2521,8 +2517,8 @@ namespace mame
             else if (address >= 0x090000 && address + 1 <= 0x093fff)
             {
                 int offset = address - 0x090000;
-                Memory.mainram[offset] = (byte)(value>>8);
-                Memory.mainram[offset+1] = (byte)value;
+                Memory.mainram[offset] = (byte)(value >> 8);
+                Memory.mainram[offset + 1] = (byte)value;
             }
             else if (address >= 0x0a0018 && address + 1 <= 0x0a0019)
             {
@@ -3443,9 +3439,9 @@ namespace mame
                 int offset = address - 0x8000;
                 result = Memory.audioram[offset];
             }
-            else if(address==0xa001)
+            else if (address == 0xa001)
             {
-                result=YM2151.ym2151_status_port_0_r();
+                result = YM2151.ym2151_status_port_0_r();
             }
             else if (address >= 0xc000 && address <= 0xc02f)
             {

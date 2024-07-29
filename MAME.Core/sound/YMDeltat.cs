@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
-{    
+﻿namespace mame
+{
     public class YMDeltat
     {
         public struct YM_DELTAT
@@ -50,7 +45,7 @@ namespace mame
         private static int YM_DELTAT_DELTA_DEF = 127;
         private static int YM_DELTAT_DECODE_RANGE = 32768;
         private static int YM_DELTAT_DECODE_MIN = -YM_DELTAT_DECODE_RANGE;
-        private static int YM_DELTAT_DECODE_MAX = YM_DELTAT_DECODE_RANGE - 1;        
+        private static int YM_DELTAT_DECODE_MAX = YM_DELTAT_DECODE_RANGE - 1;
         private static int[] ym_deltat_decode_tableB1 = new int[16]{
           1,   3,   5,   7,   9,  11,  13,  15,
           -1,  -3,  -5,  -7,  -9, -11, -13, -15,
@@ -337,9 +332,9 @@ namespace mame
                     DELTAT.now_addr &= ((1 << (24 + 1)) - 1);
                     DELTAT.prev_acc = DELTAT.acc;
                     DELTAT.acc += (ym_deltat_decode_tableB1[data] * DELTAT.adpcmd / 8);
-                    DELTAT.acc=Limit(DELTAT.acc, YM_DELTAT_DECODE_MAX, YM_DELTAT_DECODE_MIN);
+                    DELTAT.acc = Limit(DELTAT.acc, YM_DELTAT_DECODE_MAX, YM_DELTAT_DECODE_MIN);
                     DELTAT.adpcmd = (DELTAT.adpcmd * ym_deltat_decode_tableB2[data]) / 64;
-                    DELTAT.adpcmd=Limit(DELTAT.adpcmd, YM_DELTAT_DELTA_MAX, YM_DELTAT_DELTA_MIN);
+                    DELTAT.adpcmd = Limit(DELTAT.adpcmd, YM_DELTAT_DELTA_MAX, YM_DELTAT_DELTA_MIN);
                 } while ((--step) != 0);
             }
             DELTAT.adpcml = DELTAT.prev_acc * (int)((1 << 16) - DELTAT.now_step);
@@ -362,8 +357,8 @@ namespace mame
                     {
                         data = DELTAT.now_data & 0x0f;
                         DELTAT.now_data = DELTAT.CPU_data;
-                        if(DELTAT.status_set_handler!=null)
-                            if(DELTAT.status_change_BRDY_bit!=0)
+                        if (DELTAT.status_set_handler != null)
+                            if (DELTAT.status_change_BRDY_bit != 0)
                                 DELTAT.status_set_handler(DELTAT.status_change_BRDY_bit);
                     }
                     else
@@ -373,9 +368,9 @@ namespace mame
                     DELTAT.now_addr++;
                     DELTAT.prev_acc = DELTAT.acc;
                     DELTAT.acc += (ym_deltat_decode_tableB1[data] * DELTAT.adpcmd / 8);
-                    DELTAT.acc=Limit(DELTAT.acc, YM_DELTAT_DECODE_MAX, YM_DELTAT_DECODE_MIN);
+                    DELTAT.acc = Limit(DELTAT.acc, YM_DELTAT_DECODE_MAX, YM_DELTAT_DECODE_MIN);
                     DELTAT.adpcmd = (DELTAT.adpcmd * ym_deltat_decode_tableB2[data]) / 64;
-                    DELTAT.adpcmd=Limit(DELTAT.adpcmd, YM_DELTAT_DELTA_MAX, YM_DELTAT_DELTA_MIN);
+                    DELTAT.adpcmd = Limit(DELTAT.adpcmd, YM_DELTAT_DELTA_MAX, YM_DELTAT_DELTA_MIN);
                 } while ((--step) != 0);
             }
             DELTAT.adpcml = DELTAT.prev_acc * (int)((1 << 16) - DELTAT.now_step);

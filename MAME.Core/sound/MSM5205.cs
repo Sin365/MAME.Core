@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -27,17 +24,17 @@ namespace mame
         public static int[] diff_lookup;
         public static int[] index_shift = new int[8] { -1, -1, -1, -1, 2, 4, 6, 8 };
         public MSM5205Voice voice;
-        public static Timer.emu_timer[] timer=new Timer.emu_timer[2];
-        public static MSM5205[] mm1=new MSM5205[2];
+        public static Timer.emu_timer[] timer = new Timer.emu_timer[2];
+        public static MSM5205[] mm1 = new MSM5205[2];
         public static void ComputeTables()
         {
             int[,] nbl2bit = new int[16, 4]
-	        {
-		        { 1, 0, 0, 0}, { 1, 0, 0, 1}, { 1, 0, 1, 0}, { 1, 0, 1, 1},
-		        { 1, 1, 0, 0}, { 1, 1, 0, 1}, { 1, 1, 1, 0}, { 1, 1, 1, 1},
-		        {-1, 0, 0, 0}, {-1, 0, 0, 1}, {-1, 0, 1, 0}, {-1, 0, 1, 1},
-		        {-1, 1, 0, 0}, {-1, 1, 0, 1}, {-1, 1, 1, 0}, {-1, 1, 1, 1}
-	        };
+            {
+                { 1, 0, 0, 0}, { 1, 0, 0, 1}, { 1, 0, 1, 0}, { 1, 0, 1, 1},
+                { 1, 1, 0, 0}, { 1, 1, 0, 1}, { 1, 1, 1, 0}, { 1, 1, 1, 1},
+                {-1, 0, 0, 0}, {-1, 0, 0, 1}, {-1, 0, 1, 0}, {-1, 0, 1, 1},
+                {-1, 1, 0, 0}, {-1, 1, 0, 1}, {-1, 1, 1, 0}, {-1, 1, 1, 1}
+            };
             int step, nib;
             diff_lookup = new int[49 * 16];
             for (step = 0; step <= 48; step++)
@@ -203,7 +200,7 @@ namespace mame
                 if (mm1[num].voice.vclk != vclk)
                 {
                     mm1[num].voice.vclk = vclk;
-                    if (vclk==0)
+                    if (vclk == 0)
                     {
                         if (num == 0)
                         {

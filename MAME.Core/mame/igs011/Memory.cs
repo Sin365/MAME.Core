@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class IGS011
     {
@@ -17,7 +12,7 @@ namespace mame
             sbyte result = 0;
             if (address >= prot1_addr + 8 && address <= prot1_addr + 9)
             {
-                if (address %2==0)
+                if (address % 2 == 0)
                 {
                     result = (sbyte)(igs011_prot1_r() >> 8);
                 }
@@ -71,11 +66,11 @@ namespace mame
             else if (address >= 0x400000 && address <= 0x401fff)
             {
                 int offset = (address - 0x400000) / 2;
-                if (address %2 == 0)
+                if (address % 2 == 0)
                 {
                     result = (sbyte)(paletteram16[offset] >> 8);
                 }
-                else if (address %2 == 1)
+                else if (address % 2 == 1)
                 {
                     result = (sbyte)paletteram16[offset];
                 }
@@ -100,7 +95,8 @@ namespace mame
                 {
                     int i1 = 1;
                 }
-                else*/ if(address == 0x800003)
+                else*/
+                if (address == 0x800003)
                 {
                     result = (sbyte)drgnwrld_igs003_r();
                 }
@@ -328,7 +324,7 @@ namespace mame
             {
                 int offset = address - 0xa5c000;
                 igs011_blit_depth_w(offset, (byte)value);
-            }            
+            }
         }
         public static void MWriteWord_drgnwrld(int address, short value)
         {
@@ -338,7 +334,7 @@ namespace mame
                 int offset = (int)(address - prot1_addr);
                 igs011_prot1_w(offset, (ushort)value);
             }
-            else if (address >= 0x100000 && address+1 <= 0x103fff)
+            else if (address >= 0x100000 && address + 1 <= 0x103fff)
             {
                 int offset = address - 0x100000;
                 Generic.generic_nvram[offset] = (byte)(value >> 8);
@@ -351,9 +347,9 @@ namespace mame
             }
             else if (address >= 0x400000 && address + 1 <= 0x401fff)
             {
-                int offset = (address - 0x400000)/2;
-                igs011_palette(offset,(ushort)value);
-            }            
+                int offset = (address - 0x400000) / 2;
+                igs011_palette(offset, (ushort)value);
+            }
             else if (address >= 0x600000 && address + 1 <= 0x600001)
             {
                 OKI6295.okim6295_data_0_lsb_w((byte)value);
@@ -368,7 +364,7 @@ namespace mame
             }
             else if (address >= 0x800000 && address + 1 <= 0x800003)
             {
-                int offset = (address - 0x800000)/2;
+                int offset = (address - 0x800000) / 2;
                 drgnwrld_igs003_w(offset, (ushort)value);
             }
             else if (address >= 0xa20000 && address + 1 <= 0xa20001)

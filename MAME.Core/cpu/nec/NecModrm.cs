@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace cpu.nec
+﻿namespace cpu.nec
 {
     partial class Nec
     {
@@ -57,7 +52,7 @@ namespace cpu.nec
                 //I.regs.w[mod_RM.RMw[ModRM]] = FETCHWORD();
                 ushort w = FETCHWORD();
                 I.regs.b[mod_RM.RMw[ModRM] * 2] = (byte)(w % 0x100);
-                I.regs.b[mod_RM.RMw[ModRM] * 2+1] = (byte)(w / 0x100);
+                I.regs.b[mod_RM.RMw[ModRM] * 2 + 1] = (byte)(w / 0x100);
             }
             else
             {
@@ -104,34 +99,34 @@ namespace cpu.nec
                 WriteByte(EA, val);
             }
         }
-        void DEF_br8(out int ModRM,out byte src, out byte dst)
+        void DEF_br8(out int ModRM, out byte src, out byte dst)
         {
             ModRM = FETCH();
             src = RegByte(ModRM);
             dst = GetRMByte(ModRM);
         }
-        void DEF_wr16(out int ModRM,out ushort src, out ushort dst)
+        void DEF_wr16(out int ModRM, out ushort src, out ushort dst)
         {
             ModRM = FETCH();
             src = RegWord(ModRM);
             dst = GetRMWord(ModRM);
         }
-        void DEF_r8b(out int ModRM,out byte src, out byte dst)
+        void DEF_r8b(out int ModRM, out byte src, out byte dst)
         {
             ModRM = FETCH();
             dst = RegByte(ModRM);
             src = GetRMByte(ModRM);
         }
-        void DEF_r16w(out int ModRM,out ushort src,out ushort dst)
+        void DEF_r16w(out int ModRM, out ushort src, out ushort dst)
         {
-	        ModRM = FETCH();
-	        dst = RegWord(ModRM);
+            ModRM = FETCH();
+            dst = RegWord(ModRM);
             src = GetRMWord(ModRM);
         }
         void DEF_ald8(out byte src, out byte dst)
         {
-	         src = FETCH();
-	         dst = I.regs.b[0];
+            src = FETCH();
+            dst = I.regs.b[0];
         }
         void DEF_axd16(out ushort src, out ushort dst)
         {

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -10,18 +6,18 @@ namespace mame
     {
         private static byte[] K052109_memory_region;
         public static int K052109_videoram_F_offset, K052109_videoram2_F_offset, K052109_colorram_F_offset, K052109_videoram_A_offset, K052109_videoram2_A_offset, K052109_colorram_A_offset, K052109_videoram_B_offset, K052109_videoram2_B_offset, K052109_colorram_B_offset;
-        public static byte[] K052109_ram,K052109_charrombank,K052109_charrombank_2;
+        public static byte[] K052109_ram, K052109_charrombank, K052109_charrombank_2;
         public static LineState K052109_RMRD_line;
         public static byte K052109_romsubbank, K052109_scrollctrl, K052109_irq_enabled, has_extra_video_ram;
         public static int[] K052109_dx, K052109_dy;
-        public static int K052109_tileflip_enable;        
-        
+        public static int K052109_tileflip_enable;
+
         public static byte[] K051960_memory_region;
         public static int K051960_romoffset, K051960_spriteflip, K051960_readroms;
         public static byte[] K051960_spriterombank, K051960_ram;
         public static int K051960_dx, K051960_dy;
         public static int K051960_irq_enabled, K051960_nmi_enabled;
-                
+
         private static byte[][] K053245_memory_region;
         private static int K05324x_z_rejection;
         private static int[] K053244_rombank, K053245_ramsize, K053245_dx, K053245_dy;
@@ -35,19 +31,19 @@ namespace mame
         public static int[] K053936_wraparound;
 
         public static byte[] K053251_ram;
-        public static int[] K053251_palette_index;        
-        public static int K053251_tilemaps_set;        
+        public static int[] K053251_palette_index;
+        public static int K053251_tilemaps_set;
 
         public static int counter;
-        public delegate void K052109_delegate(int tmap, int bank, int code, int color, int flags, int priority, out int code2, out int color2,out int flags2);
+        public delegate void K052109_delegate(int tmap, int bank, int code, int color, int flags, int priority, out int code2, out int color2, out int flags2);
         public static K052109_delegate K052109_callback;
         public delegate void K051960_delegate(int code, int color, int priority, int shadow, out int code2, out int color2, out int priority2);
         public static K051960_delegate K051960_callback;
-        public delegate void K053245_delegate(int code, int color,out int code2,out int color2,out int priority_mask);
+        public delegate void K053245_delegate(int code, int color, out int code2, out int color2, out int priority_mask);
         public static K053245_delegate K053245_callback;
         public static void K052109_vh_start()
         {
-            int i,j;
+            int i, j;
             K052109_RMRD_line = LineState.CLEAR_LINE;
             K052109_irq_enabled = 0;
             has_extra_video_ram = 0;
@@ -97,7 +93,7 @@ namespace mame
                 for (j = 1; j < 16; j++)
                 {
                     K052109_tilemap[i].pen_to_flags[0, j] = 0x10;
-                }                
+                }
                 K052109_tilemap[i].total_elements = gfx12rom.Length / 0x40;
             }
             K052109_tilemap[0].tile_update3 = K052109_tilemap[0].tile_updateKonami68000_0;
@@ -118,19 +114,19 @@ namespace mame
             {
                 int code = (offset & 0x1fff) >> 5;
                 int color = K052109_romsubbank;
-                int code2,color2,flags2;
+                int code2, color2, flags2;
                 int flags = 0;
                 int priority = 0;
                 int bank = K052109_charrombank[(color & 0x0c) >> 2] >> 2;
                 int addr;
                 bank |= (K052109_charrombank_2[(color & 0x0c) >> 2] >> 2);
-                if (has_extra_video_ram!=0)
+                if (has_extra_video_ram != 0)
                 {
                     code |= color << 8;
                 }
                 else
                 {
-                    K052109_callback(0, bank, code, color, flags, priority, out code2, out color2,out flags2);
+                    K052109_callback(0, bank, code, color, flags, priority, out code2, out color2, out flags2);
                     code = code2;
                     color = color2;
                 }
@@ -171,7 +167,7 @@ namespace mame
                 }
                 else if (offset >= 0x1a00 && offset < 0x1c00)
                 {
-                
+
                 }
                 else if (offset == 0x1c80)
                 {
@@ -189,7 +185,7 @@ namespace mame
                     int dirty = 0;
                     if (K052109_charrombank[0] != (data & 0x0f)) dirty |= 1;
                     if (K052109_charrombank[1] != ((data >> 4) & 0x0f)) dirty |= 2;
-                    if (dirty!=0)
+                    if (dirty != 0)
                     {
                         int i;
                         K052109_charrombank[0] = (byte)(data & 0x0f);
@@ -197,11 +193,11 @@ namespace mame
                         for (i = 0; i < 0x1800; i++)
                         {
                             int bank = (K052109_ram[i] & 0x0c) >> 2;
-                            if ((bank == 0 && ((dirty & 1)!=0) || (bank == 1 && ((dirty & 2)!=0))))
+                            if ((bank == 0 && ((dirty & 1) != 0) || (bank == 1 && ((dirty & 2) != 0))))
                             {
-                                row=(i&0x7ff)/0x40;
-                                col=(i&0x7ff)%0x40;
-                                K052109_tilemap[(i & 0x1800) >> 11].tilemap_mark_tile_dirty(row,col);
+                                row = (i & 0x7ff) / 0x40;
+                                col = (i & 0x7ff) % 0x40;
+                                K052109_tilemap[(i & 0x1800) >> 11].tilemap_mark_tile_dirty(row, col);
                                 //tilemap_mark_tile_dirty(K052109_tilemap[(i & 0x1800) >> 11], i & 0x7ff);
                             }
                         }
@@ -219,9 +215,9 @@ namespace mame
                     if (K052109_tileflip_enable != ((data & 0x06) >> 1))
                     {
                         K052109_tileflip_enable = ((data & 0x06) >> 1);
-                        K052109_tilemap[0].all_tiles_dirty=true;
-                        K052109_tilemap[1].all_tiles_dirty=true;
-                        K052109_tilemap[2].all_tiles_dirty=true;
+                        K052109_tilemap[0].all_tiles_dirty = true;
+                        K052109_tilemap[1].all_tiles_dirty = true;
+                        K052109_tilemap[2].all_tiles_dirty = true;
                     }
                 }
                 else if (offset == 0x1f00)
@@ -229,7 +225,7 @@ namespace mame
                     int dirty = 0;
                     if (K052109_charrombank[2] != (data & 0x0f)) dirty |= 1;
                     if (K052109_charrombank[3] != ((data >> 4) & 0x0f)) dirty |= 2;
-                    if (dirty!=0)
+                    if (dirty != 0)
                     {
                         int i;
                         K052109_charrombank[2] = (byte)(data & 0x0f);
@@ -237,11 +233,11 @@ namespace mame
                         for (i = 0; i < 0x1800; i++)
                         {
                             int bank = (K052109_ram[i] & 0x0c) >> 2;
-                            if ((bank == 2 && ((dirty & 1)!=0)) || (bank == 3 && ((dirty & 2)!=0)))
+                            if ((bank == 2 && ((dirty & 1) != 0)) || (bank == 3 && ((dirty & 2) != 0)))
                             {
-                                row=(i&0x7ff)/0x40;
-                                col=(i&0x7ff)%0x40;
-                                K052109_tilemap[(i & 0x1800) >> 11].tilemap_mark_tile_dirty(row,col);
+                                row = (i & 0x7ff) / 0x40;
+                                col = (i & 0x7ff) % 0x40;
+                                K052109_tilemap[(i & 0x1800) >> 11].tilemap_mark_tile_dirty(row, col);
                                 //tilemap_mark_tile_dirty(K052109_tilemap[(i & 0x1800) >> 11], i & 0x7ff);
                             }
                         }
@@ -270,7 +266,7 @@ namespace mame
         public static ushort K052109_word_r(int offset)
         {
             return (ushort)(K052109_r(offset + 0x2000) | (K052109_r(offset) << 8));
-        }        
+        }
         public static void K052109_word_w(int offset, ushort data)
         {
             K052109_w(offset, (byte)((data >> 8) & 0xff));
@@ -446,7 +442,7 @@ namespace mame
             K052109_charrombank_2 = reader.ReadBytes(4);
             for (i = 0; i < 3; i++)
             {
-                K052109_dx[i]=reader.ReadInt32();
+                K052109_dx[i] = reader.ReadInt32();
             }
             for (i = 0; i < 3; i++)
             {
@@ -484,7 +480,7 @@ namespace mame
         }
         public static byte K051960_fetchromdata(int byte1)
         {
-            int code, color, pri, shadow, off1, addr, code2, color2,pri2;
+            int code, color, pri, shadow, off1, addr, code2, color2, pri2;
             addr = K051960_romoffset + (K051960_spriterombank[0] << 8) +
                     ((K051960_spriterombank[1] & 0x03) << 16);
             code = (addr & 0x3ffe0) >> 5;
@@ -492,7 +488,7 @@ namespace mame
             color = ((K051960_spriterombank[1] & 0xfc) >> 2) + ((K051960_spriterombank[2] & 0x03) << 6);
             pri = 0;
             shadow = color & 0x80;
-            K051960_callback(code, color, pri, shadow, out code2, out color2,out pri2);
+            K051960_callback(code, color, pri, shadow, out code2, out color2, out pri2);
             addr = (code2 << 7) | (off1 << 2) | byte1;
             addr &= K051960_memory_region.Length - 1;
             return K051960_memory_region[addr];
@@ -515,7 +511,7 @@ namespace mame
         }
         public static byte K051937_r(int offset)
         {
-            if (K051960_readroms!=0 && offset >= 4 && offset < 8)
+            if (K051960_readroms != 0 && offset >= 4 && offset < 8)
             {
                 return K051960_fetchromdata(offset & 3);
             }
@@ -730,9 +726,9 @@ namespace mame
         {
             writer.Write(K051960_romoffset);
             writer.Write(K051960_spriteflip);
-	        writer.Write(K051960_readroms);
-            writer.Write(K051960_spriterombank,0,3);
-	        writer.Write(K051960_ram,0, 0x400);
+            writer.Write(K051960_readroms);
+            writer.Write(K051960_spriterombank, 0, 3);
+            writer.Write(K051960_ram, 0, 0x400);
             writer.Write(K051960_dx);
             writer.Write(K051960_dy);
             writer.Write(K051960_irq_enabled);
@@ -821,11 +817,11 @@ namespace mame
         }
         public static byte K053244_chip_r(int chip, int offset)
         {
-            if ((K053244_regs[chip][5] & 0x10)!=0 && offset >= 0x0c && offset < 0x10)
+            if ((K053244_regs[chip][5] & 0x10) != 0 && offset >= 0x0c && offset < 0x10)
             {
                 int addr;
-                addr = (K053244_rombank[chip] << 19) | ((K053244_regs[chip][11] & 0x7) << 18)| (K053244_regs[chip][8] << 10) | (K053244_regs[chip][9] << 2)| ((offset & 3) ^ 1);
-                addr &=  K053245_memory_region[chip].Length - 1;
+                addr = (K053244_rombank[chip] << 19) | ((K053244_regs[chip][11] & 0x7) << 18) | (K053244_regs[chip][8] << 10) | (K053244_regs[chip][9] << 2) | ((offset & 3) ^ 1);
+                addr &= K053245_memory_region[chip].Length - 1;
                 return K053245_memory_region[chip][addr];
             }
             else if (offset == 0x06)
@@ -1234,7 +1230,7 @@ namespace mame
         }
         public static void SaveStateBinary_K053936(BinaryWriter writer)
         {
-            int i,j;
+            int i, j;
             for (i = 0; i < 0x10; i++)
             {
                 writer.Write(K053936_0_ctrl[i]);
@@ -1243,9 +1239,9 @@ namespace mame
             {
                 writer.Write(K053936_0_linectrl[i]);
             }
-            for(i=0;i<2;i++)
+            for (i = 0; i < 2; i++)
             {
-                for(j=0;j<2;j++)
+                for (j = 0; j < 2; j++)
                 {
                     writer.Write(K053936_offset[i][j]);
                 }
@@ -1257,7 +1253,7 @@ namespace mame
         }
         public static void LoadStateBinary_K053936(BinaryReader reader)
         {
-            int i,j;
+            int i, j;
             for (i = 0; i < 0x10; i++)
             {
                 K053936_0_ctrl[i] = reader.ReadUInt16();
@@ -1354,7 +1350,7 @@ namespace mame
         public static void K053251_lsb_w(int offset, ushort data)
         {
             //if (ACCESSING_BITS_0_7)
-                K053251_w(offset, (byte)(data & 0xff));
+            K053251_w(offset, (byte)(data & 0xff));
         }
         public static void K053251_lsb_w2(int offset, byte data)
         {
@@ -1460,7 +1456,7 @@ namespace mame
         public static void K054000_lsb_w(int offset, ushort data)
         {
             //if (ACCESSING_BITS_0_7)
-            K054000_w(offset,(byte)(data & 0xff));
+            K054000_w(offset, (byte)(data & 0xff));
         }
         public static void K054000_lsb_w2(int offset, byte data)
         {

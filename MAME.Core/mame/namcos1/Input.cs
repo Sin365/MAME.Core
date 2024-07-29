@@ -93,7 +93,7 @@ namespace mame
             else
             {
                 byte0 |= 0x40;
-            }            
+            }
             if (Keyboard.IsPressed(Key.Right))
             {
                 byte1 &= unchecked((byte)~0x01);
@@ -200,7 +200,7 @@ namespace mame
             else
             {
                 byte1 |= 0x80;
-            }            
+            }
             if (Keyboard.IsPressed(Key.J))
             {
                 byte0 &= unchecked((byte)~0x10);
@@ -224,7 +224,7 @@ namespace mame
             else
             {
                 byte0 |= 0x40;
-            }            
+            }
             if (Keyboard.IsPressed(Key.NumPad1))
             {
                 byte1 &= unchecked((byte)~0x10);
@@ -592,7 +592,7 @@ namespace mame
             else
             {
                 byte01 |= 0x08;
-            }            
+            }
             if (Keyboard.IsPressed(Key.R))
             {
                 byte2 &= unchecked((byte)~0x20);

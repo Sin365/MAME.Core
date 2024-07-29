@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class IGS011
     {
@@ -11,7 +6,7 @@ namespace mame
         public static byte prot1, prot2, prot1_swap;
         public static uint prot1_addr;
         public static ushort[] igs003_reg, vbowl_trackball;
-        public static ushort priority, igs_dips_sel,igs_input_sel, lhb_irq_enable;
+        public static ushort priority, igs_dips_sel, igs_input_sel, lhb_irq_enable;
         public static byte igs012_prot, igs012_prot_swap;
         private static bool igs012_prot_mode;
         public static byte[] gfx1rom, gfx2rom;
@@ -62,13 +57,13 @@ namespace mame
                         Machine.bRom = false;
                     }
                     break;
-                case "lhb2":                    
+                case "lhb2":
                     Memory.mainrom = Machine.GetRom("maincpu.rom");
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
 
                     break;
-            }            
+            }
         }
         public static void machine_reset_igs011()
         {
@@ -476,7 +471,7 @@ namespace mame
             }
             return 0;
         }
-        private static void lhb_inputs_w(int offset,byte data)
+        private static void lhb_inputs_w(int offset, byte data)
         {
             if (offset == 0)
             {
@@ -840,7 +835,7 @@ namespace mame
             //if (ACCESSING_BITS_0_7)
             YM3812.ym3812_write_port_0_w(data);
         }
-        private static void lhb_irq_enable_w(int offset,byte data)
+        private static void lhb_irq_enable_w(int offset, byte data)
         {
             if ((offset & 1) == 0)
             {

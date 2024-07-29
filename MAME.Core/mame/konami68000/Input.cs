@@ -336,7 +336,7 @@ namespace mame
             {
                 sbyte0 |= 0x02;
             }
-            if(Keyboard.IsPressed(Key.D1))
+            if (Keyboard.IsPressed(Key.D1))
             {
                 sbyte0 &= ~0x10;
             }
@@ -635,7 +635,7 @@ namespace mame
             {
                 sbyte2 |= 0x40;
             }
-            if(Keyboard.IsPressed(Key.NumPad4))
+            if (Keyboard.IsPressed(Key.NumPad4))
             {
                 sbyte2 &= unchecked((sbyte)~0x80);
             }
@@ -1083,7 +1083,7 @@ namespace mame
             else
             {
                 //sbyte1 |= 0x04;
-            }            
+            }
             if (Keyboard.IsPressed(Key.Right))
             {
                 sbyte2 &= ~0x02;
@@ -1380,7 +1380,7 @@ namespace mame
         }
         public static void record_port_prmrsocr()
         {
-            if (sbyte0 != sbyte0_old || sbyte1 != sbyte1_old || sbyte2 != sbyte2_old || sbyte3 != sbyte3_old || sbyte4 != sbyte4_old||bytee!=bytee_old)
+            if (sbyte0 != sbyte0_old || sbyte1 != sbyte1_old || sbyte2 != sbyte2_old || sbyte3 != sbyte3_old || sbyte4 != sbyte4_old || bytee != bytee_old)
             {
                 sbyte0_old = sbyte0;
                 sbyte1_old = sbyte1;

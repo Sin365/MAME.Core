@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class IGS011
     {
@@ -750,7 +745,7 @@ namespace mame
         public static void MWriteLong_lhb(int address, int value)
         {
             address &= 0xffffff;
-            if (address >= prot1_addr && address+3 <= prot1_addr + 7)
+            if (address >= prot1_addr && address + 3 <= prot1_addr + 7)
             {
                 int i1 = 1;
             }
@@ -3141,7 +3136,7 @@ namespace mame
             }
             else if (address >= 0x600000 && address + 1 <= 0x600007)
             {
-                int offset=(address-0x600000)/2;
+                int offset = (address - 0x600000) / 2;
                 ics2115_0_word_w(offset, (ushort)value);
             }
             else if (address >= 0x700000 && address + 1 <= 0x700003)
@@ -3419,7 +3414,7 @@ namespace mame
                 {
                     result = 0;
                 }
-            }            
+            }
             else if (address >= 0x100000 && address + 1 <= 0x103fff)
             {
                 int offset = address - 0x100000;

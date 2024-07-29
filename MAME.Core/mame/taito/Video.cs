@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -58,7 +55,7 @@ namespace mame
                 sy = -bublbobl_objectram[offs + 0];
                 for (yc = 0; yc < 32; yc++)
                 {
-                    if ((prom[prom_line_offset+ yc / 2] & 0x08) != 0)
+                    if ((prom[prom_line_offset + yc / 2] & 0x08) != 0)
                     {
                         continue;
                     }

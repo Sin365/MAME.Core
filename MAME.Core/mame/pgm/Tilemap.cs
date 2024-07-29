@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -12,7 +8,7 @@ namespace mame
         public static void tilemap_init()
         {
             int i;
-            pgm_tx_tilemap = new Tmap();            
+            pgm_tx_tilemap = new Tmap();
             pgm_tx_tilemap.rows = 32;
             pgm_tx_tilemap.cols = 64;
             pgm_tx_tilemap.tilewidth = 8;
@@ -28,7 +24,7 @@ namespace mame
             pgm_tx_tilemap.tilemap_draw_instance3 = pgm_tx_tilemap.tilemap_draw_instancePgm;
             pgm_tx_tilemap.total_elements = 0x800000 / 0x20;
             pgm_tx_tilemap.pen_data = new byte[0x40];
-            pgm_tx_tilemap.pen_to_flags = new byte[1, 16];            
+            pgm_tx_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 0; i < 15; i++)
             {
                 pgm_tx_tilemap.pen_to_flags[0, i] = 0x10;
@@ -121,7 +117,7 @@ namespace mame
                 for (tx = 0; tx < width; tx++)
                 {
                     pen = pen_data[offset1];
-                    map = pen_to_flags[0,pen];
+                    map = pen_to_flags[0, pen];
                     offset1++;
                     pixmap[offsety1 * 0x200 + x0 + xoffs] = (ushort)(palette_base + pen);
                     flagsmap[offsety1, x0 + xoffs] = map;
@@ -235,7 +231,7 @@ namespace mame
             int x0 = tilewidth * col;
             int y0 = tileheight * row;
             int tileno, colour, flipyx;
-            int code, tile_index,palette_base;
+            int code, tile_index, palette_base;
             byte flags;
             tile_index = row * PGM.pgm_bg_tilemap.cols + col;
             tileno = (PGM.pgm_bg_videoram[tile_index * 4] * 0x100 + PGM.pgm_bg_videoram[tile_index * 4 + 1]) & 0xffff;

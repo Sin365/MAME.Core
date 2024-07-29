@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Tehkan
     {
         public static byte[] pbaction_videoram2, pbaction_colorram2;
-        public static int scroll;        
+        public static int scroll;
         public static RECT cliprect;
         public static void pbaction_videoram_w(int offset, byte data)
         {

@@ -555,7 +555,7 @@ namespace cpu.m68000
             }
 
             info.Length = pc - info.PC;
-        }        
+        }
 
         void ORI()
         {
@@ -1036,10 +1036,10 @@ namespace cpu.m68000
             int mode = (op >> 3) & 0x07;
             int reg = op & 0x07;
             info.Mnemonic = "asl";
-            info.Args=DisassembleValue(mode, reg, 1, ref pc);
+            info.Args = DisassembleValue(mode, reg, 1, ref pc);
             info.Length = pc - info.PC;
         }
-        
+
         void ASRd()
         {
             int rot = (op >> 9) & 7;

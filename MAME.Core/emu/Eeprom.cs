@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -52,7 +48,7 @@ namespace mame
         public static LineState reset_line, clock_line;
         public static int locked;
         public static int enable_multi_read;
-        public static int reset_delay,reset_delay1;
+        public static int reset_delay, reset_delay1;
         private static bool eeprom_command_match(byte[] buf, byte[] cmd, int len)
         {
             int ibuf = 0, idx = 0;
@@ -64,7 +60,7 @@ namespace mame
             {
                 return false;
             }
-            for (; len > 0; )
+            for (; len > 0;)
             {
                 byte b = buf[ibuf];
                 byte c = cmd[idx];
@@ -128,7 +124,7 @@ namespace mame
                     for (int i = 0; i < 0x80; i++)
                     {
                         eeprom_data[i] = 0xff;
-                    }                    
+                    }
                     locked = 0;
                     address_bits = 7;
                     data_bits = 8;
@@ -151,8 +147,8 @@ namespace mame
                     cmd_read = new byte[] { (byte)'0', (byte)'1', (byte)'1', (byte)'0' };
                     cmd_write = new byte[] { (byte)'0', (byte)'1', (byte)'0', (byte)'1' };
                     cmd_erase = new byte[] { (byte)'0', (byte)'1', (byte)'1', (byte)'1' };
-                    cmd_lock = new byte[] { (byte)'0',(byte)'1',(byte)'0',(byte)'0',(byte)'0',(byte)'0',(byte)'0',(byte)'0',(byte)'0',(byte)'0' };
-                    cmd_unlock = new byte[] {(byte)'0',(byte)'1',(byte)'0',(byte)'0',(byte)'1',(byte)'1',(byte)'0',(byte)'0',(byte)'0',(byte)'0' };
+                    cmd_lock = new byte[] { (byte)'0', (byte)'1', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0' };
+                    cmd_unlock = new byte[] { (byte)'0', (byte)'1', (byte)'0', (byte)'0', (byte)'1', (byte)'1', (byte)'0', (byte)'0', (byte)'0', (byte)'0' };
                     for (int i = 0; i < 0x80; i++)
                     {
                         eeprom_data[i] = 0xff;
@@ -161,7 +157,7 @@ namespace mame
                     address_bits = 6;
                     data_bits = 16;
                     break;
-                case "Konami 68000":                    
+                case "Konami 68000":
                     cmd_read = new byte[] { (byte)'0', (byte)'1', (byte)'1', (byte)'0', (byte)'0', (byte)'0' };
                     cmd_write = new byte[] { (byte)'0', (byte)'1', (byte)'1', (byte)'1', (byte)'0', (byte)'0' };
                     cmd_erase = new byte[] { };
@@ -358,7 +354,7 @@ namespace mame
                 {
                     if (sending == 1)
                     {
-                        if (eeprom_clock_count == data_bits && enable_multi_read!=0)
+                        if (eeprom_clock_count == data_bits && enable_multi_read != 0)
                         {
                             eeprom_read_address = (eeprom_read_address + 1) & ((1 << address_bits) - 1);
                             if (data_bits == 16)

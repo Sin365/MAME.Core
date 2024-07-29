@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using cpu.nec;
 using System.IO;
-using cpu.nec;
 
 namespace mame
 {
     public partial class M92
-    {       
+    {
         public static void SaveStateBinary(BinaryWriter writer)
         {
             int i, j;
@@ -148,7 +144,7 @@ namespace mame
             Cpuint.LoadStateBinary_v(reader);
             Timer.global_basetime.seconds = reader.ReadInt32();
             Timer.global_basetime.attoseconds = reader.ReadInt64();
-            Video.LoadStateBinary(reader);            
+            Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
             Timer.LoadStateBinary(reader);

@@ -96,7 +96,7 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.U))
             {
-                
+
             }
             else
             {

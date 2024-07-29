@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -111,7 +108,7 @@ namespace mame
             public int sampfreq;
             public irqhandler irqhandler;
             public porthandler porthandler;
-        };        
+        };
         private static int[] iconnect = new int[32], imem = new int[32];//m2=8,c1=9,c2=10,mem=11,null=12
         private static int[] tl_tab = new int[13 * 2 * 0x100];
         private static uint[] sin_tab = new uint[0x400];
@@ -142,7 +139,7 @@ namespace mame
             16,16,16,16,16,16,16,16,
             0,0, 0,0, 0,0, 0,0,
         };
-        
+
         private static uint[] dt2_tab = new uint[4] { 0, 384, 500, 608 };
 
         private static ushort[] phaseinc_rom = new ushort[768]{
@@ -220,7 +217,7 @@ namespace mame
         public static int[] chanout = new int[12];
         public delegate void irqhandler(int irq);
         public delegate void porthandler(int offset, byte data);
-        
+
         private static void init_tables()
         {
             int i, x, n;
@@ -420,7 +417,7 @@ namespace mame
             int oldstate = PSG.irqlinestate;
             PSG.irqlinestate |= 1;
             if (oldstate == 0)
-            {              
+            {
                 PSG.irqhandler(1);
             }
         }

@@ -8,14 +8,15 @@ namespace mame
         public static int deltaX, deltaY, oldX, oldY;
         public static byte[] buttons;
         static IMouse iMouse;
-        public static void InitialMouse(mainForm form1,IMouse im)
+        public static void InitialMouse(mainMotion form1, IMouse im)
         {
             iMouse = im;
         }
 
         public static void Update()
         {
-            iMouse.MouseXY(out int X, out int Y);
+            int X, Y;
+            iMouse.MouseXY(out X, out Y);
             deltaX = X - oldX;
             deltaY = Y - oldY;
             oldX = X;

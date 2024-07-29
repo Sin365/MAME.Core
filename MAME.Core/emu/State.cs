@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using System.IO;
 
 namespace mame
 {
@@ -93,7 +88,7 @@ namespace mame
                         case "bublbobl":
                         case "bublbobl1":
                         case "bublboblr":
-                        case "bublboblr1":                        
+                        case "bublboblr1":
                         case "bublcave":
                         case "bublcave11":
                         case "bublcave10":
@@ -164,7 +159,7 @@ namespace mame
                         case "punkshotj"://ym k053260 K052109 K051960
                             savestate_callback = Konami68000.SaveStateBinary_punkshot;
                             loadstate_callback = Konami68000.LoadStateBinary_punkshot;
-                            break;                        
+                            break;
                         case "lgtnfght":
                         case "lgtnfghta":
                         case "lgtnfghtu":
@@ -207,7 +202,7 @@ namespace mame
                         case "ssridersjbd"://ym k053260 K052109 K053245 eeprom
                             savestate_callback = Konami68000.SaveStateBinary_ssriders;
                             loadstate_callback = Konami68000.LoadStateBinary_ssriders;
-                            break;                        
+                            break;
                         case "thndrx2":
                         case "thndrx2a":
                         case "thndrx2j"://ym k053260 K052109 K051960 eeprom

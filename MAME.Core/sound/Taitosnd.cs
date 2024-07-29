@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -30,16 +26,16 @@ namespace mame
             tc0140syt.status = 0;
             tc0140syt.nmi_enabled = 0;
             tc0140syt.nmi_req = 0;
-            TC0140SYT_PORT01_FULL=0x01;
-            TC0140SYT_PORT23_FULL=0x02;
-            TC0140SYT_PORT01_FULL_MASTER=0x04;
-            TC0140SYT_PORT23_FULL_MASTER=0x08;
+            TC0140SYT_PORT01_FULL = 0x01;
+            TC0140SYT_PORT23_FULL = 0x02;
+            TC0140SYT_PORT01_FULL_MASTER = 0x04;
+            TC0140SYT_PORT23_FULL_MASTER = 0x08;
         }
         public static void Interrupt_Controller()
         {
-            if ((tc0140syt.nmi_req!=0) && (tc0140syt.nmi_enabled!= 0))
+            if ((tc0140syt.nmi_req != 0) && (tc0140syt.nmi_enabled != 0))
             {
-                Cpuint.cpunum_set_input_line(1,(int)LineState.INPUT_LINE_NMI,LineState.PULSE_LINE);
+                Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_NMI, LineState.PULSE_LINE);
                 tc0140syt.nmi_req = 0;
             }
         }
@@ -91,24 +87,24 @@ namespace mame
             switch (tc0140syt.mainmode)
             {
                 case 0x00:		// mode #0
-                    result= tc0140syt.masterdata[tc0140syt.mainmode++];
+                    result = tc0140syt.masterdata[tc0140syt.mainmode++];
                     break;
                 case 0x01:		// mode #1
                     tc0140syt.status &= (byte)(~TC0140SYT_PORT01_FULL_MASTER);
-                    result= tc0140syt.masterdata[tc0140syt.mainmode++];
+                    result = tc0140syt.masterdata[tc0140syt.mainmode++];
                     break;
                 case 0x02:		// mode #2
-                    result= tc0140syt.masterdata[tc0140syt.mainmode++];
+                    result = tc0140syt.masterdata[tc0140syt.mainmode++];
                     break;
                 case 0x03:		// mode #3
                     tc0140syt.status &= (byte)(~TC0140SYT_PORT23_FULL_MASTER);
-                    result= tc0140syt.masterdata[tc0140syt.mainmode++];
+                    result = tc0140syt.masterdata[tc0140syt.mainmode++];
                     break;
                 case 0x04:		// port status
-                    result= tc0140syt.status;
+                    result = tc0140syt.status;
                     break;
                 default:
-                    result= 0;
+                    result = 0;
                     break;
             }
             return result;
@@ -180,17 +176,17 @@ namespace mame
             }
             Interrupt_Controller();
             return res;
-        }        
+        }
         public static void taitosound_port16_msb_w(ushort data)
         {
             //if (ACCESSING_BITS_8_15)
-                taitosound_port_w(0, (byte)(data >> 8));
+            taitosound_port_w(0, (byte)(data >> 8));
         }
         public static void taitosound_port16_msb_w1(byte data)
         {
             //if (ACCESSING_BITS_8_15)
             taitosound_port_w(0, data);
-        }        
+        }
         public static void taitosound_comm16_msb_w(ushort data)
         {
             //if (ACCESSING_BITS_8_15)

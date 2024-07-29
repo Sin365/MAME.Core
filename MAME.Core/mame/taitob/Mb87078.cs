@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Taitob
     {
@@ -16,7 +10,7 @@ namespace mame
             public byte reset_comp;
         };
         public static MB87078[] c;
-        public static int[] MB87078_gain_percent=new int[66]{
+        public static int[] MB87078_gain_percent = new int[66]{
            100,94,89,84,79,74,70,66,
             63,59,56,53,50,47,44,42,
             39,37,35,33,31,29,28,26,
@@ -61,7 +55,7 @@ namespace mame
                 c[which].gain[i] = calc_gain_index(c[which].latch[i], c[which].latch[4 + i]);
                 if (old_index != c[which].gain[i])
                 {
-                    mb87078_gain_changed(i,MB87078_gain_percent[c[which].gain[i]]);
+                    mb87078_gain_changed(i, MB87078_gain_percent[c[which].gain[i]]);
                 }
             }
         }

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {

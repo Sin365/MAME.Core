@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -49,7 +47,7 @@ namespace mame
         public int mask, value;
         public int total_elements;
         public Action<int, int> tile_update3;
-        public Action<RECT, int, int> tilemap_draw_instance3;               
+        public Action<RECT, int, int> tilemap_draw_instance3;
         public int effective_rowscroll(int index)
         {
             int value;
@@ -104,7 +102,7 @@ namespace mame
         {
             palette_offset = offset;
         }
-        public static void tilemap_set_flip(Tmap tmap,byte _attributes)
+        public static void tilemap_set_flip(Tmap tmap, byte _attributes)
         {
             if (tmap == null)
             {
@@ -153,12 +151,12 @@ namespace mame
         {
             scrollcols = scroll_cols;
         }
-        public void tilemap_set_scrolldx(int _dx,int _dx2)
+        public void tilemap_set_scrolldx(int _dx, int _dx2)
         {
             dx = _dx;
             dx_flipped = _dx2;
         }
-        public void tilemap_set_scrolldy(int _dy,int _dy2)
+        public void tilemap_set_scrolldy(int _dy, int _dy2)
         {
             dy = _dy;
             dy_flipped = _dy2;
@@ -269,7 +267,7 @@ namespace mame
     {
         public static List<Tmap> lsTmap = new List<Tmap>();
         public static byte[,] priority_bitmap;
-        public static byte[,] bb00,bbFF;
+        public static byte[,] bb00, bbFF;
         public static byte[] bb0F;
         public static int screen_width, screen_height;
         private static int INVALID_LOGICAL_INDEX = -1;
@@ -352,7 +350,7 @@ namespace mame
                     priority_bitmap = new byte[0x200, 0x200];
                     Capcom.tilemap_init();
                     break;
-            }            
+            }
             switch (Machine.sBoard)
             {
                 case "CPS-1":

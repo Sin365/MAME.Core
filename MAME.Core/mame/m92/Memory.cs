@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class M92
     {
-        public static ushort ushort0, ushort1,ushort2, dsw;
-        public static ushort ushort0_old, ushort1_old,ushort2_old;
+        public static ushort ushort0, ushort1, ushort2, dsw;
+        public static ushort ushort0_old, ushort1_old, ushort2_old;
         public static byte N0ReadOpByte(int address)
         {
             address &= 0xfffff;
@@ -88,7 +83,7 @@ namespace mame
             }
             else if (address >= 0xd0000 && address + 1 <= 0xdffff)
             {
-                int offset = (address - 0xd0000)/2;
+                int offset = (address - 0xd0000) / 2;
                 result = m92_vram_data[offset];
             }
             else if (address >= 0xe0000 && address + 1 <= 0xeffff)

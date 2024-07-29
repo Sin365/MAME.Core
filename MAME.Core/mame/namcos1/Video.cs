@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -163,7 +160,7 @@ namespace mame
                     flipy ^= 1;
                 }
                 sy++;
-                Drawgfx.common_drawgfx_na(sizex,sizey,tx,ty,sprite,color,flipx,flipy,sx & 0x1ff,((sy + 16) & 0xff) - 16,cliprect);
+                Drawgfx.common_drawgfx_na(sizex, sizey, tx, ty, sprite, color, flipx, flipy, sx & 0x1ff, ((sy + 16) & 0xff) - 16, cliprect);
             }
         }
         public static void video_update_namcos1()
@@ -244,6 +241,6 @@ namespace mame
                 }
                 copy_sprites = 0;
             }
-        }        
+        }
     }
 }

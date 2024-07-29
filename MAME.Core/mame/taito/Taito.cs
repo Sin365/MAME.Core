@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.m68000;
 
 namespace mame
 {
@@ -188,7 +184,7 @@ namespace mame
                         gfx2rom[i * 2 + 1] = (byte)(gfx22rom[i] & 0x0f);
                     }
                     adpcmrom = Machine.GetRom("adpcm.rom");
-                    Taitosnd.taitosnd_start();                    
+                    Taitosnd.taitosnd_start();
                     if (Memory.mainrom == null || Memory.audiorom == null || gfx1rom == null || gfx2rom == null || adpcmrom == null)
                     {
                         Machine.bRom = false;

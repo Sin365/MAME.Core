@@ -19,7 +19,7 @@ namespace mame
         }
         public static char getcharbykey(Key key1)
         {
-            char c1=' ';
+            char c1 = ' ';
             foreach (KeyStruct ks in lks)
             {
                 if (ks.key == key1)

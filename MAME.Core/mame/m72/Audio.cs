@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace mame
+﻿namespace mame
 {
     public partial class M72
     {
@@ -78,7 +72,7 @@ namespace mame
         {
             Sound.soundlatch_w(data);
             Cpuint.lvec.Add(new vec(3, Timer.get_current_time()));
-            setvector_param = 3;            
+            setvector_param = 3;
             Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
             Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }

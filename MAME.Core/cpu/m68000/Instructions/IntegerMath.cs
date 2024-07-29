@@ -1922,7 +1922,7 @@ namespace cpu.m68000
             uint dest = D[dreg].u32;
 
             if (source == 0)
-            {                
+            {
                 TrapVector(5);
             }
             else
@@ -1985,7 +1985,7 @@ namespace cpu.m68000
                 else
                 {
                     V = true;
-                }                
+                }
             }
             pendingCycles -= 158 + EACyclesBW[mode, reg];
         }

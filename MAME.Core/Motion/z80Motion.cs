@@ -1,8 +1,5 @@
 ﻿using cpu.z80;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MAME.Core.Common
 {
@@ -15,9 +12,8 @@ namespace MAME.Core.Common
         STEP3,
         STOP,
     }
-    public partial class z80Form
+    public partial class z80Motion
     {
-        private mainForm _myParentForm;
         private Disassembler disassembler;
         private bool bLogNew;
         public static int iStatus;
@@ -34,15 +30,15 @@ namespace MAME.Core.Common
         string mTx_tbShadowBC = string.Empty;
         string mTx_tbShadowDE = string.Empty;
         string mTx_tbShadowHL = string.Empty;
-        string mTx_tbI  = string.Empty;
-        string mTx_tbR  = string.Empty;
-        string mTx_tbIX  = string.Empty;
-        string mTx_tbIY  = string.Empty;
-        string mTx_tbSP  = string.Empty;
+        string mTx_tbI = string.Empty;
+        string mTx_tbR = string.Empty;
+        string mTx_tbIX = string.Empty;
+        string mTx_tbIY = string.Empty;
+        string mTx_tbSP = string.Empty;
         string mTx_tbRPC = string.Empty;
         string mTx_tbPPC = string.Empty;
-        string mTx_tbR2  = string.Empty;
-        string mTx_tbWZ  = string.Empty;
+        string mTx_tbR2 = string.Empty;
+        string mTx_tbWZ = string.Empty;
         string mTx_tbCycles = string.Empty;
         string mTx_tbDisassemble = string.Empty;
 
@@ -59,9 +55,8 @@ namespace MAME.Core.Common
             Z80A_STOP,
         }
         public static Z80AState z80State, z80FState;
-        public z80Form(mainForm form)
+        public z80Motion()
         {
-            this._myParentForm = form;
             disassembler = new Disassembler();
             Disassembler.GenerateOpcodeSizes();
         }

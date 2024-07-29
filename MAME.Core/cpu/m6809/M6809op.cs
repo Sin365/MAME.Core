@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using mame;
+﻿using mame;
 
 namespace cpu.m6809
 {
@@ -1713,13 +1709,13 @@ namespace cpu.m6809
         }
         void ldx_ex()
         {
-            X=EXTWORD();
+            X = EXTWORD();
             CLR_NZV();
             SET_NZ16(X.LowWord);
         }
         void ldy_ex()
         {
-            Y=EXTWORD();
+            Y = EXTWORD();
             CLR_NZV();
             SET_NZ16(Y.LowWord);
         }
@@ -1841,7 +1837,7 @@ namespace cpu.m6809
         }
         void ldd_im()
         {
-            D=IMMWORD();
+            D = IMMWORD();
             CLR_NZV();
             SET_NZ16(D.LowWord);
         }
@@ -2274,7 +2270,7 @@ namespace cpu.m6809
         }
         void ldd_ex()
         {
-            D=EXTWORD();
+            D = EXTWORD();
             CLR_NZV();
             SET_NZ16(D.LowWord);
         }
@@ -2287,13 +2283,13 @@ namespace cpu.m6809
         }
         void ldu_ex()
         {
-            U=EXTWORD();
+            U = EXTWORD();
             CLR_NZV();
             SET_NZ16(U.LowWord);
         }
         void lds_ex()
         {
-            S=EXTWORD();
+            S = EXTWORD();
             CLR_NZV();
             SET_NZ16(S.LowWord);
             int_state |= M6809_LDS;

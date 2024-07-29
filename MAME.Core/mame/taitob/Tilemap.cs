@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
     public partial class Taitob
-    {        
+    {
         public static Tmap bg_tilemap, fg_tilemap, tx_tilemap;
         public static void tilemap_init()
         {
@@ -20,7 +17,7 @@ namespace mame
             bg_tilemap.cols = 64;
             bg_tilemap.rows = 64;
             bg_tilemap.tilewidth = 16;
-            bg_tilemap.tileheight = 16;            
+            bg_tilemap.tileheight = 16;
             bg_tilemap.width = 0x400;
             bg_tilemap.height = 0x400;
             bg_tilemap.enable = true;
@@ -41,7 +38,7 @@ namespace mame
             bg_tilemap.colscroll = new int[bg_tilemap.scrollcols];
             bg_tilemap.tilemap_draw_instance3 = bg_tilemap.tilemap_draw_instanceTaitob;
             bg_tilemap.tile_update3 = bg_tilemap.tile_updateTaitobbg;
-            
+
             fg_tilemap = new Tmap();
             fg_tilemap.cols = 64;
             fg_tilemap.rows = 64;
@@ -68,7 +65,7 @@ namespace mame
             fg_tilemap.colscroll = new int[fg_tilemap.scrollcols];
             fg_tilemap.tilemap_draw_instance3 = fg_tilemap.tilemap_draw_instanceTaitob;
             fg_tilemap.tile_update3 = fg_tilemap.tile_updateTaitobfg;
-            
+
 
             tx_tilemap = new Tmap();
             tx_tilemap.cols = 64;
@@ -95,7 +92,7 @@ namespace mame
             tx_tilemap.rowscroll = new int[tx_tilemap.scrollrows];
             tx_tilemap.colscroll = new int[tx_tilemap.scrollcols];
             tx_tilemap.tilemap_draw_instance3 = tx_tilemap.tilemap_draw_instanceTaitob;
-            tx_tilemap.tile_update3 = tx_tilemap.tile_updateTaitobtx;            
+            tx_tilemap.tile_update3 = tx_tilemap.tile_updateTaitobtx;
         }
     }
     public partial class Tmap
@@ -218,7 +215,7 @@ namespace mame
             pen_data_offset = code * 0x100;
             palette_base = 0x10 * (Taitob.b_bg_color_base + (color & 0x3f));
             group = 0;
-            flags = (((color & 0x00c0) >> 6) & 0x03)^(attributes&0x03);
+            flags = (((color & 0x00c0) >> 6) & 0x03) ^ (attributes & 0x03);
             tileflags[row, col] = tile_drawTaitob(Taitob.gfx1rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
         public void tile_updateTaitobfg(int col, int row)
@@ -236,7 +233,7 @@ namespace mame
             pen_data_offset = code * 0x100;
             palette_base = 0x10 * (Taitob.b_fg_color_base + (color & 0x3f));
             group = 0;
-            flags = (((color & 0x00c0)>>6)&0x03)^(attributes & 0x03);
+            flags = (((color & 0x00c0) >> 6) & 0x03) ^ (attributes & 0x03);
             tileflags[row, col] = tile_drawTaitob(Taitob.gfx1rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
         public void tile_updateTaitobtx(int col, int row)
@@ -286,7 +283,7 @@ namespace mame
                 {
                     pen = pen_data[offset1];
                     map = pen_to_flags[group, pen];
-                    offset1++;                    
+                    offset1++;
                     pixmap[(offsety1 % width) * width + x0 + xoffs] = (ushort)(palette_base + pen);
                     flagsmap[offsety1 % width, x0 + xoffs] = map;
                     andmask &= map;

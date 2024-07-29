@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -127,7 +124,7 @@ namespace mame
         }
         public static void samples_start()
         {
-            int i;            
+            int i;
             info.numchannels = 1;
             info.channel = new sample_channel[info.numchannels];
             for (i = 0; i < info.numchannels; i++)
@@ -162,7 +159,7 @@ namespace mame
                     info.starthandler = null;
                     break;
             }
-            if (info.starthandler!=null)
+            if (info.starthandler != null)
             {
                 info.starthandler();
             }
@@ -170,7 +167,7 @@ namespace mame
         public static void SaveStateBinary(BinaryWriter writer)
         {
             int i;
-            for (i = 0; i < info.numchannels;i++)
+            for (i = 0; i < info.numchannels; i++)
             {
                 writer.Write(info.channel[i].source_length);
                 writer.Write(info.channel[i].source_num);

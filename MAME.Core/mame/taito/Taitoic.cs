@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -15,9 +12,9 @@ namespace mame
         public static int PC080SN_xoffs, PC080SN_yoffs;
         public static Tmap[][] PC080SN_tilemap;
         public static int PC080SN_yinvert, PC080SN_dblwidth;
-        public static ushort PC090OJ_ctrl,PC090OJ_buffer,PC090OJ_gfxnum;
+        public static ushort PC090OJ_ctrl, PC090OJ_buffer, PC090OJ_gfxnum;
         public static ushort PC090OJ_sprite_ctrl;
-        public static ushort[] PC090OJ_ram,PC090OJ_ram_buffered;
+        public static ushort[] PC090OJ_ram, PC090OJ_ram_buffered;
         public static int PC090OJ_xoffs, PC090OJ_yoffs;
         public static void taitoic_init()
         {
@@ -448,9 +445,9 @@ namespace mame
                     }
             }
         }
-        public static void PC080SN_xscroll_word_0_w(int offset,ushort data)
+        public static void PC080SN_xscroll_word_0_w(int offset, ushort data)
         {
-	        PC080SN_xscroll_word_w(0,offset,data);
+            PC080SN_xscroll_word_w(0, offset, data);
         }
         public static void PC080SN_xscroll_word_0_w1(int offset, byte data)
         {
@@ -460,9 +457,9 @@ namespace mame
         {
             PC080SN_xscroll_word_w2(0, offset, data);
         }
-        public static void PC080SN_xscroll_word_1_w(int offset,ushort data)
+        public static void PC080SN_xscroll_word_1_w(int offset, ushort data)
         {
-	        PC080SN_xscroll_word_w(1,offset,data);
+            PC080SN_xscroll_word_w(1, offset, data);
         }
         public static void PC080SN_xscroll_word_1_w1(int offset, byte data)
         {
@@ -472,9 +469,9 @@ namespace mame
         {
             PC080SN_xscroll_word_w2(1, offset, data);
         }
-        public static void PC080SN_yscroll_word_0_w(int offset,ushort data)
+        public static void PC080SN_yscroll_word_0_w(int offset, ushort data)
         {
-	        PC080SN_yscroll_word_w(0,offset,data);
+            PC080SN_yscroll_word_w(0, offset, data);
         }
         public static void PC080SN_yscroll_word_0_w1(int offset, byte data)
         {
@@ -484,9 +481,9 @@ namespace mame
         {
             PC080SN_yscroll_word_w2(0, offset, data);
         }
-        public static void PC080SN_yscroll_word_1_w(int offset,ushort data)
+        public static void PC080SN_yscroll_word_1_w(int offset, ushort data)
         {
-	        PC080SN_yscroll_word_w(1,offset,data);
+            PC080SN_yscroll_word_w(1, offset, data);
         }
         public static void PC080SN_yscroll_word_1_w1(int offset, byte data)
         {
@@ -510,7 +507,7 @@ namespace mame
         }
         public static void PC080SN_ctrl_word_1_w(int offset, ushort data)
         {
-	        PC080SN_ctrl_word_w(1,offset,data);
+            PC080SN_ctrl_word_w(1, offset, data);
         }
         public static void PC080SN_ctrl_word_1_w1(int offset, byte data)
         {
@@ -588,7 +585,7 @@ namespace mame
             }
             if (offset == 0xdff)
             {
-                PC090OJ_ctrl = (ushort)((data << 8) | (PC090OJ_ctrl&0xff));
+                PC090OJ_ctrl = (ushort)((data << 8) | (PC090OJ_ctrl & 0xff));
             }
         }
         public static void PC090OJ_word_w2(int offset, byte data)
@@ -660,7 +657,7 @@ namespace mame
                 }
                 x += PC090OJ_xoffs;
                 y += PC090OJ_yoffs;
-                Drawgfx.common_drawgfx_opwolf(gfx2rom, code, color, flipx, flipy, x, y, cliprect,(uint)((priority != 0 ? 0xfc : 0xf0) | (1 << 31)));
+                Drawgfx.common_drawgfx_opwolf(gfx2rom, code, color, flipx, flipy, x, y, cliprect, (uint)((priority != 0 ? 0xfc : 0xf0) | (1 << 31)));
             }
         }
     }

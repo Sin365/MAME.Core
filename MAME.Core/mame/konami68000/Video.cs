@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -12,7 +8,7 @@ namespace mame
         private static int sprite_colorbase, bg_colorbase;
         private static int priorityflag;
         private static int dim_c, dim_v;
-        private static int lastdim, lasten,last;
+        private static int lastdim, lasten, last;
         private static int[] layerpri, sorted_layer;
         private static int blswhstl_rombank, glfgreat_pixel;
         private static int glfgreat_roz_rom_bank, glfgreat_roz_char_bank, glfgreat_roz_rom_mode, prmrsocr_sprite_bank;
@@ -54,10 +50,10 @@ namespace mame
         public static void blswhstl_tile_callback(int layer, int bank, int code, int color, int flags, int priority, out int code2, out int color2, out int flags2)
         {
             flags2 = flags;
-            code2 = code| ((color & 0x01) << 8) | ((color & 0x10) << 5) | ((color & 0x0c) << 8) | (bank << 12) | blswhstl_rombank << 14;
+            code2 = code | ((color & 0x01) << 8) | ((color & 0x10) << 5) | ((color & 0x0c) << 8) | (bank << 12) | blswhstl_rombank << 14;
             color2 = layer_colorbase[layer] + ((color & 0xe0) >> 5);
         }
-        public static void mia_sprite_callback(int code, int color, int priority, int shadow, out int code2, out int color2,out int priority2)
+        public static void mia_sprite_callback(int code, int color, int priority, int shadow, out int code2, out int color2, out int priority2)
         {
             code2 = code;
             color2 = sprite_colorbase + (color & 0x0f);
@@ -91,7 +87,7 @@ namespace mame
             code2 = code | ((color & 0x10) << 9);
             color2 = sprite_colorbase + (color & 0x0f);
         }
-        public static void thndrx2_sprite_callback(int code, int color,int proority,int shadow,out int code2,out int color2,out int priority_mask)
+        public static void thndrx2_sprite_callback(int code, int color, int proority, int shadow, out int code2, out int color2, out int priority_mask)
         {
             int pri = 0x20 | ((color & 0x60) >> 2);
             if (pri <= layerpri[2])
@@ -113,7 +109,7 @@ namespace mame
             code2 = code;
             color2 = sprite_colorbase + (color & 0x0f);
         }
-        public static void lgtnfght_sprite_callback(int code, int color,out int code2, out int color2, out int priority_mask)
+        public static void lgtnfght_sprite_callback(int code, int color, out int code2, out int color2, out int priority_mask)
         {
             int pri = 0x20 | ((color & 0x60) >> 2);
             if (pri <= layerpri[2])
@@ -201,7 +197,7 @@ namespace mame
             K052109_vh_start();
             K053245_vh_start();
             K05324x_set_z_rejection(0);
-            dim_c = dim_v = lastdim = lasten = 0;            
+            dim_c = dim_v = lastdim = lasten = 0;
         }
         public static void video_start_blswhstl()
         {
@@ -259,7 +255,7 @@ namespace mame
         public static void tmnt_paletteram_word_w1(int offset, byte data)
         {
             ushort data1;
-            Generic.paletteram16[offset] = (ushort)((data<<8) | (Generic.paletteram16[offset]&0xff));
+            Generic.paletteram16[offset] = (ushort)((data << 8) | (Generic.paletteram16[offset] & 0xff));
             offset &= ~1;
             data1 = (ushort)((Generic.paletteram16[offset] << 8) | Generic.paletteram16[offset + 1]);
             Palette.palette_set_callback(offset / 2, Palette.make_rgb(Palette.pal5bit((byte)(data1 >> 0)), Palette.pal5bit((byte)(data1 >> 5)), Palette.pal5bit((byte)(data1 >> 10))));
@@ -267,7 +263,7 @@ namespace mame
         public static void tmnt_paletteram_word_w2(int offset, byte data)
         {
             ushort data1;
-            Generic.paletteram16[offset] = (ushort)((Generic.paletteram16[offset]&0xff00)|data);
+            Generic.paletteram16[offset] = (ushort)((Generic.paletteram16[offset] & 0xff00) | data);
             offset &= ~1;
             data1 = (ushort)((Generic.paletteram16[offset] << 8) | Generic.paletteram16[offset + 1]);
             Palette.palette_set_callback(offset / 2, Palette.make_rgb(Palette.pal5bit((byte)(data1 >> 0)), Palette.pal5bit((byte)(data1 >> 5)), Palette.pal5bit((byte)(data1 >> 10))));
@@ -332,16 +328,16 @@ namespace mame
         public static void lgtnfght_0a0018_w(ushort data)
         {
             //if (ACCESSING_BITS_0_7)
-	        {
+            {
                 //coin_counter_w(0,data & 0x01);
-		        //coin_counter_w(1,data & 0x02);
-		        if (last == 0x00 && (data & 0x04) == 0x04)
+                //coin_counter_w(1,data & 0x02);
+                if (last == 0x00 && (data & 0x04) == 0x04)
                 {
-			        Cpuint.cpunum_set_input_line(1,0,LineState.HOLD_LINE);
+                    Cpuint.cpunum_set_input_line(1, 0, LineState.HOLD_LINE);
                 }
-		        last = data & 0x04;
-		        K052109_set_RMRD_line((data & 0x08)!=0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
-	        }
+                last = data & 0x04;
+                K052109_set_RMRD_line((data & 0x08) != 0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
+            }
         }
         public static void lgtnfght_0a0018_w2(byte data)
         {
@@ -459,7 +455,7 @@ namespace mame
             {
                 //coin_counter_w(0,data & 0x01);
                 //coin_counter_w(1,data & 0x02);
-                K052109_set_RMRD_line((data & 0x10)!=0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
+                K052109_set_RMRD_line((data & 0x10) != 0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
                 prmrsocr_sprite_bank = (data & 0x40) >> 6;
                 K053244_bankselect(0, prmrsocr_sprite_bank << 2);
                 glfgreat_roz_char_bank = (data & 0x80) >> 7;

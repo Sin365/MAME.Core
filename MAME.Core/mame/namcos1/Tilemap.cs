@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -72,9 +69,9 @@ namespace mame
         {
             int x0 = tilewidth * col;
             int y0 = tileheight * row;
-            int code, tile_index,col2,row2;
+            int code, tile_index, col2, row2;
             byte flags;
-            if ((attributes & Tilemap.TILEMAP_FLIPX)!=0)
+            if ((attributes & Tilemap.TILEMAP_FLIPX) != 0)
             {
                 col2 = (cols - 1) - col;
             }
@@ -82,7 +79,7 @@ namespace mame
             {
                 col2 = col;
             }
-            if ((attributes & Tilemap.TILEMAP_FLIPY)!=0)
+            if ((attributes & Tilemap.TILEMAP_FLIPY) != 0)
             {
                 row2 = (rows - 1) - row;
             }
@@ -93,10 +90,10 @@ namespace mame
             tile_index = (row2 * cols + col2) << 1;
             code = Namcos1.namcos1_videoram[videoram_offset + tile_index + 1] + ((Namcos1.namcos1_videoram[videoram_offset + tile_index] & 0x3f) << 8);
             flags = (byte)(attributes & 0x03);
-            tileflags[row, col] = tile_drawNa(code * 0x40, x0, y0, 0x800,flags);
-            tileflags[row, col] = tile_apply_bitmaskNa(code << 3, x0, y0,flags);
+            tileflags[row, col] = tile_drawNa(code * 0x40, x0, y0, 0x800, flags);
+            tileflags[row, col] = tile_apply_bitmaskNa(code << 3, x0, y0, flags);
         }
-        public byte tile_drawNa(int pendata_offset, int x0, int y0, int palette_base,byte flags)
+        public byte tile_drawNa(int pendata_offset, int x0, int y0, int palette_base, byte flags)
         {
             int height = tileheight;
             int width = tilewidth;
@@ -104,12 +101,12 @@ namespace mame
             int tx, ty;
             int offset1 = pendata_offset;
             int offsety1;
-            if ((flags & Tilemap.TILE_FLIPY)!=0)
+            if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += height - 1;
                 dy0 = -1;
             }
-            if ((flags & Tilemap.TILE_FLIPX)!=0)
+            if ((flags & Tilemap.TILE_FLIPX) != 0)
             {
                 x0 += width - 1;
                 dx0 = -1;
@@ -145,7 +142,7 @@ namespace mame
                 y0 += height - 1;
                 dy0 = -1;
             }
-            if ((flags & Tilemap.TILE_FLIPX)!=0)
+            if ((flags & Tilemap.TILE_FLIPX) != 0)
             {
                 x0 += width - 1;
                 dx0 = -1;

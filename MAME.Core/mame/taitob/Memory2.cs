@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Taitob
     {
@@ -212,12 +207,12 @@ namespace mame
                     result = 0;
                 }
             }
-            else if (address >= 0x300000 && address+1 <= 0x301fff)
+            else if (address >= 0x300000 && address + 1 <= 0x301fff)
             {
                 int offset = (address - 0x300000) / 2;
                 result = (short)Generic.paletteram16[offset];
             }
-            else if (address >= 0x400000 && address+1 <= 0x403fff)
+            else if (address >= 0x400000 && address + 1 <= 0x403fff)
             {
                 result = (short)(Memory.mainram[address - 0x400000] * 0x100 + Memory.mainram[address - 0x400000 + 1]);
             }
@@ -261,7 +256,7 @@ namespace mame
             }
             else if (address >= 0x230000 && address + 1 <= 0x230001)
             {
-                result = (short) sbyte5;
+                result = (short)sbyte5;
             }
             else if (address >= 0x300000 && address + 1 <= 0x301fff)
             {
@@ -270,7 +265,7 @@ namespace mame
             }
             else if (address >= 0x400000 && address + 1 <= 0x403fff)
             {
-                result = (short)(Memory.mainram[address - 0x400000]*0x100+Memory.mainram[address-0x400000+1]);
+                result = (short)(Memory.mainram[address - 0x400000] * 0x100 + Memory.mainram[address - 0x400000 + 1]);
             }
             else if (address >= 0x500000 && address + 1 <= 0x50ffff)
             {
@@ -284,7 +279,7 @@ namespace mame
             }
             else if (address >= 0x511980 && address + 1 <= 0x5137ff)
             {
-                result = (short)(mainram2[address - 0x511980]*0x100+mainram2[address-0x511980+1]);
+                result = (short)(mainram2[address - 0x511980] * 0x100 + mainram2[address - 0x511980 + 1]);
             }
             else if (address >= 0x513800 && address + 1 <= 0x513fff)
             {
@@ -351,7 +346,7 @@ namespace mame
             }
             else if (address >= 0x300000 && address + 1 <= 0x301fff)
             {
-                int offset=(address-0x300000)/2;
+                int offset = (address - 0x300000) / 2;
                 result = (int)(Generic.paletteram16[offset] * 0x10000 + Generic.paletteram16[offset + 1]);
             }
             else if (address >= 0x400000 && address + 1 <= 0x403fff)
@@ -361,12 +356,12 @@ namespace mame
             else if (address >= 0x500000 && address + 1 <= 0x50ffff)
             {
                 int offset = (address - 0x500000) / 2;
-                result = (int)(TC0180VCU_word_r(offset)*0x10000+TC0180VCU_word_r(offset+1));
+                result = (int)(TC0180VCU_word_r(offset) * 0x10000 + TC0180VCU_word_r(offset + 1));
             }
             else if (address >= 0x510000 && address + 1 <= 0x51197f)
             {
                 int offset = (address - 0x510000) / 2;
-                result = (int)(taitob_spriteram[offset]*0x10000+taitob_spriteram[offset+1]);
+                result = (int)(taitob_spriteram[offset] * 0x10000 + taitob_spriteram[offset + 1]);
             }
             else if (address >= 0x511980 && address + 1 <= 0x5137ff)
             {
@@ -375,12 +370,12 @@ namespace mame
             else if (address >= 0x513800 && address + 1 <= 0x513fff)
             {
                 int offset = (address - 0x513800) / 2;
-                result = (int)(taitob_scroll[offset]*0x10000+taitob_scroll[offset+1]);
+                result = (int)(taitob_scroll[offset] * 0x10000 + taitob_scroll[offset + 1]);
             }
             else if (address >= 0x518000 && address + 1 <= 0x51801f)
             {
                 int offset = (address - 0x518000) / 2;
-                result = (int)(taitob_v_control_r(offset)*0x10000+taitob_v_control_r(offset+1));
+                result = (int)(taitob_v_control_r(offset) * 0x10000 + taitob_v_control_r(offset + 1));
             }
             else if (address >= 0x540000 && address + 1 <= 0x57ffff)
             {

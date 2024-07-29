@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using mame;
+using System;
 using System.IO;
-using mame;
 
 namespace cpu.m6800
 {
@@ -178,24 +174,24 @@ namespace cpu.m6800
         {
             m6800_insn = new Action[256]
             {
-                illegal,nop,	illegal,illegal,illegal,illegal,tap,	tpa,
-                inx,	dex,	clv,	sev,	clc,	sec,	cli,	sei,
-                sba,	cba,	illegal,illegal,illegal,illegal,tab,	tba,
-                illegal,daa,	illegal,aba,	illegal,illegal,illegal,illegal,
-                bra,	brn,	bhi,	bls,	bcc,	bcs,	bne,	beq,
-                bvc,	bvs,	bpl,	bmi,	bge,	blt,	bgt,	ble,
-                tsx,	ins,	pula,	pulb,	des,	txs,	psha,	pshb,
-                illegal,rts,	illegal,rti,	illegal,illegal,wai,	swi,
-                nega,	illegal,illegal,coma,	lsra,	illegal,rora,	asra,
-                asla,	rola,	deca,	illegal,inca,	tsta,	illegal,clra,
-                negb,	illegal,illegal,comb,	lsrb,	illegal,rorb,	asrb,
-                aslb,	rolb,	decb,	illegal,incb,	tstb,	illegal,clrb,
+                illegal,nop,    illegal,illegal,illegal,illegal,tap,    tpa,
+                inx,    dex,    clv,    sev,    clc,    sec,    cli,    sei,
+                sba,    cba,    illegal,illegal,illegal,illegal,tab,    tba,
+                illegal,daa,    illegal,aba,    illegal,illegal,illegal,illegal,
+                bra,    brn,    bhi,    bls,    bcc,    bcs,    bne,    beq,
+                bvc,    bvs,    bpl,    bmi,    bge,    blt,    bgt,    ble,
+                tsx,    ins,    pula,   pulb,   des,    txs,    psha,   pshb,
+                illegal,rts,    illegal,rti,    illegal,illegal,wai,    swi,
+                nega,   illegal,illegal,coma,   lsra,   illegal,rora,   asra,
+                asla,   rola,   deca,   illegal,inca,   tsta,   illegal,clra,
+                negb,   illegal,illegal,comb,   lsrb,   illegal,rorb,   asrb,
+                aslb,   rolb,   decb,   illegal,incb,   tstb,   illegal,clrb,
                 neg_ix, illegal,illegal,com_ix, lsr_ix, illegal,ror_ix, asr_ix,
                 asl_ix, rol_ix, dec_ix, illegal,inc_ix, tst_ix, jmp_ix, clr_ix,
                 neg_ex, illegal,illegal,com_ex, lsr_ex, illegal,ror_ex, asr_ex,
                 asl_ex, rol_ex, dec_ex, illegal,inc_ex, tst_ex, jmp_ex, clr_ex,
                 suba_im,cmpa_im,sbca_im,illegal,anda_im,bita_im,lda_im, sta_im,
-                eora_im,adca_im,ora_im, adda_im,cmpx_im,bsr,	lds_im, sts_im,
+                eora_im,adca_im,ora_im, adda_im,cmpx_im,bsr,    lds_im, sts_im,
                 suba_di,cmpa_di,sbca_di,illegal,anda_di,bita_di,lda_di, sta_di,
                 eora_di,adca_di,ora_di, adda_di,cmpx_di,jsr_di, lds_di, sts_di,
                 suba_ix,cmpa_ix,sbca_ix,illegal,anda_ix,bita_ix,lda_ix, sta_ix,
@@ -211,26 +207,26 @@ namespace cpu.m6800
                 subb_ex,cmpb_ex,sbcb_ex,illegal,andb_ex,bitb_ex,ldb_ex, stb_ex,
                 eorb_ex,adcb_ex,orb_ex, addb_ex,illegal,illegal,ldx_ex, stx_ex
             };
-            hd63701_insn=new Action[]
+            hd63701_insn = new Action[]
             {
-                trap,   nop,	trap	,trap	,lsrd,	asld,	tap,	tpa,
-                inx,	dex,	clv,	sev,	clc,	sec,	cli,	sei,
-                sba,	cba,	undoc1, undoc2, trap	,trap	,tab,	tba,
-                xgdx,	daa,	slp		,aba,	trap	,trap	,trap	,trap	,
-                bra,	brn,	bhi,	bls,	bcc,	bcs,	bne,	beq,
-                bvc,	bvs,	bpl,	bmi,	bge,	blt,	bgt,	ble,
-                tsx,	ins,	pula,	pulb,	des,	txs,	psha,	pshb,
-                pulx,	rts,	abx,	rti,	pshx,	mul,	wai,	swi,
-                nega,	trap	,trap	,coma,	lsra,	trap	,rora,	asra,
-                asla,	rola,	deca,	trap	,inca,	tsta,	trap	,clra,
-                negb,	trap	,trap	,comb,	lsrb,	trap	,rorb,	asrb,
-                aslb,	rolb,	decb,	trap	,incb,	tstb,	trap	,clrb,
+                trap,   nop,    trap    ,trap   ,lsrd,  asld,   tap,    tpa,
+                inx,    dex,    clv,    sev,    clc,    sec,    cli,    sei,
+                sba,    cba,    undoc1, undoc2, trap    ,trap   ,tab,   tba,
+                xgdx,   daa,    slp     ,aba,   trap    ,trap   ,trap   ,trap   ,
+                bra,    brn,    bhi,    bls,    bcc,    bcs,    bne,    beq,
+                bvc,    bvs,    bpl,    bmi,    bge,    blt,    bgt,    ble,
+                tsx,    ins,    pula,   pulb,   des,    txs,    psha,   pshb,
+                pulx,   rts,    abx,    rti,    pshx,   mul,    wai,    swi,
+                nega,   trap    ,trap   ,coma,  lsra,   trap    ,rora,  asra,
+                asla,   rola,   deca,   trap    ,inca,  tsta,   trap    ,clra,
+                negb,   trap    ,trap   ,comb,  lsrb,   trap    ,rorb,  asrb,
+                aslb,   rolb,   decb,   trap    ,incb,  tstb,   trap    ,clrb,
                 neg_ix, aim_ix, oim_ix, com_ix, lsr_ix, eim_ix, ror_ix, asr_ix,
                 asl_ix, rol_ix, dec_ix, tim_ix, inc_ix, tst_ix, jmp_ix, clr_ix,
                 neg_ex, aim_di, oim_di, com_ex, lsr_ex, eim_di, ror_ex, asr_ex,
                 asl_ex, rol_ex, dec_ex, tim_di, inc_ex, tst_ex, jmp_ex, clr_ex,
                 suba_im,cmpa_im,sbca_im,subd_im,anda_im,bita_im,lda_im, sta_im,
-                eora_im,adca_im,ora_im, adda_im,cpx_im ,bsr,	lds_im, sts_im,
+                eora_im,adca_im,ora_im, adda_im,cpx_im ,bsr,    lds_im, sts_im,
                 suba_di,cmpa_di,sbca_di,subd_di,anda_di,bita_di,lda_di, sta_di,
                 eora_di,adca_di,ora_di, adda_di,cpx_di ,jsr_di, lds_di, sts_di,
                 suba_ix,cmpa_ix,sbca_ix,subd_ix,anda_ix,bita_ix,lda_ix, sta_ix,
@@ -353,9 +349,9 @@ namespace cpu.m6800
                 if (irq_state[0] != (byte)LineState.CLEAR_LINE)
                 {
                     ENTER_INTERRUPT(0xfff8);
-                    if( irq_callback!=null )
+                    if (irq_callback != null)
                     {
-				        irq_callback(0);
+                        irq_callback(0);
                     }
                 }
                 else
@@ -921,7 +917,7 @@ namespace cpu.m6800
             do
             {
                 int prevCycles = pendingCycles;
-                if ((wai_state & (M6800_WAI | M6800_SLP))!=0)
+                if ((wai_state & (M6800_WAI | M6800_SLP)) != 0)
                 {
                     EAT_CYCLES();
                 }
@@ -931,7 +927,7 @@ namespace cpu.m6800
                     //debugger_instruction_hook(Machine, PCD);                    
                     ireg = ReadOp(PC.LowWord);
                     PC.LowWord++;
-                    insn[ireg]();                    
+                    insn[ireg]();
                     INCREMENT_COUNTER(this.cycles[ireg]);
                     int delta = prevCycles - pendingCycles;
                     totalExecutedCycles += (ulong)delta;
@@ -1042,7 +1038,7 @@ namespace cpu.m6800
         }
         private void m6803_internal_registers_w(int offset, byte data)
         {
-            int latch09=0;
+            int latch09 = 0;
             switch (offset)
             {
                 case 0x00:
@@ -1385,6 +1381,6 @@ namespace cpu.m6800
             INCREMENT_COUNTER(extra_cycles);
             extra_cycles = 0;
             return cycles - pendingCycles;
-        }        
+        }
     }
 }

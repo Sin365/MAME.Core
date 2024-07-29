@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public class Memory
     {
@@ -116,7 +111,7 @@ namespace mame
                         case "sboblbobl":
                             Taito.sbyte0 = unchecked((sbyte)0x73);
                             break;
-                        case"opwolf":
+                        case "opwolf":
                             Taito.sbyte0 = unchecked((sbyte)0xfc);
                             break;
                         case "opwolfp":
@@ -190,7 +185,7 @@ namespace mame
                             Capcom.sbyte1 = 0;
                             Capcom.sbyte2 = 0;
                             Capcom.sbyte3 = 0;
-                            Capcom.sbyte4 = 0;                            
+                            Capcom.sbyte4 = 0;
                             break;
                     }
                     break;
@@ -321,7 +316,7 @@ namespace mame
                             Capcom.sbyte1_old = 0;
                             Capcom.sbyte2_old = 0;
                             Capcom.sbyte3_old = 0;
-                            Capcom.sbyte4_old = 0;                            
+                            Capcom.sbyte4_old = 0;
                             break;
                     }
                     break;

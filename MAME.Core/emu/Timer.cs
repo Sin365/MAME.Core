@@ -1,9 +1,7 @@
-﻿using System;
+﻿using cpu.m6800;
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
-using cpu.m6800;
 
 namespace mame
 {

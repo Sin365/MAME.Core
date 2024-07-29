@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -31,7 +27,7 @@ namespace mame
             {
                 int offset = address - 0xb0ffa;
                 Array.Copy(airduelm72_code, protection_ram, 96);
-                result= protection_ram[0xffa + offset];
+                result = protection_ram[0xffa + offset];
             }
             else if (address >= 0xb0000 && address <= 0xb0fff)
             {
@@ -104,7 +100,7 @@ namespace mame
         }
         public static void NWriteIOWord_m72_airduel(int address, ushort data)
         {
-            if (address >= 0xc0 && address+1 <= 0xc1)
+            if (address >= 0xc0 && address + 1 <= 0xc1)
             {
                 airduelm72_sample_trigger_w((byte)data);
             }

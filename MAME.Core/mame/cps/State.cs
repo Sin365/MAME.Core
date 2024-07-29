@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
 using cpu.z80;
+using System.IO;
 
 namespace mame
 {
@@ -157,7 +153,7 @@ namespace mame
             writer.Write(scancount);
             writer.Write(cps1_scanline1);
             writer.Write(cps1_scanline2);
-            writer.Write(cps1_scancalls);            
+            writer.Write(cps1_scancalls);
             for (i = 0; i < 0xc00; i++)
             {
                 writer.Write(Palette.entry_color[i]);
@@ -334,11 +330,11 @@ namespace mame
                 cps2_output[i] = reader.ReadUInt16();
             }
             cps2networkpresent = reader.ReadInt32();
-            cps2_objram_bank= reader.ReadInt32();
-            scancount= reader.ReadInt32();
-            cps1_scanline1= reader.ReadInt32();
-            cps1_scanline2= reader.ReadInt32();
-            cps1_scancalls= reader.ReadInt32();
+            cps2_objram_bank = reader.ReadInt32();
+            scancount = reader.ReadInt32();
+            cps1_scanline1 = reader.ReadInt32();
+            cps1_scanline2 = reader.ReadInt32();
+            cps1_scancalls = reader.ReadInt32();
             for (i = 0; i < 0xc00; i++)
             {
                 Palette.entry_color[i] = reader.ReadUInt32();

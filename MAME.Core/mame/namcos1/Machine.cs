@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -173,7 +169,7 @@ namespace mame
         public static void namcos1_watchdog_w()
         {
             wdog |= 1 << Cpuexec.activecpu;
-            if (wdog == 7 || (namcos1_reset==0))
+            if (wdog == 7 || (namcos1_reset == 0))
             {
                 wdog = 0;
                 Generic.watchdog_reset_w();
@@ -208,17 +204,17 @@ namespace mame
         public static void namcos1_bankswitch(int cpu, int offset, byte data)
         {
             int reg = (offset >> 9) & 0x7;
-            if ((offset & 1)!=0)
+            if ((offset & 1) != 0)
             {
-                cus117_offset[cpu,reg] = (cus117_offset[cpu,reg] & 0x600000) | (data * 0x2000);
+                cus117_offset[cpu, reg] = (cus117_offset[cpu, reg] & 0x600000) | (data * 0x2000);
             }
             else
             {
-                cus117_offset[cpu,reg] = (cus117_offset[cpu,reg] & 0x1fe000) | ((data & 0x03) * 0x200000);
+                cus117_offset[cpu, reg] = (cus117_offset[cpu, reg] & 0x1fe000) | ((data & 0x03) * 0x200000);
             }
-            if (cus117_offset[cpu,reg] >= 0x400000 && cus117_offset[cpu,reg] <= 0x7fffff)
+            if (cus117_offset[cpu, reg] >= 0x400000 && cus117_offset[cpu, reg] <= 0x7fffff)
             {
-                user1rom_offset[cpu,reg] = cus117_offset[cpu,reg] - 0x400000;
+                user1rom_offset[cpu, reg] = cus117_offset[cpu, reg] - 0x400000;
             }
         }
         public static void namcos1_bankswitch_w(int offset, byte data)
@@ -227,25 +223,25 @@ namespace mame
         }
         public static void namcos1_subcpu_bank_w(byte data)
         {
-            cus117_offset[1,7] = 0x600000 | (data * 0x2000);
-            user1rom_offset[1,7] = cus117_offset[1,7] - 0x400000;
+            cus117_offset[1, 7] = 0x600000 | (data * 0x2000);
+            user1rom_offset[1, 7] = cus117_offset[1, 7] - 0x400000;
         }
         public static void machine_reset_namcos1()
         {
-            cus117_offset[0,0] = 0x0180 * 0x2000;
-            cus117_offset[0,1] = 0x0180 * 0x2000;
-            cus117_offset[0,7] = 0x03ff * 0x2000;
-            cus117_offset[1,0] = 0x0180 * 0x2000;
-            cus117_offset[1,7] = 0x03ff * 0x2000;
-            user1rom_offset[0,7] = cus117_offset[0,7] - 0x400000;
-            user1rom_offset[1,7] = cus117_offset[1,7] - 0x400000;
+            cus117_offset[0, 0] = 0x0180 * 0x2000;
+            cus117_offset[0, 1] = 0x0180 * 0x2000;
+            cus117_offset[0, 7] = 0x03ff * 0x2000;
+            cus117_offset[1, 0] = 0x0180 * 0x2000;
+            cus117_offset[1, 7] = 0x03ff * 0x2000;
+            user1rom_offset[0, 7] = cus117_offset[0, 7] - 0x400000;
+            user1rom_offset[1, 7] = cus117_offset[1, 7] - 0x400000;
             Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_RESET, LineState.ASSERT_LINE);
             Cpuint.cpunum_set_input_line(2, (int)LineState.INPUT_LINE_RESET, LineState.ASSERT_LINE);
             Cpuint.cpunum_set_input_line(3, (int)LineState.INPUT_LINE_RESET, LineState.ASSERT_LINE);
             mcu_patch_data = 0;
             namcos1_reset = 0;
             namcos1_init_DACs();
-            int i,j;
+            int i, j;
             for (i = 0; i < 8; i++)
             {
                 key[i] = 0;
@@ -254,7 +250,7 @@ namespace mame
             {
                 for (j = 0; j < 8; j++)
                 {
-                    cus117_offset[i,j] = 0;
+                    cus117_offset[i, j] = 0;
                 }
             }
             wdog = 0;
@@ -432,8 +428,8 @@ namespace mame
                     namcos1_driver_init(new namcos1_specific(311, 2, 3, 0, -1, 4, -1));
                     break;
                 case "puzlclub":
-                    key_r= key_type1_r;
-                    key_w=key_type1_w;
+                    key_r = key_type1_r;
+                    key_w = key_type1_w;
                     namcos1_driver_init(new namcos1_specific(0x35, 0, 0, 0, 0, 0, 0));
                     break;
                 case "tankfrce":

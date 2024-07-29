@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -65,9 +62,9 @@ namespace mame
         public static void k054539_update(int offset, int length)
         {
             short[] dpcm = new short[16] {
-		        0<<8, 1<<8, 4<<8, 9<<8, 16<<8, 25<<8, 36<<8, 49<<8,
-		        -64<<8, -49<<8, -36<<8, -25<<8, -16<<8, -9<<8, -4<<8, -1<<8
-	        };
+                0<<8, 1<<8, 4<<8, 9<<8, 16<<8, 25<<8, 36<<8, 49<<8,
+                -64<<8, -49<<8, -36<<8, -25<<8, -16<<8, -9<<8, -4<<8, -1<<8
+            };
             int j, ch, reverb_pos;
             byte[] samples;
             int rom_mask;

@@ -288,7 +288,7 @@ namespace mame
             else
             {
                 short1 |= 0x10;
-            }            
+            }
             if (Keyboard.IsPressed(Key.Right))
             {
                 short1 &= ~0x0100;
@@ -592,7 +592,7 @@ namespace mame
             else
             {
                 sbyte0 |= 0x20;
-            }            
+            }
             if (Keyboard.IsPressed(Key.J))
             {
                 short1 &= ~0x10;
@@ -624,7 +624,7 @@ namespace mame
             else
             {
                 short1 |= 0x80;
-            }            
+            }
             if (Keyboard.IsPressed(Key.NumPad1))
             {
                 short1 &= ~0x1000;
@@ -1201,7 +1201,7 @@ namespace mame
             else
             {
                 short0 |= 0x0040;
-            }            
+            }
             if (Keyboard.IsPressed(Key.Right))
             {
                 short0 &= ~0x0100;
@@ -1310,7 +1310,7 @@ namespace mame
             else
             {
                 short2 |= 0x0200;
-            }            
+            }
             if (Keyboard.IsPressed(Key.J))
             {
                 short0 &= ~0x0008;
@@ -1399,7 +1399,7 @@ namespace mame
                 sbyte0_old = sbyte0;
                 short1_old = short1;
                 short2_old = short2;
-                sbyte3_old = sbyte3;               
+                sbyte3_old = sbyte3;
                 Mame.bwRecord.Write(Video.screenstate.frame_number);
                 Mame.bwRecord.Write(sbyte0);
                 Mame.bwRecord.Write(short1);

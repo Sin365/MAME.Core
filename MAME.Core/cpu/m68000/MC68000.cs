@@ -1,9 +1,8 @@
-﻿using System;
-using System.Runtime.InteropServices;
-using System.IO;
+﻿using mame;
+using System;
 using System.Globalization;
-using System.Collections.Generic;
-using mame;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace cpu.m68000
 {
@@ -72,14 +71,14 @@ namespace cpu.m68000
                     return;
                 if (value == true) // entering supervisor mode
                 {
-                    //Console.WriteLine("&^&^&^&^& ENTER SUPERVISOR MODE");
+                    //EmuLogger.Log("&^&^&^&^& ENTER SUPERVISOR MODE");
                     usp = A[7].s32;
                     A[7].s32 = ssp;
                     s = true;
                 }
                 else
                 { // exiting supervisor mode
-                    //Console.WriteLine("&^&^&^&^& LEAVE SUPERVISOR MODE");
+                    //EmuLogger.Log("&^&^&^&^& LEAVE SUPERVISOR MODE");
                     ssp = A[7].s32;
                     A[7].s32 = usp;
                     s = false;
@@ -149,7 +148,7 @@ namespace cpu.m68000
                 N = (value & 0x0008) != 0;
                 X = (value & 0x0010) != 0;
             }
-        }        
+        }
         public int Interrupt { get; set; }
 
         // Memory Access        
@@ -176,7 +175,7 @@ namespace cpu.m68000
         }
         public override void set_irq_line(int irqline, LineState state)
         {
-            if (irqline ==(int)LineState.INPUT_LINE_NMI)
+            if (irqline == (int)LineState.INPUT_LINE_NMI)
                 irqline = 7;
             switch (state)
             {
@@ -212,12 +211,12 @@ namespace cpu.m68000
 
         public void Step()
         {
-            //Console.WriteLine(Disassemble(PC));
+            //EmuLogger.Log(Disassemble(PC));
 
-            op = (ushort)ReadOpWord(PC);PC += 2;
+            op = (ushort)ReadOpWord(PC); PC += 2;
             Opcodes[op]();
         }
-        
+
         public override int ExecuteCycles(int cycles)
         {
             if (!stopped)
@@ -410,7 +409,7 @@ namespace cpu.m68000
 
                 else
                 {
-                    //Console.WriteLine("Skipping unrecognized identifier " + args[0]);
+                    //EmuLogger.Log("Skipping unrecognized identifier " + args[0]);
                 }
             }
         }

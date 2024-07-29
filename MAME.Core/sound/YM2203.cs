@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -52,7 +48,7 @@ namespace mame
             FF2203[sndindex].OPN.type = FM.TYPE_YM2203;
             FF2203[sndindex].OPN.ST.clock = clock;
             FF2203[sndindex].OPN.ST.rate = rate;
-            FF2203[sndindex].OPN.ST.timer_handler = FF2203[sndindex].timer_handler;            
+            FF2203[sndindex].OPN.ST.timer_handler = FF2203[sndindex].timer_handler;
             switch (Machine.sBoard)
             {
                 case "Data East":
@@ -100,7 +96,7 @@ namespace mame
                             FF2203[sndindex].OPN.ST.IRQ_Handler = Taito.irqhandler;
                             FF2203[sndindex].OPN.ST.SSG.set_clock = AY8910.AA8910[sndindex].ay8910_set_clock_ym;
                             FF2203[sndindex].OPN.ST.SSG.write = AY8910.AA8910[sndindex].ay8910_write_ym;
-                            FF2203[sndindex].OPN.ST.SSG.read= AY8910.AA8910[sndindex].ay8910_read_ym;
+                            FF2203[sndindex].OPN.ST.SSG.read = AY8910.AA8910[sndindex].ay8910_read_ym;
                             FF2203[sndindex].OPN.ST.SSG.reset = AY8910.AA8910[sndindex].ay8910_reset_ym;
                             break;
                     }
@@ -160,11 +156,11 @@ namespace mame
         }
         public static byte ym2203_status_port_0_r()
         {
-            return FF2203[0].ym2203_read(0,0);
+            return FF2203[0].ym2203_read(0, 0);
         }
         public static byte ym2203_read_port_0_r()
         {
-            return FF2203[0].ym2203_read(0,1);
+            return FF2203[0].ym2203_read(0, 1);
         }
         public static void ym2203_control_port_0_w(byte data)
         {
@@ -217,7 +213,7 @@ namespace mame
                 OPN.FM_BUSY_SET(1);
             }
         }
-        public byte ym2203_read(int chip,int a)
+        public byte ym2203_read(int chip, int a)
         {
             int addr = OPN.ST.address;
             byte ret = 0;

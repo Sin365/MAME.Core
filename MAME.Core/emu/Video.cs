@@ -1,8 +1,7 @@
 ﻿using MAME.Core.run_interface;
 using System;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using Bitmap = MAME.Core.AxiBitmap.AxiBitmap;
 
 namespace mame
 {
@@ -27,12 +26,12 @@ namespace mame
         public static Atime frame_update_time;
         public static screen_state screenstate;
         public static int video_attributes;
-        private static int PAUSED_REFRESH_RATE = 30, VIDEO_UPDATE_AFTER_VBLANK=4;
-        public static Timer.emu_timer vblank_begin_timer,vblank_end_timer;
+        private static int PAUSED_REFRESH_RATE = 30, VIDEO_UPDATE_AFTER_VBLANK = 4;
+        public static Timer.emu_timer vblank_begin_timer, vblank_end_timer;
         public static Timer.emu_timer scanline0_timer, scanline_timer;
         private static Atime throttle_emutime, throttle_realtime, speed_last_emutime, overall_emutime;
         private static long throttle_last_ticks;
-        private static long average_oversleep;        
+        private static long average_oversleep;
         private static long speed_last_realtime, overall_real_ticks;
         private static double speed_percent;
         private static uint throttle_history, overall_valid_counter, overall_real_seconds;
@@ -50,7 +49,7 @@ namespace mame
         public static string sDrawText;
         public static long popup_text_end;
         public static int iMode, nMode;
-        private static BitmapData bitmapData;
+        //private static BitmapData bitmapData;
         public static int offsetx, offsety, width, height;
         public delegate void video_delegate();
         public static video_delegate video_update_callback, video_eof_callback;
@@ -63,7 +62,7 @@ namespace mame
 
 
         #region 抽象出去
-        static Action<Bitmap> Act_SubmitVideo;
+        static Action<int[]> Act_SubmitVideo;
 
         public static void BindFunc(IVideoPlayer Ivp)
         {
@@ -72,7 +71,7 @@ namespace mame
             Act_SubmitVideo += Ivp.SubmitVideo;
         }
 
-        static void SubmitVideo(Bitmap Bitmap)
+        static void SubmitVideo(int[] Bitmap)
         {
             Act_SubmitVideo?.Invoke(Bitmap);
         }
@@ -82,18 +81,18 @@ namespace mame
         {
             Wintime.wintime_init();
             global_throttle = true;
-            UI.ui_handler_callback = UI.handler_ingame;
+            Motion.motion_handler_callback = Motion.handler_ingame;
             sDrawText = "";
             popup_text_end = 0;
             popcount = new int[256]{
-		        0,1,1,2,1,2,2,3, 1,2,2,3,2,3,3,4, 1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5,
-		        1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
-		        1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
-		        2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
-		        1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
-		        2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
-		        2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
-		        3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7, 4,5,5,6,5,6,6,7, 5,6,6,7,6,7,7,8
+                0,1,1,2,1,2,2,3, 1,2,2,3,2,3,3,4, 1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5,
+                1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
+                1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
+                2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
+                1,2,2,3,2,3,3,4, 2,3,3,4,3,4,4,5, 2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6,
+                2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
+                2,3,3,4,3,4,4,5, 3,4,4,5,4,5,5,6, 3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7,
+                3,4,4,5,4,5,5,6, 4,5,5,6,5,6,6,7, 4,5,5,6,5,6,6,7, 5,6,6,7,6,7,7,8
             };
             switch (Machine.sBoard)
             {
@@ -111,7 +110,7 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
-                    UI.ui_update_callback = UI.ui_updateC;
+                    Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
@@ -135,7 +134,7 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
-                    UI.ui_update_callback = UI.ui_updateC;
+                    Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
@@ -159,7 +158,7 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
-                    UI.ui_update_callback = UI.ui_updateC;
+                    Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
@@ -192,7 +191,7 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
-                    UI.ui_update_callback = UI.ui_updateTehkan;
+                    Motion.motion_update_callback = Motion.ui_updateTehkan;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
@@ -213,7 +212,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 6000000) * screenstate.width * screenstate.height);//59.1856060608428Hz
                     screenstate.vblank_period = (long)(1e18 / 6000000) * 384 * (264 - 224);
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updateN;
+                    Motion.motion_update_callback = Motion.ui_updateN;
                     bitmapbaseN = new int[2][];
                     bitmapbaseN[0] = new int[384 * 264];
                     bitmapbaseN[1] = new int[384 * 264];
@@ -234,7 +233,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = (long)(1e12 * 2500);
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
@@ -255,7 +254,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60.606060));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updateNa;
+                    Motion.motion_update_callback = Motion.ui_updateNa;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
@@ -278,7 +277,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updateIGS011;
+                    Motion.motion_update_callback = Motion.ui_updateIGS011;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
@@ -300,7 +299,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
@@ -322,7 +321,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 8000000) * screenstate.width * screenstate.height);
                     screenstate.vblank_period = (long)(1e18 / 8000000) * 512 * (284 - 256);
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];//0x11c
                     bitmapbase[1] = new ushort[0x200 * 0x200];//0x11c
@@ -343,7 +342,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
@@ -352,9 +351,9 @@ namespace mame
                     video_update_callback = M92.video_update_m92;
                     video_eof_callback = M92.video_eof_m92;
                     break;
-                case "Taito":                    
+                case "Taito":
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     switch (Machine.sName)
                     {
                         case "tokio":
@@ -435,7 +434,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x100];
                     bitmapbase[1] = new ushort[0x200 * 0x100];
@@ -452,7 +451,7 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = (long)(1e12 * 2500);
                     video_attributes = 0x34;
-                    UI.ui_update_callback = UI.ui_updatePGM;
+                    Motion.motion_update_callback = Motion.ui_updatePGM;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x100];
                     bitmapbase[1] = new ushort[0x200 * 0x100];
@@ -604,7 +603,7 @@ namespace mame
                             frame_update_time = new Atime(0, (long)(1e18 / 60));
                             screenstate.vblank_period = 0;
                             video_attributes = 0;
-                            UI.ui_update_callback = UI.ui_updatePGM;
+                            Motion.motion_update_callback = Motion.ui_updatePGM;
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x100 * 0x100];
                             bitmapbase[1] = new ushort[0x100 * 0x100];
@@ -630,7 +629,7 @@ namespace mame
                             frame_update_time = new Atime(0, (long)(1e18 / 60));
                             screenstate.vblank_period = 0;
                             video_attributes = 0;
-                            UI.ui_update_callback = UI.ui_updatePGM;
+                            Motion.motion_update_callback = Motion.ui_updatePGM;
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x200 * 0x100];
                             bitmapbase[1] = new ushort[0x200 * 0x100];
@@ -659,7 +658,7 @@ namespace mame
                 case "CPS-1(QSound)":
                 case "Namco System 1":
                 case "M92":
-                case "Taito B":                
+                case "Taito B":
                     break;
                 case "CPS2":
                     Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 262);
@@ -699,7 +698,7 @@ namespace mame
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
                             Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
-                    }                    
+                    }
                     break;
                 case "M72":
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 128);
@@ -752,7 +751,7 @@ namespace mame
             screenstate.height = height;
             screenstate.visarea = visarea;
             //realloc_screen_bitmaps(screen);
-            screenstate.frame_period=frame_period;
+            screenstate.frame_period = frame_period;
             screenstate.scantime = frame_period / height;
             screenstate.pixeltime = frame_period / (height * width);
             /*if (config->vblank == 0 && !config->oldstyle_vblank_supplied)
@@ -779,7 +778,7 @@ namespace mame
                 new_clip.max_y = scanline;
             }
             if (new_clip.min_y <= new_clip.max_y)
-            {                
+            {
                 video_update_callback();
                 result = true;
             }
@@ -853,7 +852,7 @@ namespace mame
             }
             else
             {
-                Timer.timer_adjust_periodic(vblank_end_timer, video_screen_get_time_until_vblank_end(),Attotime.ATTOTIME_NEVER);
+                Timer.timer_adjust_periodic(vblank_end_timer, video_screen_get_time_until_vblank_end(), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void vblank_end_callback()
@@ -878,7 +877,7 @@ namespace mame
             {
                 scanline = screenstate.visarea.min_y;
             }
-            scanline_param=scanline;
+            scanline_param = scanline;
             Timer.timer_adjust_periodic(scanline_timer, video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void video_frame_update()
@@ -891,10 +890,10 @@ namespace mame
             Keyboard.Update();
             Mouse.Update();
             Inptport.frame_update_callback();
-            UI.ui_update_and_render();
-            if(Machine.FORM.cheatform.lockState == MAME.Core.Common.cheatForm.LockState.LOCK_FRAME)
+            Motion.ui_update_and_render();
+            if (Machine.FORM.cheatmotion.lockState == MAME.Core.Common.cheatMotion.LockState.LOCK_FRAME)
             {
-                Machine.FORM.cheatform.ApplyCheat();
+                Machine.FORM.cheatmotion.ApplyCheat();
             }
             GDIDraw();
             if (effective_throttle())

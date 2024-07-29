@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MAME.Core.Common;
+using System;
 using System.IO;
-using MAME.Core.run_interface;
-using MAME.Core.Common;
 
 namespace mame
 {
@@ -45,10 +41,10 @@ namespace mame
             Memory.audioram = new byte[0x800];
             Machine.bRom = true;
             dsw = 0xff;
-            fixedbiosrom = mainForm.resource.Get_sfix();
-            zoomyrom = mainForm.resource.Get__000_lo();
-            audiobiosrom = mainForm.resource.Get_sm1();
-            mainbiosrom = mainForm.resource.Get_mainbios();
+            fixedbiosrom = mainMotion.resource.Get_sfix();
+            zoomyrom = mainMotion.resource.Get__000_lo();
+            audiobiosrom = mainMotion.resource.Get_sm1();
+            mainbiosrom = mainMotion.resource.Get_mainbios();
             Memory.mainrom = Machine.GetRom("maincpu.rom");
             Memory.audiorom = Machine.GetRom("audiocpu.rom");
             fixedrom = Machine.GetRom("fixed.rom");
@@ -268,7 +264,7 @@ namespace mame
         {
             int bank_address;
             int len = Memory.mainrom.Length;
-            if ((len <= 0x100000) && ((data & 0x07)!=0))
+            if ((len <= 0x100000) && ((data & 0x07) != 0))
             {
                 int i1 = 1;
             }

@@ -1,17 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using mame;
+using System;
 using System.IO;
-using mame;
 
 namespace cpu.m6805
 {
     public partial class M6805 : cpuexec_data
     {
         public static M6805 m1;
-        public Register ea,pc,s;
+        public Register ea, pc, s;
         public int subtype;
         public ushort sp_mask;
         public ushort sp_low;
@@ -23,7 +19,7 @@ namespace cpu.m6805
         public int nmi_state;
         public byte CFLAG = 0x01, ZFLAG = 0x02, NFLAG = 0x04, IFLAG = 0x08, HFLAG = 0x10;
         public int SUBTYPE_M6805 = 0, SUBTYPE_M68705 = 1, SUBTYPE_HD63705 = 2;
-        public byte[] flags8i=new byte[256]	 /* increment */
+        public byte[] flags8i = new byte[256]	 /* increment */
         {
             0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
             0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -42,7 +38,7 @@ namespace cpu.m6805
             0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,
             0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04
         };
-        public byte[] flags8d=new byte[256] /* decrement */
+        public byte[] flags8d = new byte[256] /* decrement */
         {
             0x02,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
             0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -61,7 +57,7 @@ namespace cpu.m6805
             0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,
             0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04,0x04
         };
-        public byte[] cycles1 =new byte[]
+        public byte[] cycles1 = new byte[]
         {
               /* 0  1  2  3  4  5  6  7  8  9  A  B  C  D  E  F */
           /*0*/ 10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,10,
@@ -108,7 +104,7 @@ namespace cpu.m6805
         public Func<ushort, byte> ReadOp, ReadOpArg;
         public Func<ushort, byte> ReadMemory;
         public Action<ushort, byte> WriteMemory;
-        
+
         public M6805()
         {
             irq_state = new int[9];
@@ -141,7 +137,7 @@ namespace cpu.m6805
             b = ReadOpArg(pc.LowWord++);
         }
         private void IMMWORD(ref Register w)
-        {            
+        {
             w.d = 0;
             w.HighByte = ReadOpArg(pc.LowWord);
             w.LowByte = ReadOpArg((ushort)(pc.LowWord + 1));
@@ -165,19 +161,19 @@ namespace cpu.m6805
         }
         private void CLR_NZ()
         {
-            cc&=(byte)~(NFLAG|ZFLAG);
+            cc &= (byte)~(NFLAG | ZFLAG);
         }
         private void CLR_HNZC()
         {
-            cc&=(byte)~(HFLAG|NFLAG|ZFLAG|CFLAG);
+            cc &= (byte)~(HFLAG | NFLAG | ZFLAG | CFLAG);
         }
         private void CLR_Z()
         {
-            cc&=(byte)~(ZFLAG);
+            cc &= (byte)~(ZFLAG);
         }
         private void CLR_NZC()
         {
-            cc&=(byte)~(NFLAG|ZFLAG|CFLAG);
+            cc &= (byte)~(NFLAG | ZFLAG | CFLAG);
         }
         private void CLR_ZC()
         {
@@ -185,7 +181,7 @@ namespace cpu.m6805
         }
         private void SET_Z(byte b)
         {
-            if(b==0)
+            if (b == 0)
             {
                 SEZ();
             }
@@ -196,30 +192,30 @@ namespace cpu.m6805
         }
         private void SET_N8(byte b)
         {
-            cc|=(byte)((b&0x80)>>5);
+            cc |= (byte)((b & 0x80) >> 5);
         }
-        private void SET_H(byte a,byte b,byte r)
+        private void SET_H(byte a, byte b, byte r)
         {
-            cc|=(byte)((a^b^r)&0x10);
+            cc |= (byte)((a ^ b ^ r) & 0x10);
         }
         private void SET_C8(ushort b)
         {
-            cc|=(byte)((b&0x100)>>8);
+            cc |= (byte)((b & 0x100) >> 8);
         }
         private void SET_FLAGS8I(byte b)
         {
-            cc|=flags8i[b&0xff];
+            cc |= flags8i[b & 0xff];
         }
         private void SET_FLAGS8D(byte b)
         {
-            cc|=flags8d[b&0xff];
+            cc |= flags8d[b & 0xff];
         }
         private void SET_NZ8(byte b)
         {
             SET_N8(b);
             SET_Z(b);
         }
-        private void SET_FLAGS8(byte a,byte b,ushort r)
+        private void SET_FLAGS8(byte a, byte b, ushort r)
         {
             SET_N8((byte)r);
             SET_Z8((byte)r);
@@ -236,7 +232,7 @@ namespace cpu.m6805
         }
         private void IMM8()
         {
-            ea.LowWord= pc.LowWord++;
+            ea.LowWord = pc.LowWord++;
         }
         private void EXTENDED()
         {
@@ -244,54 +240,54 @@ namespace cpu.m6805
         }
         private void INDEXED()
         {
-            ea.LowWord=x;
+            ea.LowWord = x;
         }
         private void INDEXED1()
         {
-            ea.d=0;
+            ea.d = 0;
             IMMBYTE(ref ea.LowByte);
-            ea.LowWord+=x;
+            ea.LowWord += x;
         }
         private void INDEXED2()
         {
             IMMWORD(ref ea);
-            ea.LowWord+=x;
+            ea.LowWord += x;
         }
         private void SEC()
         {
-            cc|=CFLAG;
+            cc |= CFLAG;
         }
         private void CLC()
         {
-            cc&=(byte)~CFLAG;
+            cc &= (byte)~CFLAG;
         }
         private void SEZ()
         {
-            cc|=ZFLAG;
+            cc |= ZFLAG;
         }
         private void CLZ()
         {
-            cc&=(byte)~ZFLAG;
+            cc &= (byte)~ZFLAG;
         }
         private void SEN()
         {
-            cc|=NFLAG;
+            cc |= NFLAG;
         }
         private void CLN()
         {
-            cc&=(byte)~NFLAG;
+            cc &= (byte)~NFLAG;
         }
         private void SEH()
         {
-            cc|=HFLAG;
+            cc |= HFLAG;
         }
         private void CLH()
         {
-            cc&=(byte)~HFLAG;
+            cc &= (byte)~HFLAG;
         }
         private void SEI()
         {
-            cc|=IFLAG;
+            cc |= IFLAG;
         }
         private void CLI()
         {
@@ -300,31 +296,31 @@ namespace cpu.m6805
         private void DIRBYTE(ref byte b)
         {
             DIRECT();
-            b=ReadMemory((ushort)ea.d);
+            b = ReadMemory((ushort)ea.d);
         }
         private void EXTBYTE(ref byte b)
         {
             EXTENDED();
-            b=ReadMemory((ushort)ea.d);
+            b = ReadMemory((ushort)ea.d);
         }
         private void IDXBYTE(ref byte b)
         {
             INDEXED();
-            b=ReadMemory((ushort)ea.d);
+            b = ReadMemory((ushort)ea.d);
         }
         private void IDX1BYTE(ref byte b)
         {
             INDEXED1();
-            b=ReadMemory((ushort)ea.d);
+            b = ReadMemory((ushort)ea.d);
         }
         private void IDX2BYTE(ref byte b)
         {
             INDEXED2();
-            b=ReadMemory((ushort)ea.d);
+            b = ReadMemory((ushort)ea.d);
         }
         private void BRANCH(bool f)
         {
-            byte t=0;
+            byte t = 0;
             IMMBYTE(ref t);
             if (f)
             {
@@ -553,7 +549,7 @@ namespace cpu.m6805
         public int m6805_execute(int cycles)
         {
             byte ireg;
-            pendingCycles = cycles;            
+            pendingCycles = cycles;
             do
             {
                 int prevCycles = pendingCycles;
@@ -828,7 +824,7 @@ namespace cpu.m6805
                     case 0xfd: jsr_ix(); break;
                     case 0xfe: ldx_ix(); break;
                     case 0xff: stx_ix(); break;
-                }                
+                }
                 pendingCycles -= cycles1[ireg];
                 int delta = prevCycles - pendingCycles;
                 totalExecutedCycles += (ulong)delta;

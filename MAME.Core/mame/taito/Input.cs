@@ -563,7 +563,7 @@ namespace mame
             {
                 sbyte2 |= 0x01;
             }*/
-            if (Keyboard.IsPressed(Key.J)|| Mouse.buttons[0] != 0)
+            if (Keyboard.IsPressed(Key.J) || Mouse.buttons[0] != 0)
             {
                 sbyte1 &= ~0x01;
             }
@@ -571,7 +571,7 @@ namespace mame
             {
                 sbyte1 |= 0x01;
             }
-            if (Keyboard.IsPressed(Key.K)|| Mouse.buttons[1] != 0)
+            if (Keyboard.IsPressed(Key.K) || Mouse.buttons[1] != 0)
             {
                 sbyte1 &= ~0x02;
             }

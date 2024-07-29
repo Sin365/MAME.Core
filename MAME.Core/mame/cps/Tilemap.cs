@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -55,8 +52,8 @@ namespace mame
                 ttmap[i].rowscroll = new int[ttmap[i].scrollrows];
                 ttmap[i].colscroll = new int[ttmap[i].scrollcols];
                 ttmap[i].tilemap_draw_instance3 = ttmap[i].tilemap_draw_instanceC;
-                ttmap[i].tilemap_set_scrolldx(0,0);
-                ttmap[i].tilemap_set_scrolldy(0x100,0);
+                ttmap[i].tilemap_set_scrolldx(0, 0);
+                ttmap[i].tilemap_set_scrolldy(0x100, 0);
             }
             ttmap[0].tile_update3 = ttmap[0].tile_updateC0;
             ttmap[1].tile_update3 = ttmap[1].tile_updateC1;
@@ -375,7 +372,7 @@ namespace mame
                         {
                             for (cury = y; cury < nexty; cury++)
                             {
-                                for (i = xpos + x_start; i < xpos+x_end; i++)
+                                for (i = xpos + x_start; i < xpos + x_end; i++)
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {

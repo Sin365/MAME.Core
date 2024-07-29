@@ -85,7 +85,7 @@ namespace mame
             else
             {
                 byte1 |= 0x20;
-            }            
+            }
             if (Keyboard.IsPressed(Key.Right))
             {
                 byte2 &= unchecked((byte)~0x01);
@@ -216,7 +216,7 @@ namespace mame
             else
             {
                 byte1 |= 0x10;
-            }            
+            }
         }
         public static void loop_inputports_sfus()
         {
@@ -720,11 +720,11 @@ namespace mame
             }
             else
             {
-                sbyte1 &= ~0x02;                
+                sbyte1 &= ~0x02;
             }
             if (Keyboard.IsPressed(Key.L))
             {
-                sbyte1 |= 0x04;                
+                sbyte1 |= 0x04;
             }
             else
             {
@@ -736,10 +736,10 @@ namespace mame
             }
             else
             {
-                sbyte2 &= ~0x01;                
+                sbyte2 &= ~0x01;
             }
             if (Keyboard.IsPressed(Key.I))
-            {                
+            {
                 sbyte2 |= 0x02;
             }
             else
@@ -748,7 +748,7 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.O))
             {
-                sbyte2 |= 0x04;                
+                sbyte2 |= 0x04;
             }
             else
             {
@@ -787,7 +787,7 @@ namespace mame
                 short0 |= 0x0800;
             }
             if (Keyboard.IsPressed(Key.NumPad1))
-            {                
+            {
                 sbyte3 |= 0x01;
             }
             else
@@ -795,7 +795,7 @@ namespace mame
                 sbyte3 &= ~0x01;
             }
             if (Keyboard.IsPressed(Key.NumPad2))
-            {                
+            {
                 sbyte3 |= 0x02;
             }
             else
@@ -803,7 +803,7 @@ namespace mame
                 sbyte3 &= ~0x02;
             }
             if (Keyboard.IsPressed(Key.NumPad3))
-            {                
+            {
                 sbyte3 |= 0x04;
             }
             else
@@ -832,7 +832,7 @@ namespace mame
             }
             else
             {
-                sbyte4 &= ~0x04;                
+                sbyte4 &= ~0x04;
             }
             if (Keyboard.IsPressed(Key.R))
             {
@@ -895,7 +895,7 @@ namespace mame
         }
         public static void record_port_sf()
         {
-            if (short0 != short0_old || short1!=short1_old|| short2!=short2_old||shorts!=shorts_old||shortc!=shortc_old|| sbyte1 != sbyte1_old || sbyte2 != sbyte2_old || sbyte3 != sbyte3_old || sbyte4 != sbyte4_old)
+            if (short0 != short0_old || short1 != short1_old || short2 != short2_old || shorts != shorts_old || shortc != shortc_old || sbyte1 != sbyte1_old || sbyte2 != sbyte2_old || sbyte3 != sbyte3_old || sbyte4 != sbyte4_old)
             {
                 short0_old = short0;
                 short1_old = short1;

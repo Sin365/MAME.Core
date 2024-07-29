@@ -8,7 +8,7 @@
             sbyte result = 0;
             if (address >= 0x800052 && address <= 0x800055)
             {
-                int offset=(address-0x800052)/2;
+                int offset = (address - 0x800052) / 2;
                 result = (sbyte)((Inptport.input_port_read_direct(Inptport.analog_p0) - dial0) >> (8 * offset));
             }
             else if (address >= 0x80005a && address <= 0x80005d)
@@ -184,7 +184,7 @@
             }
             else
             {
-                MCWriteWord(address,value);
+                MCWriteWord(address, value);
             }
         }
         public static sbyte MCReadByte_sf2m3(int address)
@@ -628,7 +628,7 @@
             {
                 int offset = (address - 0x800140) / 2;
                 result = cps1_cps_b_r(offset) * 0x10000 + cps1_cps_b_r(offset + 1);
-            }            
+            }
             else if (address >= 0x900000 && address + 3 <= 0x92ffff)
             {
                 result = (int)(gfxram[(address & 0x3ffff)] * 0x1000000 + gfxram[(address & 0x3ffff) + 1] * 0x10000 + gfxram[(address & 0x3ffff) + 2] * 0x100 + gfxram[(address & 0x3ffff) + 3]);
@@ -921,7 +921,7 @@
             }
             else
             {
-                MCWriteWord(address,value);
+                MCWriteWord(address, value);
             }
         }
         public static sbyte MC2ReadByte_ecofghtr(int address)
@@ -942,7 +942,7 @@
         {
             address &= 0xffffff;
             short result = 0;
-            if (address >= 0x804000 && address+1 <= 0x804001)
+            if (address >= 0x804000 && address + 1 <= 0x804001)
             {
                 result = 0;
             }
@@ -1670,7 +1670,7 @@
             else if (address >= 0x70a000 && address + 3 <= 0x70bfff)
             {
                 int offset = (address - 0x70a000) / 2;
-                cps2_objram2_w(offset, (ushort)(value>>16));
+                cps2_objram2_w(offset, (ushort)(value >> 16));
                 cps2_objram2_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x70c000 && address <= 0x70dfff)
@@ -1740,7 +1740,7 @@
             else if (address >= 0xfffff0 && address + 3 <= 0xfffffb)
             {
                 int offset = (address - 0xfffff0) / 2;
-                cps2_output[offset] = (ushort)(value>>16);
+                cps2_output[offset] = (ushort)(value >> 16);
                 cps2_output[offset + 1] = (ushort)value;
             }
             else if (address >= 0xfffffc && address + 3 <= 0xffffff)

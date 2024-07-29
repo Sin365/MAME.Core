@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace cpu.m6809
+﻿namespace cpu.m6809
 {
     public partial class M6809
     {
@@ -340,8 +335,8 @@ namespace cpu.m6809
         public static string[] m6809_regs = new string[] { "X", "Y", "U", "S", "PC" };
         public static string[] m6809_regs_te = new string[]
         {
-	        "D", "X",  "Y",  "U",   "S",  "PC", "inv", "inv",
-	        "A", "B", "CC", "DP", "inv", "inv", "inv", "inv"
+            "D", "X",  "Y",  "U",   "S",  "PC", "inv", "inv",
+            "A", "B", "CC", "DP", "inv", "inv", "inv", "inv"
         };
         public byte op;
         public void DisassemblerInit()
@@ -366,7 +361,7 @@ namespace cpu.m6809
                 i1 = 1;
             }
             buffer = ReadOp(p).ToString("X2");
-            bool indirect,opcode_found = false;
+            bool indirect, opcode_found = false;
             do
             {
                 opcode = ReadOp(p);
@@ -592,10 +587,10 @@ namespace cpu.m6809
                     }
                     else
                         if (numoperands == 1)
-                        {
-                            ea = operandarray[0];
-                            buffer += "#$" + ea.ToString("X2");
-                        }
+                    {
+                        ea = operandarray[0];
+                        buffer += "#$" + ea.ToString("X2");
+                    }
                     break;
 
                 case m6809_addressing_modes.IMM_RR:

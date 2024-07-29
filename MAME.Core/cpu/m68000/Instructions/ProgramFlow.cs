@@ -284,7 +284,7 @@ namespace cpu.m68000
             {
                 //D[reg].u8 = (byte)(result | 0x80);
             }*/
-            WriteValueB(mode, reg,(sbyte)(result | 0x80));
+            WriteValueB(mode, reg, (sbyte)(result | 0x80));
             pendingCycles -= (mode == 0) ? 4 : 14 + EACyclesBW[mode, reg];
         }
 

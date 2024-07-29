@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -116,7 +113,7 @@ namespace mame
             int y0 = tileheight * row;
             int flags;
             int tile_index;
-            int code, color,attr;
+            int code, color, attr;
             int pen_data_offset, palette_base, group;
             tile_index = row * cols + col;
             if (Taito.PC080SN_dblwidth == 0)

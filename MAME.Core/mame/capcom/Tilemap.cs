@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -426,7 +423,7 @@ namespace mame
             int pen_data_offset, palette_base, group;
             tile_index = col * rows + row;
             int base_offset = 0x20000 + 2 * tile_index;
-            int attr = Capcom.gfx5rom[base_offset+0x10000];
+            int attr = Capcom.gfx5rom[base_offset + 0x10000];
             color = Capcom.gfx5rom[base_offset];
             code = (Capcom.gfx5rom[base_offset + 0x10000 + 1] << 8) | Capcom.gfx5rom[base_offset + 1];
             code = code % total_elements;
@@ -451,7 +448,7 @@ namespace mame
             code = (code & 0x3ff) % total_elements;
             pen_data_offset = code * 0x40;
             palette_base = 0x300 + (color * 0x4);
-            group = 0;            
+            group = 0;
             tileflags[row, col] = tile_drawCapcomtx(Capcom.gfx4rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
         public void tile_updateCapcombg_gng(int col, int row)

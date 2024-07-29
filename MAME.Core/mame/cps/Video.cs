@@ -1,20 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.IO;
 
 namespace mame
 {
     public partial class CPS
-    {        
+    {
         private static int iXAll, iYAll, nBitmap;
-        private static Bitmap bmAll=new Bitmap(512,512);
+        //private static Bitmap bmAll=new Bitmap(512,512);
         private static List<string> lBitmapHash = new List<string>();
         private static int cpsb_addr, cpsb_value, mult_factor1, mult_factor2, mult_result_lo, mult_result_hi;
-        public static int layercontrol, layer_control, palette_control, in2_addr, in3_addr, out2_addr, bootleg_kludge;        
+        public static int layercontrol, layer_control, palette_control, in2_addr, in3_addr, out2_addr, bootleg_kludge;
         public static int[] priority, layer_enable_mask;
         public static int total_elements;
         public static uint[] primasks;
@@ -49,9 +44,9 @@ namespace mame
         public static int scroll1x, scroll1y;
         public static int scroll2x, scroll2y;
         public static int scroll3x, scroll3y;
-        private static int stars1x, stars1y, stars2x, stars2y;        
+        private static int stars1x, stars1y, stars2x, stars2y;
         public static int pri_ctrl;
-        
+
         public static bool bRecord;
 
         private static int cps1_base(int offset, int boundary)
@@ -80,7 +75,7 @@ namespace mame
         }
         private static void cps1_cps_a_w(int offset, ushort data)
         {
-            cps_a_regs[offset] =data;
+            cps_a_regs[offset] = data;
             if (offset == CPS1_PALETTE_BASE)
             {
                 cps1_build_palette(cps1_base(CPS1_PALETTE_BASE, 0x0400));
@@ -279,10 +274,10 @@ namespace mame
         }
         public static void video_start_cps()
         {
-            bmAll = new Bitmap(512, 512);
-            Graphics g = Graphics.FromImage(bmAll);
-            g.Clear(Color.Magenta);
-            g.Dispose();
+            //bmAll = new Bitmap(512, 512);
+            //Graphics g = Graphics.FromImage(bmAll);
+            //g.Clear(Color.Magenta);
+            //g.Dispose();
             int i;
             ttmap[0].enable = true;
             ttmap[1].enable = true;
@@ -302,9 +297,9 @@ namespace mame
             cps1_stars_enabled = new int[2];
             cps1_buffered_obj = new ushort[0x400];
             cps2_buffered_obj = new ushort[0x1000];
-            cps2_objram1=new ushort[0x1000];
-            cps2_objram2=new ushort[0x1000];
-            
+            cps2_objram1 = new ushort[0x1000];
+            cps2_objram2 = new ushort[0x1000];
+
             uuBFF = new ushort[0x200 * 0x200];
             for (i = 0; i < 0x40000; i++)
             {
@@ -554,13 +549,13 @@ namespace mame
                 code = cps2_buffered_obj[i * 4 + 2] + ((y & 0x6000) << 3);
                 colour = cps2_buffered_obj[i * 4 + 3];
                 col = colour & 0x1f;
-                if ((colour & 0x80)!=0)
+                if ((colour & 0x80) != 0)
                 {
                     x += cps2_port(0x08);  /* fix the offset of some games */
                     y += cps2_port(0x0a);  /* like Marvel vs. Capcom ending credits */
                 }
                 y += 0x100;
-                if ((colour & 0xff00)!=0)
+                if ((colour & 0xff00) != 0)
                 {
                     /* handle blocked sprites */
                     int nx = (colour & 0x0f00) >> 8;
@@ -568,10 +563,10 @@ namespace mame
                     int nxs, nys, sx, sy;
                     nx++;
                     ny++;
-                    if ((colour & 0x40)!=0)
+                    if ((colour & 0x40) != 0)
                     {
                         /* Y flip */
-                        if ((colour & 0x20)!=0)
+                        if ((colour & 0x20) != 0)
                         {
                             for (nys = 0; nys < ny; nys++)
                             {
@@ -598,7 +593,7 @@ namespace mame
                     }
                     else
                     {
-                        if ((colour & 0x20)!=0)
+                        if ((colour & 0x20) != 0)
                         {
                             for (nys = 0; nys < ny; nys++)
                             {
@@ -635,7 +630,7 @@ namespace mame
         {
             int offs;
             if (starsrom == null && (cps1_stars_enabled[0] != 0 || cps1_stars_enabled[1] != 0))
-            {                
+            {
                 return;//stars enabled but no stars ROM
             }
             if (cps1_stars_enabled[0] != 0)
@@ -719,7 +714,7 @@ namespace mame
             cps1_update_transmasks();
             ttmap[0].tilemap_set_scrollx(0, scroll1x);
             ttmap[0].tilemap_set_scrolly(0, scroll1y);
-            if ((videocontrol & 0x01)!=0)	/* linescroll enable */
+            if ((videocontrol & 0x01) != 0)	/* linescroll enable */
             {
                 int scrly = -scroll2y;
                 int otheroffs;
@@ -732,7 +727,7 @@ namespace mame
             }
             else
             {
-                ttmap[1].scrollrows = 1;               
+                ttmap[1].scrollrows = 1;
                 ttmap[1].tilemap_set_scrollx(0, scroll2x);
             }
             ttmap[1].tilemap_set_scrolly(0, scroll2y);
@@ -852,7 +847,7 @@ namespace mame
             //memcpy(cps2_buffered_obj, cps2_objbase(), cps2_obj_size);
             int baseptr;
             baseptr = 0x7000;
-            if ((cps2_objram_bank & 1)!=0)
+            if ((cps2_objram_bank & 1) != 0)
             {
                 baseptr ^= 0x0080;
             }
@@ -864,6 +859,6 @@ namespace mame
             {
                 Array.Copy(cps2_objram2, cps2_buffered_obj, 0x1000);
             }
-        } 
+        }
     }
 }

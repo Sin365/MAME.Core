@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class M92
     {
@@ -58,7 +53,7 @@ namespace mame
             }
             else if (address >= 0x80000 && address + 1 <= 0x8ffff)
             {
-                int offset = (address - 0x80000)/2;
+                int offset = (address - 0x80000) / 2;
                 result = m92_vram_data[offset];
             }
             else if (address >= 0xe0000 && address + 1 <= 0xeffff)
@@ -87,7 +82,7 @@ namespace mame
             address &= 0xfffff;
             if (address >= 0x80000 && address <= 0x8ffff)
             {
-                int offset = (address - 0x80000)/2;
+                int offset = (address - 0x80000) / 2;
                 if (address % 2 == 0)
                 {
                     m92_vram_data[offset] = (ushort)((value << 8) | (m92_vram_data[offset] & 0xff));
@@ -115,12 +110,12 @@ namespace mame
             }
             else if (address >= 0xf9000 && address <= 0xf900f)
             {
-                int offset = (address - 0xf9000)/2;
+                int offset = (address - 0xf9000) / 2;
                 if (address % 2 == 0)
                 {
                     m92_spritecontrol_w1(offset, value);
                 }
-                else if(address%2==1)
+                else if (address % 2 == 1)
                 {
                     m92_spritecontrol_w2(offset, value);
                 }
@@ -272,7 +267,7 @@ namespace mame
             byte result = 0;
             if (address >= 0xf0000 && address <= 0xf3fff)
             {
-                int offset=(address-0xf0000)/2;
+                int offset = (address - 0xf0000) / 2;
                 result = m92_eeprom_r(offset);
             }
             else
@@ -287,7 +282,7 @@ namespace mame
             ushort result = 0;
             if (address >= 0xf0000 && address + 1 <= 0xf3fff)
             {
-                int offset = (address - 0xf0000)/2;
+                int offset = (address - 0xf0000) / 2;
                 result = m92_eeprom_r2(offset);
             }
             else
@@ -301,7 +296,7 @@ namespace mame
             address &= 0xfffff;
             if (address >= 0xf0000 && address <= 0xf3fff)
             {
-                int offset = (address - 0xf0000)/2;
+                int offset = (address - 0xf0000) / 2;
                 m92_eeprom_w(offset, value);
             }
             else
@@ -314,7 +309,7 @@ namespace mame
             address &= 0xfffff;
             if (address >= 0xf0000 && address + 1 <= 0xf3fff)
             {
-                int offset = (address - 0xf0000)/2;
+                int offset = (address - 0xf0000) / 2;
                 m92_eeprom_w(offset, (byte)value);
             }
             else

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -17,7 +13,8 @@ namespace mame
         };
         public static dac_info dac1;
         public static void DAC_update(int offset, int length)
-        {;
+        {
+            ;
             short out1 = dac1.output;
             int i;
             for (i = 0; i < length; i++)

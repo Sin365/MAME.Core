@@ -133,7 +133,7 @@ namespace cpu.m68000
         {
             int mode = (op >> 3) & 7;
             int reg = (op >> 0) & 7;
-                        
+
             /*ushort sr = (ushort)(SR & 0xFF00);
             sr |= (byte)ReadValueB(mode, reg);
             SR = (short)sr;*/

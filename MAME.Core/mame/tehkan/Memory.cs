@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {
@@ -219,7 +214,7 @@ namespace mame
             }
             else if (address == 0x8000)
             {
-                result =(byte)Sound.soundlatch_r();
+                result = (byte)Sound.soundlatch_r();
             }
             return result;
         }

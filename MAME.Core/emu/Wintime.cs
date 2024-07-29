@@ -1,18 +1,33 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using System.Diagnostics;
 using System.Threading;
 
 namespace mame
 {
     public class Wintime
     {
-        [DllImport("kernel32.dll ")]
-        public static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
-        [DllImport("kernel32.dll")]
-        private static extern bool QueryPerformanceFrequency(ref long PerformanceFrequency);
+        //[DllImport("kernel32.dll ")]
+        //public static extern bool QueryPerformanceCounter(ref long lpPerformanceCount);
+        //[DllImport("kernel32.dll")]
+        //private static extern bool QueryPerformanceFrequency(ref long PerformanceFrequency);
+
+        #region 跨平台等效实现
+        public static Stopwatch _stopwatch = Stopwatch.StartNew();
+        private static long _lastReportedCount = 0;
+
+        public static bool QueryPerformanceCounter(ref long lpPerformanceCount)
+        {
+            lpPerformanceCount = _stopwatch.ElapsedTicks;
+            return true;
+        }
+
+        public static bool QueryPerformanceFrequency(ref long PerformanceFrequency)
+        {
+            PerformanceFrequency = Stopwatch.Frequency;
+            return true;
+        }
+        #endregion
+
+
         public static long ticks_per_second;
         public static void wintime_init()
         {

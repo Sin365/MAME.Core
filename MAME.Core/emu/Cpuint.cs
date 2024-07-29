@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.IO;
-using System.Text;
 using System.Runtime.InteropServices;
 
 namespace mame
@@ -47,7 +45,7 @@ namespace mame
         INPUT_LINE_NMI = MAX_INPUT_LINES - 3,
         INPUT_LINE_RESET = MAX_INPUT_LINES - 2,
         INPUT_LINE_HALT = MAX_INPUT_LINES - 1,
-    }           
+    }
     public class irq
     {
         public int cpunum;
@@ -59,7 +57,7 @@ namespace mame
         {
 
         }
-        public irq(int _cpunum, int _line, LineState _state,int _vector, Atime _time)
+        public irq(int _cpunum, int _line, LineState _state, int _vector, Atime _time)
         {
             cpunum = _cpunum;
             line = _line;
@@ -123,7 +121,7 @@ namespace mame
                     interrupt_vector[i, j] = 0xff;
                     input_event_index[i, j] = 0;
                 }
-            }            
+            }
         }
         public static void cps1_irq_handler_mus(int irq)
         {
@@ -143,7 +141,7 @@ namespace mame
         {
             if (cpunum < Cpuexec.ncpu && line >= 0 && line < (int)LineState.MAX_INPUT_LINES)
             {
-                interrupt_vector[cpunum,line] = vector;
+                interrupt_vector[cpunum, line] = vector;
                 return;
             }
         }
@@ -162,12 +160,12 @@ namespace mame
             {
                 int i1 = 1;
             }
-            foreach(irq irq1 in lirq)
+            foreach (irq irq1 in lirq)
             {
                 if (Attotime.attotime_compare(irq1.time, Timer.global_basetime) <= 0)
                 {
-                    input_line_state[irq1.cpunum,irq1.line] = (byte)irq1.state;
-                    input_line_vector[irq1.cpunum,irq1.line] = irq1.vector;
+                    input_line_state[irq1.cpunum, irq1.line] = (byte)irq1.state;
+                    input_line_vector[irq1.cpunum, irq1.line] = irq1.vector;
                     if (irq1.line == (int)LineState.INPUT_LINE_RESET)
                     {
                         if (irq1.state == LineState.ASSERT_LINE)
@@ -214,7 +212,7 @@ namespace mame
                         {
                             Cpuexec.cpu_triggerint(irq1.cpunum);
                         }
-                    }                    
+                    }
                     lsirq.Add(irq1);
                 }
             }
@@ -293,7 +291,7 @@ namespace mame
         }
         public static void SaveStateBinary(BinaryWriter writer)
         {
-            int i,j, n;
+            int i, j, n;
             n = lirq.Count;
             writer.Write(n);
             for (i = 0; i < n; i++)
@@ -341,11 +339,11 @@ namespace mame
                 {
                     writer.Write(input_event_index[i, j]);
                 }
-            }            
+            }
         }
         public static void LoadStateBinary(BinaryReader reader)
         {
-            int i,j, n;
+            int i, j, n;
             n = reader.ReadInt32();
             lirq = new List<irq>();
             for (i = 0; i < n; i++)

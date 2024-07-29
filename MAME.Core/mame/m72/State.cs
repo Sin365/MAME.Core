@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.nec;
+﻿using cpu.nec;
 using cpu.z80;
+using System.IO;
 
 namespace mame
 {
@@ -17,7 +13,7 @@ namespace mame
             writer.Write(setvector_param);
             writer.Write(irqvector);
             writer.Write(sample_addr);
-            writer.Write(protection_ram,0,0x1000);
+            writer.Write(protection_ram, 0, 0x1000);
             writer.Write(m72_irq_base);
             writer.Write(m72_scanline_param);
             for (i = 0; i < 0x600; i++)
@@ -32,15 +28,15 @@ namespace mame
             {
                 writer.Write(Generic.spriteram16[i]);
             }
-            writer.Write(m72_videoram1,0,0x4000);
-            writer.Write(m72_videoram2,0,0x4000);            
+            writer.Write(m72_videoram1, 0, 0x4000);
+            writer.Write(m72_videoram2, 0, 0x4000);
             writer.Write(m72_raster_irq_position);
             writer.Write(video_off);
             writer.Write(scrollx1);
             writer.Write(scrolly1);
             writer.Write(scrollx2);
             writer.Write(scrolly2);
-            for(i=0;i<0x200;i++)
+            for (i = 0; i < 0x200; i++)
             {
                 writer.Write(m72_spriteram[i]);
             }
@@ -118,7 +114,7 @@ namespace mame
             Cpuint.LoadStateBinary_v(reader);
             Timer.global_basetime.seconds = reader.ReadInt32();
             Timer.global_basetime.attoseconds = reader.ReadInt64();
-            Video.LoadStateBinary(reader);        
+            Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
             Timer.LoadStateBinary(reader);

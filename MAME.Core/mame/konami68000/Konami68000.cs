@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
+using System;
 
 namespace mame
 {
     public partial class Konami68000
     {
-        public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom,titlerom,user1rom,zoomrom;
+        public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom, titlerom, user1rom, zoomrom;
         public static byte dsw1, dsw2, dsw3, bytee;
         public static byte[] mainram2;
         public static short[] sampledata;
@@ -29,7 +25,7 @@ namespace mame
             Memory.audioram = new byte[0x2000];//0x800 prmrsocr_0x2000
             mainram2 = new byte[0x4000];//0x4000 tmnt2_ssriders_0x80
             layer_colorbase = new int[3];
-            cuebrick_nvram=new ushort[0x400*0x20];
+            cuebrick_nvram = new ushort[0x400 * 0x20];
             tmnt2_1c0800 = new ushort[0x10];
             K053245_memory_region = new byte[2][];
             K053244_rombank = new int[2];
@@ -65,7 +61,7 @@ namespace mame
             sorted_layer = new int[3];
             Machine.bRom = true;
             Memory.mainrom = Machine.GetRom("maincpu.rom");
-            Memory.audiorom = Machine.GetRom("audiocpu.rom");            
+            Memory.audiorom = Machine.GetRom("audiocpu.rom");
             gfx1rom = Machine.GetRom("gfx1.rom");
             n1 = gfx1rom.Length;
             gfx12rom = new byte[n1 * 2];
@@ -217,7 +213,7 @@ namespace mame
                         dsw3 = 0x0f;
                         K052109_callback = mia_tile_callback;
                         K051960_callback = mia_sprite_callback;
-                        break;                    
+                        break;
                     case "tmnt":
                     case "tmntu":
                     case "tmntua":
@@ -295,7 +291,7 @@ namespace mame
                     case "ssridersabd":
                     case "ssridersjad":
                     case "ssridersjac":
-                    case "ssridersjbd":                        
+                    case "ssridersjbd":
                         K052109_callback = tmnt_tile_callback;
                         K053245_callback = lgtnfght_sprite_callback;
                         break;
@@ -307,7 +303,7 @@ namespace mame
                         K051960_callback = thndrx2_sprite_callback;
                         break;
                     case "prmrsocr":
-                    case "prmrsocrj":                        
+                    case "prmrsocrj":
                         K052109_callback = tmnt_tile_callback;
                         K053245_callback = prmrsocr_sprite_callback;
                         break;
@@ -327,17 +323,17 @@ namespace mame
             int offset1 = ((offset & 0x3000) >> 1) | (offset & 0x07ff);
             return K052109_word_r(offset1);
         }
-        public static void K052109_word_noA12_w(int offset,ushort data)
+        public static void K052109_word_noA12_w(int offset, ushort data)
         {
             int offset1;
-	        offset1 = ((offset & 0x3000) >> 1) | (offset & 0x07ff);
-	        K052109_word_w(offset1,data);
+            offset1 = ((offset & 0x3000) >> 1) | (offset & 0x07ff);
+            K052109_word_w(offset1, data);
         }
         public static void K052109_word_noA12_w1(int offset, byte data)
         {
             int offset1;
             offset1 = ((offset & 0x3000) >> 1) | (offset & 0x07ff);
-            K052109_w(offset1, data);            
+            K052109_w(offset1, data);
         }
         public static void K052109_word_noA12_w2(int offset, byte data)
         {
@@ -380,12 +376,12 @@ namespace mame
             ushort result;
             if ((offset & 0x0031) != 0)
             {
-                result= Generic.spriteram16[offset];
+                result = Generic.spriteram16[offset];
             }
             else
             {
                 offset = ((offset & 0x000e) >> 1) | ((offset & 0x1fc0) >> 3);
-                result= K053245_word_r(offset);
+                result = K053245_word_r(offset);
             }
             return result;
         }
@@ -426,13 +422,13 @@ namespace mame
             offset &= ~1;
             return (ushort)(K053244_r(offset + 1) | (K053244_r(offset) << 8));
         }
-        public static void K053244_word_noA1_w(int offset,ushort data)
+        public static void K053244_word_noA1_w(int offset, ushort data)
         {
             offset &= ~1;
             //if (ACCESSING_BITS_8_15)
-                K053244_w(offset, (byte)((data >> 8) & 0xff));
+            K053244_w(offset, (byte)((data >> 8) & 0xff));
             //if (ACCESSING_BITS_0_7)
-                K053244_w(offset + 1, (byte)(data & 0xff));
+            K053244_w(offset + 1, (byte)(data & 0xff));
         }
         public static void K053244_word_noA1_w1(int offset, byte data)
         {
@@ -461,7 +457,7 @@ namespace mame
         }
         public static void punkshot_interrupt()
         {
-            if (K052109_is_IRQ_enabled()!=0)
+            if (K052109_is_IRQ_enabled() != 0)
             {
                 Generic.irq4_line_hold(0);
             }
@@ -575,7 +571,7 @@ namespace mame
             Upd7759.upd7759_reset_w(0, (byte)(data & 2));
             if ((data & 0x04) != 0)
             {
-                if (Sample.sample_playing(0)==0)
+                if (Sample.sample_playing(0) == 0)
                 {
                     Sample.sample_start_raw(0, sampledata, 0x40000, 20000, 0);
                 }
@@ -740,7 +736,7 @@ namespace mame
             //if (ACCESSING_BITS_0_7)
             {
                 Eeprom.eeprom_write_bit(data & 0x01);
-                Eeprom.eeprom_set_cs_line((data & 0x02)!=0 ?LineState.CLEAR_LINE :LineState.ASSERT_LINE);
+                Eeprom.eeprom_set_cs_line((data & 0x02) != 0 ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
                 Eeprom.eeprom_set_clock_line((data & 0x04) != 0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
                 dim_c = data & 0x18;
                 K053244_bankselect(0, ((data & 0x20) >> 5) << 2);
@@ -770,7 +766,7 @@ namespace mame
         }
         public static ushort thndrx2_eeprom_r()
         {
-            int res;            
+            int res;
             res = (Eeprom.eeprom_read_bit() << 8) | (ushort)((bytee << 8) | (byte)sbyte2);
             toggle ^= 0x0800;
             return (ushort)(res ^ toggle);
@@ -780,15 +776,15 @@ namespace mame
             //if (ACCESSING_BITS_0_7)
             {
                 Eeprom.eeprom_write_bit(data & 0x01);
-                Eeprom.eeprom_set_cs_line((data & 0x02)!=0 ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
-                Eeprom.eeprom_set_clock_line((data & 0x04)!=0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
+                Eeprom.eeprom_set_cs_line((data & 0x02) != 0 ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
+                Eeprom.eeprom_set_clock_line((data & 0x04) != 0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
                 if (last == 0 && (data & 0x20) != 0)
                 {
                     Cpuint.cpunum_set_input_line(1, 0, LineState.HOLD_LINE);
                     //cpunum_set_input_line_and_vector(machine, 1, 0, LineState.HOLD_LINE, 0xff);
                 }
                 last = data & 0x20;
-                K052109_set_RMRD_line((data & 0x40)!=0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
+                K052109_set_RMRD_line((data & 0x40) != 0 ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
             }
         }
         public static void thndrx2_eeprom_w2(byte data)
@@ -806,7 +802,7 @@ namespace mame
         public static ushort prmrsocr_IN0_r()
         {
             ushort res;
-            res = (ushort)((sbyte0 << 8)|(byte)sbyte1);
+            res = (ushort)((sbyte0 << 8) | (byte)sbyte1);
             if (init_eeprom_count != 0)
             {
                 init_eeprom_count--;
@@ -926,7 +922,7 @@ namespace mame
         }
         public static byte tmnt2_get_byte(int addr)
         {
-            byte result=0;
+            byte result = 0;
             if (addr <= 0x07ffff)
             {
                 result = Memory.mainrom[addr];
@@ -1205,7 +1201,7 @@ namespace mame
         {
             K054539.k054539_0_w(0x200 + offset, data);
         }
-        public static  void volume_callback(int v)
+        public static void volume_callback(int v)
         {
             K007232.k007232_set_volume(0, 0, (v >> 4) * 0x11, 0);
             K007232.k007232_set_volume(0, 1, 0, (v & 0x0f) * 0x11);

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using mame;
+﻿using mame;
 
 namespace cpu.m6800
 {
@@ -11,7 +6,7 @@ namespace cpu.m6800
     {
         protected void illegal()
         {
-            
+
         }
         protected void trap()
         {
@@ -243,11 +238,11 @@ namespace cpu.m6800
         }
         protected void pula()
         {
-            D.HighByte=PULLBYTE();
+            D.HighByte = PULLBYTE();
         }
         protected void pulb()
         {
-            D.LowByte=PULLBYTE();
+            D.LowByte = PULLBYTE();
         }
         protected void des()
         {
@@ -267,11 +262,11 @@ namespace cpu.m6800
         }
         protected void pulx()
         {
-            X=PULLWORD();
+            X = PULLWORD();
         }
         protected void rts()
         {
-            PC=PULLWORD();
+            PC = PULLWORD();
             //CHANGE_PC();
         }
         protected void abx()
@@ -280,11 +275,11 @@ namespace cpu.m6800
         }
         protected void rti()
         {
-            cc=PULLBYTE();
-            D.LowByte=PULLBYTE();
-            D.HighByte=PULLBYTE();
-            X=PULLWORD();
-            PC=PULLWORD();
+            cc = PULLBYTE();
+            D.LowByte = PULLBYTE();
+            D.HighByte = PULLBYTE();
+            X = PULLWORD();
+            PC = PULLWORD();
             //CHANGE_PC();
             CHECK_IRQ_LINES();
         }

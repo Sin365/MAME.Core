@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.m68000;
+﻿using cpu.m68000;
 
 namespace mame
 {
     public partial class Capcom
     {
         public static byte[] audiorom2;
-        public static int basebankmain,basebanksnd1;
-        public static byte[] gfx1rom, gfx2rom, gfx3rom,gfx4rom,gfx5rom,gfx12rom,gfx22rom,gfx32rom,gfx42rom;
+        public static int basebankmain, basebanksnd1;
+        public static byte[] gfx1rom, gfx2rom, gfx3rom, gfx4rom, gfx5rom, gfx12rom, gfx22rom, gfx32rom, gfx42rom;
         public static ushort dsw1, dsw2;
         public static byte bytedsw1, bytedsw2;
         public static ushort[] sf_objectram, sf_videoram;
         public static int[] scale = new int[8] { 0x00, 0x40, 0xe0, 0xfe, 0xfe, 0xfe, 0xfe, 0xfe };
         public static void CapcomInit()
         {
-            int i,n;
+            int i, n;
             Machine.bRom = true;
             switch (Machine.sName)
             {
                 case "gng":
                 case "gnga":
-	            case "gngbl":
-	            case "gngprot":
-	            case "gngblita":
-	            case "gngc":
-	            case "gngt":
-	            case "makaimur":
-	            case "makaimurc":
-	            case "makaimurg":
+                case "gngbl":
+                case "gngprot":
+                case "gngblita":
+                case "gngc":
+                case "gngt":
+                case "makaimur":
+                case "makaimurc":
+                case "makaimurg":
                 case "diamond":
                     Generic.spriteram = new byte[0x200];
                     Generic.buffered_spriteram = new byte[0x200];
@@ -149,7 +145,7 @@ namespace mame
                         dsw1 = 0xdfff;
                         dsw2 = 0xfbff;
                         shorts = unchecked((short)0xff7f);
-                        break;                    
+                        break;
                     case "sfjan":
                     case "sfan":
                     case "sfp":
@@ -200,11 +196,11 @@ namespace mame
         public static void protection_w(ushort data)
         {
             int[,] maplist = new int[4, 10] {
-		        { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
-		        { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
-		        { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
-		        { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
-	        };
+                { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
+                { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
+                { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
+                { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
+            };
             int map;
             map = maplist[MC68000.m1.ReadByte(0xffc006), (MC68000.m1.ReadByte(0xffc003) << 1) + (MC68000.m1.ReadWord(0xffc004) >> 8)];
             switch (MC68000.m1.ReadByte(0xffc684))
@@ -233,11 +229,11 @@ namespace mame
                 case 2:
                     {
                         int[] delta1 = new int[10]{
-				            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
-			            };
-                                    int[] delta2 = new int[10]{
-				            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
-			            };
+                            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
+                        };
+                        int[] delta2 = new int[10]{
+                            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
+                        };
                         int d1 = delta1[map] + 0xc0;
                         int d2 = delta2[map];
                         MC68000.m1.WriteWord(0xffc680, (short)d1);
@@ -282,11 +278,11 @@ namespace mame
         public static void protection_w1(byte data)
         {
             int[,] maplist = new int[4, 10] {
-		        { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
-		        { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
-		        { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
-		        { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
-	        };
+                { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
+                { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
+                { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
+                { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
+            };
             int map;
             map = maplist[MC68000.m1.ReadByte(0xffc006), (MC68000.m1.ReadByte(0xffc003) << 1) + (MC68000.m1.ReadWord(0xffc004) >> 8)];
             switch (MC68000.m1.ReadByte(0xffc684))
@@ -315,11 +311,11 @@ namespace mame
                 case 2:
                     {
                         int[] delta1 = new int[10]{
-				            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
-			            };
+                            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
+                        };
                         int[] delta2 = new int[10]{
-				            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
-			            };
+                            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
+                        };
                         int d1 = delta1[map] + 0xc0;
                         int d2 = delta2[map];
                         MC68000.m1.WriteWord(0xffc680, (short)d1);
@@ -351,7 +347,7 @@ namespace mame
                             }
                             MC68000.m1.WriteWord(0xffc682, (short)d1);
                             MC68000.m1.WriteWord(0xffc00e, (short)off);
-                            sf_bg_scroll_w((byte)(d1>>8));
+                            sf_bg_scroll_w((byte)(d1 >> 8));
                         }
                         break;
                     }
@@ -364,11 +360,11 @@ namespace mame
         public static void protection_w2(byte data)
         {
             int[,] maplist = new int[4, 10] {
-		        { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
-		        { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
-		        { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
-		        { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
-	        };
+                { 1, 0, 3, 2, 4, 5, 6, 7, 8, 9 },
+                { 4, 5, 6, 7, 1, 0, 3, 2, 8, 9 },
+                { 3, 2, 1, 0, 6, 7, 4, 5, 8, 9 },
+                { 6, 7, 4, 5, 3, 2, 1, 0, 8, 9 }
+            };
             int map;
             map = maplist[MC68000.m1.ReadByte(0xffc006), (MC68000.m1.ReadByte(0xffc003) << 1) + (MC68000.m1.ReadWord(0xffc004) >> 8)];
             switch (MC68000.m1.ReadByte(0xffc684))
@@ -397,11 +393,11 @@ namespace mame
                 case 2:
                     {
                         int[] delta1 = new int[10]{
-				            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
-			            };
+                            0x1f80, 0x1c80, 0x2700, 0x2400, 0x2b80, 0x2e80, 0x3300, 0x3600, 0x3a80, 0x3d80
+                        };
                         int[] delta2 = new int[10]{
-				            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
-			            };
+                            0x2180, 0x1800, 0x3480, 0x2b00, 0x3e00, 0x4780, 0x5100, 0x5a80, 0x6400, 0x6d80
+                        };
                         int d1 = delta1[map] + 0xc0;
                         int d2 = delta2[map];
                         MC68000.m1.WriteWord(0xffc680, (short)d1);

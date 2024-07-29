@@ -1,17 +1,19 @@
 ﻿using MAME.Core.Common;
-using System;
-using System.Drawing;
-using System.Runtime.InteropServices;
 
 namespace mame
 {
     public class Window
     {
-        private static mainForm _myParentForm;
-        [DllImport("kernel32.dll ")]
-        private static extern uint GetTickCount();
-        
-        public static bool input_enabled,input_paused, mouse_enabled, lightgun_enabled;
+        private static mainMotion _myParentForm;
+        //[DllImport("kernel32.dll ")]
+        //private static extern uint GetTickCount();
+
+        private static uint GetTickCount()
+        {
+            return (uint)Wintime._stopwatch.ElapsedMilliseconds;
+        }
+
+        public static bool input_enabled, input_paused, mouse_enabled, lightgun_enabled;
         public static uint last_poll, last_event_check;
         private static bool _CursorShown = true;
         public static void osd_update(bool skip_redraw)
@@ -45,7 +47,7 @@ namespace mame
             }
             winwindow_process_events(true);
         }
-        public static void osd_init(mainForm form)
+        public static void osd_init(mainMotion form)
         {
             _myParentForm = form;
             wininput_init();
@@ -70,7 +72,7 @@ namespace mame
                     break;
             }
             wininput_poll();
-        }        
+        }
         public static void wininput_pause(bool paused)
         {
             input_paused = paused;

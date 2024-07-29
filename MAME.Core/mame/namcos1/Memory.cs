@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.m6800;
-using cpu.m6809;
+﻿using cpu.m6800;
 
 namespace mame
 {
@@ -88,37 +83,37 @@ namespace mame
             int reg;
             reg = address / 0x2000;
             offset = address & 0x1fff;
-            if (cus117_offset[0,reg] == 0)
+            if (cus117_offset[0, reg] == 0)
             {
-                result = user1rom[user1rom_offset[0,reg] + offset];
+                result = user1rom[user1rom_offset[0, reg] + offset];
             }
-            else if (cus117_offset[0,reg] >= 0x2e0000 && cus117_offset[0,reg] <= 0x2e7fff)
+            else if (cus117_offset[0, reg] >= 0x2e0000 && cus117_offset[0, reg] <= 0x2e7fff)
             {
-                result = namcos1_paletteram[cus117_offset[0,reg] - 0x2e0000 + offset];
+                result = namcos1_paletteram[cus117_offset[0, reg] - 0x2e0000 + offset];
             }
-            else if (cus117_offset[0,reg] >= 0x2f0000 && cus117_offset[0,reg] <= 0x2f7fff)
+            else if (cus117_offset[0, reg] >= 0x2f0000 && cus117_offset[0, reg] <= 0x2f7fff)
             {
-                result = namcos1_videoram_r(cus117_offset[0,reg] - 0x2f0000 + offset);
+                result = namcos1_videoram_r(cus117_offset[0, reg] - 0x2f0000 + offset);
             }
-            else if (cus117_offset[0,reg] == 0x2f8000)
+            else if (cus117_offset[0, reg] == 0x2f8000)
             {
                 result = key_r(offset);
             }
-            else if (cus117_offset[0,reg] == 0x2fc000)
+            else if (cus117_offset[0, reg] == 0x2fc000)
             {
                 result = namcos1_spriteram_r(offset);
             }
-            else if (cus117_offset[0,reg] == 0x2fe000)
+            else if (cus117_offset[0, reg] == 0x2fe000)
             {
                 result = soundram_r(offset);
             }
-            else if (cus117_offset[0,reg] >= 0x300000 && cus117_offset[0,reg] <= 0x307fff)
+            else if (cus117_offset[0, reg] >= 0x300000 && cus117_offset[0, reg] <= 0x307fff)
             {
-                result = s1ram[cus117_offset[0,reg] - 0x300000 + offset];
+                result = s1ram[cus117_offset[0, reg] - 0x300000 + offset];
             }
-            else if (cus117_offset[0,reg] >= 0x400000 && cus117_offset[0,reg] <= 0x7fffff)
+            else if (cus117_offset[0, reg] >= 0x400000 && cus117_offset[0, reg] <= 0x7fffff)
             {
-                result = user1rom[cus117_offset[0,reg] - 0x400000 + offset];
+                result = user1rom[cus117_offset[0, reg] - 0x400000 + offset];
             }
             else
             {
@@ -133,33 +128,33 @@ namespace mame
             int reg;
             reg = address / 0x2000;
             offset = address & 0x1fff;
-            if (cus117_offset[1,reg] >= 0x2e0000 && cus117_offset[1,reg] <= 0x2e7fff)
+            if (cus117_offset[1, reg] >= 0x2e0000 && cus117_offset[1, reg] <= 0x2e7fff)
             {
-                result = namcos1_paletteram[cus117_offset[1,reg] - 0x2e0000 + offset];
+                result = namcos1_paletteram[cus117_offset[1, reg] - 0x2e0000 + offset];
             }
-            else if (cus117_offset[1,reg] >= 0x2f0000 && cus117_offset[1,reg] <= 0x2f7fff)
+            else if (cus117_offset[1, reg] >= 0x2f0000 && cus117_offset[1, reg] <= 0x2f7fff)
             {
-                result = namcos1_videoram_r(cus117_offset[1,reg] - 0x2f0000 + offset);
+                result = namcos1_videoram_r(cus117_offset[1, reg] - 0x2f0000 + offset);
             }
-            else if (cus117_offset[1,reg] == 0x2f8000)
+            else if (cus117_offset[1, reg] == 0x2f8000)
             {
                 result = key_r(offset);
             }
-            else if (cus117_offset[1,reg] == 0x2fc000)
+            else if (cus117_offset[1, reg] == 0x2fc000)
             {
                 result = namcos1_spriteram_r(offset);
             }
-            else if (cus117_offset[1,reg] == 0x2fe000)
+            else if (cus117_offset[1, reg] == 0x2fe000)
             {
                 result = soundram_r(offset);
             }
-            else if (cus117_offset[1,reg] >= 0x300000 && cus117_offset[1,reg] <= 0x307fff)
+            else if (cus117_offset[1, reg] >= 0x300000 && cus117_offset[1, reg] <= 0x307fff)
             {
                 result = s1ram[cus117_offset[1, reg] - 0x300000 + offset];
             }
-            else if (cus117_offset[1,reg] >= 0x400000 && cus117_offset[1,reg] <= 0x7fffff)
+            else if (cus117_offset[1, reg] >= 0x400000 && cus117_offset[1, reg] <= 0x7fffff)
             {
-                result = user1rom[cus117_offset[1,reg] - 0x400000 + offset];
+                result = user1rom[cus117_offset[1, reg] - 0x400000 + offset];
             }
             else if (cus117_offset[0, reg] == 0)
             {
@@ -262,7 +257,7 @@ namespace mame
                 result = 0;
             }
             return result;
-        }        
+        }
         public static byte N3ReadIO(ushort address)
         {
             byte result;
@@ -286,11 +281,11 @@ namespace mame
             int reg;
             reg = address / 0x2000;
             offset = address & 0x1fff;
-            if (cus117_offset[0,reg] == 0)
+            if (cus117_offset[0, reg] == 0)
             {
                 if (address >= 0x0000 && address <= 0xdfff)
                 {
-                    user1rom[user1rom_offset[0,reg] + offset] = data;
+                    user1rom[user1rom_offset[0, reg] + offset] = data;
                 }
                 if (address >= 0xe000 && address <= 0xefff)
                 {
@@ -325,31 +320,31 @@ namespace mame
                     int i1 = 1;
                 }
             }
-            else if (cus117_offset[0,reg] == 0x2c0000)
+            else if (cus117_offset[0, reg] == 0x2c0000)
             {
                 namcos1_3dcs_w(offset);
             }
-            else if (cus117_offset[0,reg] >= 0x2e0000 && cus117_offset[0,reg] <= 0x2e7fff)
+            else if (cus117_offset[0, reg] >= 0x2e0000 && cus117_offset[0, reg] <= 0x2e7fff)
             {
-                namcos1_paletteram_w(cus117_offset[0,reg] - 0x2e0000 + offset, data);
+                namcos1_paletteram_w(cus117_offset[0, reg] - 0x2e0000 + offset, data);
             }
-            else if (cus117_offset[0,reg] >= 0x2f0000 && cus117_offset[0,reg] <= 0x2f7fff)
+            else if (cus117_offset[0, reg] >= 0x2f0000 && cus117_offset[0, reg] <= 0x2f7fff)
             {
-                namcos1_videoram_w(cus117_offset[0,reg] - 0x2f0000 + offset, data);
+                namcos1_videoram_w(cus117_offset[0, reg] - 0x2f0000 + offset, data);
             }
-            else if (cus117_offset[0,reg] == 0x2f8000)
+            else if (cus117_offset[0, reg] == 0x2f8000)
             {
                 key_w(offset, data);
             }
-            else if (cus117_offset[0,reg] == 0x2fc000)
+            else if (cus117_offset[0, reg] == 0x2fc000)
             {
                 namcos1_spriteram_w(offset, data);
             }
-            else if (cus117_offset[0,reg] == 0x2fe000)
+            else if (cus117_offset[0, reg] == 0x2fe000)
             {
                 soundram_w(offset, data);
             }
-            else if (cus117_offset[0,reg] >= 0x300000 && cus117_offset[0,reg] <= 0x307fff)
+            else if (cus117_offset[0, reg] >= 0x300000 && cus117_offset[0, reg] <= 0x307fff)
             {
                 s1ram[cus117_offset[0, reg] - 0x300000 + offset] = data;
             }

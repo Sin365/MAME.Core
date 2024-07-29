@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class PGM
     {
@@ -52,7 +47,7 @@ namespace mame
                 {
                     result = 0;
                 }
-            }            
+            }
             else if (address >= 0x800000 && address <= 0x81ffff)
             {
                 result = (sbyte)Memory.mainram[address - 0x800000];
@@ -127,7 +122,7 @@ namespace mame
         {
             address &= 0xffffff;
             short result = 0;
-            if (address >= 0 && address+1 <= 0x1ffff)
+            if (address >= 0 && address + 1 <= 0x1ffff)
             {
                 result = (short)(mainbiosrom[address] * 0x100 + mainbiosrom[address + 1]);
             }
@@ -142,7 +137,7 @@ namespace mame
                     result = 0;
                 }
             }
-            else if (address >= 0x800000 && address+1 <= 0x81ffff)
+            else if (address >= 0x800000 && address + 1 <= 0x81ffff)
             {
                 result = (short)(Memory.mainram[address - 0x800000] * 0x100 + Memory.mainram[address - 0x800000 + 1]);
             }
@@ -152,7 +147,7 @@ namespace mame
         {
             address &= 0xffffff;
             short result = 0;
-            if (address >= 0 && address+1 <= 0x1ffff)
+            if (address >= 0 && address + 1 <= 0x1ffff)
             {
                 result = (short)(mainbiosrom[address] * 0x100 + mainbiosrom[address + 1]);
             }
@@ -292,7 +287,7 @@ namespace mame
             }
             else if (address >= 0xa00000 && address + 3 <= 0xa011ff)
             {
-                int offset=(address-0xa00000)/2;
+                int offset = (address - 0xa00000) / 2;
                 result = Generic.paletteram16[offset] * 0x10000 + Generic.paletteram16[offset + 1];
             }
             else if (address >= 0xb00000 && address + 3 <= 0xb0ffff)
@@ -351,7 +346,7 @@ namespace mame
             }
             else if (address >= 0x900000 && address <= 0x903fff)
             {
-                int offset=address-0x900000;
+                int offset = address - 0x900000;
                 pgm_bg_videoram_w(offset, (byte)value);
             }
             else if (address >= 0x904000 && address <= 0x905fff)
@@ -366,12 +361,12 @@ namespace mame
             }
             else if (address >= 0xa00000 && address <= 0xa011ff)
             {
-                int offset = (address - 0xa00000)/2;
+                int offset = (address - 0xa00000) / 2;
                 if ((address % 2) == 0)
                 {
                     Generic.paletteram16[offset] = (ushort)(((byte)value << 8) | (Generic.paletteram16[offset] & 0xff));
                 }
-                else if((address%2)==1)
+                else if ((address % 2) == 1)
                 {
                     Generic.paletteram16[offset] = (ushort)((Generic.paletteram16[offset] & 0xff00) | (byte)value);
                 }
@@ -395,9 +390,9 @@ namespace mame
             }
             else if (address >= 0xc00006 && address <= 0xc00007)
             {
-                if(address==0xc00006)
+                if (address == 0xc00006)
                 {
-                    int i1=1;
+                    int i1 = 1;
                 }
                 else if (address == 0xc00007)
                 {
@@ -436,17 +431,17 @@ namespace mame
             else if (address >= 0x800000 && address + 1 <= 0x81ffff)
             {
                 int offset = address - 0x800000;
-                Memory.mainram[offset] = (byte)(value>>8);
+                Memory.mainram[offset] = (byte)(value >> 8);
                 Memory.mainram[offset + 1] = (byte)value;
             }
             else if (address >= 0x900000 && address + 1 <= 0x903fff)
             {
-                int offset = (address - 0x900000)/2;
+                int offset = (address - 0x900000) / 2;
                 pgm_bg_videoram_w(offset, (ushort)value);
             }
             else if (address >= 0x904000 && address + 1 <= 0x905fff)
             {
-                int offset = (address - 0x904000)/2;
+                int offset = (address - 0x904000) / 2;
                 pgm_tx_videoram_w(offset, (ushort)value);
             }
             else if (address >= 0x907000 && address + 1 <= 0x9077ff)
@@ -467,7 +462,7 @@ namespace mame
                 pgm_videoregs[offset * 2] = (byte)(value >> 8);
                 pgm_videoregs[offset * 2 + 1] = (byte)value;
             }
-            else if (address >= 0xc00002 && address+1 <= 0xc00003)
+            else if (address >= 0xc00002 && address + 1 <= 0xc00003)
             {
                 m68k_l1_w((ushort)value);
             }
@@ -494,7 +489,7 @@ namespace mame
             else if (address >= 0xc10000 && address + 1 <= 0xc1ffff)
             {
                 int offset = address - 0xc10000;
-                z80_ram_w(offset, (byte)(value>>8));
+                z80_ram_w(offset, (byte)(value >> 8));
                 z80_ram_w(offset + 1, (byte)value);
             }
             else

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class IGS011
     {
@@ -143,7 +138,7 @@ namespace mame
         }
         private static void igs011_blit_x_w(ushort data)
         {
-            blitter.x=data;
+            blitter.x = data;
         }
         private static void igs011_blit_y_w(int offset, byte data)
         {
@@ -258,7 +253,7 @@ namespace mame
             int clear, opaque, z;
             byte trans_pen, clear_pen, pen_hi, pen = 0;
             int gfx_size = gfx1rom.Length;
-            int gfx2_size=0;
+            int gfx2_size = 0;
             if (gfx2rom != null)
             {
                 gfx2_size = gfx2rom.Length;
@@ -287,7 +282,7 @@ namespace mame
                 {
                     trans_pen = 0x0f;
                 }
-                clear_pen =(byte)(blitter.pen | 0xf0);
+                clear_pen = (byte)(blitter.pen | 0xf0);
             }
             else
             {
@@ -303,7 +298,7 @@ namespace mame
             }
             xstart = (blitter.x & 0x1ff) - (blitter.x & 0x200);
             ystart = (blitter.y & 0x0ff) - (blitter.y & 0x100);
-            if (flipx!=0)
+            if (flipx != 0)
             {
                 xend = xstart - (blitter.w & 0x1ff) - 1;
                 xinc = -1;
@@ -327,7 +322,7 @@ namespace mame
             {
                 for (x = xstart; x != xend; x += xinc)
                 {
-                    if (clear==0)
+                    if (clear == 0)
                     {
                         if (depth4)
                         {
@@ -337,7 +332,7 @@ namespace mame
                         {
                             pen = gfx1rom[z % gfx_size];
                         }
-                        if (gfx2rom!=null)
+                        if (gfx2rom != null)
                         {
                             pen &= 0x0f;
                             if ((gfx2rom[(z / 8) % gfx2_size] & (1 << (z & 7))) != 0)

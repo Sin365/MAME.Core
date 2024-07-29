@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -18,7 +14,7 @@ namespace mame
         public struct ay8910_context
         {
             public int streams;
-            public int ready;            
+            public int ready;
             public int register_latch;
             public byte[] regs;
             public int last_enable;
@@ -51,7 +47,7 @@ namespace mame
             public write8handler portBwrite;
         }
         public delegate byte read8handler(int offset);
-        public delegate void write8handler(int offset,byte value);
+        public delegate void write8handler(int offset, byte value);
         public static _ay_ym_param ay_ym_param, ay_ym_param_env;
         public ay8910_context ay8910info;
         public static AY8910[] AA8910 = new AY8910[3];
@@ -95,7 +91,7 @@ namespace mame
             ym2149_param.res_count = 16;
             ym2149_param.res = new double[]
             { 73770, 37586, 27458, 21451, 15864, 12371, 8922,  6796,
-	           4763,  3521,  2403,  1737,  1123,   762,  438,   251,
+               4763,  3521,  2403,  1737,  1123,   762,  438,   251,
                   0,     0,     0,     0,     0,     0,    0,     0,
                   0,     0,     0,     0,     0,     0,    0,     0,};
             ym2149_param_env.r_up = 630;
@@ -110,7 +106,7 @@ namespace mame
             ay8910_param.r_down = 300;
             ay8910_param.res_count = 16;
             ay8910_param.res = new double[]
-	        { 118996, 42698, 33105, 24770, 17925, 12678,  9331,  5807,
+            { 118996, 42698, 33105, 24770, 17925, 12678,  9331,  5807,
                 4936,  3038,  2129,  1658,  1271,   969,   781,   623,
                 0,     0,     0,     0,     0,     0,    0,     0,
                 0,     0,     0,     0,     0,     0,    0,     0,};
@@ -339,21 +335,21 @@ namespace mame
                     ay8910info.env_volume = (ay8910info.env_step ^ ay8910info.attack);
                     break;
                 case 14:
-                    if ((ay8910info.regs[7] & 0x40)!=0)
+                    if ((ay8910info.regs[7] & 0x40) != 0)
                     {
-                        if (ay8910_intf.portAwrite!=null)
+                        if (ay8910_intf.portAwrite != null)
                         {
                             ay8910_intf.portAwrite(0, ay8910info.regs[14]);
                         }
                     }
                     break;
                 case 15:
-                    if ((ay8910info.regs[7] & 0x80)!=0)
+                    if ((ay8910info.regs[7] & 0x80) != 0)
                     {
                         if (ay8910_intf.portBwrite != null)
                         {
                             ay8910_intf.portBwrite(0, ay8910info.regs[15]);
-                        }                     
+                        }
                     }
                     break;
             }

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -61,7 +58,7 @@ namespace mame
                         }
                     }
                 }
-                Tilemap.priority_bitmap[ydrawpos,xdrawpos] |= 1;
+                Tilemap.priority_bitmap[ydrawpos, xdrawpos] |= 1;
             }
         }
         private static void pgm_draw_pix_nopri(int xdrawpos, int ydrawpos, ushort srcdat)
@@ -99,8 +96,8 @@ namespace mame
             xcnt = 0;
             xcntdraw = 0;
             while (xcnt < wide * 16)
-            {                
-                if ((flip & 0x01)==0)
+            {
+                if ((flip & 0x01) == 0)
                     xoffset = xcnt;
                 else
                     xoffset = (wide * 16) - xcnt - 1;
@@ -109,14 +106,14 @@ namespace mame
                 if (xzoombit == 1 && xgrow == 1)
                 {
                     xdrawpos = xpos + xcntdraw;
-                    if ((srcdat & 0x8000)==0)
+                    if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
                             Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                     xcntdraw++;
                     xdrawpos = xpos + xcntdraw;
-                    if ((srcdat & 0x8000)==0)
+                    if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
                             Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
@@ -125,12 +122,12 @@ namespace mame
                 }
                 else if (xzoombit == 1 && xgrow == 0)
                 {
-                    
+
                 }
                 else
                 {
                     xdrawpos = xpos + xcntdraw;
-                    if ((srcdat & 0x8000)==0)
+                    if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
                             Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;

@@ -13,7 +13,7 @@ namespace mame
         public int outputs;
         public int output_sampindex;
         public int output_base_sampindex;
-        public int[][] streaminput,streamoutput;
+        public int[][] streaminput, streamoutput;
         private updatedelegate updatecallback;
         public delegate void updatedelegate(int offset, int length);
         public sound_stream(int _sample_rate, int _inputs, int _outputs, updatedelegate callback)
@@ -93,7 +93,7 @@ namespace mame
                 sample_rate = new_sample_rate;
                 new_sample_rate = 0;
                 attoseconds_per_sample = (long)1e18 / sample_rate;
-                max_samples_per_update = (int)((Sound.update_attoseconds + attoseconds_per_sample - 1) /attoseconds_per_sample);
+                max_samples_per_update = (int)((Sound.update_attoseconds + attoseconds_per_sample - 1) / attoseconds_per_sample);
                 output_sampindex = (int)((long)output_sampindex * (long)sample_rate / old_rate);
                 output_base_sampindex = output_sampindex - max_samples_per_update;
                 for (i = 0; i < outputs; i++)
@@ -105,13 +105,13 @@ namespace mame
     };
     public partial class Sound
     {
-        public static int last_update_second;        
+        public static int last_update_second;
         public static sound_stream ym2151stream, okistream, mixerstream;
         public static sound_stream qsoundstream;
         public static sound_stream ym2610stream;
-        public static sound_stream namcostream,dacstream;
+        public static sound_stream namcostream, dacstream;
         public static sound_stream ics2115stream;
-        public static sound_stream ym3812stream,ym3526stream,ym2413stream;
+        public static sound_stream ym3812stream, ym3526stream, ym2413stream;
         public static sound_stream iremga20stream;
         public static sound_stream k053260stream;
         public static sound_stream upd7759stream;
@@ -120,9 +120,9 @@ namespace mame
         public static sound_stream k054539stream;
         public static long update_attoseconds = Attotime.ATTOSECONDS_PER_SECOND / 50;
         private static void generate_resampled_dataY5(int gain)
-        {            
+        {
             int offset;
-            int sample0,sample1;
+            int sample0, sample1;
             long basetime;
             int basesample;
             uint basefrac;
@@ -200,7 +200,7 @@ namespace mame
         }
         private static void generate_resampled_dataQ()
         {
-            int offset;            
+            int offset;
             long basetime;
             int basesample;
             uint basefrac;
@@ -371,7 +371,7 @@ namespace mame
                 }
             }
         }
-        private static void generate_resampled_dataYM2203(int c,int gain,int minput)
+        private static void generate_resampled_dataYM2203(int c, int gain, int minput)
         {
             int offset;
             long basetime;
@@ -756,7 +756,7 @@ namespace mame
                 }
             }
         }
-        public static void generate_resampled_dataK053260(int gain,int minput1,int minput2)
+        public static void generate_resampled_dataK053260(int gain, int minput1, int minput2)
         {
             int offset;
             int sample0, sample1;
@@ -878,7 +878,7 @@ namespace mame
                 }
             }
         }
-        public static void generate_resampled_dataSample(int gain,int minput)
+        public static void generate_resampled_dataSample(int gain, int minput)
         {
             int offset;
             long basetime;
@@ -1017,7 +1017,7 @@ namespace mame
         }
         public static void streams_updateC()
         {
-            Atime curtime =Timer.global_basetime;
+            Atime curtime = Timer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1283,7 +1283,7 @@ namespace mame
             k053260stream.adjuststream(second_tick);
             mixerstream.adjuststream(second_tick);
             last_update_second = curtime.seconds;
-        } 
+        }
         private static void streams_updateKonami68000_ssriders()
         {
             Atime curtime = Timer.global_basetime;
@@ -1319,7 +1319,7 @@ namespace mame
             }
             AY8910.AA8910[0].stream.adjuststream(second_tick);
             AY8910.AA8910[1].stream.adjuststream(second_tick);
-            YM2203.FF2203[0].stream.adjuststream(second_tick);            
+            YM2203.FF2203[0].stream.adjuststream(second_tick);
             YM2203.FF2203[1].stream.adjuststream(second_tick);
             mixerstream.adjuststream(second_tick);
             last_update_second = curtime.seconds;

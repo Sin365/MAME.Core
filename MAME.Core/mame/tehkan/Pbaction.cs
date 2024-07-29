@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {
@@ -13,7 +8,7 @@ namespace mame
         public static byte[] mainromop, gfx1rom, gfx2rom, gfx3rom, gfx32rom;
         public static void PbactionInit()
         {
-            int i,n;
+            int i, n;
             Machine.bRom = true;
             switch (Machine.sName)
             {
@@ -32,7 +27,7 @@ namespace mame
                     Generic.colorram = new byte[0x400];
                     pbaction_colorram2 = new byte[0x400];
                     Generic.spriteram = new byte[0x80];
-                    Generic.paletteram = new byte[0x200];                  
+                    Generic.paletteram = new byte[0x200];
                     if (Memory.mainrom == null || Memory.audiorom == null || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;
@@ -101,7 +96,7 @@ namespace mame
         }
         public static void machine_reset_tehkan()
         {
-            
+
         }
     }
 }

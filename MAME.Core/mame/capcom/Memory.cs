@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {
@@ -10,8 +6,8 @@ namespace mame
     {
         public static sbyte sbyte1, sbyte2, sbyte3, sbyte4;
         public static sbyte sbyte1_old, sbyte2_old, sbyte3_old, sbyte4_old;
-        public static short short0, short1,short2,shorts,shortc;
-        public static short short0_old, short1_old,short2_old,shorts_old,shortc_old;
+        public static short short0, short1, short2, shorts, shortc;
+        public static short short0_old, short1_old, short2_old, shorts_old, shortc_old;
         public static byte bytes, byte1, byte2;
         public static byte bytes_old, byte1_old, byte2_old;
         public static byte MReadOpByte_gng(ushort address)
@@ -83,7 +79,7 @@ namespace mame
                 result = bytedsw2;
             }
             else if (address == 0x3c00)
-            {                
+            {
                 result = 0;
             }
             else if (address >= 0x4000 && address <= 0x5fff)
@@ -852,11 +848,11 @@ namespace mame
             else if (address >= 0xff8000 && address + 1 <= 0xffdfff)
             {
                 int offset = address - 0xff8000;
-                result = (short)(Memory.mainram[offset]*0x100+Memory.mainram[offset+1]);
+                result = (short)(Memory.mainram[offset] * 0x100 + Memory.mainram[offset + 1]);
             }
             else if (address >= 0xffe000 && address + 1 <= 0xffffff)
             {
-                int offset = (address - 0xffe000)/2;
+                int offset = (address - 0xffe000) / 2;
                 result = (short)sf_objectram[offset];
             }
             return result;
@@ -960,7 +956,7 @@ namespace mame
             else if (address >= 0x800000 && address + 3 <= 0x800fff)
             {
                 int offset = (address - 0x800000) / 2;
-                result = (int)(sf_videoram[offset]*0x10000+sf_videoram[offset+1]);
+                result = (int)(sf_videoram[offset] * 0x10000 + sf_videoram[offset + 1]);
             }
             else if (address >= 0xff8000 && address + 3 <= 0xffdfff)
             {
@@ -1045,7 +1041,7 @@ namespace mame
             {
                 if (address % 2 == 0)
                 {
-                    
+
                 }
                 else if (address % 2 == 1)
                 {
@@ -1056,7 +1052,7 @@ namespace mame
             {
                 if (address % 2 == 0)
                 {
-                    
+
                 }
                 else if (address % 2 == 1)
                 {
@@ -1140,7 +1136,7 @@ namespace mame
             else if (address >= 0xff8000 && address + 1 <= 0xffdfff)
             {
                 int offset = address - 0xff8000;
-                Memory.mainram[offset] = (byte)(value>>8);
+                Memory.mainram[offset] = (byte)(value >> 8);
                 Memory.mainram[offset + 1] = (byte)value;
             }
             else if (address >= 0xffe000 && address + 1 <= 0xffffff)
@@ -1165,7 +1161,7 @@ namespace mame
             else if (address >= 0x800000 && address + 3 <= 0x800fff)
             {
                 int offset = (address - 0x800000) / 2;
-                sf_videoram_w(offset, (ushort)(value>>16));
+                sf_videoram_w(offset, (ushort)(value >> 16));
                 sf_videoram_w(offset + 1, (ushort)value);
             }
             else if (address >= 0xb00000 && address + 3 <= 0xb007ff)

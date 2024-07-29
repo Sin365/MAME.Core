@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -15,20 +11,20 @@ namespace mame
             public uint start;
             public uint bank;
             public uint volume;
-	        public int play;
+            public int play;
             public uint pan;
             public uint pos;
-	        public int loop;
-	        public int ppcm;
-	        public int ppcm_data;
+            public int loop;
+            public int ppcm;
+            public int ppcm_data;
         };
         public struct k053260_chip_def
         {
-	        public int mode;
-	        public int[] regs;
-	        public int rom_size;
-	        public uint[] delta_table;
-	        public k053260_channel_def[] channels;
+            public int mode;
+            public int[] regs;
+            public int rom_size;
+            public uint[] delta_table;
+            public k053260_channel_def[] channels;
         };
         public static byte[] k053260rom;
         public static k053260_chip_def ic1;
@@ -43,7 +39,7 @@ namespace mame
                 double v = (double)(0x1000 - i);
                 double target = (max) / v;
                 double fixed1 = (double)(1 << 16);
-                if ((target!=0) && (base1!=0))
+                if ((target != 0) && (base1 != 0))
                 {
                     target = fixed1 / (base1 / target);
                     val = (uint)target;
@@ -79,7 +75,7 @@ namespace mame
         }
         public static byte k053260_read(int chip, int offset)
         {
-            byte result=0;
+            byte result = 0;
             switch (offset)
             {
                 case 0x29:
@@ -115,27 +111,27 @@ namespace mame
         {
             return k053260_read(0, offset);
         }
-        public static void k053260_update(int offset,int length)
+        public static void k053260_update(int offset, int length)
         {
-	        long[] dpcmcnv =new long[] { 0,1,2,4,8,16,32,64, -128, -64, -32, -16, -8, -4, -2, -1};
+            long[] dpcmcnv = new long[] { 0, 1, 2, 4, 8, 16, 32, 64, -128, -64, -32, -16, -8, -4, -2, -1 };
             int i, j;
             uint[] rom_offset;
-            int[] lvol,rvol,play,loop,ppcm_data,ppcm;
+            int[] lvol, rvol, play, loop, ppcm_data, ppcm;
             rom_offset = new uint[4];
-            lvol=new int[4];
-            rvol=new int[4];
-            play=new int[4];
-            loop=new int[4];
-            ppcm_data=new int[4];
-            ppcm=new int[4];
+            lvol = new int[4];
+            rvol = new int[4];
+            play = new int[4];
+            loop = new int[4];
+            ppcm_data = new int[4];
+            ppcm = new int[4];
             byte[] rom;
             rom = new byte[4];
-            uint[] delta,end,pos;
-            delta=new uint[4];
+            uint[] delta, end, pos;
+            delta = new uint[4];
             end = new uint[4];
-            pos=new uint[4];	
-	        int dataL, dataR;
-	        sbyte d;
+            pos = new uint[4];
+            int dataL, dataR;
+            sbyte d;
             for (i = 0; i < 4; i++)
             {
                 rom_offset[i] = ic1.channels[i].start + (ic1.channels[i].bank << 16);
@@ -153,15 +149,16 @@ namespace mame
                     delta[i] /= 2;
                 }
             }
-		    for ( j = 0; j < length; j++ )
+            for (j = 0; j < length; j++)
             {
-			    dataL = dataR = 0;
-			    for ( i = 0; i < 4; i++ )
+                dataL = dataR = 0;
+                for (i = 0; i < 4; i++)
                 {
-				    if ( play[i]!=0 ) {
-					    if ( ( pos[i] >> 16 ) >= end[i] )
+                    if (play[i] != 0)
+                    {
+                        if ((pos[i] >> 16) >= end[i])
                         {
-						    ppcm_data[i] = 0;
+                            ppcm_data[i] = 0;
                             if (loop[i] != 0)
                             {
                                 pos[i] = 0;
@@ -171,48 +168,48 @@ namespace mame
                                 play[i] = 0;
                                 continue;
                             }
-					    }
-					    if ( ppcm[i]!=0 )
+                        }
+                        if (ppcm[i] != 0)
                         {
-						    if ( pos[i] == 0 || ( ( pos[i] ^ ( pos[i] - delta[i] ) ) & 0x8000 ) == 0x8000 )
-						     {
-							    int newdata;
-							    if ( (pos[i] & 0x8000)!=0 )
+                            if (pos[i] == 0 || ((pos[i] ^ (pos[i] - delta[i])) & 0x8000) == 0x8000)
+                            {
+                                int newdata;
+                                if ((pos[i] & 0x8000) != 0)
                                 {
-								    newdata = (k053260rom[rom_offset[i]+(pos[i] >> 16)] >> 4) & 0x0f;
-							    }
-							    else
-                                {
-                                    newdata = k053260rom[rom_offset[i]+(pos[i] >> 16)] & 0x0f;
-							    }
-							    ppcm_data[i] = (int)(( ( ppcm_data[i] * 62 ) >> 6 ) + dpcmcnv[newdata]);
-							    if ( ppcm_data[i] > 127 )
-                                {
-								    ppcm_data[i] = 127;
+                                    newdata = (k053260rom[rom_offset[i] + (pos[i] >> 16)] >> 4) & 0x0f;
                                 }
-							    else
+                                else
+                                {
+                                    newdata = k053260rom[rom_offset[i] + (pos[i] >> 16)] & 0x0f;
+                                }
+                                ppcm_data[i] = (int)(((ppcm_data[i] * 62) >> 6) + dpcmcnv[newdata]);
+                                if (ppcm_data[i] > 127)
+                                {
+                                    ppcm_data[i] = 127;
+                                }
+                                else
                                 {
                                     if (ppcm_data[i] < -128)
                                     {
                                         ppcm_data[i] = -128;
                                     }
                                 }
-						    }
-						    d = (sbyte)ppcm_data[i];
-						    pos[i] += delta[i];
-					    }
+                            }
+                            d = (sbyte)ppcm_data[i];
+                            pos[i] += delta[i];
+                        }
                         else
                         {
-                            d = (sbyte)k053260rom[rom_offset[i]+(pos[i] >> 16)];
-						    pos[i] += delta[i];
-					    }
-                        if ((ic1.mode & 2)!=0)
+                            d = (sbyte)k053260rom[rom_offset[i] + (pos[i] >> 16)];
+                            pos[i] += delta[i];
+                        }
+                        if ((ic1.mode & 2) != 0)
                         {
-						    dataL += ( d * lvol[i] ) >> 2;
-						    dataR += ( d * rvol[i] ) >> 2;
-					    }
-				    }
-			    }
+                            dataL += (d * lvol[i]) >> 2;
+                            dataR += (d * rvol[i]) >> 2;
+                        }
+                    }
+                }
                 if (dataL < -32768)
                 {
                     dataL = -32768;
@@ -231,13 +228,13 @@ namespace mame
                 }
                 Sound.k053260stream.streamoutput[1][offset + j] = dataL;
                 Sound.k053260stream.streamoutput[0][offset + j] = dataR;
-		    }
-	        for ( i = 0; i < 4; i++ )
+            }
+            for (i = 0; i < 4; i++)
             {
-		        ic1.channels[i].pos = pos[i];
+                ic1.channels[i].pos = pos[i];
                 ic1.channels[i].play = play[i];
                 ic1.channels[i].ppcm_data = ppcm_data[i];
-	        }
+            }
         }
         public static void k053260_start(int clock)
         {

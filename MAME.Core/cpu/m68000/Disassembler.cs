@@ -22,7 +22,7 @@ namespace cpu.m68000
         {
             var info = new DisassemblyInfo { Mnemonic = "UNKNOWN", PC = pc, Length = 2 };
             op = (ushort)ReadOpWord(pc);
-            
+
             if (Opcodes[op] == MOVE) MOVE_Disasm(info);//
             else if (Opcodes[op] == MOVEA) MOVEA_Disasm(info);
             else if (Opcodes[op] == MOVEQ) MOVEQ_Disasm(info);

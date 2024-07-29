@@ -47,7 +47,7 @@
             }
         }
 
-        private ushort[, , ,] TableALU;
+        private ushort[,,,] TableALU;
         private void InitTableALU()
         {
             TableALU = new ushort[8, 256, 256, 2]; // Class, OP1, OP2, Carry
@@ -191,7 +191,7 @@
             }
         }
 
-        private ushort[, ,] TableRotShift;
+        private ushort[,,] TableRotShift;
         private void InitTableRotShift()
         {
             TableRotShift = new ushort[2, 8, 65536]; // All, operation, AF
@@ -299,7 +299,7 @@
         private int[] cc_op, cc_cb, cc_ed, cc_xy, cc_xycb, cc_ex;
         private void InitTableCc()
         {
-            cc_op=new int[0x100]{
+            cc_op = new int[0x100]{
                  4,10, 7, 6, 4, 4, 7, 4, 4,11, 7, 6, 4, 4, 7, 4,
                  8,10, 7, 6, 4, 4, 7, 4,12,11, 7, 6, 4, 4, 7, 4,
                  7,10,16, 6, 4, 4, 7, 4, 7,11,16, 6, 4, 4, 7, 4,

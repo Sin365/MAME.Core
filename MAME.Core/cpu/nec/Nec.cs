@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using mame;
+using System;
 using System.IO;
-using System.Runtime.InteropServices;
-using mame;
 
 namespace cpu.nec
 {
@@ -22,7 +18,7 @@ namespace cpu.nec
             {
                 totalExecutedCycles = value;
             }
-        }        
+        }
         public override int PendingCycles
         {
             get
@@ -82,7 +78,7 @@ namespace cpu.nec
                     }
                 }
             }
-        }        
+        }
         public struct necbasicregs
         {
             //public ushort[] w;//[8];
@@ -116,7 +112,7 @@ namespace cpu.nec
         public int iNOP;
         public static Nec[] nn1;
         public Mod_RM mod_RM;
-        public byte[] v25v35_decryptiontable;        
+        public byte[] v25v35_decryptiontable;
         public nec_Regs I;
         public int chip_type;
         public static int prefix_base;
@@ -208,7 +204,7 @@ namespace cpu.nec
             ushort var = ReadWord((I.sregs[2] << 4) + I.regs.b[8] + I.regs.b[9] * 0x100);
             I.regs.b[i * 2] = (byte)(var % 0x100);
             I.regs.b[i * 2 + 1] = (byte)(var / 0x100);
-            ushort w4 =(ushort)(I.regs.b[8] + I.regs.b[9] * 0x100 + 2);
+            ushort w4 = (ushort)(I.regs.b[8] + I.regs.b[9] * 0x100 + 2);
             I.regs.b[8] = (byte)(w4 % 0x100);
             I.regs.b[9] = (byte)(w4 / 0x100);
         }
@@ -636,7 +632,7 @@ namespace cpu.nec
         {
             int result, result2;
             b1 = false;
-            result = (short)(I.regs.b[0]+I.regs.b[1]*0x100);
+            result = (short)(I.regs.b[0] + I.regs.b[1] * 0x100);
             result2 = result % (short)((sbyte)tmp);
             if ((result /= (short)((sbyte)tmp)) > 0xff)
             {
@@ -796,7 +792,7 @@ namespace cpu.nec
             mod_RM.regw = new int[256];
             mod_RM.regb = new int[256];
             mod_RM.RMw = new int[256];
-            mod_RM.RMb = new int[256];            
+            mod_RM.RMb = new int[256];
             nec_instruction = new nec_delegate[]{
                 i_add_br8,
                 i_add_wr16,
@@ -813,7 +809,7 @@ namespace cpu.nec
                 i_or_ald8,
                 i_or_axd16,
                 i_push_cs,
-	            i_pre_nec,
+                i_pre_nec,
                 i_adc_br8,
                 i_adc_wr16,
                 i_adc_r8b,
@@ -928,7 +924,7 @@ namespace cpu.nec
                 i_jnle,
                 i_80pre,
                 i_81pre,
-	            i_82pre,
+                i_82pre,
                 i_83pre,
                 i_test_br8,
                 i_test_wr16,
@@ -1056,32 +1052,32 @@ namespace cpu.nec
                 i_ffpre
             };
             GetEA = new getea_delegate[192]{
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
-	            EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
+                EA_000, EA_001, EA_002, EA_003, EA_004, EA_005, EA_006, EA_007,
 
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
-	            EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
+                EA_100, EA_101, EA_102, EA_103, EA_104, EA_105, EA_106, EA_107,
 
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
-	            EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207,
+                EA_200, EA_201, EA_202, EA_203, EA_204, EA_205, EA_206, EA_207
             };
         }
         public override void Reset()
@@ -1194,7 +1190,7 @@ namespace cpu.nec
         public void SaveStateBinary(BinaryWriter writer)
         {
             int i;
-            writer.Write(I.regs.b,0,16);
+            writer.Write(I.regs.b, 0, 16);
             for (i = 0; i < 4; i++)
             {
                 writer.Write(I.sregs[i]);
@@ -1267,7 +1263,7 @@ namespace cpu.nec
         {
             pendingCycles = cycles;
             while (pendingCycles > 0)
-            {                
+            {
                 int prevCycles = pendingCycles;
                 if (I.pending_irq != 0 && I.no_interrupt == 0)
                 {

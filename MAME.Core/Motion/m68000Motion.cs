@@ -1,18 +1,11 @@
 ﻿using cpu.m68000;
-using mame;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Globalization;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MAME.Core.Common
 {
-    public class m68000Form
+    public class m68000Motion
     {
-        private mainForm _myParentForm;
         private string[] sde6 = new string[1] { "," }, sde7 = new string[1] { ";" }, sde9 = new string[1] { "$" }, sde10 = new string[] { "+" };
         private bool bLogNew, bNew;
         public static int iStatus, iRAddress, iWAddress, iROp, iWOp, iValue;
@@ -41,8 +34,8 @@ namespace MAME.Core.Common
         Boolean b_cbPC = false;
         Boolean b_cbTotal = false;
         Boolean b_cbLog = false;
-        string mTx_tbIML  = string.Empty;
-        string mTx_tbUSP  = string.Empty;
+        string mTx_tbIML = string.Empty;
+        string mTx_tbUSP = string.Empty;
         string mTx_tbSSP = string.Empty;
         string mTx_tbCycles = string.Empty;
         string mTx_tbPC = string.Empty;
@@ -61,9 +54,8 @@ namespace MAME.Core.Common
             M68000_STOP,
         }
         public static M68000State m68000State, m68000FState;
-        public m68000Form(mainForm form)
+        public m68000Motion()
         {
-            this._myParentForm = form;
             int i;
             mTxList_tbDs = new string[8];
             mTxList_tbAs = new string[8];

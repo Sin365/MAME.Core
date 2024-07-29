@@ -1,7 +1,4 @@
-﻿using System.IO;
-using mame;
-
-namespace cpu.z80
+﻿namespace cpu.z80
 {
     public partial class Z80A
     {
@@ -25,7 +22,7 @@ namespace cpu.z80
                 {
                     halted = false;
                     RegPC.Word++;
-                }                
+                }
                 totalExecutedCycles += 11; pendingCycles -= 11;
                 nonMaskableInterruptPending = false;
                 //iff2 = iff1;

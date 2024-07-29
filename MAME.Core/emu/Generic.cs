@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
+using System;
 
 namespace mame
 {
@@ -54,7 +50,7 @@ namespace mame
             {
                 return;
             }
-            coinlockedout[num] =(uint) on;
+            coinlockedout[num] = (uint)on;
         }
         public static void coin_lockout_global_w(int on)
         {
@@ -71,9 +67,9 @@ namespace mame
                 case "Neo Geo":
                     Neogeo.nvram_handler_load_neogeo();
                     break;
-                /*case "Namco System 1":
-                    Namcos1.nvram_handler_load_namcos1();
-                    break;*/
+                    /*case "Namco System 1":
+                        Namcos1.nvram_handler_load_namcos1();
+                        break;*/
             }
         }
         public static void nvram_save()
@@ -83,9 +79,9 @@ namespace mame
                 case "Neo Geo":
                     Neogeo.nvram_handler_save_neogeo();
                     break;
-                /*case "Namco System 1":
-                    Namcos1.nvram_handler_save_namcos1();
-                    break;*/
+                    /*case "Namco System 1":
+                        Namcos1.nvram_handler_save_namcos1();
+                        break;*/
             }
         }
         public static void watchdog_reset16_w()
@@ -124,11 +120,11 @@ namespace mame
         public static void irq_2_0_line_hold()
         {
             Cpuint.cpunum_set_input_line(2, 0, LineState.HOLD_LINE);
-        }        
+        }
         public static void watchdog_reset_w()
         {
             Watchdog.watchdog_reset();
-        }        
+        }
         public static void interrupt_reset()
         {
             int cpunum;
@@ -139,7 +135,7 @@ namespace mame
         }
         public static void clear_all_lines()
         {
-            int inputcount=0;
+            int inputcount = 0;
             int line;
             if (objcpunum == 0 && Cpuexec.cpu[0] == MC68000.m1)
             {
@@ -221,7 +217,7 @@ namespace mame
         }
         public static ushort paletteram16_be(int offset)
         {
-	        return (ushort)(paletteram[offset | 1] | (paletteram[offset & ~1] << 8));
+            return (ushort)(paletteram[offset | 1] | (paletteram[offset & ~1] << 8));
         }
         public static void set_color_444(int color, int rshift, int gshift, int bshift, ushort data)
         {
@@ -238,14 +234,14 @@ namespace mame
             long period = Video.screenstate.frame_period;
             RECT visarea = Video.screenstate.visarea;
             Tmap.tilemap_set_flip(null, (byte)((Tilemap.TILEMAP_FLIPX & flip_screen_x) | (Tilemap.TILEMAP_FLIPY & flip_screen_y)));
-            if (flip_screen_x!=0)
+            if (flip_screen_x != 0)
             {
                 int temp;
                 temp = width - visarea.min_x - 1;
                 visarea.min_x = width - visarea.max_x - 1;
                 visarea.max_x = temp;
             }
-            if (flip_screen_y!=0)
+            if (flip_screen_y != 0)
             {
                 int temp;
                 temp = height - visarea.min_y - 1;
@@ -323,7 +319,7 @@ namespace mame
             set_color_444(offset, 12, 8, 4, paletteram16_split(offset));
         }
 
-        public static void paletteram16_xBBBBBGGGGGRRRRR_word_w(int offset,ushort data)
+        public static void paletteram16_xBBBBBGGGGGRRRRR_word_w(int offset, ushort data)
         {
             paletteram16[offset] = data;
             set_color_555(offset, 0, 5, 10, paletteram16[offset]);
@@ -359,6 +355,6 @@ namespace mame
             paletteram16[offset] = (ushort)((paletteram16[offset] & 0xff00) | data);
             ushort data1 = paletteram16[offset];
             Palette.palette_set_callback(offset, (uint)((Palette.pal5bit((byte)(((data1 >> 11) & 0x1e) | ((data1 >> 3) & 0x01))) << 16) | (Palette.pal5bit((byte)(((data >> 7) & 0x1e) | ((data >> 2) & 0x01))) << 8) | Palette.pal5bit((byte)(((data >> 3) & 0x1e) | ((data >> 1) & 0x01)))));
-        }        
+        }
     }
 }

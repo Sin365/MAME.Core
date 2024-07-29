@@ -1,8 +1,6 @@
 ﻿using MAME.Core.Common;
 using MAME.Core.run_interface;
-using System;
 using System.IO;
-using System.Runtime.InteropServices;
 using System.Threading;
 
 namespace mame
@@ -29,6 +27,7 @@ namespace mame
         public static BinaryReader brRecord = null;
         public static BinaryWriter bwRecord = null;
         public static bool bPP = true;
+        public static string RomRoot = string.Empty;
         public class AA
         {
             public int fr;
@@ -98,12 +97,12 @@ namespace mame
             if (playState == PlayState.PLAY_SAVE)
             {
                 mame_pause(true);
-                UI.ui_handler_callback = handle_save;
+                Motion.motion_handler_callback = handle_save;
             }
             else if (playState == PlayState.PLAY_LOAD)
             {
                 mame_pause(true);
-                UI.ui_handler_callback = handle_load;
+                Motion.motion_handler_callback = handle_load;
             }
             else if (playState == PlayState.PLAY_RESET)
             {
@@ -113,7 +112,7 @@ namespace mame
             else if (playState == PlayState.PLAY_RECORDSTART)
             {
                 mame_pause(true);
-                UI.ui_handler_callback = handle_record;
+                Motion.motion_handler_callback = handle_record;
             }
             else if (playState == PlayState.PLAY_RECORDEND)
             {
@@ -122,14 +121,14 @@ namespace mame
             else if (playState == PlayState.PLAY_REPLAYSTART)
             {
                 mame_pause(true);
-                UI.ui_handler_callback = handle_replay;
+                Motion.motion_handler_callback = handle_replay;
             }
             else if (playState == PlayState.PLAY_REPLAYEND)
             {
                 handle_replay();
             }
         }
-        public static void init_machine(mainForm form)
+        public static void init_machine(mainMotion form)
         {
             Inptport.input_init();
             Palette.palette_init();
@@ -153,6 +152,7 @@ namespace mame
         {
             if (paused == pause)
                 return;
+            EmuLogger.Log($"mame_pause->{pause}");
             paused = pause;
             Window.wininput_pause(paused);
             Sound.sound_pause(paused);
@@ -187,7 +187,7 @@ namespace mame
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                     playState = PlayState.PLAY_RUNNING;
                     mame_pause(false);
-                    UI.ui_handler_callback = UI.handler_ingame;
+                    Motion.motion_handler_callback = Motion.handler_ingame;
                     return;
                 }
                 char file;
@@ -208,7 +208,7 @@ namespace mame
                         Video.sDrawText = "Save to position " + file;
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                         playState = PlayState.PLAY_RUNNING;
-                        UI.ui_handler_callback = UI.handler_ingame;
+                        Motion.motion_handler_callback = Motion.handler_ingame;
                         Thread.Sleep(500);
                         mame_pause(false);
                         return;
@@ -230,7 +230,7 @@ namespace mame
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                     playState = PlayState.PLAY_RUNNING;
                     mame_pause(false);
-                    UI.ui_handler_callback = UI.handler_ingame;
+                    Motion.motion_handler_callback = Motion.handler_ingame;
                     return;
                 }
                 char file;
@@ -246,7 +246,7 @@ namespace mame
                             playState = PlayState.PLAY_RUNNING;
                             Thread.Sleep(500);
                             mame_pause(false);
-                            UI.ui_handler_callback = UI.handler_ingame;
+                            Motion.motion_handler_callback = Motion.handler_ingame;
                             return;
                         }
                         FileStream fs1 = new FileStream("sta\\" + Machine.sName + "\\" + file + ".sta", FileMode.Open);
@@ -264,7 +264,7 @@ namespace mame
                         fs2.Close();
                         return;*/
                         playState = PlayState.PLAY_RUNNING;
-                        UI.ui_handler_callback = UI.handler_ingame;
+                        Motion.motion_handler_callback = Motion.handler_ingame;
                         Thread.Sleep(500);
                         mame_pause(false);
                         return;
@@ -288,7 +288,7 @@ namespace mame
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                         playState = PlayState.PLAY_RUNNING;
                         mame_pause(false);
-                        UI.ui_handler_callback = UI.handler_ingame;
+                        Motion.motion_handler_callback = Motion.handler_ingame;
                         return;
                     }
                     char file;
@@ -318,7 +318,7 @@ namespace mame
                             Video.sDrawText = "Record to position " + file;
                             Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                             playState = PlayState.PLAY_RECORDRUNNING;
-                            UI.ui_handler_callback = UI.handler_ingame;
+                            Motion.motion_handler_callback = Motion.handler_ingame;
                             Thread.Sleep(500);
                             mame_pause(false);
                             return;
@@ -351,7 +351,7 @@ namespace mame
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                         playState = PlayState.PLAY_RUNNING;
                         mame_pause(false);
-                        UI.ui_handler_callback = UI.handler_ingame;
+                        Motion.motion_handler_callback = Motion.handler_ingame;
                         return;
                     }
                     char file;
@@ -367,7 +367,7 @@ namespace mame
                                 playState = PlayState.PLAY_RUNNING;
                                 Thread.Sleep(500);
                                 mame_pause(false);
-                                UI.ui_handler_callback = UI.handler_ingame;
+                                Motion.motion_handler_callback = Motion.handler_ingame;
                                 return;
                             }
                             if (bwRecord != null)
@@ -405,7 +405,7 @@ namespace mame
                             Video.sDrawText = "Replay from position " + file;
                             Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
                             playState = PlayState.PLAY_REPLAYRUNNING;
-                            UI.ui_handler_callback = UI.handler_ingame;
+                            Motion.motion_handler_callback = Motion.handler_ingame;
                             Thread.Sleep(500);
                             mame_pause(false);
                             return;
@@ -484,7 +484,7 @@ namespace mame
                         case "tokio":
                         case "tokioo":
                         case "tokiou":
-                        case "tokiob":                            
+                        case "tokiob":
                         case "bublbobl":
                         case "bublbobl1":
                         case "bublboblr":

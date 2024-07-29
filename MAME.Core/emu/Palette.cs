@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Drawing;
+﻿using MAME.Core.AxiBitmap;
+using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace mame
 {
@@ -11,13 +8,13 @@ namespace mame
         public static uint[] entry_color;
         public static float[] entry_contrast;
         private static uint trans_uint;
-        private static int numcolors,numgroups;
+        private static int numcolors, numgroups;
         public static Color trans_color;
-        public delegate void palette_delegate(int index,uint rgb);
+        public delegate void palette_delegate(int index, uint rgb);
         public static palette_delegate palette_set_callback;
         public static void palette_init()
         {
-            int index;            
+            int index;
             switch (Machine.sBoard)
             {
                 case "CPS-1":
@@ -76,7 +73,7 @@ namespace mame
                     numcolors = 0x801;
                     palette_set_callback = palette_entry_set_color2;
                     break;
-                case "Taito":                    
+                case "Taito":
                     switch (Machine.sName)
                     {
                         case "tokio":
@@ -159,7 +156,7 @@ namespace mame
                             numcolors = 0x400;
                             palette_set_callback = palette_entry_set_color3;
                             break;
-                    }                    
+                    }
                     break;
             }
             entry_color = new uint[numcolors];
@@ -309,7 +306,7 @@ namespace mame
         }
         public static byte pal1bit(byte bits)
         {
-	        return (byte)(((bits & 1)!=0) ? 0xff : 0x00);
+            return (byte)(((bits & 1) != 0) ? 0xff : 0x00);
         }
         public static byte pal4bit(byte bits)
         {

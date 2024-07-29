@@ -185,7 +185,7 @@ namespace mame
         }
         public static void record_port()
         {
-            if (ushort0 != ushort0_old || ushort1 != ushort1_old||ushort2!=ushort2_old)
+            if (ushort0 != ushort0_old || ushort1 != ushort1_old || ushort2 != ushort2_old)
             {
                 ushort0_old = ushort0;
                 ushort1_old = ushort1;

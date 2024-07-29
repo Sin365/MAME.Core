@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -47,7 +44,7 @@ namespace mame
             for (i = 0; i < 33; i++)
             {
                 QChip.pan_table[i] = (int)((256 / Math.Sqrt(32)) * Math.Sqrt(i));
-            }            
+            }
         }
         public static void qsound_data_h_w(byte data)
         {

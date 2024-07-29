@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class PGM
     {
         public static byte asic3_reg, asic3_x;
-        public static byte[] asic3_latch=new byte[3];
+        public static byte[] asic3_latch = new byte[3];
         public static ushort asic3_hold, asic3_hilo;
         public static int bt(uint v, int bit)
         {

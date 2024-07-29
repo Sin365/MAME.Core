@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using cpu.m68000;
 using System.IO;
-using cpu.m68000;
 
 namespace mame
 {
@@ -120,15 +116,15 @@ namespace mame
                     layer[i][j] = reader.ReadByte();
                 }
             }
-            lhb2_pen_hi= reader.ReadByte();
-            blitter.x= reader.ReadUInt16();
-            blitter.y= reader.ReadUInt16();
-            blitter.w= reader.ReadUInt16();
-            blitter.h= reader.ReadUInt16();
-            blitter.gfx_lo= reader.ReadUInt16();
-            blitter.gfx_hi= reader.ReadUInt16();
-            blitter.depth= reader.ReadUInt16();
-            blitter.pen= reader.ReadUInt16();
+            lhb2_pen_hi = reader.ReadByte();
+            blitter.x = reader.ReadUInt16();
+            blitter.y = reader.ReadUInt16();
+            blitter.w = reader.ReadUInt16();
+            blitter.h = reader.ReadUInt16();
+            blitter.gfx_lo = reader.ReadUInt16();
+            blitter.gfx_hi = reader.ReadUInt16();
+            blitter.depth = reader.ReadUInt16();
+            blitter.pen = reader.ReadUInt16();
             blitter.flags = reader.ReadUInt16();
             MC68000.m1.LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);

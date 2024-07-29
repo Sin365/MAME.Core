@@ -17,6 +17,7 @@ namespace mame
         #region 抽象出去
         static Action<int, byte[]> Act_BufferWirte;
         static Action<int> Act_SetVolume;
+        static Action<byte[], int> Act_SubmitSamples;
         public delegate void DGetCurrentPosition(out int play_position, out int write_position);
         public static event DGetCurrentPosition Act_DGetCurrentPosition;
 
@@ -24,11 +25,13 @@ namespace mame
         {
             Act_BufferWirte -= Act_BufferWirte;
             Act_SetVolume -= Act_SetVolume;
+            Act_SubmitSamples -= Act_SubmitSamples;
             Act_DGetCurrentPosition -= Act_DGetCurrentPosition;
 
 
             Act_BufferWirte += Isp.BufferWirte;
             Act_SetVolume += Isp.SetVolume;
+            Act_SubmitSamples += Isp.SubmitSamples;
             Act_DGetCurrentPosition += Isp.GetCurrentPosition;
         }
 
@@ -36,6 +39,12 @@ namespace mame
         {
             Act_BufferWirte?.Invoke(Off, Data);
         }
+
+        static void SubmitSamples(byte[] buffer, int samples_a)
+        {
+            Act_SubmitSamples?.Invoke(buffer, samples_a);
+        }
+
         public static void SetVolume(int Vol)
         {
             Act_SetVolume?.Invoke(Vol);
@@ -194,7 +203,7 @@ namespace mame
                             ICS2115.ics2115_start();
                             ics2115stream = new sound_stream(33075, 0, 2, ICS2115.ics2115_update);
                             mixerstream = new sound_stream(48000, 2, 0, null);
-                            break;                        
+                            break;
                     }
                     break;
                 case "PGM":
@@ -239,7 +248,7 @@ namespace mame
                             utempdata = new ushort[2];
                             sound_update = sound_updateTaito_tokio;
                             sound_update_timer = Timer.timer_alloc_common(sound_update, "sound_update", false);
-                            YM2203.ym2203_start(0,3000000);
+                            YM2203.ym2203_start(0, 3000000);
                             mixerstream = new sound_stream(48000, 4, 0, null);
                             break;
                         case "bublbobl":
@@ -1197,7 +1206,7 @@ namespace mame
                 finalmixb[sampindex * 4 + 2] = (byte)samp;
                 finalmixb[sampindex * 4 + 3] = (byte)((samp & 0xff00) >> 8);
             }
-            osd_update_audio_stream(finalmixb, 0x3c0);            
+            osd_update_audio_stream(finalmixb, 0x3c0);
             streams_updateTaito_bublbobl();
         }
         public static void sound_updateTaito_opwolf()
@@ -1727,6 +1736,12 @@ namespace mame
         }
         private static void osd_update_audio_stream(byte[] buffer, int samples_this_frame)
         {
+            ////只需要这部分逻辑
+            //SubmitSamples(buffer, samples_this_frame);
+            //return;
+
+            //TODO后面才考虑原样的处理
+
             int play_position, write_position;
             int stream_in;
             byte[] buffer1, buffer2;

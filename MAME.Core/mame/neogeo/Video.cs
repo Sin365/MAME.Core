@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using System.Runtime.InteropServices;
 
 namespace mame
 {
@@ -176,7 +171,7 @@ namespace mame
                 {
                     break;
                 }
-            }           
+            }
             if (max_sprite_index != 95)
             {
                 max_sprite_index = max_sprite_index + 1;
@@ -373,18 +368,18 @@ namespace mame
         private static void start_sprite_line_timer()
         {
             neogeo_scanline_param = 0;
-            Timer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(0, 0),Attotime.ATTOTIME_NEVER);
+            Timer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
-        private static void draw_fixed_layer(int iBitmap,int scanline)
+        private static void draw_fixed_layer(int iBitmap, int scanline)
         {
-            int i,j,x,y;
-            int[] garouoffsets=new int[32], pix_offsets = new int[] { 0x10, 0x18, 0x00, 0x08 };
+            int i, j, x, y;
+            int[] garouoffsets = new int[32], pix_offsets = new int[] { 0x10, 0x18, 0x00, 0x08 };
             byte[] gfx_base;
             int addr_mask;
-            int gfx_offset,char_pens_offset;
+            int gfx_offset, char_pens_offset;
             byte data;
             bool banked;
-            int garoubank,k,code;
+            int garoubank, k, code;
             ushort code_and_palette;
             if (fixed_layer_source != 0)
             {
@@ -498,7 +493,7 @@ namespace mame
                     videoram_offset = data;
                     videoram_read_buffer = neogeo_videoram[videoram_offset];
                     break;
-                case 0x01:                    
+                case 0x01:
                     if (videoram_offset == 0x842d && data == 0x0)
                     {
                         int i1 = 1;
@@ -561,22 +556,22 @@ namespace mame
             rgb_weights_dark_bit15 = new double[5] { 76.322306339305158, 35.725334891159271, 16.790907407744047, 7.6322306490423326, 4.3053608862660706 };
             zoom_x_tables = new int[,]
             {
-	            { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 },
-	            { 0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0 },
-	            { 0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0 },
-	            { 0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0 },
-	            { 0,0,1,0,1,0,0,0,1,0,0,0,1,0,1,0 },
-	            { 0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0 },
-	            { 0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0 },
-	            { 1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0 },
-	            { 1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0 },
-	            { 1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,0 },
-	            { 1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1 },
-	            { 1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,1 },
-	            { 1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,1 },
-	            { 1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1 },
-	            { 1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1 },
-	            { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
+                { 0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0 },
+                { 0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0 },
+                { 0,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0 },
+                { 0,0,1,0,1,0,0,0,1,0,0,0,1,0,0,0 },
+                { 0,0,1,0,1,0,0,0,1,0,0,0,1,0,1,0 },
+                { 0,0,1,0,1,0,1,0,1,0,0,0,1,0,1,0 },
+                { 0,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0 },
+                { 1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0 },
+                { 1,0,1,0,1,0,1,0,1,1,1,0,1,0,1,0 },
+                { 1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,0 },
+                { 1,0,1,1,1,0,1,0,1,1,1,0,1,0,1,1 },
+                { 1,0,1,1,1,0,1,1,1,1,1,0,1,0,1,1 },
+                { 1,0,1,1,1,0,1,1,1,1,1,0,1,1,1,1 },
+                { 1,1,1,1,1,0,1,1,1,1,1,0,1,1,1,1 },
+                { 1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,1 },
+                { 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1 }
             };
             Array.Clear(palettes, 0, 0x2000);
             Array.Clear(pens, 0, 0x1000);

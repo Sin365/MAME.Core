@@ -112,7 +112,7 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.Up))
             {
-                byte2 &=unchecked((byte) ~0x01);
+                byte2 &= unchecked((byte)~0x01);
             }
             else
             {
@@ -138,7 +138,7 @@ namespace mame
         public static void record_port_starfigh()
         {
             if (byte1 != byte1_old || byte2 != byte2_old)
-            {                
+            {
                 byte1_old = byte1;
                 byte2_old = byte2;
                 Mame.bwRecord.Write(Video.screenstate.frame_number);

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
 using cpu.z80;
+using System.IO;
 
 namespace mame
 {
@@ -23,7 +19,7 @@ namespace mame
             writer.Write(CalCnt);
             writer.Write(asic3_reg);
             writer.Write(asic3_x);
-            for(i=0;i<3;i++)
+            for (i = 0; i < 3; i++)
             {
                 writer.Write(asic3_latch[i]);
             }

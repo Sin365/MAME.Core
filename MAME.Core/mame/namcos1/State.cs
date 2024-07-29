@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using cpu.m6800;
 using cpu.m6809;
-using cpu.m6800;
+using System.IO;
 
 namespace mame
 {
@@ -79,7 +75,7 @@ namespace mame
         }
         public static void LoadStateBinary(BinaryReader reader)
         {
-            int i,j;
+            int i, j;
             dipsw = reader.ReadByte();
             for (i = 0; i < 0x2000; i++)
             {

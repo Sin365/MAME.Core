@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace cpu.m6502
+﻿namespace cpu.m6502
 {
     public partial class M6502
     {

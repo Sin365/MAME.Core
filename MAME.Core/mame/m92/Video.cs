@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -138,7 +134,7 @@ namespace mame
             pf_layer[0].control[offset] = (ushort)((pf_layer[0].control[offset] & 0xff00) | data);
         }
         public static void m92_pf1_control_w(int offset, ushort data)
-        {            
+        {
             pf_layer[0].control[offset] = data;
         }
         public static void m92_pf2_control_w1(int offset, byte data)
@@ -227,7 +223,7 @@ namespace mame
                     break;
             }
         }
-        public static void m92_master_control_w(int offset,ushort data)
+        public static void m92_master_control_w(int offset, ushort data)
         {
             ushort old = pf_master_control[offset];
             //COMBINE_DATA(&pf_master_control[offset]);
@@ -274,14 +270,14 @@ namespace mame
                 pf_layer[laynum].tmap.tilemap_set_scrolldy(-128, -128);
                 pf_layer[laynum].wide_tmap.tilemap_set_scrolldx(2 * laynum - 256, -2 * laynum + 8 - 256);
                 pf_layer[laynum].wide_tmap.tilemap_set_scrolldy(-128, -128);
-            }            
+            }
         }
         public static void draw_sprites(RECT cliprect)
         {
             int offs, k;
             for (k = 0; k < 8; k++)
             {
-                for (offs = 0; offs < m92_sprite_list; )
+                for (offs = 0; offs < m92_sprite_list;)
                 {
                     int x, y, sprite, colour, fx, fy, x_multi, y_multi, i, j, s_ptr, pri_back, pri_sprite;
                     y = Generic.buffered_spriteram16[offs + 0] & 0x1ff;
@@ -324,7 +320,8 @@ namespace mame
                         x &= 0x1ff;
                         for (i = 0; i < y_multi; i++)
                         {
-                            if (Generic.flip_screen_get()!=0) {
+                            if (Generic.flip_screen_get() != 0)
+                            {
                                 int i1 = 1;
                                 /*pdrawgfx(bitmap,machine->gfx[1],
                                         sprite + s_ptr,
@@ -388,7 +385,7 @@ namespace mame
             {
                 if ((pf_master_control[laynum] & 0x40) != 0)
                 {
-                    int scrolldata_offset = (0xf400 + 0x400 * laynum)/2;
+                    int scrolldata_offset = (0xf400 + 0x400 * laynum) / 2;
                     pf_layer[laynum].tmap.tilemap_set_scroll_rows(512);
                     pf_layer[laynum].wide_tmap.tilemap_set_scroll_rows(512);
                     for (i = 0; i < 512; i++)

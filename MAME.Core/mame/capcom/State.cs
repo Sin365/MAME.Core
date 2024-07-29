@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
 using cpu.m6809;
 using cpu.z80;
+using System.IO;
 
 namespace mame
 {
@@ -23,7 +19,7 @@ namespace mame
             writer.Write(scrolly, 0, 2);
             writer.Write(Generic.paletteram, 0, 0x100);
             writer.Write(Generic.paletteram_2, 0, 0x100);
-            writer.Write(Generic.spriteram,0,0x200);
+            writer.Write(Generic.spriteram, 0, 0x200);
             writer.Write(Generic.buffered_spriteram, 0, 0x200);
             for (i = 0; i < 0x100; i++)
             {
@@ -97,7 +93,7 @@ namespace mame
             AY8910.AA8910[1].stream.output_sampindex = reader.ReadInt32();
             AY8910.AA8910[1].stream.output_base_sampindex = reader.ReadInt32();
             YM2203.FF2203[0].stream.output_sampindex = reader.ReadInt32();
-            YM2203.FF2203[0].stream.output_base_sampindex = reader.ReadInt32();            
+            YM2203.FF2203[0].stream.output_base_sampindex = reader.ReadInt32();
             YM2203.FF2203[1].stream.output_sampindex = reader.ReadInt32();
             YM2203.FF2203[1].stream.output_base_sampindex = reader.ReadInt32();
             Sound.mixerstream.output_sampindex = reader.ReadInt32();

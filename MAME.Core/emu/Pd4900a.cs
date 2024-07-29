@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -108,7 +104,7 @@ namespace mame
                     break;
                 case 2:
                     real_year = (pd4990a.year >> 4) * 10 + (pd4990a.year & 0xf);
-                    if ((real_year % 4)!=0 && ((real_year % 100)==0 || (real_year % 400)!=0))
+                    if ((real_year % 4) != 0 && ((real_year % 100) == 0 || (real_year % 400) != 0))
                     {
                         if (pd4990a.days == 0x29)
                         {
@@ -243,9 +239,9 @@ namespace mame
         private static void pd4990a_nextbit()
         {
             ++bitno;
-            if (reading!=0)
+            if (reading != 0)
                 pd4990a_readbit();
-            if (reading!=0 && bitno == 0x34)
+            if (reading != 0 && bitno == 0x34)
             {
                 reading = 0;
                 pd4990a_resetbitstream();
@@ -276,7 +272,7 @@ namespace mame
             {
                 case 0x1:	//load output register
                     bitno = 0;
-                    if (reading!=0)
+                    if (reading != 0)
                         pd4990a_readbit();	//prepare first bit
                     shiftlo = 0;
                     shifthi = 0;
@@ -300,7 +296,7 @@ namespace mame
         private static void pd4990a_serial_control(byte data)
         {
             //Check for command end
-            if (command_line!=0 && (data & 4)==0) //end of command
+            if (command_line != 0 && (data & 4) == 0) //end of command
             {
                 pd4990a_process_command();
             }

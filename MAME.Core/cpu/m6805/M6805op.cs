@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
-using mame;
+﻿using mame;
 
 namespace cpu.m6805
 {
@@ -18,7 +13,7 @@ namespace cpu.m6805
         /* $00/$02/$04/$06/$08/$0A/$0C/$0E BRSET direct,relative ---- */
         protected void brset(byte bit)
         {
-            byte t=0, r=0;
+            byte t = 0, r = 0;
             DIRBYTE(ref r);
             IMMBYTE(ref t);
             CLC();
@@ -1116,7 +1111,7 @@ namespace cpu.m6805
         /* $b5 BITA direct -**- */
         protected void bita_di()
         {
-            byte t=0, r;
+            byte t = 0, r;
             DIRBYTE(ref t);
             r = (byte)(a & t);
             CLR_NZ();

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -46,39 +43,39 @@ namespace mame
         public struct OPL_CH
         {
             public OPL_SLOT[] SLOT;
-	        public uint block_fnum;
-	        public uint fc;
-	        public uint ksl_base;
-	        public byte kcode;
+            public uint block_fnum;
+            public uint fc;
+            public uint ksl_base;
+            public byte kcode;
         }
         public class FM_OPL
         {
-	        public OPL_CH[] P_CH;
+            public OPL_CH[] P_CH;
 
-	        public uint eg_cnt;
-	        public uint eg_timer;
-	        public uint eg_timer_add;
-	        public uint eg_timer_overflow;
+            public uint eg_cnt;
+            public uint eg_timer;
+            public uint eg_timer_add;
+            public uint eg_timer_overflow;
 
-	        public byte rhythm;
+            public byte rhythm;
 
-	        public uint[] fn_tab;
+            public uint[] fn_tab;
 
-	        public byte lfo_am_depth;
-	        public byte lfo_pm_depth_range;
-	        public uint lfo_am_cnt;
-	        public uint lfo_am_inc;
-	        public uint lfo_pm_cnt;
-	        public uint lfo_pm_inc;
+            public byte lfo_am_depth;
+            public byte lfo_pm_depth_range;
+            public uint lfo_am_cnt;
+            public uint lfo_am_inc;
+            public uint lfo_pm_cnt;
+            public uint lfo_pm_inc;
 
-	        public uint noise_rng;
-	        public uint noise_p;
-	        public uint noise_f;
+            public uint noise_rng;
+            public uint noise_p;
+            public uint noise_f;
 
-	        public byte wavesel;
+            public byte wavesel;
 
-	        public uint[] T;
-	        public byte[] st;
+            public uint[] T;
+            public byte[] st;
 
             public YMDeltat.YM_DELTAT deltat;
 
@@ -89,7 +86,7 @@ namespace mame
             public OPL_PORTHANDLER_R keyboardhandler_r;
             public OPL_PORTHANDLER_W keyboardhandler_w;
 
-	        public OPL_TIMERHANDLER timer_handler;
+            public OPL_TIMERHANDLER timer_handler;
             public OPL_IRQHANDLER IRQHandler;
             public OPL_UPDATEHANDLER UpdateHandler;
 
@@ -99,9 +96,9 @@ namespace mame
             public byte statusmask;
             public byte mode;
 
-	        public int clock;
-	        public int rate;
-	        public double freqbase;
+            public int clock;
+            public int rate;
+            public double freqbase;
             public Atime TimerBase;
             public void OPLResetChip()
             {
@@ -508,7 +505,7 @@ namespace mame
                 }
                 else
                 {
-                    
+
                 }
                 P_CH[chan].SLOT[0].op1_out[1] = 0;
                 if (env < 0x180)
@@ -824,61 +821,61 @@ namespace mame
             }
         }
         public static FM_OPL YM3812, YM3526;
-        public static int[] slot_array=new int[32]
+        public static int[] slot_array = new int[32]
         {
-	         0, 2, 4, 1, 3, 5,-1,-1,
-	         6, 8,10, 7, 9,11,-1,-1,
-	        12,14,16,13,15,17,-1,-1,
-	        -1,-1,-1,-1,-1,-1,-1,-1
+             0, 2, 4, 1, 3, 5,-1,-1,
+             6, 8,10, 7, 9,11,-1,-1,
+            12,14,16,13,15,17,-1,-1,
+            -1,-1,-1,-1,-1,-1,-1,-1
         };
-        public static uint[] ksl_tab=new uint[8*16]
+        public static uint[] ksl_tab = new uint[8 * 16]
         {
-	        0,0,0,0,
-	        0,0,0,0,
-	        0,0,0,0,
-	        0,0,0,0,
+            0,0,0,0,
+            0,0,0,0,
+            0,0,0,0,
+            0,0,0,0,
 
-	        0,0,0,0,
-	        0,0,0,0,
-	        0,8,12,16,
-	        20,24,28,32,
+            0,0,0,0,
+            0,0,0,0,
+            0,8,12,16,
+            20,24,28,32,
 
-	        0,0,0,0,
-	        0,12,20,28,
-	        32,40,44,48,
-	        52,56,60,64,
+            0,0,0,0,
+            0,12,20,28,
+            32,40,44,48,
+            52,56,60,64,
 
-	        0,0,0,20,
-	        32,44,52,60,
-	        64,72,76,80,
-	        84,88,92,96,
+            0,0,0,20,
+            32,44,52,60,
+            64,72,76,80,
+            84,88,92,96,
 
-	        0,0,32,52,
-	        64,76,84,92,
-	        96,104,108,112,
-	        116,120,124,128,
+            0,0,32,52,
+            64,76,84,92,
+            96,104,108,112,
+            116,120,124,128,
 
-	        0,32,64,84,
-	        96,108,116,124,
-	        128,136,140,144,
-	        148,152,156,160,
+            0,32,64,84,
+            96,108,116,124,
+            128,136,140,144,
+            148,152,156,160,
 
-	        0,64,96,116,
-	        128,140,148,156,
-	        160,168,172,176,
-	        180,184,188,192,
+            0,64,96,116,
+            128,140,148,156,
+            160,168,172,176,
+            180,184,188,192,
 
-	        0,96,128,148,
-	        160,172,180,188,
-	        192,200,204,208,
-	        212,216,220,224
+            0,96,128,148,
+            160,172,180,188,
+            192,200,204,208,
+            212,216,220,224
         };
-        public static uint[] sl_tab=new uint[16]
+        public static uint[] sl_tab = new uint[16]
         {
             0*16, 1*16, 2*16,3 *16,4 *16,5 *16,6 *16, 7*16,
             8*16, 9*16,10*16,11*16,12*16,13*16,14*16,31*16
         };
-        public static byte[] eg_inc=new byte[15*8]
+        public static byte[] eg_inc = new byte[15 * 8]
         {
             0,1, 0,1, 0,1, 0,1,
             0,1, 0,1, 1,1, 0,1,
@@ -899,7 +896,7 @@ namespace mame
             8,8, 8,8, 8,8, 8,8,
             0,0, 0,0, 0,0, 0,0,
         };
-        public static byte[] eg_rate_select=new byte[16+64+16]
+        public static byte[] eg_rate_select = new byte[16 + 64 + 16]
         {
             14*8,14*8,14*8,14*8,14*8,14*8,14*8,14*8,
             14*8,14*8,14*8,14*8,14*8,14*8,14*8,14*8,
@@ -927,7 +924,7 @@ namespace mame
             12*8,12*8,12*8,12*8,12*8,12*8,12*8,12*8,
             12*8,12*8,12*8,12*8,12*8,12*8,12*8,12*8,
         };
-        public static byte[] eg_rate_shift=new byte[16+64+16]
+        public static byte[] eg_rate_shift = new byte[16 + 64 + 16]
         {
             0,0,0,0,0,0,0,0,
             0,0,0,0,0,0,0,0,
@@ -955,14 +952,14 @@ namespace mame
             0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
         };
-        public static byte[] mul_tab=new byte[16]
+        public static byte[] mul_tab = new byte[16]
         {
             1, 2, 4, 6, 8, 10, 12, 14,
             16, 18,20,20,24,24,30,30
         };
         public static int[] tl_tab;
         public static uint[] sin_tab;
-        public static byte[] lfo_am_table=new byte[210]
+        public static byte[] lfo_am_table = new byte[210]
         {
             0,0,0,0,0,0,0,
             1,1,1,1,
@@ -1017,7 +1014,7 @@ namespace mame
             2,2,2,2,
             1,1,1,1
         };
-        public static sbyte[] lfo_pm_table=new sbyte[8*8*2]
+        public static sbyte[] lfo_pm_table = new sbyte[8 * 8 * 2]
         {
             0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0,
@@ -1067,7 +1064,7 @@ namespace mame
             {
                 return val;
             }
-        }        
+        }
         private static int op_calc(uint phase, int env, int pm, int wave_tab)
         {
             uint p;
@@ -1077,7 +1074,7 @@ namespace mame
                 return 0;
             }
             return tl_tab[p];
-        }        
+        }
         private static int init_tables()
         {
             int i, x;
@@ -1150,7 +1147,7 @@ namespace mame
                 }
             }
             return 1;
-        }        
+        }
         private static int OPL_LockTable()
         {
             num_lock++;
@@ -1158,7 +1155,7 @@ namespace mame
             {
                 return 0;
             }
-            if (init_tables()==0)
+            if (init_tables() == 0)
             {
                 num_lock--;
                 return -1;
@@ -1171,7 +1168,7 @@ namespace mame
             {
                 num_lock--;
             }
-        }        
+        }
         private static FM_OPL OPLCreate(int type, int clock, int rate)
         {
             int i;
@@ -1197,7 +1194,7 @@ namespace mame
         private static void OPLDestroy()
         {
             OPL_UnLockTable();
-        }        
+        }
         public static void ym3812_init(int sndindex, int clock, int rate)
         {
             YM3812 = OPLCreate(1, clock, rate);
@@ -1208,7 +1205,7 @@ namespace mame
             OPLDestroy();
         }
         public static void ym3812_reset_chip()
-        {            
+        {
             YM3812.OPLResetChip();
             num_lock = 0;
         }
@@ -1226,7 +1223,7 @@ namespace mame
         }
         public static void ym3812_set_timer_handler(OPL_TIMERHANDLER timer_handler)
         {
-	        YM3812.OPLSetTimerHandler(timer_handler);
+            YM3812.OPLSetTimerHandler(timer_handler);
         }
         public static void ym3812_set_irq_handler(OPL_IRQHANDLER IRQHandler)
         {
@@ -1275,20 +1272,20 @@ namespace mame
         }
         private static void ym3526_shutdown()
         {
-	        OPLDestroy();
+            OPLDestroy();
         }
         public static void ym3526_reset_chip()
         {
-	        YM3526.OPLResetChip();
+            YM3526.OPLResetChip();
             num_lock = 0;
         }
         public static int ym3526_write(int a, int v)
         {
-	        return YM3526.OPLWrite(a, v);
+            return YM3526.OPLWrite(a, v);
         }
         public static byte ym3526_read(int a)
         {
-	        return (byte)(YM3526.OPLRead(a) | 0x06);
+            return (byte)(YM3526.OPLRead(a) | 0x06);
         }
         public static void ym3526_set_timer_handler(OPL_TIMERHANDLER timer_handler)
         {
@@ -1304,7 +1301,7 @@ namespace mame
         }
         public static int ym3526_timer_over(int c)
         {
-	        return YM3526.OPLTimerOver(c);
+            return YM3526.OPLTimerOver(c);
         }
         public static void ym3526_update_one(int offset, int length)
         {

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -254,12 +251,12 @@ namespace mame
             int offsety1;
             int xoffs;
             Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
-            if ((flags & Tilemap.TILE_FLIPY)!=0)
+            if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;
                 dy0 = -1;
             }
-            if ((flags & Tilemap.TILE_FLIPX)!=0)
+            if ((flags & Tilemap.TILE_FLIPX) != 0)
             {
                 x0 += tilewidth - 1;
                 dx0 = -1;

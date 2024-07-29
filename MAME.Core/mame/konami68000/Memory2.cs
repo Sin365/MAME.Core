@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using cpu.z80;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Konami68000
     {
@@ -649,9 +643,9 @@ namespace mame
                 {
                     result = (sbyte)(K053936_0_linectrl[offset] >> 8);
                 }
-                else if(address%2==1)
+                else if (address % 2 == 1)
                 {
-                    result= (sbyte)K053936_0_linectrl[offset];
+                    result = (sbyte)K053936_0_linectrl[offset];
                 }
             }
             else if (address >= 0x114000 && address <= 0x11401f)
@@ -920,7 +914,7 @@ namespace mame
             else if (address >= 0x10c000 && address + 3 <= 0x10cfff)
             {
                 int offset = (address - 0x10c000) / 2;
-                result = (int)(K053936_0_linectrl[offset]*0x10000+K053936_0_linectrl[offset+1]);
+                result = (int)(K053936_0_linectrl[offset] * 0x10000 + K053936_0_linectrl[offset + 1]);
             }
             else if (address >= 0x114000 && address + 3 <= 0x11401f)
             {
@@ -1155,8 +1149,8 @@ namespace mame
             else if (address >= 0x104000 && address + 3 <= 0x107fff)
             {
                 int offset = (address - 0x104000) / 2;
-                K053245_scattered_word_w(offset, (ushort)(value>>16));
-                K053245_scattered_word_w(offset+1, (ushort)value);
+                K053245_scattered_word_w(offset, (ushort)(value >> 16));
+                K053245_scattered_word_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x108000 && address + 3 <= 0x108fff)
             {
@@ -1369,7 +1363,7 @@ namespace mame
                 }
                 else
                 {
-                    result=(sbyte)tmnt2_sound_r(offset);
+                    result = (sbyte)tmnt2_sound_r(offset);
                 }
             }
             else if (address >= 0x600000 && address <= 0x603fff)
@@ -2086,7 +2080,7 @@ namespace mame
             else if (address >= 0x500000 && address + 3 <= 0x50003f)
             {
                 int offset = (address - 0x500000) / 2;
-                result = (int)(K054000_lsb_r(offset)*0x10000+K054000_lsb_r(offset+1));
+                result = (int)(K054000_lsb_r(offset) * 0x10000 + K054000_lsb_r(offset + 1));
             }
             else if (address >= 0x600000 && address + 3 <= 0x607fff)
             {
@@ -2162,7 +2156,7 @@ namespace mame
             }
             else if (address >= 0x500100 && address <= 0x500101)
             {
-                if(address%2==0)
+                if (address % 2 == 0)
                 {
 
                 }
@@ -2281,14 +2275,14 @@ namespace mame
             else if (address >= 0x500000 && address + 3 <= 0x50003f)
             {
                 int offset = (address - 0x500000) / 2;
-                K054000_lsb_w(offset, (ushort)(value>>16));
-                K054000_lsb_w(offset+1, (ushort)value);
+                K054000_lsb_w(offset, (ushort)(value >> 16));
+                K054000_lsb_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x600000 && address + 3 <= 0x607fff)
             {
                 int offset = (address - 0x600000) / 2;
                 K052109_word_noA12_w(offset, (ushort)(value >> 16));
-                K052109_word_noA12_w(offset+1, (ushort)value);
+                K052109_word_noA12_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x700000 && address + 3 <= 0x700007)
             {
@@ -2403,7 +2397,7 @@ namespace mame
                 {
                     result = (sbyte)(prmrsocr_IN0_r() >> 8);
                 }
-                else if(address%2==1)
+                else if (address % 2 == 1)
                 {
                     result = (sbyte)prmrsocr_IN0_r();
                 }
@@ -2606,7 +2600,7 @@ namespace mame
             else if (address >= 0x114000 && address + 3 <= 0x11401f)
             {
                 int offset = (address - 0x114000) / 2;
-                result = (int)(K053244_lsb_r(offset) * 0x10000 + K053244_lsb_r(offset+1));
+                result = (int)(K053244_lsb_r(offset) * 0x10000 + K053244_lsb_r(offset + 1));
             }
             else if (address >= 0x200000 && address + 3 <= 0x207fff)
             {
@@ -2867,20 +2861,20 @@ namespace mame
             else if (address >= 0x118000 && address + 3 <= 0x11801f)
             {
                 int offset = (address - 0x118000) / 2;
-                K053936_0_ctrl[offset] = (ushort)(value>>16);
-                K053936_0_ctrl[offset+1] = (ushort)value;
+                K053936_0_ctrl[offset] = (ushort)(value >> 16);
+                K053936_0_ctrl[offset + 1] = (ushort)value;
             }
             else if (address >= 0x11c000 && address + 3 <= 0x11c01f)
             {
                 int offset = (address - 0x11c000) / 2;
                 K053251_msb_w(offset, (ushort)(value >> 16));
-                K053251_msb_w(offset+1, (ushort)value);
+                K053251_msb_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x12100c && address + 3 <= 0x12100f)
             {
                 int offset = (address - 0x12100c) / 2;
                 prmrsocr_sound_cmd_w(offset, (ushort)(value >> 16));
-                prmrsocr_sound_cmd_w(offset+1, (ushort)value);
+                prmrsocr_sound_cmd_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x200000 && address + 3 <= 0x207fff)
             {
@@ -3049,7 +3043,7 @@ namespace mame
                 int offset = address - 0xc000;
                 result = Memory.audioram[offset];
             }
-            else if (address>=0xe000&&address<=0xe0ff)
+            else if (address >= 0xe000 && address <= 0xe0ff)
             {
                 int offset = address - 0xe000;
                 result = K054539.k054539_0_r(offset);
@@ -3081,12 +3075,12 @@ namespace mame
                 int offset = address - 0xc000;
                 Memory.audioram[offset] = value;
             }
-            else if (address>=0xe000&&address<=0xe0ff)
+            else if (address >= 0xe000 && address <= 0xe0ff)
             {
                 int offset = address - 0xe000;
                 K054539.k054539_0_w(offset, value);
             }
-            else if (address >=0xe100&&address<=0xe12f)
+            else if (address >= 0xe100 && address <= 0xe12f)
             {
                 int offset = address - 0xe100;
                 k054539_0_ctrl_w(offset, value);

@@ -13,7 +13,7 @@ namespace mame
             else
             {
                 short3 |= 0x0001;
-            }            
+            }
             if (Keyboard.IsPressed(Key.D6))
             {
                 short3 &= ~0x0002;
@@ -168,11 +168,11 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.NumPad3))
             {
-                
+
             }
             else
             {
-                
+
             }
             if (Keyboard.IsPressed(Key.NumPad4))
             {
@@ -192,11 +192,11 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.NumPad6))
             {
-                
+
             }
             else
             {
-                
+
             }
             if (Keyboard.IsPressed(Key.R))
             {
@@ -286,7 +286,7 @@ namespace mame
         }
         public static void record_port()
         {
-            if (short0 != short0_old || short1 != short1_old || short2 != short2_old||short3!=short3_old||short4!=short4_old)
+            if (short0 != short0_old || short1 != short1_old || short2 != short2_old || short3 != short3_old || short4 != short4_old)
             {
                 short0_old = short0;
                 short1_old = short1;
@@ -320,7 +320,7 @@ namespace mame
                 }
                 Inptport.bReplayRead = false;
             }
-            if(Video.screenstate.frame_number==Video.frame_number_obj)
+            if (Video.screenstate.frame_number == Video.frame_number_obj)
             {
                 short0 = short0_old;
                 short1 = short1_old;

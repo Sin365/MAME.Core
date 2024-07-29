@@ -150,7 +150,7 @@ namespace cpu.m68000
                 else if (component == "Xn") opList = AppendPermutations(opList, Xn3);
                 else if (component == "CondMain") opList = AppendPermutations(opList, ConditionMain);
                 else if (component == "CondAll") opList = AppendPermutations(opList, ConditionAll);
-                else if (component == "Data1") opList = AppendData(opList, 1);                
+                else if (component == "Data1") opList = AppendData(opList, 1);
                 else if (component == "Data3") opList = AppendData(opList, 3);
                 else if (component == "Data4") opList = AppendData(opList, 4);
                 else if (component == "Data8") opList = AppendData(opList, 8);
@@ -864,7 +864,7 @@ namespace cpu.m68000
             "1110", // GT  Greater Than (signed)
             "1111"  // LE  Less or Equal (signed)
         };
-        
+
         #endregion
     }
 }

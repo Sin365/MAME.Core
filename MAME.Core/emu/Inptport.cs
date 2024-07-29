@@ -42,11 +42,11 @@ namespace mame
         public long last_delta_nsec;
     }
     public partial class Inptport
-    {        
+    {
         public static bool bReplayRead;
         public delegate void loop_delegate();
         public static loop_delegate loop_inputports_callback, record_port_callback, replay_port_callback;
-        public static analog_field_state analog_p0, analog_p1,analog_p1x,analog_p1y;
+        public static analog_field_state analog_p0, analog_p1, analog_p1x, analog_p1y;
         public static input_port_private portdata;
         public static void input_port_init()
         {
@@ -388,7 +388,7 @@ namespace mame
                 case "dland":
                 case "bbredux":
                 case "bublboblb":
-                case "boblcave":                
+                case "boblcave":
                     loop_inputports_callback = Taito.loop_inputports_taito_boblbobl;
                     break;
                 case "opwolf":
@@ -570,21 +570,21 @@ namespace mame
             result = (uint)apply_analog_settings(value, analog);
             return result;
         }
-        public static int apply_analog_settings(int value,analog_field_state analog)
+        public static int apply_analog_settings(int value, analog_field_state analog)
         {
             value = apply_analog_min_max(analog, value);
-            value = (int)((long)value * analog.sensitivity / 100);            
+            value = (int)((long)value * analog.sensitivity / 100);
             if (analog.reverse)
             {
                 value = analog.reverse_val - value;
             }
             if (value >= 0)
             {
-                value = (int)((long)(value * analog.scalepos)>>24);
+                value = (int)((long)(value * analog.scalepos) >> 24);
             }
             else
             {
-                value = (int)((long)(value * analog.scaleneg)>>24);
+                value = (int)((long)(value * analog.scaleneg) >> 24);
             }
             value += analog.adjdefvalue;
             return value;

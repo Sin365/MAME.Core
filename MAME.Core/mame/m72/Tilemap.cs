@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -22,7 +19,7 @@ namespace mame
             bg_tilemap.all_tiles_dirty = true;
             bg_tilemap.pixmap = new ushort[0x200 * 0x200];
             bg_tilemap.flagsmap = new byte[0x200, 0x200];
-            bg_tilemap.tileflags = new byte[0x40, 0x40];            
+            bg_tilemap.tileflags = new byte[0x40, 0x40];
             bg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
             bg_tilemap.pen_data = new byte[0x40];
             bg_tilemap.pen_to_flags = new byte[3, 16];
@@ -59,7 +56,7 @@ namespace mame
             fg_tilemap.all_tiles_dirty = true;
             fg_tilemap.pixmap = new ushort[0x200 * 0x200];
             fg_tilemap.flagsmap = new byte[0x200, 0x200];
-            fg_tilemap.tileflags = new byte[0x40, 0x40];            
+            fg_tilemap.tileflags = new byte[0x40, 0x40];
             fg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
             fg_tilemap.pen_data = new byte[0x400];
             fg_tilemap.pen_to_flags = new byte[3, 32];
@@ -92,7 +89,7 @@ namespace mame
                 case "airduel":
                 case "airduelm72":
                     bg_tilemap.tile_update3 = bg_tilemap.tile_updateM72_bg_m72;
-                    fg_tilemap.tile_update3 = fg_tilemap.tile_updateM72_fg_m72;                    
+                    fg_tilemap.tile_update3 = fg_tilemap.tile_updateM72_fg_m72;
                     break;
                 case "ltswords":
                 case "kengo":
@@ -373,7 +370,7 @@ namespace mame
             }
             code1 = code % M72.bg_tilemap.total_elements;
             pen_data_offset = code1 * 0x40;
-            tileflags[row, col] = tile_drawM72(M72.gfx21rom,pen_data_offset, x0, y0, 0x100 + 0x10 * (color & 0x0f), pri, (((color & 0x60) >> 5) & 3) ^ (attributes & 0x03));
+            tileflags[row, col] = tile_drawM72(M72.gfx21rom, pen_data_offset, x0, y0, 0x100 + 0x10 * (color & 0x0f), pri, (((color & 0x60) >> 5) & 3) ^ (attributes & 0x03));
         }
         public byte tile_drawM72(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
@@ -407,8 +404,8 @@ namespace mame
                     pen = pen_data[offset1];
                     map = pen_to_flags[group, pen];
                     offset1++;
-                    pixmap[(offsety1%0x200) * 0x200 + x0 + xoffs] = (ushort)(palette_base + pen);
-                    flagsmap[offsety1%0x200, x0 + xoffs] = map;
+                    pixmap[(offsety1 % 0x200) * 0x200 + x0 + xoffs] = (ushort)(palette_base + pen);
+                    flagsmap[offsety1 % 0x200, x0 + xoffs] = map;
                     andmask &= map;
                     ormask |= map;
                     xoffs += dx0;

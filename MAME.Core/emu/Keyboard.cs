@@ -1,5 +1,4 @@
-﻿using MAME.Core;
-using MAME.Core.Common;
+﻿using MAME.Core.Common;
 using MAME.Core.run_interface;
 
 namespace mame
@@ -10,7 +9,7 @@ namespace mame
 
         static IKeyboard mKeyboard;
 
-        public static void InitializeInput(mainForm form1,IKeyboard ikb)
+        public static void InitializeInput(mainMotion form1, IKeyboard ikb)
         {
             mKeyboard = ikb;
         }

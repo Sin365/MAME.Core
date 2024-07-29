@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 
 namespace mame
 {
@@ -2455,8 +2453,8 @@ namespace mame
 
                 /* EEPROM */
                 Eeprom.eeprom_write_bit(data & 0x1000);
-                Eeprom.eeprom_set_clock_line(((data & 0x2000)!=0) ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
-                Eeprom.eeprom_set_cs_line(((data & 0x4000)!=0) ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
+                Eeprom.eeprom_set_clock_line(((data & 0x2000) != 0) ? LineState.ASSERT_LINE : LineState.CLEAR_LINE);
+                Eeprom.eeprom_set_cs_line(((data & 0x4000) != 0) ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
             }
             //low 8 bits
             {
@@ -2472,9 +2470,9 @@ namespace mame
                 /* Z80 Reset */
                 Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_RESET, ((data & 0x0008) != 0) ? LineState.CLEAR_LINE : LineState.ASSERT_LINE);
 
-                Generic.coin_counter_w(0, data & 0x0001);                
+                Generic.coin_counter_w(0, data & 0x0001);
                 Generic.coin_counter_w(1, data & 0x0002);
-                
+
                 Generic.coin_lockout_w(0, ~data & 0x0010);
                 Generic.coin_lockout_w(1, ~data & 0x0020);
                 Generic.coin_lockout_w(2, ~data & 0x0040);

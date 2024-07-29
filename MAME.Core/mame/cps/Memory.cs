@@ -929,7 +929,7 @@ namespace mame
                 else
                 {
                     result = 0;
-             
+
                 }
             }
             else
@@ -1594,7 +1594,7 @@ namespace mame
             else if (address >= 0x618000 && address <= 0x619fff)
             {
                 int offset = (address - 0x618000) / 2;
-                qsound_sharedram1_w(offset, (byte)(value>>16));
+                qsound_sharedram1_w(offset, (byte)(value >> 16));
                 qsound_sharedram1_w(offset + 1, (byte)value);
             }
             else if (address >= 0x662000 && address <= 0x662001)
@@ -1632,7 +1632,7 @@ namespace mame
             else if (address >= 0x70a000 && address <= 0x70bfff)
             {
                 int offset = (address - 0x70a000) / 2;
-                cps2_objram2_w(offset, (ushort)(value>>16));
+                cps2_objram2_w(offset, (ushort)(value >> 16));
                 cps2_objram2_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x70c000 && address <= 0x70dfff)

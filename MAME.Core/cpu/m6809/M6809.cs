@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Runtime.InteropServices;
+﻿using mame;
+using System;
 using System.IO;
-using mame;
 
 namespace cpu.m6809
 {
@@ -498,7 +494,7 @@ namespace cpu.m6809
         private ushort RM16(ushort Addr)
         {
             ushort result = (ushort)(RM(Addr) << 8);
-            return (ushort)(result | RM((ushort)((Addr + 1) &0xffff)));
+            return (ushort)(result | RM((ushort)((Addr + 1) & 0xffff)));
         }
         private void WM16(ushort Addr, Register p)
         {
@@ -544,7 +540,7 @@ namespace cpu.m6809
                     PUSHBYTE(D.LowByte);
                     PUSHBYTE(D.HighByte);
                     PUSHBYTE(CC);
-                    extra_cycles += 19;                    
+                    extra_cycles += 19;
                 }
                 CC |= (byte)(CC_IF | CC_II);
                 PC.LowWord = RM16(0xfffc);

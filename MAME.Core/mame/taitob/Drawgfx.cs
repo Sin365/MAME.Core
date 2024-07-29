@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Drawgfx
     {
@@ -172,9 +167,9 @@ namespace mame
             int colorbase = color;
             blockmove_8toN_transpen_raw16_taitob(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, sx, sy);
         }
-        public static void blockmove_8toN_transpen_raw16_taitob(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,int leftskip, int topskip, int flipx, int flipy,int dstwidth, int dstheight, int colorbase, int sx, int sy)
+        public static void blockmove_8toN_transpen_raw16_taitob(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int sx, int sy)
         {
-            int ydir, xdir, col, i, j,offsetx,offsety;
+            int ydir, xdir, col, i, j, offsetx, offsety;
             int srcdata_offset = code * 0x100;
             offsetx = sx;
             offsety = sy;

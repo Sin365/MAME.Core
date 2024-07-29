@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -67,7 +63,7 @@ namespace mame
                 nam1.waveform[v] = new short[32 * 16];
             }
             for (offset = 0; offset < 256; offset++)
-            	update_namco_waveform(offset, namco_wavedata[offset]);
+                update_namco_waveform(offset, namco_wavedata[offset]);
         }
         public static uint namco_update_one(int[] buffer, int length, short[] wave, uint counter, uint freq)
         {
@@ -89,11 +85,11 @@ namespace mame
                 Sound.namcostream.streamoutput[0][offset + i] = 0;
                 Sound.namcostream.streamoutput[1][offset + i] = 0;
             }
-            for (voice =0;voice<8;voice++)
+            for (voice = 0; voice < 8; voice++)
             {
                 int lv = nam1.channel_list[voice].volume[0];
                 int rv = nam1.channel_list[voice].volume[1];
-                if (nam1.channel_list[voice].noise_sw!=0)
+                if (nam1.channel_list[voice].noise_sw != 0)
                 {
                     int f = nam1.channel_list[voice].frequency & 0xff;
                     if ((lv != 0 || rv != 0) && f != 0)
@@ -107,7 +103,7 @@ namespace mame
                         for (i = 0; i < length; i++)
                         {
                             int cnt;
-                            if (nam1.channel_list[voice].noise_state!=0)
+                            if (nam1.channel_list[voice].noise_state != 0)
                             {
                                 Sound.namcostream.streamoutput[0][offset + i] += l_noise_data;
                                 Sound.namcostream.streamoutput[1][offset + i] += r_noise_data;
@@ -117,7 +113,7 @@ namespace mame
                                 Sound.namcostream.streamoutput[0][offset + i] += l_noise_data;
                                 Sound.namcostream.streamoutput[1][offset + i] += r_noise_data;
                             }
-                            if (hold!=0)
+                            if (hold != 0)
                             {
                                 hold--;
                                 continue;
@@ -128,9 +124,9 @@ namespace mame
                             c &= (1 << 12) - 1;
                             for (; cnt > 0; cnt--)
                             {
-                                if (((nam1.channel_list[voice].noise_seed + 1) & 2)!=0)
+                                if (((nam1.channel_list[voice].noise_seed + 1) & 2) != 0)
                                     nam1.channel_list[voice].noise_state ^= 1;
-                                if ((nam1.channel_list[voice].noise_seed & 1)!=0)
+                                if ((nam1.channel_list[voice].noise_seed & 1) != 0)
                                     nam1.channel_list[voice].noise_seed ^= 0x28000;
                                 nam1.channel_list[voice].noise_seed >>= 1;
                             }
@@ -141,7 +137,7 @@ namespace mame
                 }
                 else
                 {
-                    if (nam1.channel_list[voice].frequency!=0)
+                    if (nam1.channel_list[voice].frequency != 0)
                     {
                         int c = nam1.channel_list[voice].counter;
                         if (lv != 0)
@@ -172,7 +168,7 @@ namespace mame
         public static void namco_start()
         {
             int voice;
-            nam1.num_voices=8;
+            nam1.num_voices = 8;
             nam1.namco_clock = 192000;
             nam1.f_fracbits = 4 + 15;
             nam1.sample_rate = nam1.namco_clock;
@@ -195,48 +191,48 @@ namespace mame
         }
         public static void namcos1_sound_w(int offset, byte data)
         {
-            int ch,ch1;
+            int ch, ch1;
             int nssw;
             if (offset > 63)
             {
                 return;
             }
-            if (namco_wavedata[0x100+offset] == data)
+            if (namco_wavedata[0x100 + offset] == data)
                 return;
             Sound.namcostream.stream_update();
             namco_wavedata[0x100 + offset] = data;
             ch = offset / 8;
             if (ch >= nam1.num_voices)
                 return;
-            ch1=ch;
+            ch1 = ch;
             switch (offset - ch * 8)
             {
-            case 0x00:
-                nam1.channel_list[ch1].volume[0] = data & 0x0f;
-                break;
+                case 0x00:
+                    nam1.channel_list[ch1].volume[0] = data & 0x0f;
+                    break;
 
-            case 0x01:
-                nam1.channel_list[ch1].waveform_select = (data >> 4) & 15;
-                nam1.channel_list[ch1].frequency = (namco_wavedata[0x100 + ch * 8 + 0x01] & 15) << 16;
-                nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x02] << 8;
-                nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x03];
-                break;
-            case 0x02:
-            case 0x03:
-                nam1.channel_list[ch1].frequency = (namco_wavedata[0x100 + ch * 8 + 0x01] & 15) << 16;
-                nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x02] << 8;
-                nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x03];
-                break;
+                case 0x01:
+                    nam1.channel_list[ch1].waveform_select = (data >> 4) & 15;
+                    nam1.channel_list[ch1].frequency = (namco_wavedata[0x100 + ch * 8 + 0x01] & 15) << 16;
+                    nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x02] << 8;
+                    nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x03];
+                    break;
+                case 0x02:
+                case 0x03:
+                    nam1.channel_list[ch1].frequency = (namco_wavedata[0x100 + ch * 8 + 0x01] & 15) << 16;
+                    nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x02] << 8;
+                    nam1.channel_list[ch1].frequency += namco_wavedata[0x100 + ch * 8 + 0x03];
+                    break;
 
-            case 0x04:
-                nam1.channel_list[ch1].volume[1] = data & 0x0f;
-                nssw = ((data & 0x80) >> 7);
-                if(ch1==7)
-                {
-                    ch1=0;
-                }
-                nam1.channel_list[ch1].noise_sw = nssw;
-                break;
+                case 0x04:
+                    nam1.channel_list[ch1].volume[1] = data & 0x0f;
+                    nssw = ((data & 0x80) >> 7);
+                    if (ch1 == 7)
+                    {
+                        ch1 = 0;
+                    }
+                    nam1.channel_list[ch1].noise_sw = nssw;
+                    break;
             }
         }
         public static void namcos1_cus30_w(int offset, byte data)
@@ -251,7 +247,7 @@ namespace mame
                 }
             }
             else if (offset < 0x140)
-                namcos1_sound_w(offset - 0x100,data);
+                namcos1_sound_w(offset - 0x100, data);
             else
                 namco_wavedata[offset] = data;
         }

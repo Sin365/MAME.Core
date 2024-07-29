@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
 using MAME.Core.Common;
+using System;
+using System.IO;
 
 namespace mame
 {
     public partial class PGM
     {
         public static byte[] mainbiosrom, videobios, audiobios;
-        public static byte[] pgm_bg_videoram, pgm_tx_videoram, pgm_rowscrollram, pgm_videoregs, sprmaskrom, sprcolrom,tilesrom, tiles1rom, tiles2rom, pgm_sprite_a_region;
+        public static byte[] pgm_bg_videoram, pgm_tx_videoram, pgm_rowscrollram, pgm_videoregs, sprmaskrom, sprcolrom, tilesrom, tiles1rom, tiles2rom, pgm_sprite_a_region;
         public static byte CalVal, CalMask, CalCom = 0, CalCnt = 0;
         public static uint[] arm7_shareram;
         public static uint arm7_latch;
@@ -18,13 +16,13 @@ namespace mame
         public static void PGMInit()
         {
             Machine.bRom = true;
-            mainbiosrom = mainForm.resource.Get_pgmmainbios();
-            videobios = mainForm.resource.Get_pgmvideobios();
-            audiobios = mainForm.resource.Get_pgmaudiobios();
+            mainbiosrom = mainMotion.resource.Get_pgmmainbios();
+            videobios = mainMotion.resource.Get_pgmvideobios();
+            audiobios = mainMotion.resource.Get_pgmaudiobios();
             ICS2115.icsrom = audiobios;
-            byte[] bb1,bb2;
-            int i3,n1,n2,n3;
-            bb1= Machine.GetRom("ics.rom");
+            byte[] bb1, bb2;
+            int i3, n1, n2, n3;
+            bb1 = Machine.GetRom("ics.rom");
             bb2 = Machine.GetRom("tiles.rom");
             if (bb1 == null)
             {
@@ -39,7 +37,7 @@ namespace mame
             Array.Copy(videobios, tilesrom, 0x200000);
             Array.Copy(bb2, 0, tilesrom, 0x400000, n2);
             n3 = tilesrom.Length;
-            tiles1rom = new byte[n3*2];
+            tiles1rom = new byte[n3 * 2];
             for (i3 = 0; i3 < n3; i3++)
             {
                 tiles1rom[i3 * 2] = (byte)(tilesrom[i3] & 0x0f);
@@ -49,7 +47,7 @@ namespace mame
             sprmaskrom = Machine.GetRom("sprmask.rom");
             sprcolrom = Machine.GetRom("sprcol.rom");
             expand_32x32x5bpp();
-            expand_colourdata();            
+            expand_colourdata();
             Memory.mainram = new byte[0x20000];
             pgm_bg_videoram = new byte[0x4000];
             pgm_tx_videoram = new byte[0x2000];

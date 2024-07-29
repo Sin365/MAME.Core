@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.m68000;
+﻿using cpu.m68000;
 using cpu.z80;
+using System.IO;
 
 namespace mame
 {
@@ -705,7 +701,7 @@ namespace mame
             Sound.mixerstream.output_sampindex = reader.ReadInt32();
             Sound.mixerstream.output_base_sampindex = reader.ReadInt32();
             Eeprom.LoadStateBinary(reader);
-        }        
+        }
         public static void SaveStateBinary_glfgreat(BinaryWriter writer)
         {
             int i;

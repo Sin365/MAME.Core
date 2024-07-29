@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using mame;
+﻿using mame;
 
 namespace cpu.m6502
 {
@@ -468,7 +464,7 @@ namespace cpu.m6502
             PULL(ref p);
             PULL(ref pc.LowByte);
             PULL(ref pc.HighByte);
-            p |=(byte)(F_T | F_B);
+            p |= (byte)(F_T | F_B);
             if ((irq_state != (byte)LineState.CLEAR_LINE) && ((p & F_I) == 0))
             {
                 after_cli = 1;
@@ -491,7 +487,7 @@ namespace cpu.m6502
                 int sum = a - tmp - c;
                 int lo = (a & 0x0f) - (tmp & 0x0f) - c;
                 int hi = (a & 0xf0) - (tmp & 0xf0);
-                if ((lo & 0x10)!=0)
+                if ((lo & 0x10) != 0)
                 {
                     lo -= 6;
                     hi--;

@@ -1,13 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
     public partial class M72
     {
-        public static byte[] m72_videoram1,m72_videoram2;
+        public static byte[] m72_videoram1, m72_videoram2;
         public static ushort[] majtitle_rowscrollram;
         public static int m72_raster_irq_position;
         public static ushort[] m72_spriteram;
@@ -222,7 +219,7 @@ namespace mame
         }
         public static void video_update_m72()
         {
-            if (video_off!=0)
+            if (video_off != 0)
             {
                 Array.Copy(uuB200, Video.bitmapbase[Video.curbitmap], 0x40000);
                 return;

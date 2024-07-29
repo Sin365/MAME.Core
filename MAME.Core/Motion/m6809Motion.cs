@@ -1,16 +1,12 @@
 ﻿using cpu.m6809;
 using mame;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MAME.Core.Common
 {
 
-    public partial class m6809Form
+    public partial class m6809Motion
     {
-        private mainForm _myParentForm;
         //private Disassembler disassembler;
         private bool bLogNew;
         public static int iStatus;
@@ -38,29 +34,28 @@ namespace MAME.Core.Common
         public string tbDisassemble = string.Empty;
         #endregion
 
-        public m6809Form(mainForm form)
+        public m6809Motion()
         {
-            this._myParentForm = form;
         }
         public void GetData()
         {
             int reg, offset;
             reg = M6809.mm1[0].PPC.LowWord / 0x2000;
             offset = M6809.mm1[0].PPC.LowWord & 0x1fff;
-            tbD  = M6809.mm1[0].D.LowWord.ToString("X4");
-            tbDp  = M6809.mm1[0].DP.LowWord.ToString("X4");
-            tbU  = M6809.mm1[0].U.LowWord.ToString("X4");
-            tbS  = M6809.mm1[0].S.LowWord.ToString("X4");
-            tbX  = M6809.mm1[0].X.LowWord.ToString("X4");
-            tbY  = M6809.mm1[0].Y.LowWord.ToString("X4");
-            tbCc  = M6809.mm1[0].CC.ToString("X2");
-            tbIrqstate0  = M6809.mm1[0].irq_state[0].ToString("X2");
-            tbIrqstate1  = M6809.mm1[0].irq_state[1].ToString("X2");
-            tbIntstate  = M6809.mm1[0].int_state.ToString("X2");
-            tbNmistate  = M6809.mm1[0].nmi_state.ToString("X2");
-            tbPPC  = (Namcos1.user1rom_offset[0, reg] + offset).ToString("X6");
-            tbCycles  = M6809.mm1[0].TotalExecutedCycles.ToString("X16");
-            tbDisassemble  = M6809.mm1[0].m6809_dasm(M6809.mm1[0].PPC.LowWord);
+            tbD = M6809.mm1[0].D.LowWord.ToString("X4");
+            tbDp = M6809.mm1[0].DP.LowWord.ToString("X4");
+            tbU = M6809.mm1[0].U.LowWord.ToString("X4");
+            tbS = M6809.mm1[0].S.LowWord.ToString("X4");
+            tbX = M6809.mm1[0].X.LowWord.ToString("X4");
+            tbY = M6809.mm1[0].Y.LowWord.ToString("X4");
+            tbCc = M6809.mm1[0].CC.ToString("X2");
+            tbIrqstate0 = M6809.mm1[0].irq_state[0].ToString("X2");
+            tbIrqstate1 = M6809.mm1[0].irq_state[1].ToString("X2");
+            tbIntstate = M6809.mm1[0].int_state.ToString("X2");
+            tbNmistate = M6809.mm1[0].nmi_state.ToString("X2");
+            tbPPC = (Namcos1.user1rom_offset[0, reg] + offset).ToString("X6");
+            tbCycles = M6809.mm1[0].TotalExecutedCycles.ToString("X16");
+            tbDisassemble = M6809.mm1[0].m6809_dasm(M6809.mm1[0].PPC.LowWord);
 
         }
         public void m6809_start_debug()

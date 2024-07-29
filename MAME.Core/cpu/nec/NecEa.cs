@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace cpu.nec
+﻿namespace cpu.nec
 {
     partial class Nec
     {
@@ -13,7 +8,7 @@ namespace cpu.nec
         int EA_000()
         {
             EO = (ushort)(I.regs.b[6] + I.regs.b[7] * 0x100 + I.regs.b[12] + I.regs.b[13] * 0x100);
-            EA = DefaultBase(3,I) + EO;
+            EA = DefaultBase(3, I) + EO;
             return EA;
         }
         int EA_001()

@@ -1,17 +1,12 @@
 ﻿using mame;
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
-using System.Globalization;
 using System.IO;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MAME.Core.Common
 {
-    public partial class neogeoForm
+    public partial class neogeoMotion
     {
-        private mainForm _myParentForm;
         private string[] sde2 = new string[] { "," };
         private int locationX, locationY;
         public List<string> tbResult;
@@ -20,15 +15,13 @@ namespace MAME.Core.Common
         public string tbFile = string.Empty;
         public string tbSOffset = string.Empty;
         public string tbPensoffset = string.Empty;
-        public Bitmap pictureBox1;
 
         #region
         bool cbL0 = false;
         bool cbL1 = false;
         #endregion
-        public neogeoForm(mainForm form)
+        public neogeoMotion()
         {
-            this._myParentForm = form;
             tbResult = new List<string>();
             neogeoForm_Load();
         }

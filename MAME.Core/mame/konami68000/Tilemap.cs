@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
     public partial class Konami68000
     {
-        public static Tmap[] K052109_tilemap,K053251_tilemaps;
+        public static Tmap[] K052109_tilemap, K053251_tilemaps;
         public static void tilemap_init()
         {
-            
+
         }
     }
     public partial class Tmap
@@ -46,7 +43,7 @@ namespace mame
                 int x_start = x1;
                 int column;
                 for (column = mincol; column <= maxcol; column++)
-                {                    
+                {
                     int x_end;
                     if (column == maxcol)
                     {
@@ -141,8 +138,8 @@ namespace mame
             color = (color & 0xf3) | ((bank & 0x03) << 2);
             bank >>= 2;
             flipy = color & 0x02;
-            int code2, color2,flags2;
-            Konami68000.K052109_callback(0, bank, code, color, flags, priority, out code2, out color2,out flags2);
+            int code2, color2, flags2;
+            Konami68000.K052109_callback(0, bank, code, color, flags, priority, out code2, out color2, out flags2);
             code = code2;
             color = color2;
             flags = flags2;
@@ -182,8 +179,8 @@ namespace mame
             color = (color & 0xf3) | ((bank & 0x03) << 2);
             bank >>= 2;
             flipy = color & 0x02;
-            int code2, color2,flags2;
-            Konami68000.K052109_callback(1, bank, code, color, flags, priority, out code2, out color2,out flags2);
+            int code2, color2, flags2;
+            Konami68000.K052109_callback(1, bank, code, color, flags, priority, out code2, out color2, out flags2);
             code = code2;
             color = color2;
             flags = flags2;
@@ -223,8 +220,8 @@ namespace mame
             color = (color & 0xf3) | ((bank & 0x03) << 2);
             bank >>= 2;
             flipy = color & 0x02;
-            int code2,color2,flags2;
-            Konami68000.K052109_callback(2, bank, code, color, flags, priority, out code2, out color2,out flags2);
+            int code2, color2, flags2;
+            Konami68000.K052109_callback(2, bank, code, color, flags, priority, out code2, out color2, out flags2);
             code = code2;
             color = color2;
             flags = flags2;

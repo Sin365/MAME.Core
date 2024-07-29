@@ -1,52 +1,60 @@
 ﻿using mame;
 using MAME.Core.run_interface;
-using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Xml.Linq;
 
 namespace MAME.Core.Common
 {
-    public class mainForm
+    public class mainMotion
     {
         public string tsslStatus;
-        public cheatForm cheatform;
-        public m68000Form m68000form;
-        public z80Form z80form;
-        public m6809Form m6809form;
-        public cpsForm cpsform;
-        public neogeoForm neogeoform;
-        public konami68000Form konami68000form;
+        public cheatMotion cheatmotion;
+        public m68000Motion m68000motion;
+        public z80Motion z80motion;
+        public m6809Motion m6809motion;
+        public cpsMotion cpsmotion;
+        public neogeoMotion neogeomotion;
+        public konami68000Motion konami68000motion;
         public string sSelect;
+        public static Thread t1;
 
         public static IResources resource;
 
-        public mainForm()
+        public mainMotion()
         {
-            neogeoform = new neogeoForm(this);
-            cheatform = new cheatForm(this);
-            m68000form = new m68000Form(this);
-            m6809form = new m6809Form(this);
-            z80form = new z80Form(this);
-            cpsform = new cpsForm(this);
-            konami68000form = new konami68000Form(this);
+            neogeomotion = new neogeoMotion();
+            cheatmotion = new cheatMotion();
+            m68000motion = new m68000Motion();
+            m6809motion = new m6809Motion();
+            z80motion = new z80Motion();
+            cpsmotion = new cpsMotion();
+            konami68000motion = new konami68000Motion();
         }
 
-        public void Init(IResources iRes,
+        public void Init(
+            string RomDir,
+            ILog ilog,
+            IResources iRes,
             IVideoPlayer ivp,
             ISoundPlayer isp,
             IKeyboard ikb,
             IMouse imou)
         {
+            Mame.RomRoot = RomDir;
+            EmuLogger.BindFunc(ilog);
             Video.BindFunc(ivp);
             Sound.BindFunc(isp);
             resource = iRes;
 
-            StreamReader sr1 = new StreamReader("mame.ini");
-            sr1.ReadLine();
-            sSelect = sr1.ReadLine();
-            sr1.Close();
+            //StreamReader sr1 = new StreamReader("mame.ini");
+            //sr1.ReadLine();
+            //sSelect = sr1.ReadLine();
+            //sr1.Close();
+
+            //TODO 上次选择
+            sSelect = "samsho2";
 
 
             RomInfo.Rom = new RomInfo();
@@ -87,7 +95,7 @@ namespace MAME.Core.Common
             RomInfo.Rom = RomInfo.GetRomByName(Name);
             if (RomInfo.Rom == null)
             {
-                Console.WriteLine("Not Found");
+                EmuLogger.Log("Not Found");
                 return;
             }
 
@@ -207,13 +215,13 @@ namespace MAME.Core.Common
             }
             if (Machine.bRom)
             {
-                Console.Write("MAME.NET: " + Machine.sDescription + " [" + Machine.sName + "]");
+                EmuLogger.Log("MAME.NET: " + Machine.sDescription + " [" + Machine.sName + "]");
                 Mame.init_machine(this);
                 Generic.nvram_load();
             }
             else
             {
-                Console.Write("error rom");
+                EmuLogger.Log("error rom");
             }
         }
 

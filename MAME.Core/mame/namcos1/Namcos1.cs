@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using MAME.Core.Common;
+using System;
 using System.IO;
-using MAME.Core.Common;
 
 namespace mame
 {
     public partial class Namcos1
     {
         public static int dac0_value, dac1_value, dac0_gain, dac1_gain;
-        public static byte[] gfx1rom, gfx2rom, gfx3rom, user1rom,mcurom;
+        public static byte[] gfx1rom, gfx2rom, gfx3rom, user1rom, mcurom;
         public static byte[] audiorom, voicerom, bank_ram20, bank_ram30;
         public static int namcos1_pri;
         public static byte dipsw;
         public static byte[] ByteTo2byte(byte[] bb1)
         {
             byte[] bb2 = null;
-            int i1,n1;
+            int i1, n1;
             if (bb1 != null)
             {
                 n1 = bb1.Length;
-                bb2 = new byte[n1*2];
+                bb2 = new byte[n1 * 2];
                 for (i1 = 0; i1 < n1; i1++)
                 {
                     bb2[i1 * 2] = (byte)(bb1[i1] >> 4);
@@ -32,14 +29,14 @@ namespace mame
         }
         public static void Namcos1Init()
         {
-            Machine.bRom = true;            
+            Machine.bRom = true;
             user1rom_offset = new int[2, 8];
             audiorom = Machine.GetRom("audiocpu.rom");
             gfx1rom = Machine.GetRom("gfx1.rom");
             gfx2rom = Machine.GetRom("gfx2.rom");
             gfx3rom = ByteTo2byte(Machine.GetRom("gfx3.rom"));
             user1rom = Machine.GetRom("user1.rom");
-            mcurom = mainForm.resource.Get_mcu();
+            mcurom = mainMotion.resource.Get_mcu();
             voicerom = new byte[0xc0000];
             byte[] bb1 = Machine.GetRom("voice.rom");
             Array.Copy(bb1, voicerom, bb1.Length);

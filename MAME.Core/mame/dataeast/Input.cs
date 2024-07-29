@@ -152,8 +152,8 @@ namespace mame
                 lfr = new List<fr1>();
                 lfr.Add(new fr1((int)(Video.screenstate.frame_number + 1), 0x7f));
                 lfr.Add(new fr1((int)(Video.screenstate.frame_number + 2), 0xff));
-                lfr.Add(new fr1((int)(Video.screenstate.frame_number + 2+i3), 0x7f));
-                lfr.Add(new fr1((int)(Video.screenstate.frame_number + 2+i3+1), 0xff));
+                lfr.Add(new fr1((int)(Video.screenstate.frame_number + 2 + i3), 0x7f));
+                lfr.Add(new fr1((int)(Video.screenstate.frame_number + 2 + i3 + 1), 0xff));
             }
             if (Keyboard.IsTriggered(Key.U))
             {

@@ -3,11 +3,10 @@ using cpu.nec;
 using mame;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MAME.Core.Common
 {
-    public partial class cheatForm
+    public partial class cheatMotion
     {
         public enum LockState
         {
@@ -15,7 +14,6 @@ namespace MAME.Core.Common
             LOCK_SECOND,
             LOCK_FRAME,
         }
-        private mainForm _myParentForm;
         public LockState lockState = LockState.LOCK_NONE;
         public List<int[]> lsCheatdata1;
         public List<int[]> lsCheatdata2;
@@ -27,9 +25,8 @@ namespace MAME.Core.Common
         #region
         List<string> mTxList_tbResult = new List<string>();
         #endregion
-        public cheatForm(mainForm form)
+        public cheatMotion()
         {
-            this._myParentForm = form;
             cheatForm_Load();
         }
         private void cheatForm_Load()
@@ -69,45 +66,45 @@ namespace MAME.Core.Common
         }
         private void GetCheatdata()
         {
-        //    lsCheatdata1 = new List<int[]>();
-        //    lsCheatdata2 = new List<int[]>();
-        //    int i1, i2, i3, iAddress, iOffsetAddress1, iOffsetAddress2, iValue2, n3;
-        //    string[] ss1, ss2, ss3;
-        //    foreach (ListViewItem item1 in listViewControl1.myListView.Items)
-        //    {
-        //        if (item1.Checked)
-        //        {
-        //            i1 = listViewControl1.myListView.Items.IndexOf(item1);
-        //            i2 = Array.IndexOf(listViewControl1.ssCItem[i1], item1.SubItems[1].Text);
-        //            ss1 = listViewControl1.ssCValue[i1][i2].Split(sde7, StringSplitOptions.RemoveEmptyEntries);
-        //            n3 = ss1.Length;
-        //            for (i3 = 0; i3 < n3; i3++)
-        //            {
-        //                ss3 = ss1[i3].Split(sde6, StringSplitOptions.RemoveEmptyEntries);
-        //                iValue2 = Convert.ToInt32(ss3[1], 16);
-        //                if (ss3[0].IndexOf("$") >= 0)
-        //                {
-        //                    ss2 = ss3[0].Split(sde9, StringSplitOptions.RemoveEmptyEntries);
-        //                    iOffsetAddress1 = Convert.ToInt32(ss2[0], 16);
-        //                    iOffsetAddress2 = Convert.ToInt32(ss2[1], 16);
-        //                    lsCheatdata1.Add(new int[] { iOffsetAddress1, iOffsetAddress2, iValue2 });
-        //                }
-        //                else if (ss3[0].IndexOf("+") >= 0)
-        //                {
-        //                    ss2 = ss3[0].Split(sde10, StringSplitOptions.RemoveEmptyEntries);
-        //                    iOffsetAddress1 = Convert.ToInt32(ss2[0], 16);
-        //                    iOffsetAddress2 = Convert.ToInt32(ss2[1], 16);
-        //                    iAddress = iOffsetAddress1 + iOffsetAddress2;
-        //                    lsCheatdata2.Add(new int[] { iAddress, iValue2 });
-        //                }
-        //                else
-        //                {
-        //                    iAddress = Convert.ToInt32(ss3[0], 16);
-        //                    lsCheatdata2.Add(new int[] { iAddress, iValue2 });
-        //                }
-        //            }
-        //        }
-        //    }
+            //    lsCheatdata1 = new List<int[]>();
+            //    lsCheatdata2 = new List<int[]>();
+            //    int i1, i2, i3, iAddress, iOffsetAddress1, iOffsetAddress2, iValue2, n3;
+            //    string[] ss1, ss2, ss3;
+            //    foreach (ListViewItem item1 in listViewControl1.myListView.Items)
+            //    {
+            //        if (item1.Checked)
+            //        {
+            //            i1 = listViewControl1.myListView.Items.IndexOf(item1);
+            //            i2 = Array.IndexOf(listViewControl1.ssCItem[i1], item1.SubItems[1].Text);
+            //            ss1 = listViewControl1.ssCValue[i1][i2].Split(sde7, StringSplitOptions.RemoveEmptyEntries);
+            //            n3 = ss1.Length;
+            //            for (i3 = 0; i3 < n3; i3++)
+            //            {
+            //                ss3 = ss1[i3].Split(sde6, StringSplitOptions.RemoveEmptyEntries);
+            //                iValue2 = Convert.ToInt32(ss3[1], 16);
+            //                if (ss3[0].IndexOf("$") >= 0)
+            //                {
+            //                    ss2 = ss3[0].Split(sde9, StringSplitOptions.RemoveEmptyEntries);
+            //                    iOffsetAddress1 = Convert.ToInt32(ss2[0], 16);
+            //                    iOffsetAddress2 = Convert.ToInt32(ss2[1], 16);
+            //                    lsCheatdata1.Add(new int[] { iOffsetAddress1, iOffsetAddress2, iValue2 });
+            //                }
+            //                else if (ss3[0].IndexOf("+") >= 0)
+            //                {
+            //                    ss2 = ss3[0].Split(sde10, StringSplitOptions.RemoveEmptyEntries);
+            //                    iOffsetAddress1 = Convert.ToInt32(ss2[0], 16);
+            //                    iOffsetAddress2 = Convert.ToInt32(ss2[1], 16);
+            //                    iAddress = iOffsetAddress1 + iOffsetAddress2;
+            //                    lsCheatdata2.Add(new int[] { iAddress, iValue2 });
+            //                }
+            //                else
+            //                {
+            //                    iAddress = Convert.ToInt32(ss3[0], 16);
+            //                    lsCheatdata2.Add(new int[] { iAddress, iValue2 });
+            //                }
+            //            }
+            //        }
+            //    }
         }
         public void ApplyCheat()
         {

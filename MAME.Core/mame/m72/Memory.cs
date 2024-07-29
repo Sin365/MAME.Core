@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace mame
+﻿namespace mame
 {
     public partial class M72
     {
-        public static ushort ushort0,ushort1,dsw;
+        public static ushort ushort0, ushort1, dsw;
         public static ushort ushort0_old, ushort1_old;
         public static byte NReadOpByte(int address)
         {
@@ -157,7 +151,7 @@ namespace mame
         public static void NWriteWord_m72(int address, ushort value)
         {
             address &= 0xfffff;
-            if (address >= 0xa0000 && address+1 <= 0xa3fff)
+            if (address >= 0xa0000 && address + 1 <= 0xa3fff)
             {
                 Memory.mainram[address - 0xa0000] = (byte)value;
                 Memory.mainram[address - 0xa0000 + 1] = (byte)(value >> 8);
@@ -189,7 +183,7 @@ namespace mame
             }
             else if (address >= 0xe0000 && address + 1 <= 0xeffff)
             {
-                int offset = (address - 0xe0000)/2;
+                int offset = (address - 0xe0000) / 2;
                 soundram_w(offset, value);
             }
         }
@@ -228,7 +222,7 @@ namespace mame
             return result;
         }
         public static void NWriteIOByte_m72(int address, byte value)
-        {            
+        {
             if (address >= 0x00 && address <= 0x01)
             {
                 m72_sound_command_w(0, value);
@@ -358,7 +352,7 @@ namespace mame
             }
             else if (address >= 0x80000 && address + 1 <= 0x83fff)
             {
-                int offset=address-0x80000;
+                int offset = address - 0x80000;
                 result = (ushort)(m72_videoram1[offset] + m72_videoram1[offset + 1] * 0x100);
             }
             else if (address >= 0x84000 && address + 1 <= 0x87fff)
@@ -406,7 +400,7 @@ namespace mame
             }
             else if (address >= 0xa0000 && address <= 0xa0bff)
             {
-                int offset=(address-0xa0000)/2;
+                int offset = (address - 0xa0000) / 2;
                 m72_palette1_w(offset, value);
             }
             else if (address >= 0xa8000 && address <= 0xa8bff)
@@ -426,7 +420,7 @@ namespace mame
             {
                 int offset = (address - 0xc0000) / 2;
                 Generic.spriteram16[offset] = value;
-            }            
+            }
             else if (address >= 0xe0000 && address <= 0xe3fff)
             {
                 Memory.mainram[address - 0xe0000] = value;
@@ -445,7 +439,7 @@ namespace mame
                 int offset = (address - 0x84000) / 2;
                 m72_videoram2_w(offset, value);
             }
-            else if (address >= 0xa0000 && address+1 <= 0xa0bff)
+            else if (address >= 0xa0000 && address + 1 <= 0xa0bff)
             {
                 int offset = (address - 0xa0000) / 2;
                 m72_palette1_w(offset, value);
@@ -467,7 +461,7 @@ namespace mame
             {
                 int offset = (address - 0xc0000) / 2;
                 Generic.spriteram16[offset] = value;
-            }            
+            }
             else if (address >= 0xe0000 && address + 1 <= 0xe3fff)
             {
                 Memory.mainram[address - 0xe0000] = (byte)value;
@@ -612,7 +606,7 @@ namespace mame
             {
                 result = (byte)Sound.soundlatch_r();
             }
-            else if(address==0x84)
+            else if (address == 0x84)
             {
                 result = m72_sample_r();
             }

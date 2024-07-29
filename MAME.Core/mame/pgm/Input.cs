@@ -104,11 +104,11 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.I))
             {
-                
+
             }
             else
             {
-                
+
             }
             if (Keyboard.IsPressed(Key.O))
             {
@@ -184,11 +184,11 @@ namespace mame
             }
             if (Keyboard.IsPressed(Key.NumPad5))
             {
-                
+
             }
             else
             {
-                
+
             }
             if (Keyboard.IsPressed(Key.NumPad6))
             {

@@ -8,7 +8,7 @@ namespace mame
     {
         public static string sName, sParent, sBoard, sDirection, sDescription, sManufacturer;
         public static List<string> lsParents;
-        public static mainForm FORM;
+        public static mainMotion FORM;
         public static RomInfo rom;
         public static bool bRom;
         public delegate void machine_delegate();
@@ -141,7 +141,7 @@ namespace mame
                             Taito.video_start_opwolf();
                             machine_reset_callback = Taito.machine_reset_null;
                             break;
-                    }                    
+                    }
                     break;
                 case "Taito B":
                     Eeprom.eeprom_init();
@@ -256,7 +256,7 @@ namespace mame
                         case "sfp":
                             Capcom.video_start_sf();
                             break;
-                    }                    
+                    }
                     machine_reset_callback = Capcom.machine_reset_capcom;
                     break;
             }
@@ -264,16 +264,20 @@ namespace mame
         public static byte[] GetNeogeoRom(string sFile)
         {
             byte[] bb1;
-            if (File.Exists("roms\\neogeo\\" + sFile))
+            string path = System.IO.Path.Combine(Mame.RomRoot + "/" + "roms/neogeo/", sFile);
+            if (File.Exists(path))
             {
-                FileStream fs1 = new FileStream("roms\\neogeo\\" + sFile, FileMode.Open);
-                int n1 = (int)fs1.Length;
-                bb1 = new byte[n1];
-                fs1.Read(bb1, 0, n1);
-                fs1.Close();
+                EmuLogger.Log($"Had File => {path}");
+                return File.ReadAllBytes(path);
+                //FileStream fs1 = new FileStream(path, FileMode.Open);
+                //int n1 = (int)fs1.Length;
+                //bb1 = new byte[n1];
+                //fs1.Read(bb1, 0, n1);
+                //fs1.Close();
             }
             else
             {
+                EmuLogger.Log($"Miss File => {path}");
                 bb1 = null;
             }
             return bb1;
@@ -284,14 +288,21 @@ namespace mame
             int n1;
             foreach (string s1 in lsParents)
             {
-                if (File.Exists("roms\\" + s1 + "\\" + sFile))
+                string path = System.IO.Path.Combine(Mame.RomRoot + "/" + "roms/" + s1 + "/", sFile);
+                if (File.Exists(path))
                 {
-                    FileStream fs1 = new FileStream("roms\\" + s1 + "\\" + sFile, FileMode.Open);
-                    n1 = (int)fs1.Length;
-                    bb1 = new byte[n1];
-                    fs1.Read(bb1, 0, n1);
-                    fs1.Close();
+                    EmuLogger.Log($"Had File => {path}");
+                    return File.ReadAllBytes(path);
+                    //FileStream fs1 = new FileStream(path, FileMode.Open);
+                    //n1 = (int)fs1.Length;
+                    //bb1 = new byte[n1];
+                    //fs1.Read(bb1, 0, n1);
+                    //fs1.Close();
                     break;
+                }
+                else
+                {
+                    EmuLogger.Log($"Miss File => {path}");
                 }
             }
             return bb1;

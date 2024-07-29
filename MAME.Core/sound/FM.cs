@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
 
 namespace mame
 {
@@ -163,7 +159,7 @@ namespace mame
                 Atime expiry_period = Attotime.attotime_mul(Attotime.ATTOTIME_IN_HZ(ST.clock), (uint)(busyclock * ST.timer_prescaler));
                 ST.busy_expiry_time = Attotime.attotime_add(Timer.get_current_time(), expiry_period);
             }
-            private void FM_KEYON(int type,int c, int s)
+            private void FM_KEYON(int type, int c, int s)
             {
                 if (CH[c].SLOT[s].key == 0)
                 {
@@ -616,7 +612,7 @@ namespace mame
                     CH[c].SLOT[2].phase += (uint)CH[c].SLOT[2].Incr;
                     CH[c].SLOT[1].phase += (uint)CH[c].SLOT[1].Incr;
                     CH[c].SLOT[3].phase += (uint)CH[c].SLOT[3].Incr;
-                }                
+                }
             }
             public void refresh_fc_eg_slot(int type, int c, int s, int fc, int kc)
             {
@@ -721,7 +717,7 @@ namespace mame
             public void OPNSetPres(int pres, int timer_prescaler, int SSGpres)
             {
                 int i;
-                ST.freqbase = (ST.rate!=0) ? ((double)ST.clock / ST.rate) / pres : 0;
+                ST.freqbase = (ST.rate != 0) ? ((double)ST.clock / ST.rate) / pres : 0;
                 eg_timer_add = (uint)((1 << 16) * ST.freqbase);
                 eg_timer_overflow = (3) * (1 << 16);
                 ST.timer_prescaler = timer_prescaler;
@@ -776,7 +772,7 @@ namespace mame
                         c = (byte)(v & 0x03);
                         if (c == 3)
                             break;
-                        if ((v & 0x04) != 0 && (type & TYPE_6CH)!=0)
+                        if ((v & 0x04) != 0 && (type & TYPE_6CH) != 0)
                             c += 3;
                         if ((v & 0x10) != 0)
                             FM_KEYON(type, c, 0);
@@ -1012,7 +1008,7 @@ namespace mame
             public read_handler read;
             public reset_handler reset;
         }
-        
+
         public static int TYPE_SSG = 0x01, TYPE_LFOPAN = 0x02, TYPE_6CH = 0x04, TYPE_DAC = 0x08, TYPE_ADPCM = 0x10, TYPE_2610 = 0x20;
         public static int TYPE_YM2203 = (TYPE_SSG), TYPE_YM2608 = (TYPE_SSG | TYPE_LFOPAN | TYPE_6CH | TYPE_ADPCM), TYPE_YM2610 = (TYPE_SSG | TYPE_LFOPAN | TYPE_6CH | TYPE_ADPCM | TYPE_2610), TYPE_YM2612 = (TYPE_DAC | TYPE_LFOPAN | TYPE_6CH);
         public static int[] ipan = new int[6];
@@ -1145,17 +1141,17 @@ namespace mame
             ( 0),( 0),( 0),( 0),( 0),( 0),( 0),( 0)
         };
         public static byte[] dt_tab = new byte[4 * 32]{
-	        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-	        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 
-	        0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2,
-	        2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 8, 8, 8,
+            0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2,
+            2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7, 8, 8, 8, 8,
 
             1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5,
-	        5, 6, 6, 7, 8, 8, 9,10,11,12,13,14,16,16,16,16,
+            5, 6, 6, 7, 8, 8, 9,10,11,12,13,14,16,16,16,16,
 
             2, 2, 2, 2, 2, 3, 3, 3, 4, 4, 4, 5, 5, 6, 6, 7,
-	        8 , 8, 9,10,11,12,13,14,16,17,19,20,22,22,22,22
+            8 , 8, 9,10,11,12,13,14,16,17,19,20,22,22,22,22
         };
         private static byte[] opn_fktable = new byte[16] { 0, 0, 0, 0, 0, 0, 0, 1, 2, 3, 3, 3, 3, 3, 3, 3 };
         private static uint[] lfo_samples_per_step = new uint[8] { 108, 77, 71, 67, 62, 44, 8, 5 };
@@ -1226,20 +1222,20 @@ namespace mame
         };
         private static int[] steps = new int[49]
         {
-	         16,  17,   19,   21,   23,   25,   28,
-	         31,  34,   37,   41,   45,   50,   55,
-	         60,  66,   73,   80,   88,   97,  107,
-	        118, 130,  143,  157,  173,  190,  209,
-	        230, 253,  279,  307,  337,  371,  408,
-	        449, 494,  544,  598,  658,  724,  796,
-	        876, 963, 1060, 1166, 1282, 1411, 1552
+             16,  17,   19,   21,   23,   25,   28,
+             31,  34,   37,   41,   45,   50,   55,
+             60,  66,   73,   80,   88,   97,  107,
+            118, 130,  143,  157,  173,  190,  209,
+            230, 253,  279,  307,  337,  371,  408,
+            449, 494,  544,  598,  658,  724,  796,
+            876, 963, 1060, 1166, 1282, 1411, 1552
         };
         public static int[] step_inc = new int[8] { -1 * 16, -1 * 16, -1 * 16, -1 * 16, 2 * 16, 5 * 16, 7 * 16, 9 * 16 };
         public static int[] jedi_table = new int[49 * 16];
         public delegate void FM_TIMERHANDLER(int c, int cnt, int clock);
         public delegate void FM_IRQHANDLER(int irq);
         public delegate void set_clock_handler(int clock);
-        public delegate void write_handler(int address,byte data);
+        public delegate void write_handler(int address, byte data);
         public delegate byte read_handler();
         public delegate void reset_handler();
         private static int[] lfo_pm_table = new int[128 * 8 * 32];
@@ -1269,7 +1265,7 @@ namespace mame
             {
                 return val;
             }
-        } 
+        }
         private static int op_calc(uint phase, uint env, int pm)
         {
             uint p;
@@ -1381,6 +1377,6 @@ namespace mame
                     jedi_table[step * 16 + nib] = ((nib & 0x08) != 0) ? -value : value;
                 }
             }
-        }        
+        }
     }
 }

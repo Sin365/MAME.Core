@@ -1,8 +1,7 @@
-﻿using System;
+﻿using mame;
+using System;
 using System.Globalization;
-using System.Collections.Generic;
 using System.IO;
-using mame;
 
 // This Z80 emulator is a modified version of Ben Ryves 'Brazil' emulator.
 // It is MIT licensed.
@@ -29,7 +28,7 @@ namespace cpu.z80
             {
                 totalExecutedCycles = value;
             }
-        }        
+        }
         public override int PendingCycles
         {
             get
@@ -279,7 +278,7 @@ namespace cpu.z80
                     pendingCycles = int.Parse(args[1]);
 
                 else
-                    Console.WriteLine("Skipping unrecognized identifier " + args[0]);
+                    EmuLogger.Log("Skipping unrecognized identifier " + args[0]);
             }
         }
     }

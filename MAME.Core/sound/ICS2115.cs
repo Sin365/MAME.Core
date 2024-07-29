@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -12,7 +8,7 @@ namespace mame
         public static voice_struct[] voice2;
         public static timer_struct[] timer;
         public static byte[] icsrom;
-        public static short[] ulaw=new short[256];        
+        public static short[] ulaw = new short[256];
         public static byte osc_select;
         public static byte reg_select;
         public static byte irq_enabled, irq_pending;
@@ -76,7 +72,7 @@ namespace mame
         public static void ics2115_update(int offset, int length)
         {
             int osc, i;
-            bool irq_invalid = false;            
+            bool irq_invalid = false;
             for (i = 0; i < length; i++)
             {
                 Sound.ics2115stream.streamoutput[0][offset + i] = 0;
@@ -134,7 +130,7 @@ namespace mame
         public static void keyon()
         {
             voice2[osc_select].state |= V_ON;
-        }        
+        }
         public static void recalc_timer(int i)
         {
             long period = (long)(1000000000 * timer[i].scale * timer[i].preset / 33868800);
@@ -375,19 +371,19 @@ namespace mame
                     }
                     break;
                 case 1:
-                    ret= reg_select;
+                    ret = reg_select;
                     break;
                 case 2:
-                    ret= (byte)(reg_read());
+                    ret = (byte)(reg_read());
                     break;
                 case 3:
-                    ret= (byte)(reg_read() >> 8);
+                    ret = (byte)(reg_read() >> 8);
                     break;
                 default:
                     break;
             }
             return ret;
-        }        
+        }
         public static void ics2115_reset()
         {
             int i;

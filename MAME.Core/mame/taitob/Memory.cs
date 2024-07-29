@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-using cpu.z80;
+﻿using cpu.z80;
 
 namespace mame
 {
@@ -76,7 +71,7 @@ namespace mame
                     result = (sbyte)taitob_spriteram[offset];
                 }
             }
-            else if (address>=0x411980&&address<= 0x4137ff)
+            else if (address >= 0x411980 && address <= 0x4137ff)
             {
                 result = (sbyte)mainram2[address - 0x411980];
             }
@@ -121,7 +116,7 @@ namespace mame
                 int offset = (address - 0x500000) / 2;
                 if (address % 2 == 0)
                 {
-                    result = (sbyte)(pbobble_input_bypass_r(offset)>>8);
+                    result = (sbyte)(pbobble_input_bypass_r(offset) >> 8);
                 }
                 else if (address % 2 == 1)
                 {
@@ -235,20 +230,20 @@ namespace mame
                     result = 0;
                 }
             }
-            else if (address >= 0x400000 && address+ 1 <= 0x40ffff)
+            else if (address >= 0x400000 && address + 1 <= 0x40ffff)
             {
                 int offset = (address - 0x400000) / 2;
                 result = (short)TC0180VCU_word_r(offset);
             }
-            else if (address >= 0x410000 && address+ 1 <=0x41197f)
+            else if (address >= 0x410000 && address + 1 <= 0x41197f)
             {
-                int offset=(address-0x410000)/2;
-                result=(short)taitob_spriteram[offset];
+                int offset = (address - 0x410000) / 2;
+                result = (short)taitob_spriteram[offset];
             }
-            else if(address>=0x411980&&address+1<=0x4137ff)
+            else if (address >= 0x411980 && address + 1 <= 0x4137ff)
             {
-                int offset=address-0x410000;
-                result=(short)(mainram2[offset]*0x100+mainram2[offset+1]);
+                int offset = address - 0x410000;
+                result = (short)(mainram2[offset] * 0x100 + mainram2[offset + 1]);
             }
             else if (address >= 0x413800 && address <= 0x413fff)
             {
@@ -349,15 +344,15 @@ namespace mame
             }
             else if (address >= 0x410000 && address + 1 <= 0x41197f)
             {
-                int offset=(address-0x410000)/2;
-                result=(int)(taitob_spriteram[offset]*0x10000+taitob_spriteram[offset+1]);
+                int offset = (address - 0x410000) / 2;
+                result = (int)(taitob_spriteram[offset] * 0x10000 + taitob_spriteram[offset + 1]);
             }
-            else if(address>=0x411980&&address<=0x4137ff)
+            else if (address >= 0x411980 && address <= 0x4137ff)
             {
-                int offset=address-0x411980;
+                int offset = address - 0x411980;
                 result = (int)(mainram2[offset] * 0x1000000 + mainram2[offset + 1] * 0x10000 + mainram2[offset + 2] * 0x100 + mainram2[offset + 3]);
             }
-            else if(address>=0x413800&&address<=0x413fff)
+            else if (address >= 0x413800 && address <= 0x413fff)
             {
                 int offset = (address - 0x413800) / 2;
                 result = (int)(taitob_scroll[offset] * 0x10000 + taitob_scroll[offset + 1]);
@@ -400,7 +395,7 @@ namespace mame
             }
             else if (address >= 0x400000 && address <= 0x40ffff)
             {
-                int offset = (address - 0x400000)/2;
+                int offset = (address - 0x400000) / 2;
                 if (address % 2 == 0)
                 {
                     TC0180VCU_word_w1(offset, (byte)value);
@@ -492,7 +487,7 @@ namespace mame
                 }
             }
             else if (address >= 0x700000 && address <= 0x700001)
-            {                
+            {
                 if (address % 2 == 0)
                 {
                     Taitosnd.taitosound_port16_msb_w1((byte)value);
@@ -611,7 +606,7 @@ namespace mame
                 if (address + 3 < Memory.mainrom.Length)
                 {
                     Memory.mainrom[address] = (byte)(value >> 24);
-                    Memory.mainrom[address + 1] = (byte)(value>>16);
+                    Memory.mainrom[address + 1] = (byte)(value >> 16);
                     Memory.mainrom[address + 2] = (byte)(value >> 8);
                     Memory.mainrom[address + 3] = (byte)value;
                 }
@@ -619,7 +614,7 @@ namespace mame
             else if (address >= 0x400000 && address + 3 <= 0x40ffff)
             {
                 int offset = (address - 0x400000) / 2;
-                TC0180VCU_word_w(offset, (ushort)(value>>16));
+                TC0180VCU_word_w(offset, (ushort)(value >> 16));
                 TC0180VCU_word_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x410000 && address + 3 <= 0x41197f)
@@ -632,51 +627,51 @@ namespace mame
             {
                 int offset = address - 0x411980;
                 mainram2[offset] = (byte)(value >> 24);
-                mainram2[offset + 1] = (byte)(value>>16);
+                mainram2[offset + 1] = (byte)(value >> 16);
                 mainram2[offset + 2] = (byte)(value >> 8);
                 mainram2[offset + 3] = (byte)value;
             }
             else if (address >= 0x413800 && address + 3 <= 0x413fff)
             {
                 int offset = (address - 0x413800) / 2;
-                taitob_scroll[offset] = (ushort)(value>>16);
+                taitob_scroll[offset] = (ushort)(value >> 16);
                 taitob_scroll[offset + 1] = (ushort)value;
             }
             else if (address >= 0x418000 && address + 3 <= 0x41801f)
             {
                 int offset = (address - 0x418000) / 2;
-                taitob_v_control_w(offset, (ushort)(value>>16));
+                taitob_v_control_w(offset, (ushort)(value >> 16));
                 taitob_v_control_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x440000 && address + 3 <= 0x47ffff)
             {
                 int offset = (address - 0x440000) / 2;
-                TC0180VCU_framebuffer_word_w(offset, (ushort)(value>>16));
+                TC0180VCU_framebuffer_word_w(offset, (ushort)(value >> 16));
                 TC0180VCU_framebuffer_word_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x500000 && address + 3 <= 0x50000f)
             {
                 int offset = (address - 0x500000) / 2;
-                TC0640FIO_halfword_byteswap_w(offset, (ushort)(value>>16));
+                TC0640FIO_halfword_byteswap_w(offset, (ushort)(value >> 16));
                 TC0640FIO_halfword_byteswap_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x600000 && address + 3 <= 0x600003)
             {
                 int offset = (address - 0x600000) / 2;
-                gain_control_w(offset, (ushort)(value>>16));
+                gain_control_w(offset, (ushort)(value >> 16));
                 gain_control_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x800000 && address + 3 <= 0x801fff)
             {
                 int offset = (address - 0x800000) / 2;
-                Generic.paletteram16_RRRRGGGGBBBBRGBx_word_w(offset, (ushort)(value>>16));
+                Generic.paletteram16_RRRRGGGGBBBBRGBx_word_w(offset, (ushort)(value >> 16));
                 Generic.paletteram16_RRRRGGGGBBBBRGBx_word_w(offset + 1, (ushort)value);
             }
             else if (address >= 0x900000 && address + 3 <= 0x90ffff)
             {
                 int offset = address - 0x900000;
                 Memory.mainram[offset] = (byte)(value >> 24);
-                Memory.mainram[offset + 1] = (byte)(value>>16);
+                Memory.mainram[offset + 1] = (byte)(value >> 16);
                 Memory.mainram[offset + 2] = (byte)(value >> 8);
                 Memory.mainram[offset + 3] = (byte)value;
             }
@@ -797,7 +792,7 @@ namespace mame
         }
         public static void ZWriteHardware(ushort address, byte value)
         {
-            
+
         }
         public static int ZIRQCallback()
         {

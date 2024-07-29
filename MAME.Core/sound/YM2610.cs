@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
+﻿using System.IO;
 
 namespace mame
 {
@@ -12,7 +8,7 @@ namespace mame
         public FM.FM_OPN OPN;
         public byte addr_A1;
         public byte[] pcmbuf;
-	    public int pcm_size;
+        public int pcm_size;
         public byte adpcmTL;
         public FM.ADPCM_CH[] adpcm;
         public byte[] adpcmreg;

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace mame
 {
@@ -11,10 +8,10 @@ namespace mame
         public static ushort[] uuFF;
         public enum GFXBANK_TYPE
         {
-            GFXBANK_TYPE_SPARKMAN=0,
+            GFXBANK_TYPE_SPARKMAN = 0,
             GFXBANK_TYPE_BRICKZN,
             GFXBANK_TYPE_STARFIGH
-        }        
+        }
         public static byte suna8_banked_paletteram_r(int offset)
         {
             offset += m_palettebank * 0x200;
@@ -71,7 +68,7 @@ namespace mame
         }
         public static void video_start_suna8_text()
         {
-            suna8_vh_start_common(1,GFXBANK_TYPE.GFXBANK_TYPE_SPARKMAN);
+            suna8_vh_start_common(1, GFXBANK_TYPE.GFXBANK_TYPE_SPARKMAN);
         }
         public static void video_start_suna8_sparkman()
         {

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.IO;
-
-namespace mame
+﻿namespace mame
 {
     public partial class Dataeast
     {
@@ -13,7 +7,7 @@ namespace mame
         public static int basebankmain1, basebankmain2, basebanksnd, msm5205next, toggle;
         public static void DataeastInit()
         {
-            int i,n;
+            int i, n;
             Machine.bRom = true;
             Memory.mainram = new byte[0x800];
             Memory.audioram = new byte[0x800];
@@ -48,7 +42,7 @@ namespace mame
                         Machine.bRom = false;
                     }
                     break;
-            }            
+            }
             if (Machine.bRom)
             {
                 dsw = 0xbf;

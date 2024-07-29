@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 
 namespace mame
@@ -38,12 +35,12 @@ namespace mame
         private static void compute_tables()
         {
             int[,] nbl2bit = new int[16, 4]
-	        {
-		        { 1, 0, 0, 0}, { 1, 0, 0, 1}, { 1, 0, 1, 0}, { 1, 0, 1, 1},
-		        { 1, 1, 0, 0}, { 1, 1, 0, 1}, { 1, 1, 1, 0}, { 1, 1, 1, 1},
-		        {-1, 0, 0, 0}, {-1, 0, 0, 1}, {-1, 0, 1, 0}, {-1, 0, 1, 1},
-		        {-1, 1, 0, 0}, {-1, 1, 0, 1}, {-1, 1, 1, 0}, {-1, 1, 1, 1}
-	        };
+            {
+                { 1, 0, 0, 0}, { 1, 0, 0, 1}, { 1, 0, 1, 0}, { 1, 0, 1, 1},
+                { 1, 1, 0, 0}, { 1, 1, 0, 1}, { 1, 1, 1, 0}, { 1, 1, 1, 1},
+                {-1, 0, 0, 0}, {-1, 0, 0, 1}, {-1, 0, 1, 0}, {-1, 0, 1, 1},
+                {-1, 1, 0, 0}, {-1, 1, 0, 1}, {-1, 1, 1, 0}, {-1, 1, 1, 1}
+            };
             int step, nib;
             for (step = 0; step <= 48; step++)
             {
@@ -148,7 +145,7 @@ namespace mame
             compute_tables();
             OKI.command = -1;
             OKI.bank_offset = 0;
-            OKI.master_clock = 1000000;            
+            OKI.master_clock = 1000000;
             OKI.voice = new ADPCMVoice[4];
             adpcm = new adpcm_state[4];
             for (voice = 0; voice < 4; voice++)
