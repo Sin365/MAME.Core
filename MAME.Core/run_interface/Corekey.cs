@@ -1,7 +1,7 @@
 ﻿namespace MAME.Core.run_interface
 {
 
-    public enum Key
+    public enum Corekey
     {
         Next = 209,
         Right = 205,

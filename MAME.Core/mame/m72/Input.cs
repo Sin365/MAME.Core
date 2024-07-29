@@ -6,7 +6,7 @@ namespace mame
     {
         public static void loop_inputports_m72_common()
         {
-            if (Keyboard.IsPressed(Key.D5))
+            if (Keyboard.IsPressed(Corekey.D5))
             {
                 ushort1 &= unchecked((ushort)~0x0004);
             }
@@ -14,7 +14,7 @@ namespace mame
             {
                 ushort1 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Key.D6))
+            if (Keyboard.IsPressed(Corekey.D6))
             {
                 ushort1 &= unchecked((ushort)~0x0008);
             }
@@ -22,7 +22,7 @@ namespace mame
             {
                 ushort1 |= 0x0008;
             }
-            if (Keyboard.IsPressed(Key.D1))
+            if (Keyboard.IsPressed(Corekey.D1))
             {
                 ushort1 &= unchecked((ushort)~0x0001);
             }
@@ -30,7 +30,7 @@ namespace mame
             {
                 ushort1 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Key.D2))
+            if (Keyboard.IsPressed(Corekey.D2))
             {
                 ushort1 &= unchecked((ushort)~0x0002);
             }
@@ -38,7 +38,7 @@ namespace mame
             {
                 ushort1 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Key.D))
+            if (Keyboard.IsPressed(Corekey.D))
             {
                 ushort0 &= unchecked((ushort)~0x0001);
             }
@@ -46,7 +46,7 @@ namespace mame
             {
                 ushort0 |= 0x0001;
             }
-            if (Keyboard.IsPressed(Key.A))
+            if (Keyboard.IsPressed(Corekey.A))
             {
                 ushort0 &= unchecked((ushort)~0x0002);
             }
@@ -54,7 +54,7 @@ namespace mame
             {
                 ushort0 |= 0x0002;
             }
-            if (Keyboard.IsPressed(Key.S))
+            if (Keyboard.IsPressed(Corekey.S))
             {
                 ushort0 &= unchecked((ushort)~0x0004);
             }
@@ -62,7 +62,7 @@ namespace mame
             {
                 ushort0 |= 0x0004;
             }
-            if (Keyboard.IsPressed(Key.W))
+            if (Keyboard.IsPressed(Corekey.W))
             {
                 ushort0 &= unchecked((ushort)~0x0008);
             }
@@ -70,7 +70,7 @@ namespace mame
             {
                 ushort0 |= 0x0008;
             }
-            if (Keyboard.IsPressed(Key.J))
+            if (Keyboard.IsPressed(Corekey.J))
             {
                 ushort0 &= unchecked((ushort)~0x0080);
             }
@@ -78,7 +78,7 @@ namespace mame
             {
                 ushort0 |= 0x0080;
             }
-            if (Keyboard.IsPressed(Key.K))
+            if (Keyboard.IsPressed(Corekey.K))
             {
                 ushort0 &= unchecked((ushort)~0x0040);
             }
@@ -86,7 +86,7 @@ namespace mame
             {
                 ushort0 |= 0x0040;
             }
-            if (Keyboard.IsPressed(Key.U))
+            if (Keyboard.IsPressed(Corekey.U))
             {
                 ushort0 &= unchecked((ushort)~0x0020);
             }
@@ -94,7 +94,7 @@ namespace mame
             {
                 ushort0 |= 0x0020;
             }
-            if (Keyboard.IsPressed(Key.I))
+            if (Keyboard.IsPressed(Corekey.I))
             {
                 ushort0 &= unchecked((ushort)~0x0010);
             }
@@ -102,7 +102,7 @@ namespace mame
             {
                 ushort0 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Key.Right))
+            if (Keyboard.IsPressed(Corekey.Right))
             {
                 ushort0 &= unchecked((ushort)~0x0100);
             }
@@ -110,7 +110,7 @@ namespace mame
             {
                 ushort0 |= 0x0100;
             }
-            if (Keyboard.IsPressed(Key.Left))
+            if (Keyboard.IsPressed(Corekey.Left))
             {
                 ushort0 &= unchecked((ushort)~0x0200);
             }
@@ -118,7 +118,7 @@ namespace mame
             {
                 ushort0 |= 0x0200;
             }
-            if (Keyboard.IsPressed(Key.Down))
+            if (Keyboard.IsPressed(Corekey.Down))
             {
                 ushort0 &= unchecked((ushort)~0x0400);
             }
@@ -126,7 +126,7 @@ namespace mame
             {
                 ushort0 |= 0x0400;
             }
-            if (Keyboard.IsPressed(Key.Up))
+            if (Keyboard.IsPressed(Corekey.Up))
             {
                 ushort0 &= unchecked((ushort)~0x0800);
             }
@@ -134,7 +134,7 @@ namespace mame
             {
                 ushort0 |= 0x0800;
             }
-            if (Keyboard.IsPressed(Key.NumPad1))
+            if (Keyboard.IsPressed(Corekey.NumPad1))
             {
                 ushort0 &= unchecked((ushort)~0x8000);
             }
@@ -142,7 +142,7 @@ namespace mame
             {
                 ushort0 |= 0x8000;
             }
-            if (Keyboard.IsPressed(Key.NumPad2))
+            if (Keyboard.IsPressed(Corekey.NumPad2))
             {
                 ushort0 &= unchecked((ushort)~0x4000);
             }
@@ -150,7 +150,7 @@ namespace mame
             {
                 ushort0 |= 0x4000;
             }
-            if (Keyboard.IsPressed(Key.NumPad4))
+            if (Keyboard.IsPressed(Corekey.NumPad4))
             {
                 ushort0 &= unchecked((ushort)~0x2000);
             }
@@ -158,7 +158,7 @@ namespace mame
             {
                 ushort0 |= 0x2000;
             }
-            if (Keyboard.IsPressed(Key.NumPad5))
+            if (Keyboard.IsPressed(Corekey.NumPad5))
             {
                 ushort0 &= unchecked((ushort)~0x1000);
             }
@@ -166,7 +166,7 @@ namespace mame
             {
                 ushort0 |= 0x1000;
             }
-            if (Keyboard.IsPressed(Key.R))
+            if (Keyboard.IsPressed(Corekey.R))
             {
                 ushort1 &= unchecked((ushort)~0x0010);
             }
@@ -174,7 +174,7 @@ namespace mame
             {
                 ushort1 |= 0x0010;
             }
-            if (Keyboard.IsPressed(Key.T))
+            if (Keyboard.IsPressed(Corekey.T))
             {
                 ushort1 &= unchecked((ushort)~0x0020);
             }

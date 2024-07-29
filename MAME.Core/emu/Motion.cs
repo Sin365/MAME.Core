@@ -194,15 +194,15 @@ namespace mame
             }
             if (Mame.is_foreground)
             {
-                if (Keyboard.IsPressed(Key.F3))
+                if (Keyboard.IsPressed(Corekey.F3))
                 {
                     cpurun();
                     Mame.playState = Mame.PlayState.PLAY_RESET;
                 }
-                if (Keyboard.IsTriggered(Key.F7))
+                if (Keyboard.IsTriggered(Corekey.F7))
                 {
                     cpurun();
-                    if (Keyboard.IsPressed(Key.LeftShift) || Keyboard.IsPressed(Key.RightShift))
+                    if (Keyboard.IsPressed(Corekey.LeftShift) || Keyboard.IsPressed(Corekey.RightShift))
                     {
                         Mame.playState = Mame.PlayState.PLAY_SAVE;
                     }
@@ -212,10 +212,10 @@ namespace mame
                     }
                     return;
                 }
-                if (Keyboard.IsTriggered(Key.F8))
+                if (Keyboard.IsTriggered(Corekey.F8))
                 {
                     cpurun();
-                    if (Keyboard.IsPressed(Key.LeftShift) || Keyboard.IsPressed(Key.RightShift))
+                    if (Keyboard.IsPressed(Corekey.LeftShift) || Keyboard.IsPressed(Corekey.RightShift))
                     {
                         if (Mame.playState == Mame.PlayState.PLAY_RECORDRUNNING)
                         {
@@ -232,9 +232,9 @@ namespace mame
                     }
                     return;
                 }
-                if (Keyboard.IsTriggered(Key.P))
+                if (Keyboard.IsTriggered(Corekey.P))
                 {
-                    if (is_paused && (Keyboard.IsPressed(Key.LeftShift) || Keyboard.IsPressed(Key.RightShift)))
+                    if (is_paused && (Keyboard.IsPressed(Corekey.LeftShift) || Keyboard.IsPressed(Corekey.RightShift)))
                     {
                         single_step = true;
                         Mame.mame_pause(false);
@@ -244,7 +244,7 @@ namespace mame
                         Mame.mame_pause(!Mame.mame_is_paused());
                     }
                 }
-                if (Keyboard.IsTriggered(Key.F10))
+                if (Keyboard.IsTriggered(Corekey.F10))
                 {
                     Keyboard.bF10 = true;
                     bool b1 = Video.global_throttle;

@@ -1,4 +1,4 @@
-﻿using Bitmap = MAME.Core.AxiBitmap.AxiBitmap;
+﻿
 using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace mame
@@ -29,8 +29,6 @@ namespace mame
         private static int layercontrolG, scrollrows1G;
         private static int[] rowscroll1G;
         public static int[] cps1_scrollxG, cps1_scrollyG;
-        public delegate Bitmap gettileDelegateG();
-        public static gettileDelegateG[] gettileDelegatesG;
         public delegate void gethighDelegateG();
         public static gethighDelegateG[] gethighDelegatesG;
         public static void GDIInit()
@@ -45,11 +43,6 @@ namespace mame
             rowscroll1G = new int[1024];
             cps1_scrollxG = new int[3];
             cps1_scrollyG = new int[3];
-            gettileDelegatesG = new gettileDelegateG[]{
-            };
-            gethighDelegatesG = new gethighDelegateG[]{
-                null,
-            };
             flagsmap0G = new byte[0x200, 0x200];
             flagsmap1G = new byte[0x400, 0x400];
             flagsmap2G = new byte[0x800, 0x800];

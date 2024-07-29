@@ -1,7 +1,6 @@
 ﻿using MAME.Core.Common;
 using MAME.Core.run_interface;
 using System.IO;
-using System.Threading;
 
 namespace mame
 {
@@ -181,7 +180,7 @@ namespace mame
             {
                 Video.sDrawText = "Select position to save to";
                 Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                if (Keyboard.IsTriggered(Key.Escape))
+                if (Keyboard.IsTriggered(Corekey.Escape))
                 {
                     Video.sDrawText = "Save cancelled";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -189,30 +188,6 @@ namespace mame
                     mame_pause(false);
                     Motion.motion_handler_callback = Motion.handler_ingame;
                     return;
-                }
-                char file;
-                foreach (Key key1 in Inptport.lk)
-                {
-                    if (Keyboard.IsTriggered(key1))
-                    {
-                        file = Inptport.getcharbykey(key1);
-                        if (!Directory.Exists("sta\\" + Machine.sName))
-                        {
-                            Directory.CreateDirectory("sta\\" + Machine.sName);
-                        }
-                        FileStream fs1 = new FileStream("sta\\" + Machine.sName + "\\" + file + ".sta", FileMode.Create);
-                        BinaryWriter bw1 = new BinaryWriter(fs1);
-                        State.savestate_callback(bw1);
-                        bw1.Close();
-                        fs1.Close();
-                        Video.sDrawText = "Save to position " + file;
-                        Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                        playState = PlayState.PLAY_RUNNING;
-                        Motion.motion_handler_callback = Motion.handler_ingame;
-                        Thread.Sleep(500);
-                        mame_pause(false);
-                        return;
-                    }
                 }
             }
         }
@@ -224,7 +199,7 @@ namespace mame
             {
                 Video.sDrawText = "Select position to load from";
                 Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                if (Keyboard.IsTriggered(Key.Escape))
+                if (Keyboard.IsTriggered(Corekey.Escape))
                 {
                     Video.sDrawText = "Load cancelled";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -232,43 +207,6 @@ namespace mame
                     mame_pause(false);
                     Motion.motion_handler_callback = Motion.handler_ingame;
                     return;
-                }
-                char file;
-                foreach (Key key1 in Inptport.lk)
-                {
-                    if (Keyboard.IsTriggered(key1))
-                    {
-                        file = Inptport.getcharbykey(key1);
-                        if (!File.Exists("sta\\" + Machine.sName + "\\" + file + ".sta"))
-                        {
-                            Video.sDrawText = "Load fail";
-                            Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                            playState = PlayState.PLAY_RUNNING;
-                            Thread.Sleep(500);
-                            mame_pause(false);
-                            Motion.motion_handler_callback = Motion.handler_ingame;
-                            return;
-                        }
-                        FileStream fs1 = new FileStream("sta\\" + Machine.sName + "\\" + file + ".sta", FileMode.Open);
-                        BinaryReader br1 = new BinaryReader(fs1);
-                        State.loadstate_callback(br1);
-                        br1.Close();
-                        fs1.Close();
-                        postload();
-                        Video.sDrawText = "Load from position " + file;
-                        Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                        /*FileStream fs2 = new FileStream(@"\VS2008\compare1\compare1\bin\Debug\sta1\" + Machine.sName + "\\" + file + ".sta", FileMode.Create);
-                        BinaryWriter bw1 = new BinaryWriter(fs2);
-                        State.savestate_callback(bw1);
-                        bw1.Close();
-                        fs2.Close();
-                        return;*/
-                        playState = PlayState.PLAY_RUNNING;
-                        Motion.motion_handler_callback = Motion.handler_ingame;
-                        Thread.Sleep(500);
-                        mame_pause(false);
-                        return;
-                    }
                 }
             }
         }
@@ -282,7 +220,7 @@ namespace mame
                 {
                     Video.sDrawText = "Select position to record to";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                    if (Keyboard.IsTriggered(Key.Escape))
+                    if (Keyboard.IsTriggered(Corekey.Escape))
                     {
                         Video.sDrawText = "Record cancelled";
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -290,39 +228,6 @@ namespace mame
                         mame_pause(false);
                         Motion.motion_handler_callback = Motion.handler_ingame;
                         return;
-                    }
-                    char file;
-                    foreach (Key key1 in Inptport.lk)
-                    {
-                        if (Keyboard.IsTriggered(key1))
-                        {
-                            file = Inptport.getcharbykey(key1);
-                            if (!Directory.Exists("inp\\" + Machine.sName))
-                            {
-                                Directory.CreateDirectory("inp\\" + Machine.sName);
-                            }
-                            FileStream fs1 = new FileStream("inp\\" + Machine.sName + "\\" + file + ".sta", FileMode.Create);
-                            BinaryWriter bw1 = new BinaryWriter(fs1);
-                            State.savestate_callback(bw1);
-                            bw1.Close();
-                            fs1.Close();
-                            if (bwRecord != null)
-                            {
-                                bwRecord.Close();
-                                bwRecord = null;
-                            }
-                            FileStream fs2 = new FileStream("inp\\" + Machine.sName + "\\" + file + ".inp", FileMode.Create);
-                            bwRecord = new BinaryWriter(fs2);
-                            Memory.memory_reset2();
-                            Inptport.record_port_callback();
-                            Video.sDrawText = "Record to position " + file;
-                            Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                            playState = PlayState.PLAY_RECORDRUNNING;
-                            Motion.motion_handler_callback = Motion.handler_ingame;
-                            Thread.Sleep(500);
-                            mame_pause(false);
-                            return;
-                        }
                     }
                 }
                 else if (playState == PlayState.PLAY_RECORDEND)
@@ -345,7 +250,7 @@ namespace mame
                 {
                     Video.sDrawText = "Select position to replay from";
                     Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 1000;
-                    if (Keyboard.IsTriggered(Key.Escape))
+                    if (Keyboard.IsTriggered(Corekey.Escape))
                     {
                         Video.sDrawText = "Replay cancelled";
                         Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
@@ -353,63 +258,6 @@ namespace mame
                         mame_pause(false);
                         Motion.motion_handler_callback = Motion.handler_ingame;
                         return;
-                    }
-                    char file;
-                    foreach (Key key1 in Inptport.lk)
-                    {
-                        if (Keyboard.IsTriggered(key1))
-                        {
-                            file = Inptport.getcharbykey(key1);
-                            if (!File.Exists("inp\\" + Machine.sName + "\\" + file + ".sta") || !File.Exists("inp\\" + Machine.sName + "\\" + file + ".inp"))
-                            {
-                                Video.sDrawText = "Replay fail";
-                                Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                                playState = PlayState.PLAY_RUNNING;
-                                Thread.Sleep(500);
-                                mame_pause(false);
-                                Motion.motion_handler_callback = Motion.handler_ingame;
-                                return;
-                            }
-                            if (bwRecord != null)
-                            {
-                                bwRecord.Close();
-                                bwRecord = null;
-                            }
-                            if (fsRecord != null)
-                            {
-                                fsRecord.Close();
-                                fsRecord = null;
-                            }
-                            if (brRecord != null)
-                            {
-                                brRecord.Close();
-                                brRecord = null;
-                            }
-                            FileStream fs1 = new FileStream("inp\\" + Machine.sName + "\\" + file + ".sta", FileMode.Open);
-                            BinaryReader br1 = new BinaryReader(fs1);
-                            State.loadstate_callback(br1);
-                            br1.Close();
-                            fs1.Close();
-                            postload();
-                            /*FileStream fs2 = new FileStream(@"\VS2008\compare1\compare1\bin\Debug\inp1\" + Machine.sName + "\\" + file + ".sta", FileMode.Create);
-                            BinaryWriter bw1 = new BinaryWriter(fs2);
-                            State.savestate_callback(bw1);
-                            bw1.Close();
-                            fs2.Close();
-                            return;*/
-                            fsRecord = new FileStream("inp\\" + Machine.sName + "\\" + file + ".inp", FileMode.Open);
-                            brRecord = new BinaryReader(fsRecord);
-                            Memory.memory_reset();
-                            Inptport.bReplayRead = true;
-                            Inptport.replay_port_callback();
-                            Video.sDrawText = "Replay from position " + file;
-                            Video.popup_text_end = Wintime.osd_ticks() + Wintime.ticks_per_second * 2;
-                            playState = PlayState.PLAY_REPLAYRUNNING;
-                            Motion.motion_handler_callback = Motion.handler_ingame;
-                            Thread.Sleep(500);
-                            mame_pause(false);
-                            return;
-                        }
                     }
                 }
             }

@@ -14,11 +14,11 @@ namespace mame
             mKeyboard = ikb;
         }
 
-        public static bool IsPressed(Key key)
+        public static bool IsPressed(Corekey key)
         {
             return mKeyboard.IsPressed(key);
         }
-        public static bool IsTriggered(Key key)
+        public static bool IsTriggered(Corekey key)
         {
             return mKeyboard.IsTriggered(key);
         }

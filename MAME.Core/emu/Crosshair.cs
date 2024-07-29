@@ -1,4 +1,4 @@
-﻿using Bitmap = MAME.Core.AxiBitmap.AxiBitmap;
+﻿
 using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace mame
@@ -9,7 +9,6 @@ namespace mame
         {
             public bool[] used;
             public bool[] visible;
-            public Bitmap[] bitmap;
             /*bitmap_t *			bitmap[MAX_PLAYERS];
             render_texture *	texture[MAX_PLAYERS];
             const device_config *screen[MAX_PLAYERS];*/
@@ -86,7 +85,6 @@ namespace mame
         {
             global.used = new bool[8];
             global.visible = new bool[8];
-            global.bitmap = new Bitmap[8];
             global.x = new int[8];
             global.y = new int[8];
             switch (Machine.sName)
@@ -99,36 +97,11 @@ namespace mame
                 case "opwolfp":
                     global.used[0] = true;
                     global.visible[0] = true;
-                    create_bitmap(0);
                     Video.drawcrosshair = Video.drawcrosshair_opwolf;
                     break;
                 default:
                     Video.drawcrosshair = Video.drawcrosshair_null;
                     break;
-            }
-        }
-        public static void create_bitmap(int player)
-        {
-            global.bitmap[player] = new Bitmap(100, 100);
-            int x, y;
-            uint color = crosshair_colors[player];
-            for (y = 0; y < 100; y++)
-            {
-                for (x = 0; x < 100; x++)
-                {
-                    global.bitmap[player].SetPixel(x, y, Color.FromArgb(0xffffff));
-                }
-            }
-            for (y = 0; y < 50; y++)
-            {
-                for (x = 0; x < 100; x++)
-                {
-                    if (((crosshair_raw_top[y * (107 / 8) + x / 8] << (x % 8)) & 0x80) != 0)
-                    {
-                        global.bitmap[player].SetPixel(x, y, Color.FromArgb(unchecked((int)(0xff000000 | color))));
-                        global.bitmap[player].SetPixel(x, 99 - y, Color.FromArgb(unchecked((int)(0xff000000 | color))));
-                    }
-                }
             }
         }
         public static void animate_opwolf()

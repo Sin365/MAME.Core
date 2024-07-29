@@ -2,7 +2,7 @@
 {
     public interface IKeyboard
     {
-        bool IsPressed(Key key);
-        bool IsTriggered(Key key);
+        bool IsPressed(Corekey key);
+        bool IsTriggered(Corekey key);
     }
 }

@@ -121,25 +121,5 @@ namespace mame
             dac1_value = data - 0x80;
             namcos1_update_DACs();
         }
-        public static void nvram_handler_load_namcos1()
-        {
-            if (File.Exists("nvram\\" + Machine.sName + ".nv"))
-            {
-                FileStream fs1 = new FileStream("nvram\\" + Machine.sName + ".nv", FileMode.Open);
-                int n = (int)fs1.Length;
-                fs1.Read(Generic.generic_nvram, 0, n);
-                fs1.Close();
-            }
-            else
-            {
-                Array.Clear(Generic.generic_nvram, 0, 0x800);
-            }
-        }
-        public static void nvram_handler_save_namcos1()
-        {
-            FileStream fs1 = new FileStream("nvram\\" + Machine.sName + ".nv", FileMode.Create);
-            fs1.Write(Generic.generic_nvram, 0, 0x800);
-            fs1.Close();
-        }
     }
 }

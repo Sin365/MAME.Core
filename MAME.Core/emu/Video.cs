@@ -1,7 +1,6 @@
 ﻿using MAME.Core.run_interface;
 using System;
 using System.IO;
-using Bitmap = MAME.Core.AxiBitmap.AxiBitmap;
 
 namespace mame
 {
@@ -42,8 +41,6 @@ namespace mame
         public static int fullwidth, fullheight;
         public static bool global_throttle;
         public static int scanline_param;
-        private static Bitmap bitmapGDI;
-        private static Bitmap[] bbmp;
         public static RECT new_clip;
         public static int curbitmap;
         public static string sDrawText;
@@ -109,15 +106,10 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 59.61));//59.61Hz
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[3];
-                    bbmp[0] = new Bitmap(512, 512);
-                    bbmp[1] = new Bitmap(512, 256);
-                    bbmp[2] = new Bitmap(384, 224);
                     video_update_callback = CPS.video_update_cps1;
                     video_eof_callback = CPS.video_eof_cps1;
                     break;
@@ -133,15 +125,10 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 8000000) * 512 * 262);//59.637404580152669Hz
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[3];
-                    bbmp[0] = new Bitmap(512, 512);
-                    bbmp[1] = new Bitmap(512, 256);
-                    bbmp[2] = new Bitmap(384, 224);
                     video_update_callback = CPS.video_update_cps1;
                     video_eof_callback = CPS.video_eof_cps1;
                     break;
@@ -157,13 +144,10 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     Motion.motion_update_callback = Motion.ui_updateC;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(256, 256);
                     video_update_callback = Dataeast.video_update_pcktgal;
                     video_eof_callback = Dataeast.video_eof_pcktgal;
                     switch (Machine.sName)
@@ -190,13 +174,10 @@ namespace mame
                     frame_update_time = new Atime(0, (long)(1e18 / 60));
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     Motion.motion_update_callback = Motion.ui_updateTehkan;
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(256, 256);
                     video_update_callback = Tehkan.video_update_pbaction;
                     video_eof_callback = Tehkan.video_eof_pbaction;
                     break;
@@ -216,8 +197,6 @@ namespace mame
                     bitmapbaseN = new int[2][];
                     bitmapbaseN[0] = new int[384 * 264];
                     bitmapbaseN[1] = new int[384 * 264];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(320, 224);
                     video_update_callback = Neogeo.video_update_neogeo;
                     video_eof_callback = Neogeo.video_eof_neogeo;
                     break;
@@ -237,8 +216,6 @@ namespace mame
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x100 * 0x100];
                     bitmapbase[1] = new ushort[0x100 * 0x100];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(256, 224);
                     video_update_callback = SunA8.video_update_suna8;
                     video_eof_callback = SunA8.video_eof_suna8;
                     break;
@@ -255,13 +232,9 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     Motion.motion_update_callback = Motion.ui_updateNa;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[2];
-                    bbmp[0] = new Bitmap(512, 512);
-                    bbmp[1] = new Bitmap(288, 224);
                     video_update_callback = Namcos1.video_update_namcos1;
                     video_eof_callback = Namcos1.video_eof_namcos1;
                     break;
@@ -278,12 +251,9 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     Motion.motion_update_callback = Motion.ui_updateIGS011;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(512, 240);
                     video_update_callback = IGS011.video_update_igs011;
                     video_eof_callback = IGS011.video_eof_igs011;
                     break;
@@ -300,12 +270,9 @@ namespace mame
                     screenstate.vblank_period = 0;
                     video_attributes = 0;
                     Motion.motion_update_callback = Motion.ui_updatePGM;
-                    bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(448, 224);
                     video_update_callback = PGM.video_update_pgm;
                     video_eof_callback = PGM.video_eof_pgm;
                     break;
@@ -325,8 +292,6 @@ namespace mame
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];//0x11c
                     bitmapbase[1] = new ushort[0x200 * 0x200];//0x11c
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(512, 284);
                     video_update_callback = M72.video_update_m72;
                     video_eof_callback = M72.video_eof_m72;
                     break;
@@ -346,8 +311,6 @@ namespace mame
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x200];
                     bitmapbase[1] = new ushort[0x200 * 0x200];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(0x200, 0x100);
                     video_update_callback = M92.video_update_m92;
                     video_eof_callback = M92.video_eof_m92;
                     break;
@@ -391,8 +354,6 @@ namespace mame
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x100 * 0x100];
                             bitmapbase[1] = new ushort[0x100 * 0x100];
-                            bbmp = new Bitmap[1];
-                            bbmp[0] = new Bitmap(256, 224);
                             video_update_callback = Taito.video_update_bublbobl;
                             video_eof_callback = Taito.video_eof_taito;
                             break;
@@ -415,8 +376,6 @@ namespace mame
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x140 * 0x100];
                             bitmapbase[1] = new ushort[0x140 * 0x100];
-                            bbmp = new Bitmap[1];
-                            bbmp[0] = new Bitmap(320, 240);
                             video_update_callback = Taito.video_update_opwolf;
                             video_eof_callback = Taito.video_eof_taito;
                             break;
@@ -438,8 +397,6 @@ namespace mame
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x100];
                     bitmapbase[1] = new ushort[0x200 * 0x100];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(320, 224);
                     video_update_callback = Taitob.video_update_taitob;
                     video_eof_callback = Taitob.video_eof_taitob;
                     break;
@@ -455,8 +412,6 @@ namespace mame
                     bitmapbase = new ushort[2][];
                     bitmapbase[0] = new ushort[0x200 * 0x100];
                     bitmapbase[1] = new ushort[0x200 * 0x100];
-                    bbmp = new Bitmap[1];
-                    bbmp[0] = new Bitmap(288, 224);
                     video_eof_callback = Konami68000.video_eof;
                     switch (Machine.sName)
                     {
@@ -607,8 +562,6 @@ namespace mame
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x100 * 0x100];
                             bitmapbase[1] = new ushort[0x100 * 0x100];
-                            bbmp = new Bitmap[1];
-                            bbmp[0] = new Bitmap(256, 224);
                             video_update_callback = Capcom.video_update_gng;
                             video_eof_callback = Capcom.video_eof_gng;
                             break;
@@ -633,8 +586,6 @@ namespace mame
                             bitmapbase = new ushort[2][];
                             bitmapbase[0] = new ushort[0x200 * 0x100];
                             bitmapbase[1] = new ushort[0x200 * 0x100];
-                            bbmp = new Bitmap[1];
-                            bbmp[0] = new Bitmap(384, 224);
                             video_update_callback = Capcom.video_update_sf;
                             video_eof_callback = Capcom.video_eof;
                             break;
@@ -645,7 +596,6 @@ namespace mame
             screenstate.scantime = screenstate.frame_period / screenstate.height;
             screenstate.pixeltime = screenstate.frame_period / (screenstate.height * screenstate.width);
             screenstate.frame_number = 0;
-            bitmapGDI = new Bitmap(Video.fullwidth, Video.fullheight);
             bitmapcolor = new int[Video.fullwidth * Video.fullheight];
             vblank_begin_timer = Timer.timer_alloc_common(vblank_begin_callback, "vblank_begin_callback", false);
             Timer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);

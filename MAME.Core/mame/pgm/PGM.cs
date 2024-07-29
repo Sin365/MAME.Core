@@ -216,22 +216,6 @@ namespace mame
                 }
             }
         }
-        public static void nvram_handler_load_pgm()
-        {
-            if (File.Exists("nvram\\" + Machine.sName + ".nv"))
-            {
-                FileStream fs1 = new FileStream("nvram\\" + Machine.sName + ".nv", FileMode.Open);
-                int n = 0x20000;
-                fs1.Read(Memory.mainram, 0, n);
-                fs1.Close();
-            }
-        }
-        public static void nvram_handler_save_pgm()
-        {
-            FileStream fs1 = new FileStream("nvram\\" + Machine.sName + ".nv", FileMode.Create);
-            fs1.Write(Memory.mainram, 0, 0x20000);
-            fs1.Close();
-        }
 
     }
 }

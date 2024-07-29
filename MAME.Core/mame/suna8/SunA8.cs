@@ -154,12 +154,6 @@ namespace mame
             {
                 samplebuf[i] = (short)((sbyte)(samplesrom[i] ^ 0x80) * 256);
             }
-            /*BinaryWriter bw1 = new BinaryWriter(new FileStream(@"\VS2008\compare1\compare1\bin\Debug\sample.dat", FileMode.Append));
-            for (i = 0; i < len; i++)
-            {
-                bw1.Write((byte)(samplebuf[i] >> 8));
-            }
-            bw1.Close();*/
         }
         public static void machine_reset_suna8()
         {

@@ -333,6 +333,7 @@ namespace mame
             calendar_init();
             irq3_pending = 1;
         }
+
         public static void nvram_handler_load_neogeo()
         {
             if (File.Exists("nvram\\" + Machine.sName + ".nv"))

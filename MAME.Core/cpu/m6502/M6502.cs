@@ -1,6 +1,7 @@
 ﻿using mame;
 using System;
 using System.IO;
+//using System.IO;
 
 namespace cpu.m6502
 {
@@ -140,15 +141,6 @@ namespace cpu.m6502
         }
         public int m6502_execute(int cycles)
         {
-            StreamWriter sw30 = null, sw31 = null;
-            if (Cpuexec.bLog0 == 1 && Cpuexec.bLog02)
-            {
-                sw30 = new StreamWriter(@"\VS2008\compare1\compare1\bin\Debug\20.txt", true);
-            }
-            if (Cpuexec.bLog1 == 1 && Cpuexec.bLog12)
-            {
-                sw31 = new StreamWriter(@"\VS2008\compare1\compare1\bin\Debug\21.txt", true);
-            }
             pendingCycles = cycles;
             do
             {
@@ -189,26 +181,8 @@ namespace cpu.m6502
                         pending_irq = 1;
                     }
                 }
-                if (Cpuexec.bLog0 == 1 && Cpuexec.bLog02)
-                {
-                    sw30.WriteLine(ppc.d.ToString("x") + "\t" + op.ToString("x") + "\t" + pendingCycles.ToString("x"));
-                    sw30.WriteLine(sp.LowWord.ToString("x") + "\t" + p.ToString("x") + "\t" + a.ToString("x") + "\t" + x.ToString("x") + "\t" + y.ToString("x") + "\t" + pending_irq.ToString("x") + "\t" + after_cli.ToString("x") + "\t" + nmi_state.ToString("x") + "\t" + irq_state.ToString("x") + "\t" + so_state.ToString("x"));
-                }
-                if (Cpuexec.bLog1 == 1 && Cpuexec.bLog12)
-                {
-                    sw31.WriteLine(ppc.d.ToString("x") + "\t" + op.ToString("x") + "\t" + pendingCycles.ToString("x"));
-                    sw31.WriteLine(sp.LowWord.ToString("x") + "\t" + p.ToString("x") + "\t" + a.ToString("x") + "\t" + x.ToString("x") + "\t" + y.ToString("x") + "\t" + pending_irq.ToString("x") + "\t" + after_cli.ToString("x") + "\t" + nmi_state.ToString("x") + "\t" + irq_state.ToString("x") + "\t" + so_state.ToString("x"));
-                }
             }
             while (pendingCycles > 0);
-            if (Cpuexec.bLog0 == 1 && Cpuexec.bLog02)
-            {
-                sw30.Close();
-            }
-            if (Cpuexec.bLog1 == 1 && Cpuexec.bLog12)
-            {
-                sw31.Close();
-            }
             return cycles - pendingCycles;
         }
         public override void set_irq_line(int irqline, LineState state)
