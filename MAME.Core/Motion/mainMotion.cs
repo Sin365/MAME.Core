@@ -67,14 +67,26 @@ namespace MAME.Core.Common
 
         private void LoadROMXML()
         {
-            XElement xe = XElement.Parse(resource.Get_mame_xml());
+            XElement xe = XElement.Parse(resource.mame);
             IEnumerable<XElement> elements = from ele in xe.Elements("game") select ele;
             showInfoByElements(elements);
+        }
+
+        public Dictionary<string, RomInfo> GetGameList()
+        {
+            return RomInfo.dictName2Rom;
+        }
+
+        public void GetGameScreenSize(out int _width, out int _height)
+        {
+            _width = Video.fullwidth;
+            _height = Video.fullheight;
         }
 
         private void showInfoByElements(IEnumerable<XElement> elements)
         {
             RomInfo.romList = new List<RomInfo>();
+            RomInfo.dictName2Rom = new Dictionary<string, RomInfo>();
             foreach (var ele in elements)
             {
                 RomInfo rom = new RomInfo();
@@ -86,6 +98,7 @@ namespace MAME.Core.Common
                 rom.Year = ele.Element("year").Value;
                 rom.Manufacturer = ele.Element("manufacturer").Value;
                 RomInfo.romList.Add(rom);
+                RomInfo.dictName2Rom[rom.Name] = rom;
                 //loadform.listView1.Items.Add(new ListViewItem(new string[] { rom.Description, rom.Year, rom.Name, rom.Parent, rom.Direction, rom.Manufacturer, rom.Board }));
             }
         }

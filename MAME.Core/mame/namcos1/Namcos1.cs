@@ -36,7 +36,7 @@ namespace mame
             gfx2rom = Machine.GetRom("gfx2.rom");
             gfx3rom = ByteTo2byte(Machine.GetRom("gfx3.rom"));
             user1rom = Machine.GetRom("user1.rom");
-            mcurom = mainMotion.resource.Get_mcu();
+            mcurom = mainMotion.resource.mcu;
             voicerom = new byte[0xc0000];
             byte[] bb1 = Machine.GetRom("voice.rom");
             Array.Copy(bb1, voicerom, bb1.Length);

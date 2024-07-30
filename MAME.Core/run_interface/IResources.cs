@@ -2,14 +2,16 @@
 {
     public interface IResources
     {
-        byte[] Get_sfix();
-        byte[] Get__000_lo();
-        byte[] Get_sm1();
-        byte[] Get_mainbios();
-        byte[] Get_pgmmainbios();
-        byte[] Get_pgmvideobios();
-        byte[] Get_pgmaudiobios();
-        byte[] Get_mcu();
-        string Get_mame_xml();
+        byte[] mcu { get;  }
+        byte[] sfix { get; }
+        byte[] _000_lo { get; }
+        byte[] sm1 { get; }
+        byte[] mainbios { get; }
+        byte[] pgmmainbios { get; }
+        byte[] pgmvideobios { get; }
+        byte[] pgmaudiobios { get; }
+        byte[] _1 { get; }
+        byte[] readme { get; }
+        string mame { get; }
     }
 }

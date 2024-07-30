@@ -22,7 +22,7 @@ namespace mame
             mKeyboard = ikb;
         }
 
-        public static bool IsPressed(MotionKey key)
+        public static bool IsPressed(MotionKey key) 
         {
             return m_KeyStates[(int)key].IsPressed;
         }
@@ -42,7 +42,7 @@ namespace mame
             {
                 m_KeyStates[(int)key].IsPressed = true;
             }
-            for (int i = 0; i < 256; i++)
+            for (int i = 0; i < finalIndex; i++)
             {
                 if (m_KeyStates[i].IsPressed)
                 {
