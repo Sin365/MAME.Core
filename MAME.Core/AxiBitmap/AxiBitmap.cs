@@ -1,21 +1,36 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core.AxiBitmap
 {
+
+    [StructLayout(LayoutKind.Explicit)]
     public struct AxiColor
     {
-        public byte r, g, b, a;
-        // 构造函数  
+        [FieldOffset(0)]
+        public int sdColor;
+        [FieldOffset(0)]
+        public byte r;
+        [FieldOffset(1)]
+        public byte g;
+        [FieldOffset(2)]
+        public byte b;
+        [FieldOffset(3)]
+        public byte a;
+
         public AxiColor(byte _r, byte _g, byte _b)
         {
+            r = g = b = a = 0;
+            sdColor = 0;
             r = _r;
             g = _g;
-            b = _b;
-            a = 255;
+            b = _b; 
+            a = byte.MaxValue;
         }
-
         public AxiColor(byte _r, byte _g, byte _b, byte _a)
         {
+            r = g = b = a = 0;
+            sdColor = 0;
             r = _r;
             g = _g;
             b = _b;
@@ -23,15 +38,17 @@ namespace MAME.Core.AxiBitmap
         }
         public static AxiColor FromArgb(int argb)
         {
-            byte a = (byte)((argb >> 24) & 0xFF);
-            byte r = (byte)((argb >> 16) & 0xFF);
-            byte g = (byte)((argb >> 8) & 0xFF);
-            byte b = (byte)(argb & 0xFF);
-            return new AxiColor { r = r, g = g, b = b, a = a };
+            return new AxiColor { sdColor = argb };
         }
+
+        public override string ToString()
+        {
+            return String.Format("{0:X8}", sdColor);
+        }
+
         public static int ToArgb(AxiColor color)
         {
-            return (color.a << 24) | (color.r << 16) | (color.g << 8) | color.b;
+            return color.sdColor;
         }
 
         #region 颜色定义
@@ -177,11 +194,70 @@ namespace MAME.Core.AxiBitmap
         #endregion
     }
 
+
+
     public static class AxiBitmapEx
     {
         public static int ToArgb(this AxiColor color)
         {
             return (color.a << 24) | (color.r << 16) | (color.g << 8) | color.b;
         }
+
+
+        //public static void CloneIntColorArr(int[] baseBitmap, int[] targetBitmap, int baseWidth, int baseHeight, Rectangle rect)
+        //{
+        //    // 检查矩形是否超出位图边界  
+        //    if (rect.X < 0 || rect.X + rect.Width > baseWidth || rect.Y < 0 || rect.Y + rect.Height > baseHeight)
+        //    {
+        //        throw new ArgumentException("Rectangle is out of bitmap bounds.");
+        //    }
+
+        //    int baseStartIndex = rect.Y * baseWidth + rect.X;
+        //    int targetStartIndex = rect.Y * rect.Width;
+
+        //    for (int y = 0; y < rect.Height; y++)
+        //    {
+        //        // 注意这里使用了rect.Width作为要拷贝的元素数量，而不是baseWidth  
+        //        Buffer.BlockCopy(baseBitmap, baseStartIndex + y * baseWidth, targetBitmap, targetStartIndex + y * rect.Width, rect.Width * sizeof(int));
+        //        // 或者使用Array.Copy，但要注意类型的大小（在这里是int）  
+        //        // Array.Copy(baseBitmap, baseStartIndex + y * baseWidth, targetBitmap, targetStartIndex + y * rect.Width, rect.Width);  
+        //    }
+        //}
+
+        public static void CloneIntColorArr(int[] baseBitmap, int[] targetBitmap, int Width, int Height, Rectangle rect)
+        {
+            // 检查矩形是否超出位图边界  
+            if (rect.X < 0 || rect.Right > Width || rect.Y < 0 || rect.Bottom > Height)
+            {
+                throw new ArgumentException("out of");
+            }
+
+            int srcStartIndex = rect.Y * Width + rect.X;
+
+            for (int y = 0; y < rect.Height; y++)
+            {
+                Array.Copy(baseBitmap, srcStartIndex + y * Width, targetBitmap, y * rect.Width, rect.Width);
+            }
+        }
+
+        public struct Rectangle
+        {
+            public int X;
+            public int Y;
+            public int Width;
+            public int Height;
+            public Rectangle(int x, int y, int width, int height)
+            {
+                X = x;
+                Y = y;
+                Width = width;
+                Height = height;
+            }
+            public int Right => X + Width;
+            public int Bottom => Y + Height;
+            public int Area { get { return Width * Height; } }
+            public bool Contains(int pointX, int pointY) { return pointX >= X && pointX < X + Width && pointY >= Y && pointY < Y + Height; }
+        }
+
     }
 }

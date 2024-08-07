@@ -37,18 +37,19 @@ namespace mame
 
         static void BufferWirte(int Off, byte[] Data)
         {
-            Act_BufferWirte?.Invoke(Off, Data);
+            Act_BufferWirte.Invoke(Off, Data);
         }
 
         static void SubmitSamples(byte[] buffer, int samples_a)
         {
-            Act_SubmitSamples?.Invoke(buffer, samples_a);
+            Act_SubmitSamples.Invoke(buffer, samples_a);
         }
 
         public static void SetVolume(int Vol)
         {
-            Act_SetVolume?.Invoke(Vol);
+            Act_SetVolume.Invoke(Vol);
         }
+
         static void GetCurrentPosition(out int play_position, out int write_position)
         {
             play_position = 0;

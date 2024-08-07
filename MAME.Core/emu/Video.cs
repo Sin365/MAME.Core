@@ -1,6 +1,7 @@
 ﻿using MAME.Core.run_interface;
 using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace mame
 {
@@ -37,7 +38,19 @@ namespace mame
         private static int[] popcount;
         public static ushort[][] bitmapbase;
         public static int[][] bitmapbaseN;
-        public static int[] bitmapcolor;
+        //public static int[] bitmapcolor;
+
+        /**  bitmapcolor的指针管理  **/
+        //不再拷贝完整画布
+        //public static int[] bitmapcolor;
+        //static GCHandle bitmapcolor_handle;
+        //public static IntPtr bitmapcolor_Ptr;
+
+        public static int[] bitmapcolorRect;
+        static GCHandle bitmapcolorRect_handle;
+        public static IntPtr bitmapcolorRect_Ptr;
+        /**  end **/
+
         public static int fullwidth, fullheight;
         public static bool global_throttle;
         public static int scanline_param;
@@ -70,7 +83,7 @@ namespace mame
 
         static void SubmitVideo(int[] Bitmap)
         {
-            Act_SubmitVideo?.Invoke(Bitmap);
+            Act_SubmitVideo.Invoke(Bitmap);
         }
         #endregion
 
@@ -596,7 +609,48 @@ namespace mame
             screenstate.scantime = screenstate.frame_period / screenstate.height;
             screenstate.pixeltime = screenstate.frame_period / (screenstate.height * screenstate.width);
             screenstate.frame_number = 0;
-            bitmapcolor = new int[Video.fullwidth * Video.fullheight];
+
+
+            //bitmapcolor = new int[Video.fullwidth * Video.fullheight];
+            /**  bitmapcolor的指针管理  **/
+            //不再拷贝完整画布
+            //if (bitmapcolor != null)
+            //{
+            //    // 释放句柄  
+            //    if (bitmapcolor_handle.IsAllocated)
+            //    {
+            //        bitmapcolor_handle.Free();
+            //    }
+            //}
+            //bitmapcolor = new int[Video.fullwidth * Video.fullheight];
+            //// 固定数组，防止垃圾回收器移动它  
+            //bitmapcolor_handle = GCHandle.Alloc(bitmapcolor, GCHandleType.Pinned);
+            //// 获取数组的指针  
+            //bitmapcolor_Ptr = bitmapcolor_handle.AddrOfPinnedObject();
+
+
+
+
+            if (bitmapcolorRect != null)
+            {
+                // 释放句柄  
+                if (bitmapcolorRect_handle.IsAllocated)
+                {
+                    bitmapcolorRect_handle.Free();
+                }
+            }
+            bitmapcolorRect = new int[width * height];
+            // 固定数组，防止垃圾回收器移动它  
+            bitmapcolorRect_handle = GCHandle.Alloc(bitmapcolorRect, GCHandleType.Pinned);
+            // 获取数组的指针  
+            bitmapcolorRect_Ptr = bitmapcolorRect_handle.AddrOfPinnedObject();
+
+            /**  end **/
+
+
+
+
+
             vblank_begin_timer = Timer.timer_alloc_common(vblank_begin_callback, "vblank_begin_callback", false);
             Timer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
             scanline0_timer = Timer.timer_alloc_common(scanline0_callback, "scanline0_callback", false);

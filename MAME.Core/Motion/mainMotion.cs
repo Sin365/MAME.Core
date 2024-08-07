@@ -1,5 +1,6 @@
 ﻿using mame;
 using MAME.Core.run_interface;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -77,10 +78,14 @@ namespace MAME.Core.Common
             return RomInfo.dictName2Rom;
         }
 
-        public void GetGameScreenSize(out int _width, out int _height)
+        public void GetGameScreenSize(out int _width, out int _height,out IntPtr _framePtr)
         {
-            _width = Video.fullwidth;
-            _height = Video.fullheight;
+            //_width = Video.fullwidth;
+            //_height = Video.fullheight;
+            //_framePtr = Video.bitmapcolor_Ptr;
+            _width = Video.width;
+            _height = Video.height;
+            _framePtr = Video.bitmapcolorRect_Ptr;
         }
 
         private void showInfoByElements(IEnumerable<XElement> elements)
@@ -129,7 +134,10 @@ namespace MAME.Core.Common
                 case "CPS-1":
                 case "CPS-1(QSound)":
                 case "CPS2":
-                    Video.nMode = 3;
+
+                    Video.nMode = 1;
+                    Video.iMode = 2;
+                    //Video.nMode = 3;
                     itemSelect();
                     CPS.CPSInit();
                     CPS.GDIInit();

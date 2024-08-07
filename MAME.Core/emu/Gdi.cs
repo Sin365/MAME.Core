@@ -1,5 +1,6 @@
 ﻿using MAME.Core.AxiBitmap;
 using System;
+using static MAME.Core.AxiBitmap.AxiBitmapEx;
 using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace mame
@@ -163,7 +164,10 @@ namespace mame
                 //        break;
                 //}
                 //Machine.FORM.pictureBox1.Image = bbmp[iMode];
-                SubmitVideo(Video.bitmapcolor);
+
+                //AxiBitmapEx.CloneIntColorArr(Video.bitmapcolor,Video.bitmapcolorRect, Video.fullwidth, Video.fullheight, new Rectangle(offsetx, offsety, width, height));
+                SubmitVideo(Video.bitmapcolorRect);
+                //SubmitVideo(Video.bitmapcolor);
             }
             catch (Exception ex)
             {

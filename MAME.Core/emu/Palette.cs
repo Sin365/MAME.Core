@@ -20,19 +20,22 @@ namespace mame
                 case "CPS-1":
                 case "CPS-1(QSound)":
                 case "CPS2":
-                    trans_color = Color.Magenta;
+                    //trans_color = Color.Magenta;
+                    trans_color = Color.Black;
                     trans_uint = (uint)trans_color.ToArgb();
                     numcolors = 0xc00;
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "Data East":
-                    trans_color = Color.Magenta;
+                    //trans_color = Color.Magenta;
+                    trans_color = Color.Black;
                     trans_uint = (uint)trans_color.ToArgb();
                     numcolors = 0x200;
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "Tehkan":
-                    trans_color = Color.Magenta;
+                    //trans_color = Color.Magenta;
+                    trans_color = Color.Black;
                     trans_uint = (uint)trans_color.ToArgb();
                     numcolors = 0x100;
                     palette_set_callback = palette_entry_set_color2;
@@ -56,7 +59,8 @@ namespace mame
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "PGM":
-                    trans_color = Color.Magenta;
+                    //trans_color = Color.Magenta;
+                    trans_color = Color.Black;
                     trans_uint = (uint)trans_color.ToArgb();
                     numcolors = 0x901;
                     palette_set_callback = palette_entry_set_color2;
@@ -98,7 +102,8 @@ namespace mame
                         case "boblcave":
                         case "bublcave11":
                         case "bublcave10":
-                            trans_color = Color.Magenta;
+                            //trans_color = Color.Magenta;
+                            trans_color = Color.Black;
                             numcolors = 0x100;
                             break;
                         case "opwolf":
@@ -115,7 +120,8 @@ namespace mame
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "Taito B":
-                    trans_color = Color.Magenta;
+                    //trans_color = Color.Magenta;
+                    trans_color = Color.Black;
                     trans_uint = (uint)trans_color.ToArgb();
                     numcolors = 0x1000;
                     palette_set_callback = palette_entry_set_color3;
