@@ -213,6 +213,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3471319444242429640, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3471319444260926850, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
       propertyPath: m_Name
       value: UMAME
@@ -260,6 +264,14 @@ PrefabInstance:
     - target: {fileID: 3471319444260926876, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471319444260926877, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
+      propertyPath: mChangeRomName
+      value: mslug2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471319445309129982, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}

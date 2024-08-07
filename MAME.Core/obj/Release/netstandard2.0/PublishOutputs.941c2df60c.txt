@@ -1,0 +1,3 @@
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\publish\MAME.Core.dll
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\publish\MAME.Core.deps.json
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\publish\MAME.Core.pdb

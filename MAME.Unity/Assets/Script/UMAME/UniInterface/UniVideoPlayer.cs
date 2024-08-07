@@ -1,4 +1,3 @@
-using mame;
 using MAME.Core.run_interface;
 using System;
 using UnityEngine;
@@ -11,11 +10,15 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
     [SerializeField]
     private int mHeight;
     [SerializeField]
+    private int mDataLenght;
+    [SerializeField]
     private Texture2D m_rawBufferWarper;
     [SerializeField]
     private RawImage m_drawCanvas;
+    [SerializeField]
+    private RectTransform m_drawCanvasrect;
     int[] mFrameData;
-    Color32[] result;
+    IntPtr mFrameDataPtr;
 
     private TimeSpan lastElapsed;
     public double videoFPS { get; private set; }
@@ -24,39 +27,36 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
     private void Awake()
     {
         m_drawCanvas = GameObject.Find("GameRawImage").GetComponent<RawImage>();
+        m_drawCanvasrect = m_drawCanvas.GetComponent<RectTransform>();
     }
-    public void Initialize(int width,int height)
+    public void Initialize(int width, int height,IntPtr framePtr)
     {
+        m_drawCanvas.color = Color.white;
         //384 * 264
         mWidth = width;
         mHeight = height;
-        m_rawBufferWarper = new Texture2D(mWidth, mHeight);
+        mDataLenght = width * height * 4;
+        mFrameDataPtr = framePtr;
+        //m_rawBufferWarper = new Texture2D(mWidth, mHeight,TextureFormat.RGBA32,false);
+        //MAME来的是BGRA32，好好好
+        m_rawBufferWarper = new Texture2D(mWidth, mHeight, TextureFormat.BGRA32, false);
+        m_rawBufferWarper.filterMode = FilterMode.Point;
+
+        m_drawCanvas.texture = m_rawBufferWarper;
         mFrameData = new int[mWidth * mHeight];
-        result = new Color32[mFrameData.Length];
         bInitTexture = true;
+
+        float targetWidth = ((float)mWidth / mHeight) * m_drawCanvasrect.rect.height ;
+        m_drawCanvasrect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
     }
 
     void Update()
     {
         if (!bInitTexture) return;
-        var colors = GetUnityColor(mFrameData);
-        m_rawBufferWarper.SetPixels32(colors);
+
+        //m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mFrameData.Length * 4);
+        m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mDataLenght);
         m_rawBufferWarper.Apply();
-        Graphics.Blit(m_rawBufferWarper, m_drawCanvas.texture as RenderTexture);
-    }
-
-
-    public Color32[] GetUnityColor(int[] mFrameData)
-    {
-        for (int i = 0; i < mFrameData.Length; i++)
-        {
-            int argb = mFrameData[i];
-            result[i].a = (byte)((argb >> 24) & 0xFF);
-            result[i].r = (byte)((argb >> 16) & 0xFF);
-            result[i].g = (byte)((argb >> 8) & 0xFF);
-            result[i].b = (byte)(argb & 0xFF);
-        }
-        return result;
     }
 
     public void SubmitVideo(int[] data)
@@ -65,8 +65,6 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
         var delta = current - lastElapsed;
         lastElapsed = current;
         videoFPS = 1d / delta.TotalSeconds;
-
         mFrameData = data;
     }
-
 }

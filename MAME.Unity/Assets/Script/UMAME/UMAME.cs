@@ -1,5 +1,6 @@
 using mame;
 using MAME.Core.Common;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -19,7 +20,7 @@ public class UMAME : MonoBehaviour
     UniResources mUniResources;
     public Text mFPS;
 
-    public Button btnOpenRomPath;
+    public Button btnStop;
     public Button btnStart;
     public Button btnRomDir;
     public Dictionary<string, RomInfo> ALLGame;
@@ -42,7 +43,7 @@ public class UMAME : MonoBehaviour
 #endif
 
 
-    public string mChangeRomName = "mslug3";
+    public string mChangeRomName = string.Empty;
     private void Awake()
     {
         mFPS = GameObject.Find("FPS").GetComponent<Text>();
@@ -55,32 +56,23 @@ public class UMAME : MonoBehaviour
         mUniKeyboard = this.gameObject.AddComponent<UniKeyboard>();
         mUniResources = new UniResources();
 
-        if (mainMotion.t1 != null)
-        {
-            mainMotion.t1.Abort();
-        }
         mainmotion.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard, mUniMouse);
         ALLGame = mainmotion.GetGameList();
 
         Debug.Log($"ALLGame:{ALLGame.Count}");
+        GetHadRomList();
     }
 
     void OnEnable()
     {
-        btnOpenRomPath.onClick.AddListener(OpenFolderRomPath);
+        btnStop.onClick.AddListener(StopGame);
         btnStart.onClick.AddListener(LoadGame);
-        btnRomDir.onClick.AddListener(() => GetHadRomList());
     }
 
     void LoadGame()
     {
-        if (mainMotion.t1 != null)
-        {
-            mainMotion.t1.Abort();
-        }
-
         mChangeRomName = HadGameList[optionDropdown.value].Name;
-
+        StopGame();
         mainmotion.LoadRom(mChangeRomName);
         if (Machine.bRom)
         {
@@ -111,10 +103,21 @@ public class UMAME : MonoBehaviour
             return;
         }
         mUniSoundPlayer.Initialize();
-        mainmotion.GetGameScreenSize(out int _width, out int _height);
-        mUniVideoPlayer.Initialize(_width, _height);
+        mainmotion.GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr);
+        mUniVideoPlayer.Initialize(_width, _height, _framePtr);
         Mame.mame_pause(false);
         bStart = true;
+    }
+
+    void StopGame()
+    {
+        //如果已经有正在运行的游戏，使其释放
+        if (bStart || Machine.bRom)
+        {
+            bStart = false;
+            Mame.exit_pending = true;
+            Thread.Sleep(100);
+        }
     }
 
     void GetHadRomList()

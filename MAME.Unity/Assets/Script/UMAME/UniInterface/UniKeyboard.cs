@@ -8,6 +8,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     Dictionary<KeyCode, MotionKey> dictKeyCfgs = new Dictionary<KeyCode, MotionKey>();
     KeyCode[] CheckList;
     MotionKey[] mCurrKey = new MotionKey[0];
+    List<MotionKey> temp = new List<MotionKey>();
 
     #region
     public UILongClickButton btnP1;
@@ -20,7 +21,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     public UILongClickButton btnF;
     public UILongClickButton btnAB;
     public UILongClickButton btnCD;
-
+    public UILongClickButton btnABC;
     FloatingJoystick mJoystick;
     #endregion
 
@@ -40,6 +41,10 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         btnF = GameObject.Find("btnF").GetComponent<UILongClickButton>();
         btnAB = GameObject.Find("btnAB").GetComponent<UILongClickButton>();
         btnCD = GameObject.Find("btnCD").GetComponent<UILongClickButton>();
+        btnABC = GameObject.Find("btnABC").GetComponent<UILongClickButton>();
+
+        btnE.gameObject.SetActive(false);
+        btnF.gameObject.SetActive(false);
 
         dictKeyCfgs.Add(KeyCode.P, MotionKey.EMU_PAUSED);
 
@@ -78,6 +83,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
 
         btnAB.Key = new MotionKey[] { MotionKey.P1_BTN_1, MotionKey.P1_BTN_2 };
         btnCD.Key = new MotionKey[] { MotionKey.P1_BTN_3, MotionKey.P1_BTN_4 };
+        btnABC.Key = new MotionKey[] { MotionKey.P1_BTN_1, MotionKey.P1_BTN_2, MotionKey.P1_BTN_3 };
 
         mUIBtns.Add(btnP1);
         mUIBtns.Add(btnCoin1);
@@ -89,6 +95,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         mUIBtns.Add(btnF);
         mUIBtns.Add(btnAB);
         mUIBtns.Add(btnCD);
+        mUIBtns.Add(btnABC);
     }
 
     void OnEnable()
@@ -102,7 +109,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
 
     void Update()
     {
-        List<MotionKey> temp = new List<MotionKey>();
+        temp.Clear();
         for (int i = 0; i < CheckList.Length; i++)
         {
             if (Input.GetKey(CheckList[i]))
@@ -124,5 +131,15 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         if (inputV2.y > 0) temp.Add(MotionKey.P1_UP); else if (inputV2.y < 0) temp.Add(MotionKey.P1_DOWN);
 
         mCurrKey = temp.ToArray();
+
+#if UNITY_EDITOR
+        string TempStr = "";
+        foreach (var item in mCurrKey)
+        {
+            TempStr += $"{item.ToString()}|";
+        }
+        if(!string.IsNullOrEmpty(TempStr))
+            Debug.Log(TempStr);
+#endif
     }
 }

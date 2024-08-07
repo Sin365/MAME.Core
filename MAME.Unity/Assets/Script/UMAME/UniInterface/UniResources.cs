@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class UniResources : IResources
 {
-    const string ResourceRoot = "emu/";
+    const string ResourceRoot = "MAME/emu/";
 
     public byte[] mcu => Resources.Load<TextAsset>(ResourceRoot + "cus64-64a1.mcu").bytes;
 

@@ -14,13 +14,18 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
     public double audioFPS { get; private set; }
     float lastData = 0;
 
-    public void Initialize()
+
+    void Awake()
     {
         AudioClip dummy = AudioClip.Create("dummy", 1, 1, AudioSettings.outputSampleRate, false);
-        dummy.SetData(new float[] { 1,1 }, 0);
+        dummy.SetData(new float[] { 1, 1 }, 0);
         m_as.clip = dummy;
         m_as.loop = true;
         m_as.spatialBlend = 1;
+    }
+
+    public void Initialize()
+    {
         m_as.Play();
     }
 
@@ -101,6 +106,9 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
 
     public void SetVolume(int Vol)
     {
+        if (m_as)
+            return;
+        m_as.volume = Vol;
     }
 
 }

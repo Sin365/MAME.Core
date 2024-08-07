@@ -1,0 +1,10 @@
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\MAME.Core.deps.json
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\MAME.Core.dll
+G:\Sin365\MAME.Core\MAME.Core\bin\Release\netstandard2.0\MAME.Core.pdb
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.csproj.AssemblyReference.cache
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.GeneratedMSBuildEditorConfig.editorconfig
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.AssemblyInfoInputs.cache
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.AssemblyInfo.cs
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.csproj.CoreCompileInputs.cache
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.dll
+G:\Sin365\MAME.Core\MAME.Core\obj\Release\netstandard2.0\MAME.Core.pdb
