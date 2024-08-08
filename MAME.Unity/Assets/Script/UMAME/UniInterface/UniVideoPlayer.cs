@@ -22,39 +22,46 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
 
     private TimeSpan lastElapsed;
     public double videoFPS { get; private set; }
-    bool bInitTexture = false;
+    bool bInit = false;
 
     private void Awake()
     {
         m_drawCanvas = GameObject.Find("GameRawImage").GetComponent<RawImage>();
         m_drawCanvasrect = m_drawCanvas.GetComponent<RectTransform>();
     }
+
     public void Initialize(int width, int height,IntPtr framePtr)
     {
         m_drawCanvas.color = Color.white;
-        //384 * 264
-        mWidth = width;
-        mHeight = height;
-        mDataLenght = width * height * 4;
-        mFrameDataPtr = framePtr;
-        //m_rawBufferWarper = new Texture2D(mWidth, mHeight,TextureFormat.RGBA32,false);
-        //MAME来的是BGRA32，好好好
-        m_rawBufferWarper = new Texture2D(mWidth, mHeight, TextureFormat.BGRA32, false);
-        m_rawBufferWarper.filterMode = FilterMode.Point;
 
+        if (m_rawBufferWarper == null || mWidth != width || mHeight != height)
+        {
+            mWidth = width;
+            mHeight = height;
+            mDataLenght = width * height * 4;
+            mFrameData = new int[mWidth * mHeight];
+            //MAME来的是BGRA32，好好好
+            m_rawBufferWarper = new Texture2D(mWidth, mHeight, TextureFormat.BGRA32, false);
+            m_rawBufferWarper.filterMode = FilterMode.Point;
+        }
+
+        mFrameDataPtr = framePtr;
         m_drawCanvas.texture = m_rawBufferWarper;
-        mFrameData = new int[mWidth * mHeight];
-        bInitTexture = true;
+        bInit = true;
 
         float targetWidth = ((float)mWidth / mHeight) * m_drawCanvasrect.rect.height ;
         m_drawCanvasrect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, targetWidth);
     }
 
+    public void StopVideo()
+    {
+        bInit = false;
+        m_drawCanvas.color = new Color(0,0,0,0);
+    }
+
     void Update()
     {
-        if (!bInitTexture) return;
-
-        //m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mFrameData.Length * 4);
+        if (!bInit) return;
         m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mDataLenght);
         m_rawBufferWarper.Apply();
     }

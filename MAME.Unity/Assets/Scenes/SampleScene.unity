@@ -266,8 +266,16 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3471319444260926877, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
+      propertyPath: bQuickTestRom
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471319444260926877, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
+      propertyPath: mQuickTestRom
+      value: 1944
+      objectReference: {fileID: 0}
+    - target: {fileID: 3471319444260926877, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
       propertyPath: mChangeRomName
-      value: mslug2
+      value: opwolf
       objectReference: {fileID: 0}
     - target: {fileID: 3471319445309129982, guid: 1cb6308e67105bf48aea153ebcdb2d76, type: 3}
       propertyPath: m_IsActive

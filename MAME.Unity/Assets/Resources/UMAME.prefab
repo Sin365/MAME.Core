@@ -838,7 +838,8 @@ MonoBehaviour:
   btnStop: {fileID: 1268518242613896174}
   btnStart: {fileID: 3471319445208116035}
   btnRomDir: {fileID: 0}
-  mChangeRomName: mslug3
+  bQuickTestRom: 0
+  mQuickTestRom: 
 --- !u!114 &3471319444260926879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1665,7 +1666,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3471319445290242363}
   m_Layer: 5
-  m_Name: KeyPad
+  m_Name: tfKeyPad
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1691,9 +1692,9 @@ RectTransform:
   - {fileID: 809123066073945339}
   - {fileID: 5041497614654165726}
   - {fileID: 175721420956369396}
-  - {fileID: 3471319446131231223}
-  - {fileID: 3471319446251103890}
   - {fileID: 4705889093872201058}
+  - {fileID: 3471319446251103890}
+  - {fileID: 3471319446131231223}
   m_Father: {fileID: 3471319444310732615}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2557,7 +2558,7 @@ RectTransform:
   m_Children:
   - {fileID: 3471319445650276455}
   m_Father: {fileID: 3471319445290242363}
-  m_RootOrder: 9
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
@@ -3393,7 +3394,7 @@ RectTransform:
   m_Children:
   - {fileID: 4705889095025944828}
   m_Father: {fileID: 3471319445290242363}
-  m_RootOrder: 11
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}

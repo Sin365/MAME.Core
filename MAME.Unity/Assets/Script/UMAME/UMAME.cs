@@ -1,17 +1,16 @@
+using Assets.Script.UMAME.Common;
 using mame;
-using MAME.Core.Common;
+using MAME.Core.Motion;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UMAME : MonoBehaviour
 {
-    mainMotion mainmotion;
+    MameMainMotion emu;
     UniLog mUniLog;
     UniMouse mUniMouse;
     UniVideoPlayer mUniVideoPlayer;
@@ -19,17 +18,19 @@ public class UMAME : MonoBehaviour
     UniKeyboard mUniKeyboard;
     UniResources mUniResources;
     public Text mFPS;
-
     public Button btnStop;
     public Button btnStart;
     public Button btnRomDir;
     public Dictionary<string, RomInfo> ALLGame;
     public List<RomInfo> HadGameList = new List<RomInfo>();
+    string mChangeRomName = string.Empty;
+    public bool bQuickTestRom = false;
+    public string mQuickTestRom = string.Empty;
 
     Dropdown optionDropdown;
 
     public static System.Diagnostics.Stopwatch sw = System.Diagnostics.Stopwatch.StartNew();
-    public static bool bStart { get; private set; }
+    public static bool bInGame { get; private set; }
 
 
 #if UNITY_EDITOR_WIN
@@ -42,25 +43,35 @@ public class UMAME : MonoBehaviour
     public static string RomPath => Application.persistentDataPath;
 #endif
 
-
-    public string mChangeRomName = string.Empty;
     private void Awake()
     {
         mFPS = GameObject.Find("FPS").GetComponent<Text>();
         optionDropdown = GameObject.Find("optionDropdown").GetComponent<Dropdown>();
-        mainmotion = new mainMotion();
+        emu = new MameMainMotion();
         mUniLog = new UniLog();
         mUniMouse = this.gameObject.AddComponent<UniMouse>();
         mUniVideoPlayer = this.gameObject.AddComponent<UniVideoPlayer>();
         mUniSoundPlayer = GameObject.Find("Audio").transform.GetComponent<UniSoundPlayer>();
         mUniKeyboard = this.gameObject.AddComponent<UniKeyboard>();
         mUniResources = new UniResources();
+        mChangeRomName = UniMAMESetting.instance.LastGameRom;
 
-        mainmotion.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard, mUniMouse);
-        ALLGame = mainmotion.GetGameList();
+        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard, mUniMouse);
+        ALLGame = emu.GetGameList();
 
         Debug.Log($"ALLGame:{ALLGame.Count}");
+
+#if !UNITY_EDITOR
+        bQuickTestRom = false;
+#endif
+
+        if (bQuickTestRom)
+            mChangeRomName = mQuickTestRom;
+
         GetHadRomList();
+
+        if (bQuickTestRom)
+            LoadGame();
     }
 
     void OnEnable()
@@ -72,51 +83,41 @@ public class UMAME : MonoBehaviour
     void LoadGame()
     {
         mChangeRomName = HadGameList[optionDropdown.value].Name;
+        UniMAMESetting.instance.LastGameRom = mChangeRomName;
         StopGame();
-        mainmotion.LoadRom(mChangeRomName);
-        if (Machine.bRom)
+        //读取ROM
+        emu.LoadRom(mChangeRomName);
+        //读取成功
+        if (emu.bRom)
         {
-            m68000Motion.iStatus = 0;
-            m68000Motion.iValue = 0;
-            Mame.exit_pending = false;
-            mame.Motion.init();
-            mainMotion.t1 = new Thread(Mame.mame_execute);
-            mainMotion.t1.Start();
-
-            StartCoroutine(StartGame());
+            //读取ROM之后获得宽高初始化画面
+            emu.GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr);
+            Debug.Log($"_width->{_width}, _height->{_height}, _framePtr->{_framePtr}");
+            mUniVideoPlayer.Initialize(_width, _height, _framePtr);
+            //初始化音频
+            mUniSoundPlayer.Initialize();
+            //开始游戏
+            emu.StartGame();
+            bInGame = true;
+        }
+        else
+        {
+            Debug.Log($"ROM加载失败");
         }
     }
     private void Update()
     {
         mFPS.text = ($"fpsv {mUniVideoPlayer.videoFPS.ToString("F2")} fpsa {mUniSoundPlayer.audioFPS.ToString("F2")}");
     }
-    IEnumerator StartGame()
-    {
-        yield return new WaitForSeconds(2f);
-        StartEmu();
-    }
-
-    void StartEmu()
-    {
-        if (bStart)
-        {
-            return;
-        }
-        mUniSoundPlayer.Initialize();
-        mainmotion.GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr);
-        mUniVideoPlayer.Initialize(_width, _height, _framePtr);
-        Mame.mame_pause(false);
-        bStart = true;
-    }
 
     void StopGame()
     {
-        //如果已经有正在运行的游戏，使其释放
-        if (bStart || Machine.bRom)
+        if (bInGame)
         {
-            bStart = false;
-            Mame.exit_pending = true;
-            Thread.Sleep(100);
+            emu.StopGame();
+            mUniVideoPlayer.StopVideo();
+            mUniSoundPlayer.StopPlay();
+            bInGame = false;
         }
     }
 

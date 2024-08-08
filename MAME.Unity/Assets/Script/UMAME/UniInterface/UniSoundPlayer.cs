@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
 {
-    public int mWrite_position = 0;
-    public int mPlay_position =0;
-
     [SerializeField]
     private AudioSource m_as;
     private RingBuffer<float> _buffer = new RingBuffer<float>(4096);
@@ -26,21 +23,30 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
 
     public void Initialize()
     {
-        m_as.Play();
+        if (!m_as.isPlaying)
+        {
+            m_as.Play();
+        }
+    }
+
+    public void StopPlay()
+    {
+        if (m_as.isPlaying)
+        { 
+            m_as.Stop();
+        }
     }
 
     void OnAudioFilterRead(float[] data, int channels)
     {
-        if (!UMAME.bStart) return;
+        if (!UMAME.bInGame) return;
         int step = channels;
-        mWrite_position = 0;
         for (int i = 0; i < data.Length; i += step)
         {
             float rawFloat = lastData;
             if (_buffer.TryRead(out float rawData))
             { 
                 rawFloat = rawData;
-                mWrite_position++;
             }
 
             data[i] = rawFloat;
@@ -62,6 +68,8 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
             _buffer.Write(floatdata[i]);
         }
     }
+
+
     public float[] ConvertByteArrayToFloatArray(byte[] bytes, int sampleRate, int channels)
     {
         int sampleCount = bytes.Length / (channels * 2); // 16位，所以每个样本2字节  
@@ -72,10 +80,6 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
             // 读取左右声道  
             short left = BitConverter.ToInt16(bytes, i * channels * 2);
             short right = BitConverter.ToInt16(bytes, i * channels * 2 + 2);
-
-            //short left = (short)BitConverter.ToUInt16(bytes, i * channels * 2);
-            //short right = (short)BitConverter.ToUInt16(bytes, i * channels * 2 + 2);
-
             // 转换为-1.0到1.0的浮点数  
             floatArray[i] = left / 32767.0f; // 32767是16位整数的最大值
             floatArray[i + 1] = right / 32767.0f;
@@ -86,22 +90,12 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
 
     public void BufferWirte(int Off, byte[] Data)
     {
-        //var current = sw.Elapsed;
-        //var delta = current - lastElapsed;
-        //lastElapsed = current;
-
-        //FPS = 1d / delta.TotalSeconds;
-
-        //for (int i = Off; i < Data.Length; i++)
-        //{
-        //    _buffer.Write(Data[i]);
-        //}
     }
 
     public void GetCurrentPosition(out int play_position, out int write_position)
     {
-        play_position = mPlay_position;
-        write_position = mWrite_position;
+        play_position = 0;
+        write_position = 0;
     }
 
     public void SetVolume(int Vol)
@@ -110,5 +104,4 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
             return;
         m_as.volume = Vol;
     }
-
 }

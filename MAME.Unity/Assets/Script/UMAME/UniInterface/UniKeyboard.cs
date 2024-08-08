@@ -23,6 +23,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     public UILongClickButton btnCD;
     public UILongClickButton btnABC;
     FloatingJoystick mJoystick;
+    public Transform tfKeyPad;
     #endregion
 
     List<UILongClickButton> mUIBtns = new List<UILongClickButton>();
@@ -30,7 +31,7 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     void Awake()
     {
         mJoystick = GameObject.Find("tfJoystick").GetComponent<FloatingJoystick>();
-
+        tfKeyPad = GameObject.Find("tfKeyPad").transform;
         btnP1 = GameObject.Find("btnP1").GetComponent<UILongClickButton>();
         btnCoin1 = GameObject.Find("btnCoin1").GetComponent<UILongClickButton>();
         btnA = GameObject.Find("btnA").GetComponent<UILongClickButton>();
@@ -46,6 +47,9 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         btnE.gameObject.SetActive(false);
         btnF.gameObject.SetActive(false);
 
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR
+        tfKeyPad.gameObject.SetActive(false);
+#endif
         dictKeyCfgs.Add(KeyCode.P, MotionKey.EMU_PAUSED);
 
         dictKeyCfgs.Add(KeyCode.Alpha1, MotionKey.P1_GAMESTART);
