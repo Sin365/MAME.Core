@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
-    public partial class neogeoMotion
+    public partial class NeogeoMotion
     {
         private string[] sde2 = new string[] { "," };
         private int locationX, locationY;
@@ -20,7 +20,7 @@ namespace MAME.Core.Common
         bool cbL0 = false;
         bool cbL1 = false;
         #endregion
-        public neogeoMotion()
+        public NeogeoMotion()
         {
             tbResult = new List<string>();
             neogeoForm_Load();

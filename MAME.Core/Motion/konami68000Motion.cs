@@ -1,6 +1,6 @@
-﻿namespace MAME.Core.Common
+﻿namespace MAME.Core.Motion
 {
-    public class konami68000Motion
+    public class Konami68000Motion
     {
         private int locationX, locationY;
 
@@ -11,7 +11,7 @@
         public bool cbSprite = false;
         public string tbSprite;
         #endregion
-        public konami68000Motion()
+        public Konami68000Motion()
         {
             tbSprite = "0000-4000";
         }

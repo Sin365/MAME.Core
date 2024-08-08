@@ -2,10 +2,10 @@
 using mame;
 using System.Collections.Generic;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
 
-    public partial class m6809Motion
+    public partial class M6809Motion
     {
         //private Disassembler disassembler;
         private bool bLogNew;
@@ -34,7 +34,7 @@ namespace MAME.Core.Common
         public string tbDisassemble = string.Empty;
         #endregion
 
-        public m6809Motion()
+        public M6809Motion()
         {
         }
         public void GetData()

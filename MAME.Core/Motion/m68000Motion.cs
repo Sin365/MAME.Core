@@ -2,9 +2,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
-    public class m68000Motion
+    public class M68000Motion
     {
         private string[] sde6 = new string[1] { "," }, sde7 = new string[1] { ";" }, sde9 = new string[1] { "$" }, sde10 = new string[] { "+" };
         private bool bLogNew, bNew;
@@ -54,7 +54,7 @@ namespace MAME.Core.Common
             M68000_STOP,
         }
         public static M68000State m68000State, m68000FState;
-        public m68000Motion()
+        public M68000Motion()
         {
             int i;
             mTxList_tbDs = new string[8];

@@ -1,10 +1,10 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 
 namespace mame
 {
     public class Window
     {
-        private static mainMotion _myParentForm;
+        private static MameMainMotion _myParentForm;
         //[DllImport("kernel32.dll ")]
         //private static extern uint GetTickCount();
 
@@ -47,9 +47,8 @@ namespace mame
             }
             winwindow_process_events(true);
         }
-        public static void osd_init(mainMotion form)
+        public static void osd_init()
         {
-            _myParentForm = form;
             wininput_init();
         }
         public static void wininput_init()

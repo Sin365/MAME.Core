@@ -1,6 +1,5 @@
 ﻿namespace MAME.Core.run_interface
 {
-
     public enum Corekey
     {
         Next = 209,

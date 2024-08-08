@@ -1,4 +1,4 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 using MAME.Core.run_interface;
 using System.IO;
 
@@ -46,7 +46,9 @@ namespace mame
         public static void mame_execute()
         {
             soft_reset();
-            mame_pause(true);
+            //mame_pause(true);
+            //开始不暂停
+            mame_pause(false);
             while (!exit_pending)
             {
                 if (!paused)
@@ -82,6 +84,8 @@ namespace mame
                 handlestate();
             }
         }
+
+
         public static void mame_schedule_soft_reset()
         {
             Timer.timer_adjust_periodic(soft_reset_timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
@@ -127,14 +131,14 @@ namespace mame
                 handle_replay();
             }
         }
-        public static void init_machine(mainMotion form)
+        public static void init_machine()
         {
             Inptport.input_init();
             Palette.palette_init();
             Generic.generic_machine_init();
             Timer.timer_init();
             soft_reset_timer = Timer.timer_alloc_common(soft_reset, "soft_reset", false);
-            Window.osd_init(form);
+            Window.osd_init();
             Inptport.input_port_init();
             Cpuexec.cpuexec_init();
             Watchdog.watchdog_init();

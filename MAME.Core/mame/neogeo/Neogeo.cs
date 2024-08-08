@@ -1,4 +1,4 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 using System;
 using System.IO;
 
@@ -41,10 +41,10 @@ namespace mame
             Memory.audioram = new byte[0x800];
             Machine.bRom = true;
             dsw = 0xff;
-            fixedbiosrom = mainMotion.resource.sfix;
-            zoomyrom = mainMotion.resource._000_lo;
-            audiobiosrom = mainMotion.resource.sm1;
-            mainbiosrom = mainMotion.resource.mainbios;
+            fixedbiosrom = MameMainMotion.resource.sfix;
+            zoomyrom = MameMainMotion.resource._000_lo;
+            audiobiosrom = MameMainMotion.resource.sm1;
+            mainbiosrom = MameMainMotion.resource.mainbios;
             Memory.mainrom = Machine.GetRom("maincpu.rom");
             Memory.audiorom = Machine.GetRom("audiocpu.rom");
             fixedrom = Machine.GetRom("fixed.rom");

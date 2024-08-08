@@ -1,4 +1,4 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 using MAME.Core.run_interface;
 
 namespace mame
@@ -8,7 +8,7 @@ namespace mame
         public static int deltaX, deltaY, oldX, oldY;
         public static byte[] buttons;
         static IMouse iMouse;
-        public static void InitialMouse(mainMotion form1, IMouse im)
+        public static void InitialMouse(IMouse im)
         {
             iMouse = im;
         }
@@ -16,12 +16,13 @@ namespace mame
         public static void Update()
         {
             int X, Y;
-            iMouse.MouseXY(out X, out Y);
+            iMouse.MouseXY(out X, out Y, out byte[] MouseButtons);
             deltaX = X - oldX;
             deltaY = Y - oldY;
             oldX = X;
             oldY = Y;
-            //TODO
+            buttons = MouseButtons;
+
             //MouseState mouseState = mouseDevice.CurrentMouseState;
             //deltaX = mouseState.X - oldX;
             //deltaY = mouseState.Y - oldY;

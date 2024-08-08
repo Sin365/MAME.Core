@@ -1,4 +1,4 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 using System.Collections.Generic;
 using System.IO;
 
@@ -8,7 +8,7 @@ namespace mame
     {
         public static string sName, sParent, sBoard, sDirection, sDescription, sManufacturer;
         public static List<string> lsParents;
-        public static mainMotion FORM;
+        public static MameMainMotion mainMotion;
         public static RomInfo rom;
         public static bool bRom;
         public delegate void machine_delegate();

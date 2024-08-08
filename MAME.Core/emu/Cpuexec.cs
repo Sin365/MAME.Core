@@ -5,7 +5,7 @@ using cpu.m6805;
 using cpu.m6809;
 using cpu.nec;
 using cpu.z80;
-using MAME.Core.Common;
+using MAME.Core.Motion;
 using System;
 using System.IO;
 
@@ -2118,46 +2118,46 @@ namespace mame
                 case "Neo Geo":
                 case "PGM":
                 case "Taito B":
-                    m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                    MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                    MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
-                    z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                    M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                    MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                    MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
+                    Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                     break;
                 case "Tehkan":
-                    z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                    Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                     Z80A.zz1[1].debugger_start_cpu_hook_callback = null_callback;
                     Z80A.zz1[1].debugger_stop_cpu_hook_callback = null_callback;
                     break;
                 case "IGS011":
-                    m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                    MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                    MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
+                    M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                    MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                    MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
                     break;
                 case "SunA8":
-                    z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                    Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                     Z80A.zz1[1].debugger_start_cpu_hook_callback = null_callback;
                     Z80A.zz1[1].debugger_stop_cpu_hook_callback = null_callback;
                     break;
                 case "Namco System 1":
-                    m6809Motion.m6809State = CPUState.RUN;
+                    M6809Motion.m6809State = CPUState.RUN;
                     M6809.mm1[0].DisassemblerInit();
-                    M6809.mm1[0].debugger_start_cpu_hook_callback = Machine.FORM.m6809motion.m6809_start_debug;
-                    M6809.mm1[0].debugger_stop_cpu_hook_callback = Machine.FORM.m6809motion.m6809_stop_debug;
+                    M6809.mm1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.m6809motion.m6809_start_debug;
+                    M6809.mm1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.m6809motion.m6809_stop_debug;
                     M6809.mm1[1].debugger_start_cpu_hook_callback = null_callback;
                     M6809.mm1[1].debugger_stop_cpu_hook_callback = null_callback;
                     M6809.mm1[2].debugger_start_cpu_hook_callback = null_callback;
                     M6809.mm1[2].debugger_stop_cpu_hook_callback = null_callback;
                     break;
                 case "M72":
-                    z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                    Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                    Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                    Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                     break;
                 case "M92":
                     break;
@@ -2186,35 +2186,35 @@ namespace mame
                         case "boblcave":
                         case "bublcave11":
                         case "bublcave10":
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
-                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
-                            Z80A.zz1[2].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[2].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
+                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
+                            Z80A.zz1[2].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[2].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                         case "opwolf":
                         case "opwolfa":
                         case "opwolfj":
                         case "opwolfu":
                         case "opwolfp":
-                            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                         case "opwolfb":
-                            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
-                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
+                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                     }
                     break;
@@ -2222,17 +2222,17 @@ namespace mame
                     switch (Machine.sName)
                     {
                         case "cuebrick":
-                            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
+                            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
                             break;
                         default:
-                            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                     }
                     break;
@@ -2250,13 +2250,13 @@ namespace mame
                         case "makaimurc":
                         case "makaimurg":
                         case "diamond":
-                            m6809Motion.m6809State = CPUState.RUN;
+                            M6809Motion.m6809State = CPUState.RUN;
                             M6809.mm1[0].DisassemblerInit();
-                            M6809.mm1[0].debugger_start_cpu_hook_callback = Machine.FORM.m6809motion.m6809_start_debug;
-                            M6809.mm1[0].debugger_stop_cpu_hook_callback = Machine.FORM.m6809motion.m6809_stop_debug;
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            M6809.mm1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.m6809motion.m6809_start_debug;
+                            M6809.mm1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.m6809motion.m6809_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                         case "sf":
                         case "sfua":
@@ -2264,14 +2264,14 @@ namespace mame
                         case "sfjan":
                         case "sfan":
                         case "sfp":
-                            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.FORM.m68000motion.m68000_start_debug;
-                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.FORM.m68000motion.m68000_stop_debug;
-                            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
-                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.FORM.z80motion.z80_start_debug;
-                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.FORM.z80motion.z80_stop_debug;
+                            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+                            MC68000.m1.debugger_start_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_start_debug;
+                            MC68000.m1.debugger_stop_cpu_hook_callback = Machine.mainMotion.m68000motion.m68000_stop_debug;
+                            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+                            Z80A.zz1[0].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[0].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
+                            Z80A.zz1[1].debugger_start_cpu_hook_callback = Machine.mainMotion.z80motion.z80_start_debug;
+                            Z80A.zz1[1].debugger_stop_cpu_hook_callback = Machine.mainMotion.z80motion.z80_stop_debug;
                             break;
                     }
                     break;
@@ -2472,9 +2472,9 @@ namespace mame
                 cpu[icpu].eatcycles = cpu[icpu].nexteatcycles;
             }
             Timer.timer_set_global_time(target);
-            if (Timer.global_basetime.attoseconds == 0 && Machine.FORM.cheatmotion.lockState == cheatMotion.LockState.LOCK_SECOND)
+            if (Timer.global_basetime.attoseconds == 0 && Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_SECOND)
             {
-                Machine.FORM.cheatmotion.ApplyCheat();
+                Machine.mainMotion.cheatmotion.ApplyCheat();
             }
         }
         public static void cpu_boost_interleave(Atime timeslice_time, Atime boost_duration)

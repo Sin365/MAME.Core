@@ -90,27 +90,27 @@ namespace mame
         //        bitmapGDI.UnlockBits(bitmapData);
         //        if (Wintime.osd_ticks() < popup_text_end)
         //        {
-        //            Machine.FORM.tsslStatus = sDrawText;
+        //            Machine.mainMotion.tsslStatus = sDrawText;
         //        }
         //        else
         //        {
         //            popup_text_end = 0;
         //            if (Mame.paused)
         //            {
-        //                Machine.FORM.tsslStatus = "pause";
+        //                Machine.mainMotion.tsslStatus = "pause";
         //            }
         //            else
         //            {
         //                switch (Mame.playState)
         //                {
         //                    case Mame.PlayState.PLAY_RECORDRUNNING:
-        //                        Machine.FORM.tsslStatus = "record";
+        //                        Machine.mainMotion.tsslStatus = "record";
         //                        break;
         //                    case Mame.PlayState.PLAY_REPLAYRUNNING:
-        //                        Machine.FORM.tsslStatus = "replay";
+        //                        Machine.mainMotion.tsslStatus = "replay";
         //                        break;
         //                    default:
-        //                        Machine.FORM.tsslStatus = "run";
+        //                        Machine.mainMotion.tsslStatus = "run";
         //                        break;
         //                }
         //            }
@@ -131,7 +131,7 @@ namespace mame
         //                bbmp[iMode].RotateFlip(RotateFlipType.Rotate270FlipNone);
         //                break;
         //        }
-        //        //Machine.FORM.pictureBox1.Image = bbmp[iMode];
+        //        //Machine.mainMotion.pictureBox1.Image = bbmp[iMode];
         //        SubmitVideo(bbmp[iMode]);
         //    }
         //    catch
@@ -163,7 +163,7 @@ namespace mame
                 //        bbmp[iMode].RotateFlip(RotateFlipType.Rotate270FlipNone);
                 //        break;
                 //}
-                //Machine.FORM.pictureBox1.Image = bbmp[iMode];
+                //Machine.mainMotion.pictureBox1.Image = bbmp[iMode];
 
                 //AxiBitmapEx.CloneIntColorArr(Video.bitmapcolor,Video.bitmapcolorRect, Video.fullwidth, Video.fullheight, new Rectangle(offsetx, offsety, width, height));
                 SubmitVideo(Video.bitmapcolorRect);

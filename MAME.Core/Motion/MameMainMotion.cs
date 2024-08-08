@@ -6,32 +6,33 @@ using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
-    public class mainMotion
+    public class MameMainMotion
     {
         public string tsslStatus;
-        public cheatMotion cheatmotion;
-        public m68000Motion m68000motion;
-        public z80Motion z80motion;
-        public m6809Motion m6809motion;
-        public cpsMotion cpsmotion;
-        public neogeoMotion neogeomotion;
-        public konami68000Motion konami68000motion;
+        public CheatMotion cheatmotion;
+        public M68000Motion m68000motion;
+        public Z80Motion z80motion;
+        public M6809Motion m6809motion;
+        public CpsMotion cpsmotion;
+        public NeogeoMotion neogeomotion;
+        public Konami68000Motion konami68000motion;
         public string sSelect;
-        public static Thread t1;
+        public static Thread mainThread;
 
         public static IResources resource;
+        public bool bRom => Machine.bRom;
 
-        public mainMotion()
+        public MameMainMotion()
         {
-            neogeomotion = new neogeoMotion();
-            cheatmotion = new cheatMotion();
-            m68000motion = new m68000Motion();
-            m6809motion = new m6809Motion();
-            z80motion = new z80Motion();
-            cpsmotion = new cpsMotion();
-            konami68000motion = new konami68000Motion();
+            neogeomotion = new NeogeoMotion();
+            cheatmotion = new CheatMotion();
+            m68000motion = new M68000Motion();
+            m6809motion = new M6809Motion();
+            z80motion = new Z80Motion();
+            cpsmotion = new CpsMotion();
+            konami68000motion = new Konami68000Motion();
         }
 
         public void Init(
@@ -41,7 +42,8 @@ namespace MAME.Core.Common
             IVideoPlayer ivp,
             ISoundPlayer isp,
             IKeyboard ikb,
-            IMouse imou)
+            IMouse imou
+            )
         {
             Mame.RomRoot = RomDir;
             EmuLogger.BindFunc(ilog);
@@ -49,21 +51,12 @@ namespace MAME.Core.Common
             Sound.BindFunc(isp);
             resource = iRes;
 
-            //StreamReader sr1 = new StreamReader("mame.ini");
-            //sr1.ReadLine();
-            //sSelect = sr1.ReadLine();
-            //sr1.Close();
-
-            //TODO 上次选择
-            sSelect = "samsho2";
-
+            sSelect = string.Empty;
 
             RomInfo.Rom = new RomInfo();
             LoadROMXML();
-            //TODO Wavebuffer
-            //desc1.BufferBytes = 0x9400;
             Keyboard.InitializeInput(ikb);
-            Mouse.InitialMouse(this, imou);
+            Mouse.InitialMouse(imou);
         }
 
         private void LoadROMXML()
@@ -119,7 +112,7 @@ namespace MAME.Core.Common
 
             mame.Timer.lt = new List<mame.Timer.emu_timer>();
             sSelect = RomInfo.Rom.Name;
-            Machine.FORM = this;
+            Machine.mainMotion = this;
             Machine.rom = RomInfo.Rom;
             Machine.sName = Machine.rom.Name;
             Machine.sParent = Machine.rom.Parent;
@@ -237,12 +230,30 @@ namespace MAME.Core.Common
             if (Machine.bRom)
             {
                 EmuLogger.Log("MAME.NET: " + Machine.sDescription + " [" + Machine.sName + "]");
-                Mame.init_machine(this);
+                Mame.init_machine();
                 Generic.nvram_load();
             }
             else
             {
                 EmuLogger.Log("error rom");
+            }
+        }
+
+        public void StartGame()
+        {
+            M68000Motion.iStatus = 0;
+            M68000Motion.iValue = 0;
+            Mame.exit_pending = false;
+            MameMainMotion.mainThread = new Thread(Mame.mame_execute);
+            MameMainMotion.mainThread.Start();
+        }
+
+        public void StopGame()
+        {
+            if (Machine.bRom)
+            {
+                Mame.exit_pending = true;
+                Thread.Sleep(100);
             }
         }
 

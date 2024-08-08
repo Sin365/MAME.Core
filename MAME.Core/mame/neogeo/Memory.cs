@@ -1,5 +1,5 @@
 ﻿using cpu.m68000;
-using MAME.Core.Common;
+using MAME.Core.Motion;
 
 namespace mame
 {
@@ -420,8 +420,8 @@ namespace mame
         public static void MWriteByte(int address, sbyte value)
         {
             address &= 0xffffff;
-            m68000Motion.iWAddress = address;
-            m68000Motion.iWOp = 0x01;
+            M68000Motion.iWAddress = address;
+            M68000Motion.iWOp = 0x01;
             if (address >= 0x100000 && address <= 0x1fffff)
             {
                 if (address == 0x100d0b && value == 0x06)//&&MC68000.m1.TotalExecutedCycles>0x3F6FC8C)
@@ -497,8 +497,8 @@ namespace mame
         public static void MWriteWord(int address, short value)
         {
             address &= 0xffffff;
-            m68000Motion.iWAddress = address;
-            m68000Motion.iWOp = 0x02;
+            M68000Motion.iWAddress = address;
+            M68000Motion.iWOp = 0x02;
             if (address >= 0x100000 && address + 1 <= 0x1fffff)
             {
                 if (address == 0x1007c4 && value == unchecked((short)0xb102))
@@ -550,8 +550,8 @@ namespace mame
         public static void MWriteLong(int address, int value)
         {
             address &= 0xffffff;
-            m68000Motion.iWAddress = address;
-            m68000Motion.iWOp = 0x03;
+            M68000Motion.iWAddress = address;
+            M68000Motion.iWOp = 0x03;
             if (address >= 0x100000 && address + 3 <= 0x1fffff)
             {
                 if (address == 0x1051e4 && value == 0x00130070)

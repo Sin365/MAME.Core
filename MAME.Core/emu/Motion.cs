@@ -1,4 +1,4 @@
-﻿using MAME.Core.Common;
+﻿using MAME.Core.Motion;
 using MAME.Core.run_interface;
 
 namespace mame
@@ -12,11 +12,6 @@ namespace mame
         public delegate void motion_delegate();
         public static motion_delegate motion_handler_callback, motion_update_callback;
         public static bool single_step;
-        //public static mainMotion mainmotion;
-        public static void init()
-        {
-            //mainmotion = motion;
-        }
         public static void ui_update_and_render()
         {
             motion_update_callback();
@@ -510,10 +505,10 @@ namespace mame
         }
         public static void cpurun()
         {
-            m68000Motion.m68000State = m68000Motion.M68000State.M68000_RUN;
-            Machine.FORM.m68000motion.mTx_tsslStatus = "run";
-            z80Motion.z80State = z80Motion.Z80AState.Z80A_RUN;
-            Machine.FORM.z80motion.mTx_tsslStatus = "run";
+            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
+            Machine.mainMotion.m68000motion.mTx_tsslStatus = "run";
+            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
+            Machine.mainMotion.z80motion.mTx_tsslStatus = "run";
         }
         private static double ui_get_line_height()
         {

@@ -1,5 +1,5 @@
 ﻿using cpu.m68000;
-using MAME.Core.Common;
+using MAME.Core.Motion;
 using System;
 
 namespace mame
@@ -15,9 +15,9 @@ namespace mame
         public static void PGMInit()
         {
             Machine.bRom = true;
-            mainbiosrom = mainMotion.resource.pgmmainbios;
-            videobios = mainMotion.resource.pgmvideobios;
-            audiobios = mainMotion.resource.pgmaudiobios;
+            mainbiosrom = MameMainMotion.resource.pgmmainbios;
+            videobios = MameMainMotion.resource.pgmvideobios;
+            audiobios = MameMainMotion.resource.pgmaudiobios;
             ICS2115.icsrom = audiobios;
             byte[] bb1, bb2;
             int i3, n1, n2, n3;

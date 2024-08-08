@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
-    public partial class cpsMotion
+    public partial class CpsMotion
     {
         private string[] sde2 = new string[] { "," };
         private int locationX, locationY;
@@ -31,7 +31,7 @@ namespace MAME.Core.Common
         public string tbScrollsy = string.Empty;
         public List<string> tbResult = new List<string>();
         #endregion
-        public cpsMotion()
+        public CpsMotion()
         {
         }
     }

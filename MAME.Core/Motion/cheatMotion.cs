@@ -4,9 +4,9 @@ using mame;
 using System;
 using System.Collections.Generic;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
-    public partial class cheatMotion
+    public partial class CheatMotion
     {
         public enum LockState
         {
@@ -25,7 +25,7 @@ namespace MAME.Core.Common
         #region
         List<string> mTxList_tbResult = new List<string>();
         #endregion
-        public cheatMotion()
+        public CheatMotion()
         {
             cheatForm_Load();
         }

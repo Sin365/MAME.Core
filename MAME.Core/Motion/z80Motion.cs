@@ -1,7 +1,7 @@
 ﻿using cpu.z80;
 using System.Collections.Generic;
 
-namespace MAME.Core.Common
+namespace MAME.Core.Motion
 {
     public enum CPUState
     {
@@ -12,7 +12,7 @@ namespace MAME.Core.Common
         STEP3,
         STOP,
     }
-    public partial class z80Motion
+    public partial class Z80Motion
     {
         private Disassembler disassembler;
         private bool bLogNew;
@@ -55,7 +55,7 @@ namespace MAME.Core.Common
             Z80A_STOP,
         }
         public static Z80AState z80State, z80FState;
-        public z80Motion()
+        public Z80Motion()
         {
             disassembler = new Disassembler();
             Disassembler.GenerateOpcodeSizes();

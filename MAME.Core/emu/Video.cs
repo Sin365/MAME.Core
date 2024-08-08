@@ -1,4 +1,5 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core.Motion;
+using MAME.Core.run_interface;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -895,9 +896,9 @@ namespace mame
             Mouse.Update();
             Inptport.frame_update_callback();
             Motion.ui_update_and_render();
-            if (Machine.FORM.cheatmotion.lockState == MAME.Core.Common.cheatMotion.LockState.LOCK_FRAME)
+            if (Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_FRAME)
             {
-                Machine.FORM.cheatmotion.ApplyCheat();
+                Machine.mainMotion.cheatmotion.ApplyCheat();
             }
             GDIDraw();
             if (effective_throttle())
