@@ -238,7 +238,7 @@ namespace MAME.Core
             if (Machine.bRom)
             {
                 Mame.exit_pending = true;
-                Thread.Sleep(100);
+                Thread.Sleep(50);
             }
         }
 

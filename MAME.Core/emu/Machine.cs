@@ -263,7 +263,7 @@ namespace MAME.Core
         public static byte[] GetNeogeoRom(string sFile)
         {
             byte[] bb1;
-            string path = System.IO.Path.Combine(Mame.RomRoot + "/" + "roms/neogeo/", sFile);
+            string path = System.IO.Path.Combine(Mame.RomRoot + "/neogeo/", sFile);
             if (File.Exists(path))
             {
                 EmuLogger.Log($"Had File => {path}");
@@ -287,7 +287,7 @@ namespace MAME.Core
             int n1;
             foreach (string s1 in lsParents)
             {
-                string path = System.IO.Path.Combine(Mame.RomRoot + "/" + "roms/" + s1 + "/", sFile);
+                string path = System.IO.Path.Combine(Mame.RomRoot + "/" + s1 + "/", sFile);
                 if (File.Exists(path))
                 {
                     EmuLogger.Log($"Had File => {path}");
