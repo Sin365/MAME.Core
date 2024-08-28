@@ -133,98 +133,84 @@ namespace MAME.Core.Motion
                     //Video.nMode = 3;
                     itemSelect();
                     CPS.CPSInit();
-                    CPS.GDIInit();
                     break;
                 case "Data East":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Dataeast.DataeastInit();
-                    Dataeast.GDIInit();
                     break;
                 case "Tehkan":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Tehkan.PbactionInit();
-                    Tehkan.GDIInit();
                     break;
                 case "Neo Geo":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Neogeo.NeogeoInit();
-                    Neogeo.GDIInit();
                     break;
                 case "SunA8":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     SunA8.SunA8Init();
-                    SunA8.GDIInit();
                     break;
                 case "Namco System 1":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Namcos1.Namcos1Init();
-                    Namcos1.GDIInit();
                     break;
                 case "IGS011":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     IGS011.IGS011Init();
-                    IGS011.GDIInit();
                     break;
                 case "PGM":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     PGM.PGMInit();
-                    PGM.GDIInit();
                     break;
                 case "M72":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     M72.M72Init();
-                    M72.GDIInit();
                     break;
                 case "M92":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     M92.M92Init();
-                    M92.GDIInit();
                     break;
                 case "Taito":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Taito.TaitoInit();
-                    Taito.GDIInit();
                     break;
                 case "Taito B":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Taitob.TaitobInit();
-                    Taitob.GDIInit();
                     break;
                 case "Konami 68000":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Konami68000.Konami68000Init();
-                    Konami68000.GDIInit();
                     break;
                 case "Capcom":
                     Video.nMode = 1;
                     Video.iMode = 0;
                     itemSelect();
                     Capcom.CapcomInit();
-                    Capcom.GDIInit();
                     break;
             }
             if (Machine.bRom)
