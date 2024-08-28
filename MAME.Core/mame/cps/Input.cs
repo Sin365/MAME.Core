@@ -1,6 +1,6 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class CPS
     {
@@ -1468,7 +1468,7 @@ namespace mame
                 }
                 Inptport.bReplayRead = false;
             }
-            if (Attotime.attotime_compare(Timer.global_basetime, Timer.global_basetime_obj) == 0)
+            if (Attotime.attotime_compare(EmuTimer.global_basetime, EmuTimer.global_basetime_obj) == 0)
             {
                 short0 = short0_old;
                 short1 = short1_old;

@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class Upd7759
     {
@@ -9,7 +9,7 @@ namespace mame
             public uint pos;
             public uint step;
             public Atime clock_period;
-            public Timer.emu_timer timer;
+            public EmuTimer.emu_timer timer;
 
             public byte fifo_in;
             public byte reset;
@@ -265,7 +265,7 @@ namespace mame
             }
             if (chip.state != 0)
             {
-                Timer.timer_adjust_periodic(chip.timer, Attotime.attotime_mul(chip.clock_period, (uint)chip.clocks_left), Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(chip.timer, Attotime.attotime_mul(chip.clock_period, (uint)chip.clocks_left), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void upd7759_reset()
@@ -291,7 +291,7 @@ namespace mame
             chip.sample = 0;
             if (chip.timer != null)
             {
-                Timer.timer_adjust_periodic(chip.timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(chip.timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void upd7759_start(int clock)
@@ -303,7 +303,7 @@ namespace mame
             chip.rombase = 0;
             if (updrom == null)
             {
-                chip.timer = Timer.timer_alloc_common(upd7759_slave_update, "upd7759_slave_update", false);
+                chip.timer = EmuTimer.timer_alloc_common(upd7759_slave_update, "upd7759_slave_update", false);
             }
             chip.reset = 1;
             chip.start = 1;
@@ -329,7 +329,7 @@ namespace mame
                 chip.state = 2;
                 if (chip.timer != null)
                 {
-                    Timer.timer_adjust_periodic(chip.timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(chip.timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
                 }
             }
         }

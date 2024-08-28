@@ -1,12 +1,11 @@
-﻿using mame;
-using MAME.Core.run_interface;
+﻿using MAME.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Xml.Linq;
 
-namespace MAME.Core.Motion
+namespace MAME.Core
 {
     public class MameMainMotion
     {
@@ -71,7 +70,7 @@ namespace MAME.Core.Motion
             return RomInfo.dictName2Rom;
         }
 
-        public void GetGameScreenSize(out int _width, out int _height,out IntPtr _framePtr)
+        public void GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr)
         {
             //_width = Video.fullwidth;
             //_height = Video.fullheight;
@@ -110,7 +109,7 @@ namespace MAME.Core.Motion
                 return;
             }
 
-            mame.Timer.lt = new List<mame.Timer.emu_timer>();
+            EmuTimer.lt = new List<EmuTimer.emu_timer>();
             sSelect = RomInfo.Rom.Name;
             Machine.mainMotion = this;
             Machine.rom = RomInfo.Rom;
@@ -230,8 +229,8 @@ namespace MAME.Core.Motion
             M68000Motion.iStatus = 0;
             M68000Motion.iValue = 0;
             Mame.exit_pending = false;
-            MameMainMotion.mainThread = new Thread(Mame.mame_execute);
-            MameMainMotion.mainThread.Start();
+            mainThread = new Thread(Mame.mame_execute);
+            mainThread.Start();
         }
 
         public void StopGame()

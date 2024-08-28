@@ -24,7 +24,7 @@ namespace MAME.Core.AxiBitmap
             sdColor = 0;
             r = _r;
             g = _g;
-            b = _b; 
+            b = _b;
             a = byte.MaxValue;
         }
         public AxiColor(byte _r, byte _g, byte _b, byte _a)

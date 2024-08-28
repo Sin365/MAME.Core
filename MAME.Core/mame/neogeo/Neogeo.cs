@@ -1,8 +1,7 @@
-﻿using MAME.Core.Motion;
-using System;
+﻿using System;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Neogeo
     {
@@ -18,9 +17,9 @@ namespace mame
         private static int display_position_interrupt_pending;
         private static int irq3_pending;
         public static byte dsw;
-        public static Timer.emu_timer display_position_interrupt_timer;
-        public static Timer.emu_timer display_position_vblank_timer;
-        public static Timer.emu_timer vblank_interrupt_timer;
+        public static EmuTimer.emu_timer display_position_interrupt_timer;
+        public static EmuTimer.emu_timer display_position_vblank_timer;
+        public static EmuTimer.emu_timer vblank_interrupt_timer;
         private static byte controller_select;
         public static int main_cpu_bank_address;
         public static byte main_cpu_vector_table_source;
@@ -117,7 +116,7 @@ namespace mame
             if ((display_counter + 1) != 0)
             {
                 Atime period = Attotime.attotime_mul(new Atime(0, Attotime.ATTOSECONDS_PER_SECOND / 6000000), display_counter + 1);
-                Timer.timer_adjust_periodic(display_position_interrupt_timer, period, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(display_position_interrupt_timer, period, Attotime.ATTOTIME_NEVER);
             }
         }
         private static void update_interrupts()
@@ -170,14 +169,14 @@ namespace mame
             {
                 adjust_display_position_interrupt_timer();
             }
-            Timer.timer_adjust_periodic(display_position_vblank_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, NEOGEO_VBLANK_RELOAD_HPOS), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(display_position_vblank_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, NEOGEO_VBLANK_RELOAD_HPOS), Attotime.ATTOTIME_NEVER);
         }
         public static void vblank_interrupt_callback()
         {
             calendar_clock();
             vblank_interrupt_pending = 1;
             update_interrupts();
-            Timer.timer_adjust_periodic(vblank_interrupt_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(vblank_interrupt_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void audio_cpu_irq(int assert)
         {
@@ -326,9 +325,9 @@ namespace mame
             audio_cpu_banks[1] = 0x0e;
             audio_cpu_banks[2] = 0x06;
             audio_cpu_banks[3] = 0x02;
-            display_position_interrupt_timer = Timer.timer_alloc_common(display_position_interrupt_callback, "display_position_interrupt_callback", false);
-            display_position_vblank_timer = Timer.timer_alloc_common(display_position_vblank_callback, "display_position_vblank_callback", false);
-            vblank_interrupt_timer = Timer.timer_alloc_common(vblank_interrupt_callback, "vblank_interrupt_callback", false);
+            display_position_interrupt_timer = EmuTimer.timer_alloc_common(display_position_interrupt_callback, "display_position_interrupt_callback", false);
+            display_position_vblank_timer = EmuTimer.timer_alloc_common(display_position_vblank_callback, "display_position_vblank_callback", false);
+            vblank_interrupt_timer = EmuTimer.timer_alloc_common(vblank_interrupt_callback, "vblank_interrupt_callback", false);
             Pd4900a.pd4990a_init();
             calendar_init();
             irq3_pending = 1;
@@ -358,8 +357,8 @@ namespace mame
             audio_cpu_nmi_enabled = false;
             audio_cpu_nmi_pending = false;
             audio_cpu_check_nmi();
-            Timer.timer_adjust_periodic(vblank_interrupt_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, 0), Attotime.ATTOTIME_NEVER);
-            Timer.timer_adjust_periodic(display_position_vblank_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, NEOGEO_VBLANK_RELOAD_HPOS), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(vblank_interrupt_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(display_position_vblank_timer, Video.video_screen_get_time_until_pos(NEOGEO_VBSTART, NEOGEO_VBLANK_RELOAD_HPOS), Attotime.ATTOTIME_NEVER);
             update_interrupts();
             start_sprite_line_timer();
             start_auto_animation_timer();

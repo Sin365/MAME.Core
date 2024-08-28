@@ -1,4 +1,4 @@
-﻿using mame;
+﻿using MAME.Core;
 using System;
 using System.Globalization;
 using System.IO;
@@ -86,7 +86,7 @@ namespace cpu.z80
         public override void cpunum_set_input_line_and_vector(int cpunum, int line, LineState state, int vector)
         {
             Atime time1;
-            time1 = Timer.get_current_time();
+            time1 = EmuTimer.get_current_time();
             bool b1 = false;
             foreach (irq irq1 in Cpuint.lirq)
             {
@@ -109,7 +109,7 @@ namespace cpu.z80
             }
             else
             {
-                Timer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+                EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
             }
         }
 

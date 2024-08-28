@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Taito
     {
@@ -981,8 +981,8 @@ namespace mame
             if (cchip_ram[0x7a] == 0 && cchip_last_7a != 0 && current_cmd != 0xf5)
             {
                 current_cmd = 0xf5;
-                Timer.emu_timer timer = Timer.timer_alloc_common(opwolf_timer_callback, "opwolf_timer_callback", true);
-                Timer.timer_adjust_periodic(timer, new Atime(0, (long)(80000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(opwolf_timer_callback, "opwolf_timer_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(80000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             }
             cchip_last_7a = cchip_ram[0x7a];
             if (cchip_ram[0x7f] == 0xa)
@@ -1020,7 +1020,7 @@ namespace mame
             cchip_credits_for_coin[0] = 1;
             cchip_coins_for_credit[1] = 1;
             cchip_credits_for_coin[1] = 1;
-            Timer.timer_pulse_internal(new Atime(0, (long)(1e18 / 60)), cchip_timer, "cchip_timer");
+            EmuTimer.timer_pulse_internal(new Atime(0, (long)(1e18 / 60)), cchip_timer, "cchip_timer");
         }
     }
 }

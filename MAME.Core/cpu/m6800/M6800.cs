@@ -1,4 +1,4 @@
-﻿using mame;
+﻿using MAME.Core;
 using System;
 using System.IO;
 
@@ -26,7 +26,7 @@ namespace cpu.m6800
         public byte trcsr, rmcr, rdr, tdr, rsr, tsr;
         public int rxbits, txbits, trcsr_read, tx;
         public M6800_TX_STATE txstate;
-        public Timer.emu_timer m6800_rx_timer, m6800_tx_timer;
+        public EmuTimer.emu_timer m6800_rx_timer, m6800_tx_timer;
         private byte TCSR_OLVL = 0x01, TCSR_IEDG = 0x02, TCSR_ETOI = 0x04, TCSR_EOCI = 0x08, TCSR_EICI = 0x10, TCSR_TOF = 0x20, TCSR_OCF = 0x40, TCSR_ICF = 0x80;
         protected byte M6800_WAI = 8, M6800_SLP = 0x10;
         private const byte M6800_IRQ_LINE = 0, M6800_TIN_LINE = 1;
@@ -246,8 +246,8 @@ namespace cpu.m6800
             cycles = cycles_63701;
             clock = 1536000;
             irq_callback = null;
-            m6800_rx_timer = Timer.timer_alloc_common(m6800_rx_tick, "m6800_rx_tick", false);
-            m6800_tx_timer = Timer.timer_alloc_common(m6800_tx_tick, "m6800_tx_tick", false);
+            m6800_rx_timer = EmuTimer.timer_alloc_common(m6800_rx_tick, "m6800_rx_tick", false);
+            m6800_tx_timer = EmuTimer.timer_alloc_common(m6800_tx_tick, "m6800_tx_tick", false);
         }
         public override void Reset()
         {
@@ -844,8 +844,8 @@ namespace cpu.m6800
             ram_ctrl |= 0x40;
             trcsr = M6800_TRCSR_TDRE;
             rmcr = 0;
-            Timer.timer_enable(m6800_rx_timer, false);
-            Timer.timer_enable(m6800_tx_timer, false);
+            EmuTimer.timer_enable(m6800_rx_timer, false);
+            EmuTimer.timer_enable(m6800_tx_timer, false);
             txstate = M6800_TX_STATE.INIT;
             txbits = rxbits = 0;
             trcsr_read = 0;
@@ -905,7 +905,7 @@ namespace cpu.m6800
         }
         public override void cpunum_set_input_line_and_vector(int cpunum, int line, LineState state, int vector)
         {
-            Timer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+            EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
         }
         public override int ExecuteCycles(int cycles)
         {
@@ -1167,16 +1167,16 @@ namespace cpu.m6800
                     {
                         case 0:
                         case 3: // not implemented
-                            Timer.timer_enable(m6800_rx_timer, false);
-                            Timer.timer_enable(m6800_tx_timer, false);
+                            EmuTimer.timer_enable(m6800_rx_timer, false);
+                            EmuTimer.timer_enable(m6800_tx_timer, false);
                             break;
 
                         case 1:
                         case 2:
                             {
                                 int divisor = M6800_RMCR_SS[rmcr & M6800_RMCR_SS_MASK];
-                                Timer.timer_adjust_periodic(m6800_rx_timer, Attotime.ATTOTIME_ZERO, new Atime(0, (long)(1e18 / (clock / divisor))));
-                                Timer.timer_adjust_periodic(m6800_tx_timer, Attotime.ATTOTIME_ZERO, new Atime(0, (long)(1e18 / (clock / divisor))));
+                                EmuTimer.timer_adjust_periodic(m6800_rx_timer, Attotime.ATTOTIME_ZERO, new Atime(0, (long)(1e18 / (clock / divisor))));
+                                EmuTimer.timer_adjust_periodic(m6800_tx_timer, Attotime.ATTOTIME_ZERO, new Atime(0, (long)(1e18 / (clock / divisor))));
                             }
                             break;
                     }
@@ -1345,8 +1345,8 @@ namespace cpu.m6800
             };
             clock = 1000000;
             irq_callback = Cpuint.cpu_3_irq_callback;
-            m6800_rx_timer = Timer.timer_alloc_common(m6800_rx_tick, "m6800_rx_tick", false);
-            m6800_tx_timer = Timer.timer_alloc_common(m6800_tx_tick, "m6800_tx_tick", false);
+            m6800_rx_timer = EmuTimer.timer_alloc_common(m6800_rx_tick, "m6800_rx_tick", false);
+            m6800_tx_timer = EmuTimer.timer_alloc_common(m6800_tx_tick, "m6800_tx_tick", false);
         }
         public override int ExecuteCycles(int cycles)
         {

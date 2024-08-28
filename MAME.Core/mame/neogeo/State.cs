@@ -2,7 +2,7 @@
 using cpu.z80;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Neogeo
     {
@@ -51,14 +51,14 @@ namespace mame
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             writer.Write(Video.screenstate.vblank_start_time.seconds);
             writer.Write(Video.screenstate.vblank_start_time.attoseconds);
             writer.Write(Video.screenstate.frame_number);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             AY8910.AA8910[0].SaveStateBinary(writer);
             YM2610.F2610.SaveStateBinary(writer);
             for (i = 0; i < 2; i++)
@@ -122,14 +122,14 @@ namespace mame
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.screenstate.vblank_start_time.seconds = reader.ReadInt32();
             Video.screenstate.vblank_start_time.attoseconds = reader.ReadInt64();
             Video.screenstate.frame_number = reader.ReadInt64();
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             AY8910.AA8910[0].LoadStateBinary(reader);
             YM2610.F2610.LoadStateBinary(reader);
             for (i = 0; i < 2; i++)

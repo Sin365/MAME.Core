@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class OKI6295
     {

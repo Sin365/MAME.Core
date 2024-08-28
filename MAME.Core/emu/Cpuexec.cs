@@ -5,11 +5,10 @@ using cpu.m6805;
 using cpu.m6809;
 using cpu.nec;
 using cpu.z80;
-using MAME.Core.Motion;
 using System;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class cpuexec_data
     {
@@ -26,7 +25,7 @@ namespace mame
         public int cycles_running;
         public int cycles_stolen;
         public int icount;
-        public Timer.emu_timer partial_frame_timer;
+        public EmuTimer.emu_timer partial_frame_timer;
         public Atime partial_frame_period;
         public virtual ulong TotalExecutedCycles { get; set; }
         public virtual int PendingCycles { get; set; }
@@ -43,14 +42,14 @@ namespace mame
         public static bool b11 = true, b12 = true, b13 = true, b14 = true;
         public static int iloops, activecpu, icpu, ncpu, iloops2;
         public static cpuexec_data[] cpu;
-        public static Timer.emu_timer timedint_timer;
+        public static EmuTimer.emu_timer timedint_timer;
         public static Atime timedint_period, timeslice_period;
         public delegate void vblank_delegate();
         public static vblank_delegate vblank_interrupt;
         public static Action vblank_interrupt2;
-        public static Timer.emu_timer interleave_boost_timer;
-        public static Timer.emu_timer interleave_boost_timer_end;
-        public static Timer.emu_timer timeslice_timer;
+        public static EmuTimer.emu_timer interleave_boost_timer;
+        public static EmuTimer.emu_timer interleave_boost_timer_end;
+        public static EmuTimer.emu_timer timeslice_timer;
         public static Atime perfect_interleave;
         public static int vblank_interrupts_per_frame;
         public static void cpuexec_init()
@@ -2295,7 +2294,7 @@ namespace mame
             Generic.irq_1_0_line_hold();
             if (iloops2 > 1)
             {
-                Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
             }
         }
         public static byte null_callback1(int address)
@@ -2321,12 +2320,12 @@ namespace mame
                 case "CPS-1(QSound)":
                 case "CPS2":
                     timedint_period = new Atime(0, (long)(1e18 / 250));
-                    timedint_timer = Timer.timer_alloc_common(Generic.irq_1_0_line_hold, "irq_1_0_line_hold", false);
-                    Timer.timer_adjust_periodic(timedint_timer, timedint_period, timedint_period);
+                    timedint_timer = EmuTimer.timer_alloc_common(Generic.irq_1_0_line_hold, "irq_1_0_line_hold", false);
+                    EmuTimer.timer_adjust_periodic(timedint_timer, timedint_period, timedint_period);
                     break;
                 case "Neo Geo":
-                    interleave_boost_timer = Timer.timer_alloc_common(null_callback, "boost_callback", false);
-                    interleave_boost_timer_end = Timer.timer_alloc_common(end_interleave_boost, "end_interleave_boost", false);
+                    interleave_boost_timer = EmuTimer.timer_alloc_common(null_callback, "boost_callback", false);
+                    interleave_boost_timer_end = EmuTimer.timer_alloc_common(end_interleave_boost, "end_interleave_boost", false);
                     break;
                 case "CPS1":
                 case "Namco System 1":
@@ -2372,8 +2371,8 @@ namespace mame
                         case "bublcave11":
                         case "bublcave10":
                             timeslice_period = new Atime(0, Video.screenstate.frame_period / 100);
-                            timeslice_timer = Timer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
-                            Timer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
+                            timeslice_timer = EmuTimer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
+                            EmuTimer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
                             break;
                         case "opwolf":
                         case "opwolfa":
@@ -2382,15 +2381,15 @@ namespace mame
                         case "opwolfb":
                         case "opwolfp":
                             timeslice_period = new Atime(0, Video.screenstate.frame_period / 10);
-                            timeslice_timer = Timer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
-                            Timer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
+                            timeslice_timer = EmuTimer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
+                            EmuTimer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
                             break;
                     }
                     break;
                 case "Taito B":
                     timeslice_period = new Atime(0, Video.screenstate.frame_period / 10);
-                    timeslice_timer = Timer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
-                    Timer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
+                    timeslice_timer = EmuTimer.timer_alloc_common(cpu_timeslicecallback, "cpu_timeslicecallback", false);
+                    EmuTimer.timer_adjust_periodic(timeslice_timer, timeslice_period, timeslice_period);
                     break;
                 case "Capcom":
                     switch (Machine.sName)
@@ -2415,8 +2414,8 @@ namespace mame
                         case "sfan":
                         case "sfp":
                             timedint_period = new Atime(0, (long)(1e18 / 8000));
-                            timedint_timer = Timer.timer_alloc_common(Generic.irq_2_0_line_hold, "irq_2_0_line_hold", false);
-                            Timer.timer_adjust_periodic(timedint_timer, timedint_period, timedint_period);
+                            timedint_timer = EmuTimer.timer_alloc_common(Generic.irq_2_0_line_hold, "irq_2_0_line_hold", false);
+                            EmuTimer.timer_adjust_periodic(timedint_timer, timedint_period, timedint_period);
                             break;
                     }
                     break;
@@ -2424,8 +2423,8 @@ namespace mame
         }
         public static void cpuexec_timeslice()
         {
-            Atime target = Timer.lt[0].expire;
-            Atime tbase = Timer.global_basetime;
+            Atime target = EmuTimer.lt[0].expire;
+            Atime tbase = EmuTimer.global_basetime;
             int ran;
             Atime at;
             int i, j;
@@ -2471,8 +2470,8 @@ namespace mame
                 cpu[icpu].suspend = cpu[icpu].nextsuspend;
                 cpu[icpu].eatcycles = cpu[icpu].nexteatcycles;
             }
-            Timer.timer_set_global_time(target);
-            if (Timer.global_basetime.attoseconds == 0 && Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_SECOND)
+            EmuTimer.timer_set_global_time(target);
+            if (EmuTimer.global_basetime.attoseconds == 0 && Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_SECOND)
             {
                 Machine.mainMotion.cheatmotion.ApplyCheat();
             }
@@ -2481,9 +2480,9 @@ namespace mame
         {
             if (Attotime.attotime_compare(timeslice_time, perfect_interleave) < 0)
                 timeslice_time = perfect_interleave;
-            Timer.timer_adjust_periodic(interleave_boost_timer, timeslice_time, timeslice_time);
-            if (!Timer.timer_enabled(interleave_boost_timer_end) || Attotime.attotime_compare(Timer.timer_timeleft(interleave_boost_timer_end), boost_duration) < 0)
-                Timer.timer_adjust_periodic(interleave_boost_timer_end, boost_duration, Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(interleave_boost_timer, timeslice_time, timeslice_time);
+            if (!EmuTimer.timer_enabled(interleave_boost_timer_end) || Attotime.attotime_compare(EmuTimer.timer_timeleft(interleave_boost_timer_end), boost_duration) < 0)
+                EmuTimer.timer_adjust_periodic(interleave_boost_timer_end, boost_duration, Attotime.ATTOTIME_NEVER);
         }
         public static void activecpu_abort_timeslice(int cpunum)
         {
@@ -2564,7 +2563,7 @@ namespace mame
                 case "CPS2":
                     iloops = 0;
                     CPS.cps2_interrupt();
-                    Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     break;
                 case "Data East":
                     Generic.nmi_line_pulse0();
@@ -2573,7 +2572,7 @@ namespace mame
                     iloops = 0;
                     vblank_interrupt();
                     Tehkan.pbaction_interrupt();
-                    Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     break;
                 case "Neo Geo":
                     break;
@@ -2581,8 +2580,8 @@ namespace mame
                     iloops = 0;
                     iloops2 = 0;
                     Generic.irq_1_0_line_hold();
-                    Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
-                    Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     break;
                 case "Namco System 1":
                     for (int cpunum = 0; cpunum < ncpu; cpunum++)
@@ -2606,7 +2605,7 @@ namespace mame
                         case "drgnwrldv40k":
                             iloops = 0;
                             IGS011.lhb2_interrupt();
-                            Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                            EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             break;
                         case "lhb":
                         case "lhbv33c":
@@ -2614,7 +2613,7 @@ namespace mame
                         case "ryukobou":
                             iloops = 0;
                             IGS011.lhb_interrupt();
-                            Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                            EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             break;
                     }
                     break;
@@ -2624,7 +2623,7 @@ namespace mame
                 case "M72":
                     iloops = 0;
                     vblank_interrupt();
-                    Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     break;
                 case "M92":
                     break;
@@ -2677,7 +2676,7 @@ namespace mame
                             }
                             iloops = 0;
                             vblank_interrupt();
-                            Timer.timer_adjust_periodic(Cpuexec.cpu[3].partial_frame_timer, Cpuexec.cpu[3].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                            EmuTimer.timer_adjust_periodic(Cpuexec.cpu[3].partial_frame_timer, Cpuexec.cpu[3].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             break;
                         case "opwolf":
                         case "opwolfa":
@@ -2714,7 +2713,7 @@ namespace mame
                         case "cuebrick":
                             iloops = 0;
                             vblank_interrupt();
-                            Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                            EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             break;
                         default:
                             vblank_interrupt();
@@ -2741,7 +2740,7 @@ namespace mame
                             }
                             iloops = 0;
                             vblank_interrupt();
-                            Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                            EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             break;
                         case "sf":
                         case "sfua":
@@ -2772,7 +2771,7 @@ namespace mame
                     vblank_interrupt();
                     if (iloops > 1)
                     {
-                        Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                        EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     }
                     break;
                 case "Tehkan":
@@ -2784,7 +2783,7 @@ namespace mame
                     Tehkan.pbaction_interrupt();
                     if (iloops > 1)
                     {
-                        Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                        EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     }
                     break;
                 case "SunA8":
@@ -2796,7 +2795,7 @@ namespace mame
                     SunA8.hardhea2_interrupt();
                     if (iloops > 1)
                     {
-                        Timer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                        EmuTimer.timer_adjust_periodic(Cpuexec.cpu[0].partial_frame_timer, Cpuexec.cpu[0].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     }
                     break;
                 case "M72":
@@ -2808,7 +2807,7 @@ namespace mame
                     vblank_interrupt();
                     if (iloops > 1)
                     {
-                        Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                        EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                     }
                     break;
                 case "Taito":
@@ -2823,7 +2822,7 @@ namespace mame
                             vblank_interrupt();
                             if (iloops > 1)
                             {
-                                Timer.timer_adjust_periodic(Cpuexec.cpu[3].partial_frame_timer, Cpuexec.cpu[3].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                                EmuTimer.timer_adjust_periodic(Cpuexec.cpu[3].partial_frame_timer, Cpuexec.cpu[3].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             }
                             break;
                     }
@@ -2850,7 +2849,7 @@ namespace mame
                             vblank_interrupt();
                             if (iloops > 1)
                             {
-                                Timer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
+                                EmuTimer.timer_adjust_periodic(Cpuexec.cpu[1].partial_frame_timer, Cpuexec.cpu[1].partial_frame_period, Attotime.ATTOTIME_NEVER);
                             }
                             break;
                     }
@@ -2863,7 +2862,7 @@ namespace mame
         }
         public static void end_interleave_boost()
         {
-            Timer.timer_adjust_periodic(interleave_boost_timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(interleave_boost_timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
         }
         public static void compute_perfect_interleave()
         {

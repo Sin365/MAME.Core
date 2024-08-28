@@ -1,7 +1,4 @@
-﻿
-using Color = MAME.Core.AxiBitmap.AxiColor;
-
-namespace mame
+﻿namespace MAME.Core
 {
     public class Crosshair
     {

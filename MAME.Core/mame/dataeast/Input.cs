@@ -1,7 +1,7 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core;
 using System.Collections.Generic;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Dataeast
     {

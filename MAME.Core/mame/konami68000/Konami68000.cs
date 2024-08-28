@@ -1,7 +1,7 @@
 ﻿using cpu.m68000;
 using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Konami68000
     {
@@ -603,8 +603,8 @@ namespace mame
         public static void sound_arm_nmi_w()
         {
             Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_NMI, LineState.CLEAR_LINE);
-            Timer.emu_timer timer = Timer.timer_alloc_common(nmi_callback, "nmi_callback", true);
-            Timer.timer_adjust_periodic(timer, new Atime(0, (long)50e12), Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(nmi_callback, "nmi_callback", true);
+            EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)50e12), Attotime.ATTOTIME_NEVER);
         }
         public static ushort punkshot_kludge_r()
         {

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Threading;
 
-namespace mame
+namespace MAME.Core
 {
     public class Wintime
     {

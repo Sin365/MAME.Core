@@ -1,6 +1,6 @@
 ﻿using cpu.m68000;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Capcom
     {

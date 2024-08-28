@@ -1,6 +1,6 @@
 ﻿using cpu.m6800;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Namcos1
     {

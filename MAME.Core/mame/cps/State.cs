@@ -2,7 +2,7 @@
 using cpu.z80;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class CPS
     {
@@ -31,8 +31,8 @@ namespace mame
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             writer.Write(Video.screenstate.frame_number);
             writer.Write(Sound.last_update_second);
             for (i = 0; i < 2; i++)
@@ -44,7 +44,7 @@ namespace mame
                 writer.Write(Cpuexec.cpu[i].localtime.seconds);
                 writer.Write(Cpuexec.cpu[i].localtime.attoseconds);
             }
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             YM2151.SaveStateBinary(writer);
             OKI6295.SaveStateBinary(writer);
             for (i = 0; i < 2; i++)
@@ -101,8 +101,8 @@ namespace mame
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             writer.Write(Video.screenstate.frame_number);
             writer.Write(Sound.last_update_second);
             for (i = 0; i < 2; i++)
@@ -114,7 +114,7 @@ namespace mame
                 writer.Write(Cpuexec.cpu[i].localtime.seconds);
                 writer.Write(Cpuexec.cpu[i].localtime.attoseconds);
             }
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             writer.Write(qsound_sharedram1);
             writer.Write(qsound_sharedram2);
             QSound.SaveStateBinary(writer);
@@ -164,8 +164,8 @@ namespace mame
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             writer.Write(Video.screenstate.frame_number);
             writer.Write(Sound.last_update_second);
             for (i = 0; i < 2; i++)
@@ -177,7 +177,7 @@ namespace mame
                 writer.Write(Cpuexec.cpu[i].localtime.seconds);
                 writer.Write(Cpuexec.cpu[i].localtime.attoseconds);
             }
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             writer.Write(qsound_sharedram1);
             writer.Write(qsound_sharedram2);
             QSound.SaveStateBinary(writer);
@@ -212,8 +212,8 @@ namespace mame
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.screenstate.frame_number = reader.ReadInt64();
             Sound.last_update_second = reader.ReadInt32();
             for (i = 0; i < 2; i++)
@@ -225,7 +225,7 @@ namespace mame
                 Cpuexec.cpu[i].localtime.seconds = reader.ReadInt32();
                 Cpuexec.cpu[i].localtime.attoseconds = reader.ReadInt64();
             }
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             YM2151.LoadStateBinary(reader);
             OKI6295.LoadStateBinary(reader);
             for (i = 0; i < 2; i++)
@@ -282,8 +282,8 @@ namespace mame
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.screenstate.frame_number = reader.ReadInt64();
             Sound.last_update_second = reader.ReadInt32();
             for (i = 0; i < 2; i++)
@@ -295,7 +295,7 @@ namespace mame
                 Cpuexec.cpu[i].localtime.seconds = reader.ReadInt32();
                 Cpuexec.cpu[i].localtime.attoseconds = reader.ReadInt64();
             }
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             qsound_sharedram1 = reader.ReadBytes(0x1000);
             qsound_sharedram2 = reader.ReadBytes(0x1000);
             QSound.LoadStateBinary(reader);
@@ -345,8 +345,8 @@ namespace mame
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.screenstate.frame_number = reader.ReadInt64();
             Sound.last_update_second = reader.ReadInt32();
             for (i = 0; i < 2; i++)
@@ -358,7 +358,7 @@ namespace mame
                 Cpuexec.cpu[i].localtime.seconds = reader.ReadInt32();
                 Cpuexec.cpu[i].localtime.attoseconds = reader.ReadInt64();
             }
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             qsound_sharedram1 = reader.ReadBytes(0x1000);
             qsound_sharedram2 = reader.ReadBytes(0x1000);
             QSound.LoadStateBinary(reader);

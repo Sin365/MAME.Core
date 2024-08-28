@@ -1,7 +1,6 @@
-﻿using MAME.Core.Motion;
-using MAME.Core.run_interface;
+﻿using MAME.Core;
 
-namespace mame
+namespace MAME.Core
 {
     /// <summary>
     /// 原依赖Form的内容

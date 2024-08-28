@@ -1,7 +1,6 @@
-﻿using MAME.Core.Motion;
-using System;
+﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Namcos1
     {

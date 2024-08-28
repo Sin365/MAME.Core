@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class MSM5205
     {
@@ -24,7 +24,7 @@ namespace mame
         public static int[] diff_lookup;
         public static int[] index_shift = new int[8] { -1, -1, -1, -1, 2, 4, 6, 8 };
         public MSM5205Voice voice;
-        public static Timer.emu_timer[] timer = new Timer.emu_timer[2];
+        public static EmuTimer.emu_timer[] timer = new EmuTimer.emu_timer[2];
         public static MSM5205[] mm1 = new MSM5205[2];
         public static void ComputeTables()
         {
@@ -177,11 +177,11 @@ namespace mame
             mm1[sndindex].voice.stream = new sound_stream(clock, 0, 1, mm1[sndindex].MSM5205_update);
             if (sndindex == 0)
             {
-                timer[0] = Timer.timer_alloc_common(MSM5205_vclk_callback0, "msm5205_vclk_callback0", false);
+                timer[0] = EmuTimer.timer_alloc_common(MSM5205_vclk_callback0, "msm5205_vclk_callback0", false);
             }
             else if (sndindex == 1)
             {
-                timer[1] = Timer.timer_alloc_common(MSM5205_vclk_callback1, "msm5205_vclk_callback1", false);
+                timer[1] = EmuTimer.timer_alloc_common(MSM5205_vclk_callback1, "msm5205_vclk_callback1", false);
             }
             mm1[sndindex].msm5205_reset();
         }
@@ -241,11 +241,11 @@ namespace mame
                 if (prescaler != 0)
                 {
                     Atime period = Attotime.attotime_mul(Attotime.ATTOTIME_IN_HZ(mm1[num].voice.clock), (uint)prescaler);
-                    Timer.timer_adjust_periodic(timer[num], period, period);
+                    EmuTimer.timer_adjust_periodic(timer[num], period, period);
                 }
                 else
                 {
-                    Timer.timer_adjust_periodic(timer[num], Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(timer[num], Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
                 }
             }
             if (mm1[num].voice.bitwidth != bitwidth)

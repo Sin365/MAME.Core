@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class YM2610
     {
@@ -14,7 +14,7 @@ namespace mame
         public byte[] adpcmreg;
         public byte adpcm_arrivedEndAddress;
         public static YM2610 F2610 = new YM2610();
-        public static Timer.emu_timer[] timer;
+        public static EmuTimer.emu_timer[] timer;
         public void timer_callback_0()
         {
             F2610.ym2610_timer_over(0);
@@ -27,14 +27,14 @@ namespace mame
         {
             if (count == 0)
             {
-                Timer.timer_enable(timer[c], false);
+                EmuTimer.timer_enable(timer[c], false);
             }
             else
             {
                 Atime period = Attotime.attotime_mul(new Atime(0, Attotime.ATTOSECONDS_PER_SECOND / clock), (uint)count);//8000000
-                if (!Timer.timer_enable(timer[c], true))
+                if (!EmuTimer.timer_enable(timer[c], true))
                 {
-                    Timer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
                 }
             }
         }
@@ -99,9 +99,9 @@ namespace mame
             generic_ay8910.portBwrite = null;
             int rate = clock / 72;
             AY8910.ay8910_start_ym(17, 0, clock, generic_ay8910);
-            timer = new Timer.emu_timer[2];
-            timer[0] = Timer.timer_alloc_common(F2610.timer_callback_0, "timer_callback_0", false);
-            timer[1] = Timer.timer_alloc_common(F2610.timer_callback_1, "timer_callback_1", false);
+            timer = new EmuTimer.emu_timer[2];
+            timer[0] = EmuTimer.timer_alloc_common(F2610.timer_callback_0, "timer_callback_0", false);
+            timer[1] = EmuTimer.timer_alloc_common(F2610.timer_callback_1, "timer_callback_1", false);
             ym2610_init(clock, rate);
         }
         public static void ym2610_init(int clock, int rate)

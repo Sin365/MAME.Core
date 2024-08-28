@@ -1,13 +1,13 @@
-﻿namespace mame
+﻿namespace MAME.Core
 {
     public class Watchdog
     {
         public static bool watchdog_enabled;
-        public static Timer.emu_timer watchdog_timer;
+        public static EmuTimer.emu_timer watchdog_timer;
         public static Atime watchdog_time;
         public static void watchdog_init()
         {
-            watchdog_timer = Timer.timer_alloc_common(watchdog_callback, "watchdog_callback", false);
+            watchdog_timer = EmuTimer.timer_alloc_common(watchdog_callback, "watchdog_callback", false);
             switch (Machine.sBoard)
             {
                 case "CPS-1":
@@ -45,15 +45,15 @@
         {
             if (!watchdog_enabled)
             {
-                Timer.timer_adjust_periodic(watchdog_timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(watchdog_timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
             }
             else if (Attotime.attotime_compare(watchdog_time, Attotime.ATTOTIME_ZERO) != 0)
             {
-                Timer.timer_adjust_periodic(watchdog_timer, watchdog_time, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(watchdog_timer, watchdog_time, Attotime.ATTOTIME_NEVER);
             }
             else
             {
-                Timer.timer_adjust_periodic(watchdog_timer, new Atime(3, 0), Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(watchdog_timer, new Atime(3, 0), Attotime.ATTOTIME_NEVER);
             }
         }
     }

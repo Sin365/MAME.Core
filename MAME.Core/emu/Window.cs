@@ -1,6 +1,4 @@
-﻿using MAME.Core.Motion;
-
-namespace mame
+﻿namespace MAME.Core
 {
     public class Window
     {

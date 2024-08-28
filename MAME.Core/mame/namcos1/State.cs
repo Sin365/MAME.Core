@@ -2,7 +2,7 @@
 using cpu.m6809;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Namcos1
     {
@@ -55,12 +55,12 @@ namespace mame
             }
             M6800.m1.SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             Video.SaveStateBinary(writer);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             YM2151.SaveStateBinary(writer);
             Namco.SaveStateBinary(writer);
             DAC.SaveStateBinary(writer);
@@ -122,12 +122,12 @@ namespace mame
             }
             M6800.m1.LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             YM2151.LoadStateBinary(reader);
             Namco.LoadStateBinary(reader);
             DAC.LoadStateBinary(reader);

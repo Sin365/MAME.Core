@@ -1,4 +1,4 @@
-﻿namespace mame
+﻿namespace MAME.Core
 {
     public partial class M72
     {
@@ -44,17 +44,17 @@
         {
             if (irq != 0)
             {
-                Cpuint.lvec.Add(new vec(1, Timer.get_current_time()));
+                Cpuint.lvec.Add(new vec(1, EmuTimer.get_current_time()));
                 setvector_param = 1;
-                Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-                Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
             else
             {
-                Cpuint.lvec.Add(new vec(2, Timer.get_current_time()));
+                Cpuint.lvec.Add(new vec(2, EmuTimer.get_current_time()));
                 setvector_param = 2;
-                Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-                Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m72_sound_command_w(int offset, ushort data)
@@ -62,26 +62,26 @@
             //if (ACCESSING_BITS_0_7)
             {
                 Sound.soundlatch_w(data);
-                Cpuint.lvec.Add(new vec(3, Timer.get_current_time()));
+                Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
                 setvector_param = 3;
-                Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-                Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m72_sound_command_byte_w(int offset, byte data)
         {
             Sound.soundlatch_w(data);
-            Cpuint.lvec.Add(new vec(3, Timer.get_current_time()));
+            Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
             setvector_param = 3;
-            Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-            Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m72_sound_irq_ack_w(int offset, byte data)
         {
-            Cpuint.lvec.Add(new vec(4, Timer.get_current_time()));
+            Cpuint.lvec.Add(new vec(4, EmuTimer.get_current_time()));
             setvector_param = 4;
-            Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-            Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m72_set_sample_start(int start)
         {

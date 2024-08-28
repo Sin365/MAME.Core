@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     /*public enum eeprom_command
     {

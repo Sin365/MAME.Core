@@ -1,4 +1,4 @@
-﻿namespace MAME.Core.Motion
+﻿namespace MAME.Core
 {
     public class Konami68000Motion
     {

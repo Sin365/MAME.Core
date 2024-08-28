@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public class FM
     {
@@ -146,7 +146,7 @@ namespace mame
             {
                 if (Attotime.attotime_compare(ST.busy_expiry_time, Attotime.ATTOTIME_ZERO) != 0)
                 {
-                    if (Attotime.attotime_compare(ST.busy_expiry_time, Timer.get_current_time()) > 0)
+                    if (Attotime.attotime_compare(ST.busy_expiry_time, EmuTimer.get_current_time()) > 0)
                     {
                         return (byte)(ST.status | 0x80);
                     }
@@ -157,7 +157,7 @@ namespace mame
             public void FM_BUSY_SET(int busyclock)
             {
                 Atime expiry_period = Attotime.attotime_mul(Attotime.ATTOTIME_IN_HZ(ST.clock), (uint)(busyclock * ST.timer_prescaler));
-                ST.busy_expiry_time = Attotime.attotime_add(Timer.get_current_time(), expiry_period);
+                ST.busy_expiry_time = Attotime.attotime_add(EmuTimer.get_current_time(), expiry_period);
             }
             private void FM_KEYON(int type, int c, int s)
             {

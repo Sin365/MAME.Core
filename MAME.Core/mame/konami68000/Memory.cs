@@ -1,6 +1,6 @@
 ﻿using cpu.z80;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Konami68000
     {

@@ -1,4 +1,4 @@
-﻿using mame;
+﻿using MAME.Core;
 using System;
 using System.IO;
 
@@ -61,7 +61,7 @@ namespace cpu.nec
         {
             if (line >= 0 && line < 35)
             {
-                Cpuint.lirq.Add(new irq(cpunum, line, state, vector, Timer.get_current_time()));
+                Cpuint.lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
                 int event_index = Cpuint.input_event_index[cpunum, line]++;
                 if (event_index >= 35)
                 {
@@ -74,7 +74,7 @@ namespace cpu.nec
                     //Cpuint.input_event_queue[cpunum][line][event_index] = input_event;
                     //if (event_index == 0)
                     {
-                        Timer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+                        EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
                     }
                 }
             }

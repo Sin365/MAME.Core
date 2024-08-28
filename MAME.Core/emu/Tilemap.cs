@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace mame
+namespace MAME.Core
 {
     enum trans_t
     {

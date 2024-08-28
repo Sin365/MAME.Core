@@ -1,9 +1,6 @@
-﻿using mame;
-using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 
-namespace MAME.Core.Motion
+namespace MAME.Core
 {
     public partial class NeogeoMotion
     {

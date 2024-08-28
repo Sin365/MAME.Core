@@ -1,7 +1,6 @@
 ﻿using cpu.m68000;
-using MAME.Core.Motion;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Neogeo
     {

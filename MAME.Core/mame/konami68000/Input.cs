@@ -1,6 +1,6 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Konami68000
     {

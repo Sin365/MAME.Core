@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace mame
+namespace MAME.Core
 {
     [StructLayout(LayoutKind.Explicit)]
     [Serializable()]
@@ -134,7 +134,7 @@ namespace mame
         public static void cpunum_set_input_line(int cpunum, int line, LineState state)
         {
             int vector = (line >= 0 && line < 35) ? interrupt_vector[cpunum, line] : 0xff;
-            lirq.Add(new irq(cpunum, line, state, vector, Timer.get_current_time()));
+            lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
             Cpuexec.cpu[cpunum].cpunum_set_input_line_and_vector(cpunum, line, state, vector);
         }
         public static void cpunum_set_input_line_vector(int cpunum, int line, int vector)
@@ -149,8 +149,8 @@ namespace mame
         {
             if (line >= 0 && line < 35)
             {
-                lirq.Add(new irq(cpunum, line, state, vector, Timer.get_current_time()));
-                Timer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+                lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
+                EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
             }
         }
         public static void cpunum_empty_event_queue()
@@ -162,7 +162,7 @@ namespace mame
             }
             foreach (irq irq1 in lirq)
             {
-                if (Attotime.attotime_compare(irq1.time, Timer.global_basetime) <= 0)
+                if (Attotime.attotime_compare(irq1.time, EmuTimer.global_basetime) <= 0)
                 {
                     input_line_state[irq1.cpunum, irq1.line] = (byte)irq1.state;
                     input_line_vector[irq1.cpunum, irq1.line] = irq1.vector;

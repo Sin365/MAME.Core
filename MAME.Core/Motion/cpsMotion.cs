@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace MAME.Core.Motion
+namespace MAME.Core
 {
     public partial class CpsMotion
     {

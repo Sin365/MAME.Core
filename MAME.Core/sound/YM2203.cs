@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class YM2203
     {
@@ -8,7 +8,7 @@ namespace mame
         public FM.FM_OPN OPN;
         public sound_stream stream;
         public static YM2203[] FF2203 = new YM2203[2];
-        public Timer.emu_timer[] timer;
+        public EmuTimer.emu_timer[] timer;
         public static void timer_callback_2203_0_0()
         {
             FF2203[0].ym2203_timer_over(0);
@@ -29,14 +29,14 @@ namespace mame
         {
             if (count == 0)
             {
-                Timer.timer_enable(timer[c], false);
+                EmuTimer.timer_enable(timer[c], false);
             }
             else
             {
                 Atime period = Attotime.attotime_mul(new Atime(0, Attotime.ATTOSECONDS_PER_SECOND / clock), (uint)count);
-                if (!Timer.timer_enable(timer[c], true))
+                if (!EmuTimer.timer_enable(timer[c], true))
                 {
-                    Timer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
                 }
             }
         }
@@ -140,16 +140,16 @@ namespace mame
             FMOpl.sin_tab = new uint[0x1000];
             int rate = clock / 72;
             AY8910.ay8910_start_ym(14, sndindex, clock, generic_2203);
-            FF2203[sndindex].timer = new Timer.emu_timer[2];
+            FF2203[sndindex].timer = new EmuTimer.emu_timer[2];
             if (sndindex == 0)
             {
-                FF2203[sndindex].timer[0] = Timer.timer_alloc_common(timer_callback_2203_0_0, "timer_callback_2203_0_0", false);
-                FF2203[sndindex].timer[1] = Timer.timer_alloc_common(timer_callback_2203_0_1, "timer_callback_2203_0_1", false);
+                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(timer_callback_2203_0_0, "timer_callback_2203_0_0", false);
+                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(timer_callback_2203_0_1, "timer_callback_2203_0_1", false);
             }
             else if (sndindex == 1)
             {
-                FF2203[sndindex].timer[0] = Timer.timer_alloc_common(timer_callback_2203_1_0, "timer_callback_2203_1_0", false);
-                FF2203[sndindex].timer[1] = Timer.timer_alloc_common(timer_callback_2203_1_1, "timer_callback_2203_1_1", false);
+                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(timer_callback_2203_1_0, "timer_callback_2203_1_0", false);
+                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(timer_callback_2203_1_1, "timer_callback_2203_1_1", false);
             }
             FF2203[sndindex].stream = new sound_stream(rate, 0, 1, FF2203[sndindex].ym2203_update_one);
             ym2203_init(sndindex, clock, rate);

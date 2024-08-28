@@ -1,4 +1,4 @@
-﻿namespace mame
+﻿namespace MAME.Core
 {
     public partial class Namcos1
     {

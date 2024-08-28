@@ -1,6 +1,6 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core;
 
-namespace mame
+namespace MAME.Core
 {
     public class analog_field_state
     {
@@ -564,7 +564,7 @@ namespace mame
             value = analog.accum;
             if (analog.interpolate && portdata.last_delta_nsec != 0)
             {
-                nsec_since_last = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(Timer.get_current_time(), portdata.last_frame_time)) / Attotime.ATTOSECONDS_PER_NANOSECOND;
+                nsec_since_last = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(EmuTimer.get_current_time(), portdata.last_frame_time)) / Attotime.ATTOSECONDS_PER_NANOSECOND;
                 value = (int)(analog.previous + ((long)(analog.accum - analog.previous) * nsec_since_last / portdata.last_delta_nsec));
             }
             result = (uint)apply_analog_settings(value, analog);
@@ -600,7 +600,7 @@ namespace mame
         }
         private static void frame_update()
         {
-            Atime curtime = Timer.get_current_time();
+            Atime curtime = EmuTimer.get_current_time();
             portdata.last_delta_nsec = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(curtime, portdata.last_frame_time)) / Attotime.ATTOSECONDS_PER_NANOSECOND;
             portdata.last_frame_time = curtime;
             if (Mame.playState != Mame.PlayState.PLAY_REPLAYRUNNING)

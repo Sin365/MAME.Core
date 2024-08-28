@@ -1,6 +1,6 @@
-﻿using MAME.Core.run_interface;
+﻿using MAME.Core;
 
-namespace mame
+namespace MAME.Core
 {
     public class Keyboard
     {
@@ -22,7 +22,7 @@ namespace mame
             mKeyboard = ikb;
         }
 
-        public static bool IsPressed(MotionKey key) 
+        public static bool IsPressed(MotionKey key)
         {
             return m_KeyStates[(int)key].IsPressed;
         }
@@ -62,7 +62,7 @@ namespace mame
                     m_KeyStates[i].IsTriggered = false;
                 }
             }
-            
+
         }
     }
 }

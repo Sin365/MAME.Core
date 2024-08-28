@@ -1,8 +1,8 @@
-﻿namespace MAME.Core.run_interface
+﻿namespace MAME.Core
 {
     public interface IResources
     {
-        byte[] mcu { get;  }
+        byte[] mcu { get; }
         byte[] sfix { get; }
         byte[] _000_lo { get; }
         byte[] sm1 { get; }

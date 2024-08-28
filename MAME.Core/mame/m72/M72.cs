@@ -1,11 +1,11 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class M72
     {
         public static byte[] protection_ram;
-        public static Timer.emu_timer scanline_timer;
+        public static EmuTimer.emu_timer scanline_timer;
         public static byte m72_irq_base;
         public static int m72_scanline_param;
 
@@ -44,7 +44,7 @@ namespace mame
             Generic.paletteram16_2 = new ushort[0x600];
             Generic.spriteram16 = new ushort[0x200];
             Machine.bRom = true;
-            Timer.setvector = setvector_callback;
+            EmuTimer.setvector = setvector_callback;
             protection_ram = new byte[0x1000];
             Memory.mainrom = Machine.GetRom("maincpu.rom");
             Memory.audiorom = Machine.GetRom("soundcpu.rom");
@@ -154,19 +154,19 @@ namespace mame
         }
         public static void machine_start_m72()
         {
-            scanline_timer = Timer.timer_alloc_common(m72_scanline_interrupt, "m72_scanline_interrupt", false);
+            scanline_timer = EmuTimer.timer_alloc_common(m72_scanline_interrupt, "m72_scanline_interrupt", false);
         }
         public static void machine_reset_m72()
         {
             m72_irq_base = 0x20;
             machine_reset_m72_sound();
-            Timer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void machine_reset_kengo()
         {
             m72_irq_base = 0x18;
             machine_reset_m72_sound();
-            Timer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void m72_scanline_interrupt()
         {
@@ -186,7 +186,7 @@ namespace mame
                 scanline = 0;
             }
             m72_scanline_param = scanline;
-            Timer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
         }
     }
 }

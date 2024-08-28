@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class CPS
     {

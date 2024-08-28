@@ -1,7 +1,7 @@
 ﻿using cpu.m6502;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Dataeast
     {
@@ -25,12 +25,12 @@ namespace mame
             M6502.mm1[0].SaveStateBinary(writer);
             M6502.mm1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             Video.SaveStateBinary(writer);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             AY8910.AA8910[0].SaveStateBinary(writer);
             YM2203.FF2203[0].SaveStateBinary(writer);
             YM3812.SaveStateBinary(writer);
@@ -68,12 +68,12 @@ namespace mame
             M6502.mm1[0].LoadStateBinary(reader);
             M6502.mm1[1].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             AY8910.AA8910[0].LoadStateBinary(reader);
             YM2203.FF2203[0].LoadStateBinary(reader);
             YM3812.LoadStateBinary(reader);

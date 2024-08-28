@@ -3,7 +3,7 @@ using cpu.m6809;
 using cpu.z80;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Capcom
     {
@@ -30,12 +30,12 @@ namespace mame
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             Video.SaveStateBinary(writer);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             AY8910.AA8910[0].SaveStateBinary(writer);
             AY8910.AA8910[1].SaveStateBinary(writer);
             YM2203.FF2203[0].SaveStateBinary(writer);
@@ -76,12 +76,12 @@ namespace mame
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             AY8910.AA8910[0].LoadStateBinary(reader);
             AY8910.AA8910[1].LoadStateBinary(reader);
             YM2203.FF2203[0].LoadStateBinary(reader);
@@ -130,12 +130,12 @@ namespace mame
             Z80A.zz1[0].SaveStateBinary(writer);
             Z80A.zz1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             Video.SaveStateBinary(writer);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             YM2151.SaveStateBinary(writer);
             MSM5205.mm1[0].SaveStateBinary(writer);
             MSM5205.mm1[1].SaveStateBinary(writer);
@@ -179,12 +179,12 @@ namespace mame
             Z80A.zz1[0].LoadStateBinary(reader);
             Z80A.zz1[1].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             YM2151.LoadStateBinary(reader);
             MSM5205.mm1[0].LoadStateBinary(reader);
             MSM5205.mm1[1].LoadStateBinary(reader);

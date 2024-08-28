@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class YM2151
     {
@@ -87,8 +87,8 @@ namespace mame
             public uint status;
             public byte[] connect;
 
-            public Timer.emu_timer timer_A;
-            public Timer.emu_timer timer_B;
+            public EmuTimer.emu_timer timer_A;
+            public EmuTimer.emu_timer timer_B;
             public Atime[] timer_A_time;
             public Atime[] timer_B_time;
             public int irqlinestate;
@@ -450,12 +450,12 @@ namespace mame
         }
         public static void timer_callback_a()
         {
-            Timer.timer_adjust_periodic(PSG.timer_A, PSG.timer_A_time[PSG.timer_A_index], Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(PSG.timer_A, PSG.timer_A_time[PSG.timer_A_index], Attotime.ATTOTIME_NEVER);
             PSG.timer_A_index_old = PSG.timer_A_index;
             if ((PSG.irq_enable & 0x04) != 0)
             {
                 PSG.status |= 1;
-                Timer.timer_set_internal(irqAon_callback, "irqAon_callback");
+                EmuTimer.timer_set_internal(irqAon_callback, "irqAon_callback");
             }
             if ((PSG.irq_enable & 0x80) != 0)
             {
@@ -464,12 +464,12 @@ namespace mame
         }
         public static void timer_callback_b()
         {
-            Timer.timer_adjust_periodic(PSG.timer_B, PSG.timer_B_time[PSG.timer_B_index], Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(PSG.timer_B, PSG.timer_B_time[PSG.timer_B_index], Attotime.ATTOTIME_NEVER);
             PSG.timer_B_index_old = PSG.timer_B_index;
             if ((PSG.irq_enable & 0x08) != 0)
             {
                 PSG.status |= 2;
-                Timer.timer_set_internal(irqBon_callback, "irqBon_callback");
+                EmuTimer.timer_set_internal(irqBon_callback, "irqBon_callback");
             }
         }
         private static void set_connect(int cha, int v)
@@ -706,42 +706,42 @@ namespace mame
                             if ((v & 0x10) != 0)	/* reset timer A irq flag */
                             {
                                 PSG.status &= 0xfffffffe;
-                                Timer.timer_set_internal(irqAoff_callback, "irqAoff_callback");
+                                EmuTimer.timer_set_internal(irqAoff_callback, "irqAoff_callback");
                             }
                             if ((v & 0x20) != 0)	/* reset timer B irq flag */
                             {
                                 PSG.status &= 0xfffffffd;
-                                Timer.timer_set_internal(irqBoff_callback, "irqBoff_callback");
+                                EmuTimer.timer_set_internal(irqBoff_callback, "irqBoff_callback");
                             }
                             if ((v & 0x02) != 0)
                             {	/* load and start timer B */
                                 /* ASG 980324: added a real timer */
                                 /* start timer _only_ if it wasn't already started (it will reload time value next round) */
-                                if (!Timer.timer_enable(PSG.timer_B, true))
+                                if (!EmuTimer.timer_enable(PSG.timer_B, true))
                                 {
-                                    Timer.timer_adjust_periodic(PSG.timer_B, PSG.timer_B_time[PSG.timer_B_index], Attotime.ATTOTIME_NEVER);
+                                    EmuTimer.timer_adjust_periodic(PSG.timer_B, PSG.timer_B_time[PSG.timer_B_index], Attotime.ATTOTIME_NEVER);
                                     PSG.timer_B_index_old = PSG.timer_B_index;
                                 }
                             }
                             else
                             {		/* stop timer B */
                                 /* ASG 980324: added a real timer */
-                                Timer.timer_enable(PSG.timer_B, false);
+                                EmuTimer.timer_enable(PSG.timer_B, false);
                             }
                             if ((v & 0x01) != 0)
                             {	/* load and start timer A */
                                 /* ASG 980324: added a real timer */
                                 /* start timer _only_ if it wasn't already started (it will reload time value next round) */
-                                if (!Timer.timer_enable(PSG.timer_A, true))
+                                if (!EmuTimer.timer_enable(PSG.timer_A, true))
                                 {
-                                    Timer.timer_adjust_periodic(PSG.timer_A, PSG.timer_A_time[PSG.timer_A_index], Attotime.ATTOTIME_NEVER);
+                                    EmuTimer.timer_adjust_periodic(PSG.timer_A, PSG.timer_A_time[PSG.timer_A_index], Attotime.ATTOTIME_NEVER);
                                     PSG.timer_A_index_old = PSG.timer_A_index;
                                 }
                             }
                             else
                             {		/* stop timer A */
                                 /* ASG 980324: added a real timer */
-                                Timer.timer_enable(PSG.timer_A, false);
+                                EmuTimer.timer_enable(PSG.timer_A, false);
                             }
                             break;
                         case 0x18:	/* LFO frequency */
@@ -934,8 +934,8 @@ namespace mame
             PSG.eg_timer_add = (uint)(0x10000 * (clock / 64.0) / PSG.sampfreq);
             PSG.eg_timer_overflow = 0x30000;
             /* this must be done _before_ a call to ym2151_reset_chip() */
-            PSG.timer_A = Timer.timer_alloc_common(timer_callback_a, "timer_callback_a", false);
-            PSG.timer_B = Timer.timer_alloc_common(timer_callback_b, "timer_callback_b", false);
+            PSG.timer_A = EmuTimer.timer_alloc_common(timer_callback_a, "timer_callback_a", false);
+            PSG.timer_B = EmuTimer.timer_alloc_common(timer_callback_b, "timer_callback_b", false);
             ym2151_reset_chip();
             switch (Machine.sBoard)
             {
@@ -1013,8 +1013,8 @@ namespace mame
             PSG.test = 0;
             PSG.irq_enable = 0;
             /* ASG 980324 -- reset the timers before writing to the registers */
-            Timer.timer_enable(PSG.timer_A, false);
-            Timer.timer_enable(PSG.timer_B, false);
+            EmuTimer.timer_enable(PSG.timer_A, false);
+            EmuTimer.timer_enable(PSG.timer_B, false);
             PSG.timer_A_index = 0;
             PSG.timer_B_index = 0;
             PSG.timer_A_index_old = 0;

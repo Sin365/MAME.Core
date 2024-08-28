@@ -1,8 +1,7 @@
-﻿using MAME.Core.Motion;
-using MAME.Core.run_interface;
+﻿using MAME.Core;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class Mame
     {
@@ -22,7 +21,7 @@ namespace mame
         public static PlayState playState;
         public static bool is_foreground;
         public static bool paused, exit_pending;
-        public static Timer.emu_timer soft_reset_timer;
+        public static EmuTimer.emu_timer soft_reset_timer;
         public static BinaryReader brRecord = null;
         public static BinaryWriter bwRecord = null;
         public static bool bPP = true;
@@ -88,7 +87,7 @@ namespace mame
 
         public static void mame_schedule_soft_reset()
         {
-            Timer.timer_adjust_periodic(soft_reset_timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(soft_reset_timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             mame_pause(false);
             if (Cpuexec.activecpu >= 0)
             {
@@ -136,8 +135,8 @@ namespace mame
             Inptport.input_init();
             Palette.palette_init();
             Generic.generic_machine_init();
-            Timer.timer_init();
-            soft_reset_timer = Timer.timer_alloc_common(soft_reset, "soft_reset", false);
+            EmuTimer.timer_init();
+            soft_reset_timer = EmuTimer.timer_alloc_common(soft_reset, "soft_reset", false);
             Window.osd_init();
             Inptport.input_port_init();
             Cpuexec.cpuexec_init();
@@ -174,7 +173,7 @@ namespace mame
             Watchdog.watchdog_internal_reset();
             Sound.sound_reset();
             playState = PlayState.PLAY_RUNNING;
-            Timer.timer_set_global_time(Timer.get_current_time());
+            EmuTimer.timer_set_global_time(EmuTimer.get_current_time());
         }
         private static void handle_save()
         {

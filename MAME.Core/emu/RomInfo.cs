@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace mame
+namespace MAME.Core
 {
     public class RomInfo
     {
         public static List<RomInfo> romList;
-        public static Dictionary<string,RomInfo> dictName2Rom;
+        public static Dictionary<string, RomInfo> dictName2Rom;
         public static RomInfo Rom;
         public string Name, Board;
         public string Parent;

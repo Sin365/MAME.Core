@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Neogeo
     {
@@ -21,7 +21,7 @@ namespace mame
         public static byte auto_animation_disabled;
         public static int auto_animation_counter;
         private static int auto_animation_frame_counter;
-        public static Timer.emu_timer auto_animation_timer, sprite_line_timer;
+        public static EmuTimer.emu_timer auto_animation_timer, sprite_line_timer;
         private static double[] rgb_weights_normal;
         private static double[] rgb_weights_normal_bit15;
         private static double[] rgb_weights_dark;
@@ -123,15 +123,15 @@ namespace mame
             {
                 auto_animation_frame_counter = auto_animation_frame_counter - 1;
             }
-            Timer.timer_adjust_periodic(auto_animation_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(auto_animation_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         private static void create_auto_animation_timer()
         {
-            auto_animation_timer = Timer.timer_alloc_common(auto_animation_timer_callback, "auto_animation_timer_callback", false);
+            auto_animation_timer = EmuTimer.timer_alloc_common(auto_animation_timer_callback, "auto_animation_timer_callback", false);
         }
         private static void start_auto_animation_timer()
         {
-            Timer.timer_adjust_periodic(auto_animation_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(auto_animation_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         private static int rows_to_height(int rows)
         {
@@ -359,16 +359,16 @@ namespace mame
             parse_sprites(scanline);
             scanline = (scanline + 1) % 264;
             neogeo_scanline_param = scanline;
-            Timer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
         }
         private static void create_sprite_line_timer()
         {
-            sprite_line_timer = Timer.timer_alloc_common(sprite_line_timer_callback, "sprite_line_timer_callback", false);
+            sprite_line_timer = EmuTimer.timer_alloc_common(sprite_line_timer_callback, "sprite_line_timer_callback", false);
         }
         private static void start_sprite_line_timer()
         {
             neogeo_scanline_param = 0;
-            Timer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         private static void draw_fixed_layer(int iBitmap, int scanline)
         {

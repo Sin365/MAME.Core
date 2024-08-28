@@ -1,10 +1,10 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class YM3812
     {
-        public static Timer.emu_timer[] timer;
+        public static EmuTimer.emu_timer[] timer;
         public delegate void ym3812_delegate(LineState linestate);
         public static ym3812_delegate ym3812handler;
         public static void IRQHandler_3812(int irq)
@@ -26,11 +26,11 @@ namespace mame
         {
             if (Attotime.attotime_compare(period, Attotime.ATTOTIME_ZERO) == 0)
             {
-                Timer.timer_enable(timer[c], false);
+                EmuTimer.timer_enable(timer[c], false);
             }
             else
             {
-                Timer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void _stream_update_3812(int interval)
@@ -41,7 +41,7 @@ namespace mame
         {
             FMOpl.tl_tab = new int[0x1800];
             FMOpl.sin_tab = new uint[0x1000];
-            timer = new Timer.emu_timer[2];
+            timer = new EmuTimer.emu_timer[2];
             int rate = clock / 72;
             switch (Machine.sName)
             {
@@ -74,8 +74,8 @@ namespace mame
             FMOpl.ym3812_set_timer_handler(TimerHandler_3812);
             FMOpl.ym3812_set_irq_handler(IRQHandler_3812);
             FMOpl.ym3812_set_update_handler(_stream_update_3812);
-            timer[0] = Timer.timer_alloc_common(timer_callback_3812_0, "timer_callback_3812_0", false);
-            timer[1] = Timer.timer_alloc_common(timer_callback_3812_1, "timer_callback_3812_1", false);
+            timer[0] = EmuTimer.timer_alloc_common(timer_callback_3812_0, "timer_callback_3812_0", false);
+            timer[1] = EmuTimer.timer_alloc_common(timer_callback_3812_1, "timer_callback_3812_1", false);
         }
         public static void ym3812_control_port_0_w(byte data)
         {
@@ -214,11 +214,11 @@ namespace mame
         {
             if (Attotime.attotime_compare(period, Attotime.ATTOTIME_ZERO) == 0)
             {
-                Timer.timer_enable(timer[c], false);
+                EmuTimer.timer_enable(timer[c], false);
             }
             else
             {
-                Timer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(timer[c], period, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void _stream_update_3526(int interval)
@@ -229,12 +229,12 @@ namespace mame
         {
             int rate = clock / 72;
             FMOpl.YM3526 = FMOpl.ym3526_init(0, clock, rate);
-            timer = new Timer.emu_timer[2];
+            timer = new EmuTimer.emu_timer[2];
             FMOpl.ym3526_set_timer_handler(TimerHandler_3526);
             FMOpl.ym3526_set_irq_handler(IRQHandler_3526);
             FMOpl.ym3526_set_update_handler(_stream_update_3526);
-            timer[0] = Timer.timer_alloc_common(timer_callback_3526_0, "timer_callback_3526_0", false);
-            timer[1] = Timer.timer_alloc_common(timer_callback_3526_1, "timer_callback_3526_1", false);
+            timer[0] = EmuTimer.timer_alloc_common(timer_callback_3526_0, "timer_callback_3526_0", false);
+            timer[1] = EmuTimer.timer_alloc_common(timer_callback_3526_1, "timer_callback_3526_1", false);
         }
         public static void ym3526_control_port_0_w(byte data)
         {

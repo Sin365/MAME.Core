@@ -1,4 +1,4 @@
-﻿using mame;
+﻿using MAME.Core;
 using System;
 using System.IO;
 //using System.IO;
@@ -191,7 +191,7 @@ namespace cpu.m6502
         }
         public override void cpunum_set_input_line_and_vector(int cpunum, int line, LineState state, int vector)
         {
-            Timer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+            EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
         }
         private void m6502_set_irq_line(int irqline, LineState state)
         {

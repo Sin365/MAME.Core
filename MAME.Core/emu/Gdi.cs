@@ -1,9 +1,8 @@
 ﻿using MAME.Core.AxiBitmap;
 using System;
-using static MAME.Core.AxiBitmap.AxiBitmapEx;
 using Color = MAME.Core.AxiBitmap.AxiColor;
 
-namespace mame
+namespace MAME.Core
 {
     partial class Video
     {

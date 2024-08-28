@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mame
+namespace MAME.Core
 {
     public class sound_stream
     {
@@ -39,7 +39,7 @@ namespace mame
         }
         public void stream_update()
         {
-            int update_sampindex = time_to_sampindex(Timer.get_current_time());
+            int update_sampindex = time_to_sampindex(EmuTimer.get_current_time());
             int offset, samples;
             samples = update_sampindex - output_sampindex;
             if (samples > 0)
@@ -1017,7 +1017,7 @@ namespace mame
         }
         public static void streams_updateC()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1030,7 +1030,7 @@ namespace mame
         }
         private static void streams_updateQ()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1042,7 +1042,7 @@ namespace mame
         }
         private static void streams_updateDataeast_pcktgal()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1058,7 +1058,7 @@ namespace mame
         }
         private static void streams_updateTehkan()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1075,7 +1075,7 @@ namespace mame
         }
         private static void streams_updateN()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1089,7 +1089,7 @@ namespace mame
         }
         private static void streams_updateSunA8()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1104,7 +1104,7 @@ namespace mame
         }
         private static void streams_updateNa()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1118,7 +1118,7 @@ namespace mame
         }
         private static void streams_updateIGS011_drgnwrld()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1131,7 +1131,7 @@ namespace mame
         }
         private static void streams_updateIGS011_lhb()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1143,7 +1143,7 @@ namespace mame
         }
         private static void streams_updateIGS011_lhb2()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1156,7 +1156,7 @@ namespace mame
         }
         private static void streams_updateIGS011_vbowl()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1168,7 +1168,7 @@ namespace mame
         }
         private static void streams_updatePGM()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1180,7 +1180,7 @@ namespace mame
         }
         private static void streams_updateM72()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1193,7 +1193,7 @@ namespace mame
         }
         private static void streams_updateM92()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1206,7 +1206,7 @@ namespace mame
         }
         private static void streams_updateTaito_tokio()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1219,7 +1219,7 @@ namespace mame
         }
         private static void streams_updateTaito_bublbobl()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1234,7 +1234,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_cuebrick()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1246,7 +1246,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_mia()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1259,7 +1259,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_tmnt()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1274,7 +1274,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_glfgreat()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1286,7 +1286,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_ssriders()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1299,7 +1299,7 @@ namespace mame
         }
         private static void streams_updateKonami68000_prmrsocr()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1311,7 +1311,7 @@ namespace mame
         }
         private static void streams_updateCapcom_gng()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {
@@ -1328,7 +1328,7 @@ namespace mame
         }
         private static void streams_updateCapcom_sf()
         {
-            Atime curtime = Timer.global_basetime;
+            Atime curtime = EmuTimer.global_basetime;
             bool second_tick = false;
             if (curtime.seconds != last_update_second)
             {

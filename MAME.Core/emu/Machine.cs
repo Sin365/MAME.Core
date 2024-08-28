@@ -1,8 +1,7 @@
-﻿using MAME.Core.Motion;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class Machine
     {

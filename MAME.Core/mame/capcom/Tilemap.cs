@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class Capcom
     {

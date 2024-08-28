@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
-    public class Timer
+    public class EmuTimer
     {
         public static List<emu_timer> lt;
         private static List<emu_timer2> lt2;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace MAME.Core.Motion
+namespace MAME.Core
 {
     public class M68000Motion
     {

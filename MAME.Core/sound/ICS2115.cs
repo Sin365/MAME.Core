@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public class ICS2115
     {
@@ -16,7 +16,7 @@ namespace mame
         public struct timer_struct
         {
             public byte scale, preset;
-            public Timer.emu_timer timer;
+            public EmuTimer.emu_timer timer;
             public long period;
         }
         public static void ics2115_w(int offset, byte data)
@@ -140,9 +140,9 @@ namespace mame
             {
                 timer[i].period = period;
                 if (period != 0)
-                    Timer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_IN_NSEC(period), Attotime.ATTOTIME_IN_NSEC(period));
+                    EmuTimer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_IN_NSEC(period), Attotime.ATTOTIME_IN_NSEC(period));
                 else
-                    Timer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+                    EmuTimer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
             }
         }
         static void reg_write(byte data, bool msb)
@@ -334,8 +334,8 @@ namespace mame
             int i;
             voice2 = new voice_struct[32];
             timer = new timer_struct[2];
-            timer[0].timer = Timer.timer_alloc_common(timer_cb_0, "timer_cb_0", false);
-            timer[1].timer = Timer.timer_alloc_common(timer_cb_1, "timer_cb_1", false);
+            timer[0].timer = EmuTimer.timer_alloc_common(timer_cb_0, "timer_cb_0", false);
+            timer[1].timer = EmuTimer.timer_alloc_common(timer_cb_1, "timer_cb_1", false);
             ulaw = new short[256];
             for (i = 0; i < 256; i++)
             {
@@ -410,7 +410,7 @@ namespace mame
             }
             for (i = 0; i < 2; i++)
             {
-                Timer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(timer[i].timer, Attotime.ATTOTIME_NEVER, Attotime.ATTOTIME_NEVER);
                 timer[i].period = 0;
             }
             recalc_irq();

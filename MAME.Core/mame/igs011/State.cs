@@ -1,7 +1,7 @@
 ﻿using cpu.m68000;
 using System.IO;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class IGS011
     {
@@ -59,12 +59,12 @@ namespace mame
             writer.Write(blitter.flags);
             MC68000.m1.SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
-            writer.Write(Timer.global_basetime.seconds);
-            writer.Write(Timer.global_basetime.attoseconds);
+            writer.Write(EmuTimer.global_basetime.seconds);
+            writer.Write(EmuTimer.global_basetime.attoseconds);
             Video.SaveStateBinary(writer);
             writer.Write(Sound.last_update_second);
             Cpuexec.SaveStateBinary(writer);
-            Timer.SaveStateBinary(writer);
+            EmuTimer.SaveStateBinary(writer);
             OKI6295.SaveStateBinary(writer);
             YM3812.SaveStateBinary(writer);
             writer.Write(Sound.okistream.output_sampindex);
@@ -128,12 +128,12 @@ namespace mame
             blitter.flags = reader.ReadUInt16();
             MC68000.m1.LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
-            Timer.global_basetime.seconds = reader.ReadInt32();
-            Timer.global_basetime.attoseconds = reader.ReadInt64();
+            EmuTimer.global_basetime.seconds = reader.ReadInt32();
+            EmuTimer.global_basetime.attoseconds = reader.ReadInt64();
             Video.LoadStateBinary(reader);
             Sound.last_update_second = reader.ReadInt32();
             Cpuexec.LoadStateBinary(reader);
-            Timer.LoadStateBinary(reader);
+            EmuTimer.LoadStateBinary(reader);
             OKI6295.LoadStateBinary(reader);
             YM3812.LoadStateBinary(reader);
             Sound.okistream.output_sampindex = reader.ReadInt32();

@@ -1,4 +1,4 @@
-﻿using mame;
+﻿using MAME.Core;
 
 namespace cpu.m6800
 {

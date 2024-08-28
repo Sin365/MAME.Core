@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace mame
+namespace MAME.Core
 {
     public partial class M92
     {
         public static byte irqvector;
         public static ushort sound_status;
         public static int bankaddress;
-        public static Timer.emu_timer scanline_timer;
+        public static EmuTimer.emu_timer scanline_timer;
         public static byte m92_irq_vectorbase;
         public static int m92_raster_irq_position;
         public static int m92_scanline_param;
@@ -218,7 +218,7 @@ namespace mame
             int i1, i2, n1, n2;
             byte[] bb1;
             Machine.bRom = true;
-            Timer.setvector = setvector_callback;
+            EmuTimer.setvector = setvector_callback;
             pf_master_control = new ushort[4];
             M92.pf_layer = new M92.pf_layer_info[3];
             for (i1 = 0; i1 < 3; i1++)
@@ -301,12 +301,12 @@ namespace mame
         {
             setvector_param = 0;
             setvector_callback();
-            scanline_timer = Timer.timer_alloc_common(m92_scanline_interrupt, "m92_scanline_interrupt", false);
+            scanline_timer = EmuTimer.timer_alloc_common(m92_scanline_interrupt, "m92_scanline_interrupt", false);
         }
         public static void machine_reset_m92()
         {
             m92_scanline_param = 0;
-            Timer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void m92_scanline_interrupt()
         {
@@ -326,7 +326,7 @@ namespace mame
                 scanline = 0;
             }
             m92_scanline_param = scanline;
-            Timer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, Video.video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
         }
         public static byte m92_eeprom_r(int offset)
         {
@@ -361,11 +361,11 @@ namespace mame
             List<vec> lsvec = new List<vec>();
             foreach (vec v1 in Cpuint.lvec)
             {
-                if (Attotime.attotime_compare(v1.time, Timer.global_basetime) < 0)
+                if (Attotime.attotime_compare(v1.time, EmuTimer.global_basetime) < 0)
                 {
                     lsvec.Add(v1);
                 }
-                else if (Attotime.attotime_compare(v1.time, Timer.global_basetime) == 0)
+                else if (Attotime.attotime_compare(v1.time, EmuTimer.global_basetime) == 0)
                 {
                     setvector_param = v1.vector;
                     lsvec.Add(v1);
@@ -413,10 +413,10 @@ namespace mame
         }
         public static void m92_soundlatch_w(ushort data)
         {
-            Cpuint.lvec.Add(new vec(3, Timer.get_current_time()));
+            Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
             setvector_param = 3;
-            Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-            Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             Sound.soundlatch_w((ushort)(data & 0xff));
         }
         public static ushort m92_sound_status_r()
@@ -429,10 +429,10 @@ namespace mame
         }
         public static void m92_sound_irq_ack_w()
         {
-            Cpuint.lvec.Add(new vec(4, Timer.get_current_time()));
+            Cpuint.lvec.Add(new vec(4, EmuTimer.get_current_time()));
             setvector_param = 4;
-            Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-            Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m92_sound_status_w(ushort data)
         {
@@ -443,17 +443,17 @@ namespace mame
         {
             if (state != 0)
             {
-                Cpuint.lvec.Add(new vec(1, Timer.get_current_time()));
+                Cpuint.lvec.Add(new vec(1, EmuTimer.get_current_time()));
                 setvector_param = 1;
-                Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-                Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
             else
             {
-                Cpuint.lvec.Add(new vec(2, Timer.get_current_time()));
+                Cpuint.lvec.Add(new vec(2, EmuTimer.get_current_time()));
                 setvector_param = 2;
-                Timer.emu_timer timer = Timer.timer_alloc_common(setvector_callback, "setvector_callback", true);
-                Timer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m92_sprite_interrupt()

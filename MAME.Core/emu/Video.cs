@@ -1,10 +1,9 @@
-﻿using MAME.Core.Motion;
-using MAME.Core.run_interface;
+﻿using MAME.Core;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace mame
+namespace MAME.Core
 {
     public struct screen_state
     {
@@ -28,8 +27,8 @@ namespace mame
         public static screen_state screenstate;
         public static int video_attributes;
         private static int PAUSED_REFRESH_RATE = 30, VIDEO_UPDATE_AFTER_VBLANK = 4;
-        public static Timer.emu_timer vblank_begin_timer, vblank_end_timer;
-        public static Timer.emu_timer scanline0_timer, scanline_timer;
+        public static EmuTimer.emu_timer vblank_begin_timer, vblank_end_timer;
+        public static EmuTimer.emu_timer scanline0_timer, scanline_timer;
         private static Atime throttle_emutime, throttle_realtime, speed_last_emutime, overall_emutime;
         private static long throttle_last_ticks;
         private static long average_oversleep;
@@ -652,11 +651,11 @@ namespace mame
 
 
 
-            vblank_begin_timer = Timer.timer_alloc_common(vblank_begin_callback, "vblank_begin_callback", false);
-            Timer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
-            scanline0_timer = Timer.timer_alloc_common(scanline0_callback, "scanline0_callback", false);
-            Timer.timer_adjust_periodic(scanline0_timer, video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
-            vblank_end_timer = Timer.timer_alloc_common(vblank_end_callback, "vblank_end_callback", false);
+            vblank_begin_timer = EmuTimer.timer_alloc_common(vblank_begin_callback, "vblank_begin_callback", false);
+            EmuTimer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
+            scanline0_timer = EmuTimer.timer_alloc_common(scanline0_callback, "scanline0_callback", false);
+            EmuTimer.timer_adjust_periodic(scanline0_timer, video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            vblank_end_timer = EmuTimer.timer_alloc_common(vblank_end_callback, "vblank_end_callback", false);
             switch (Machine.sBoard)
             {
                 case "CPS-1":
@@ -667,19 +666,19 @@ namespace mame
                     break;
                 case "CPS2":
                     Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 262);
-                    Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                     break;
                 case "Tehkan":
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 2);
-                    Cpuexec.cpu[1].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                     break;
                 case "Neo Geo":
                     break;
                 case "SunA8":
                     Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 0x100);
-                    Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                    Cpuexec.cpu[1].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger2, "trigger2", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger2, "trigger2", false);
                     break;
                 case "IGS011":
                     switch (Machine.sName)
@@ -694,27 +693,27 @@ namespace mame
                         case "drgnwrldv40k":
                         case "lhb2":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 5);
-                            Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
                         case "lhb":
                         case "lhbv33c":
                         case "dbc":
                         case "ryukobou":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                            Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
                     }
                     break;
                 case "M72":
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 128);
-                    Cpuexec.cpu[1].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                     break;
                 case "Taito":
                     switch (Machine.sName)
                     {
                         case "bub68705":
                             Cpuexec.cpu[3].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 2);
-                            Cpuexec.cpu[3].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[3].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
                     }
                     break;
@@ -723,7 +722,7 @@ namespace mame
                     {
                         case "cuebrick":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 10);
-                            Cpuexec.cpu[0].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
                     }
                     break;
@@ -742,7 +741,7 @@ namespace mame
                         case "makaimurg":
                         case "diamond":
                             Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                            Cpuexec.cpu[1].partial_frame_timer = Timer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
                             break;
                     }
                     break;
@@ -792,7 +791,7 @@ namespace mame
         }
         public static int video_screen_get_vpos()
         {
-            long delta = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(Timer.get_current_time(), screenstate.vblank_start_time));
+            long delta = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(EmuTimer.get_current_time(), screenstate.vblank_start_time));
             int vpos;
             delta += screenstate.pixeltime / 2;
             vpos = (int)(delta / screenstate.scantime);
@@ -800,11 +799,11 @@ namespace mame
         }
         public static bool video_screen_get_vblank()
         {
-            return (Attotime.attotime_compare(Timer.get_current_time(), screenstate.vblank_end_time) < 0);
+            return (Attotime.attotime_compare(EmuTimer.get_current_time(), screenstate.vblank_end_time) < 0);
         }
         public static Atime video_screen_get_time_until_pos(int vpos, int hpos)
         {
-            long curdelta = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(Timer.get_current_time(), screenstate.vblank_start_time));
+            long curdelta = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(EmuTimer.get_current_time(), screenstate.vblank_start_time));
             long targetdelta;
             vpos += screenstate.height - (screenstate.visarea.max_y + 1);
             vpos %= screenstate.height;
@@ -822,7 +821,7 @@ namespace mame
         public static Atime video_screen_get_time_until_vblank_end()
         {
             Atime ret;
-            Atime current_time = Timer.get_current_time();
+            Atime current_time = EmuTimer.get_current_time();
             if (video_screen_get_vblank())
             {
                 ret = Attotime.attotime_sub(screenstate.vblank_end_time, current_time);
@@ -843,21 +842,21 @@ namespace mame
         }
         public static void vblank_begin_callback()
         {
-            screenstate.vblank_start_time = Timer.global_basetime;// Timer.get_current_time();
+            screenstate.vblank_start_time = EmuTimer.global_basetime;// Timer.get_current_time();
             screenstate.vblank_end_time = Attotime.attotime_add_attoseconds(screenstate.vblank_start_time, screenstate.vblank_period);
             Cpuexec.on_vblank();
             if ((video_attributes & VIDEO_UPDATE_AFTER_VBLANK) == 0)
             {
                 video_frame_update();
             }
-            Timer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
             if (screenstate.vblank_period == 0)
             {
                 vblank_end_callback();
             }
             else
             {
-                Timer.timer_adjust_periodic(vblank_end_timer, video_screen_get_time_until_vblank_end(), Attotime.ATTOTIME_NEVER);
+                EmuTimer.timer_adjust_periodic(vblank_end_timer, video_screen_get_time_until_vblank_end(), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void vblank_end_callback()
@@ -871,7 +870,7 @@ namespace mame
         public static void scanline0_callback()
         {
             screenstate.last_partial_scan = 0;
-            Timer.timer_adjust_periodic(scanline0_timer, video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline0_timer, video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void scanline_update_callback()
         {
@@ -883,11 +882,11 @@ namespace mame
                 scanline = screenstate.visarea.min_y;
             }
             scanline_param = scanline;
-            Timer.timer_adjust_periodic(scanline_timer, video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
+            EmuTimer.timer_adjust_periodic(scanline_timer, video_screen_get_time_until_pos(scanline, 0), Attotime.ATTOTIME_NEVER);
         }
         public static void video_frame_update()
         {
-            Atime current_time = Timer.global_basetime;
+            Atime current_time = EmuTimer.global_basetime;
             if (!Mame.paused)
             {
                 finish_screen_updates();
