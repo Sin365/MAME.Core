@@ -1,4 +1,4 @@
-using MAME.Core.run_interface;
+using MAME.Core;
 using UnityEngine;
 
 public class UniLog : ILog

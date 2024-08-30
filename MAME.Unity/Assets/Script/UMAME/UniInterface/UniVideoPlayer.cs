@@ -1,7 +1,8 @@
-using MAME.Core.run_interface;
+using MAME.Core;
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 
 public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
 {
@@ -22,10 +23,12 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
 
     private TimeSpan lastElapsed;
     public double videoFPS { get; private set; }
+    public ulong mFrame { get; private set; }
     bool bInit = false;
 
     private void Awake()
     {
+        mFrame = 0;
         m_drawCanvas = GameObject.Find("GameRawImage").GetComponent<RawImage>();
         m_drawCanvasrect = m_drawCanvas.GetComponent<RectTransform>();
     }
@@ -66,12 +69,20 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
         m_rawBufferWarper.Apply();
     }
 
-    public void SubmitVideo(int[] data)
+    public void SubmitVideo(int[] data, long frame_number)
     {
+        mFrame = (ulong)frame_number;
         var current = UMAME.sw.Elapsed;
         var delta = current - lastElapsed;
         lastElapsed = current;
         videoFPS = 1d / delta.TotalSeconds;
         mFrameData = data;
+
+        //Debug.Log($"frame_number -> {frame_number}");
+    }
+
+    public byte[] GetScreenImg()
+    {
+        return (m_drawCanvas.texture as Texture2D).EncodeToJPG();
     }
 }

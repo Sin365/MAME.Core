@@ -1,4 +1,4 @@
-using MAME.Core.run_interface;
+using MAME.Core;
 using System;
 using UnityEngine;
 
@@ -71,35 +71,6 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
             _buffer.Write(left / 32767.0f);
             //_buffer.Write(right / 32767.0f);
         }
-        return;
-
-        float[] floatdata = ConvertByteArrayToFloatArray(buffer, samples_a, 2);
-        for (int i = 0; i < samples_a; i++)
-        {
-            _buffer.Write(floatdata[i]);
-        }
-    }
-
-    float[] floatArray = new float[960];
-    public float[] ConvertByteArrayToFloatArray(byte[] buffer, int samples_a, int channels)
-    {
-        //int sampleCount = buffer.Length / (channels * 2); // 16位，所以每个样本2字节  
-        
-
-        for (int i = 0; i < samples_a; i++)
-        {
-            // 读取左右声道  
-            //short left = BitConverter.ToInt16(buffer, i * channels * 2);
-            //short right = BitConverter.ToInt16(buffer, i * channels * 2 + 2);
-            // 转换为-1.0到1.0的浮点数  
-            //floatArray[i] = left / 32767.0f; // 32767是16位整数的最大值
-            //floatArray[i + 1] = right / 32767.0f;
-
-            short onedata = BitConverter.ToInt16(buffer, i * channels * 2);
-            floatArray[i] = onedata / 32767.0f;
-        }
-
-        return floatArray;
     }
 
     public void BufferWirte(int Off, byte[] Data)

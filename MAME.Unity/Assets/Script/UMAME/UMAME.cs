@@ -1,31 +1,39 @@
-using Assets.Script.UMAME.Common;
-using mame;
-using MAME.Core.Motion;
+using AxiReplay;
+using MAME.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class UMAME : MonoBehaviour
 {
-    MameMainMotion emu;
+    public static UMAME instance { get; private set; }
+    MAMEEmu emu;
     UniLog mUniLog;
     UniMouse mUniMouse;
-    UniVideoPlayer mUniVideoPlayer;
+    [HideInInspector]
+    public UniVideoPlayer mUniVideoPlayer;
     UniSoundPlayer mUniSoundPlayer;
     UniKeyboard mUniKeyboard;
     UniResources mUniResources;
     public Text mFPS;
     public Button btnStop;
     public Button btnStart;
+    public Button btnRePlay;
+    public Button btnRePayySave;
     public Button btnRomDir;
+    public Button btnSaveState;
+    public Button btnLoadState;
     public Dictionary<string, RomInfo> ALLGame;
     public List<RomInfo> HadGameList = new List<RomInfo>();
     string mChangeRomName = string.Empty;
     public bool bQuickTestRom = false;
     public string mQuickTestRom = string.Empty;
+    public ReplayWriter mReplayWriter;
+    public ReplayReader mReplayReader;
 
     Dropdown optionDropdown;
 
@@ -34,20 +42,27 @@ public class UMAME : MonoBehaviour
 
 
 #if UNITY_EDITOR_WIN
-    public static string RomPath => "G:\\MAME.NET.Rom";
+    public static string EmuDataPath => "G:/MAME.Core";
 #elif UNITY_ANDROID
-    public static string RomPath => Application.persistentDataPath;
+    public static string EmuDataPath => Application.persistentDataPath;
 #elif UNITY_PSP2
-	public static string RomPath => Application.dataPath;
+	public static string EmuDataPath => Application.dataPath;
 #else
-    public static string RomPath => Application.persistentDataPath;
+    public static string EmuDataPath => Application.persistentDataPath;
 #endif
+
+    public static string RomPath => EmuDataPath + "/roms/";
+    public static string SavePath => EmuDataPath + "/sav/";
 
     private void Awake()
     {
+        // 强制横屏
+        Screen.orientation = ScreenOrientation.LandscapeLeft;
+
+        instance = this;
         mFPS = GameObject.Find("FPS").GetComponent<Text>();
         optionDropdown = GameObject.Find("optionDropdown").GetComponent<Dropdown>();
-        emu = new MameMainMotion();
+        emu = new MAMEEmu();
         mUniLog = new UniLog();
         mUniMouse = this.gameObject.AddComponent<UniMouse>();
         mUniVideoPlayer = this.gameObject.AddComponent<UniVideoPlayer>();
@@ -56,7 +71,7 @@ public class UMAME : MonoBehaviour
         mUniResources = new UniResources();
         mChangeRomName = UniMAMESetting.instance.LastGameRom;
 
-        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard, mUniMouse);
+        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard.mKeyCodeCore, mUniMouse);
         ALLGame = emu.GetGameList();
 
         Debug.Log($"ALLGame:{ALLGame.Count}");
@@ -77,11 +92,21 @@ public class UMAME : MonoBehaviour
     void OnEnable()
     {
         btnStop.onClick.AddListener(StopGame);
-        btnStart.onClick.AddListener(LoadGame);
+        btnStart.onClick.AddListener(() => { LoadGame(false); });
+        btnRePlay.onClick.AddListener(() => { LoadGame(true); });
+        btnRePayySave.onClick.AddListener(() => SaveReplay());
+        btnSaveState.onClick.AddListener(SaveState);
+        btnLoadState.onClick.AddListener(LoadState);
     }
 
-    void LoadGame()
+    void OnDisable()
     {
+        StopGame();
+    }
+
+    void LoadGame(bool bReplay = false)
+    {
+        mReplayWriter = new ReplayWriter(mChangeRomName, "fuck", ReplayData.ReplayFormat.FM32IP64, Encoding.UTF8);
         mChangeRomName = HadGameList[optionDropdown.value].Name;
         UniMAMESetting.instance.LastGameRom = mChangeRomName;
         StopGame();
@@ -90,6 +115,13 @@ public class UMAME : MonoBehaviour
         //读取成功
         if (emu.bRom)
         {
+            if (bReplay)
+            {
+                string Path = SavePath + Machine.sName + ".rp";
+                mReplayReader = new ReplayReader(Path);
+                mUniKeyboard.mKeyCodeCore.SetRePlay(true);
+            }
+
             //读取ROM之后获得宽高初始化画面
             emu.GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr);
             Debug.Log($"_width->{_width}, _height->{_height}, _framePtr->{_framePtr}");
@@ -108,6 +140,26 @@ public class UMAME : MonoBehaviour
     private void Update()
     {
         mFPS.text = ($"fpsv {mUniVideoPlayer.videoFPS.ToString("F2")} fpsa {mUniSoundPlayer.audioFPS.ToString("F2")}");
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SaveReplay();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F2))
+        {
+            string Path = SavePath  + Machine.sName + ".rp";
+            string dbgPath = SavePath  + Machine.sName + ".rpread";
+            mReplayReader = new ReplayReader(Path, true, dbgPath);
+            mUniKeyboard.mKeyCodeCore.Init(mUniKeyboard, true);
+        }
+    }
+
+    void SaveReplay()
+    {
+        string Path = SavePath + Machine.sName + ".rp";
+        string dbgPath = SavePath  + Machine.sName + ".rpwrite";
+        mReplayWriter.SaveData(Path, true, dbgPath);
     }
 
     void StopGame()
@@ -126,14 +178,14 @@ public class UMAME : MonoBehaviour
         HadGameList.Clear();
         optionDropdown.options.Clear();
 
-        Debug.Log($"GetHadRomList:{RomPath + "/roms/"}");
-        string[] directoryEntries = Directory.GetDirectories(RomPath + "/roms/");
+        Debug.Log($"GetHadRomList:{RomPath}");
+        string[] directoryEntries = Directory.GetDirectories(RomPath);
         for (int i = 0; i < directoryEntries.Length; i++)
         {
             string path = directoryEntries[i];
             string dirName = Path.GetFileName(path);
             if (ALLGame.ContainsKey(dirName))
-            { 
+            {
                 HadGameList.Add(ALLGame[dirName]);
                 optionDropdown.options.Add(new Dropdown.OptionData(dirName));
             }
@@ -155,5 +207,38 @@ public class UMAME : MonoBehaviour
     void OpenFolderRomPath()
     {
         System.Diagnostics.Process.Start("explorer.exe", "/select," + RomPath);
+    }
+
+    void SaveState()
+    {
+        if (!Directory.Exists(SavePath))
+            Directory.CreateDirectory(SavePath);
+
+        FileStream fs = new FileStream(SavePath + Machine.sName + ".sta", FileMode.Create);
+        BinaryWriter bw = new BinaryWriter(fs);
+        emu.SaveState(bw);
+        bw.Close();
+        fs.Close();
+
+        byte[] screenData = UMAME.instance.mUniVideoPlayer.GetScreenImg();
+
+        FileStream fsImg = new FileStream(SavePath + Machine.sName + ".jpg", FileMode.Create);
+        fsImg.Write(screenData, 0, screenData.Length);
+        fsImg.Close();
+    }
+    void LoadState()
+    {
+        string Path = SavePath + Machine.sName + ".sta";
+        if (!File.Exists(Path))
+        {
+            Debug.Log($"文件不存在{Path}");
+            return;
+        }
+
+        FileStream fs = new FileStream(Path, FileMode.Open, FileAccess.Read);
+        BinaryReader br = new BinaryReader(fs);
+        emu.LoadState(br);
+        br.Close();
+        fs.Close();
     }
 }

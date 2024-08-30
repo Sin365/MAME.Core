@@ -1,11 +1,11 @@
-using MAME.Core.run_interface;
+using MAME.Core;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UILongClickButton : Button
 {
     public bool bHotKey { get; private set; } = false;
-    public MotionKey[] Key;
+    public long[] Key;
     protected override void OnEnable()
     {
         base.OnEnable();
