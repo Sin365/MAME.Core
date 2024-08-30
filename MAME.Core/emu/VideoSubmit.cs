@@ -165,7 +165,7 @@ namespace MAME.Core
                 //Machine.mainMotion.pictureBox1.Image = bbmp[iMode];
 
                 //AxiBitmapEx.CloneIntColorArr(Video.bitmapcolor,Video.bitmapcolorRect, Video.fullwidth, Video.fullheight, new Rectangle(offsetx, offsety, width, height));
-                SubmitVideo(Video.bitmapcolorRect);
+                SubmitVideo(Video.bitmapcolorRect, Video.screenstate.frame_number);
                 //SubmitVideo(Video.bitmapcolor);
             }
             catch (Exception ex)

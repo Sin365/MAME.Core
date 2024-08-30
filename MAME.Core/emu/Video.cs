@@ -72,7 +72,7 @@ namespace MAME.Core
 
 
         #region 抽象出去
-        static Action<int[]> Act_SubmitVideo;
+        static Action<int[],long> Act_SubmitVideo;
 
         public static void BindFunc(IVideoPlayer Ivp)
         {
@@ -81,9 +81,9 @@ namespace MAME.Core
             Act_SubmitVideo += Ivp.SubmitVideo;
         }
 
-        static void SubmitVideo(int[] Bitmap)
+        static void SubmitVideo(int[] Bitmap, long frame_number)
         {
-            Act_SubmitVideo.Invoke(Bitmap);
+            Act_SubmitVideo.Invoke(Bitmap, frame_number);
         }
         #endregion
 
