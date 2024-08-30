@@ -12,6 +12,24 @@ MAME.Core 接口化的核心。算一个真正的泛用型.Net/mono 任意生态
 
 自己开发联机功能。
 
+此外，我自己也开发了Relpay功能，用于随时保存和回看之前的游玩回放。
+
+基于我自己的AxiRelpay
+
+[AxiReplay-Github](https://github.com/Sin365/AxiReplay "AxiReplay-Github")
+
+## MAME.Unity 项目说明
+
+是基于MAME.Core，在Unity中的实现，
+
+如上所说，加上对色彩通道和精度的合理对齐，视频非常高效的显示。音频也处理得较为完备。
+
+PC和Android，已经就比较好的实现。
+
+目前有一个简易的游戏选择器，Android制作了虚拟按键。
+
+下一步是接入PSV，PS3等游戏机，往跨平台联机靠拢。
+
 ## MAME.Core 项目说明
 
 原项目将MAME C++翻译为C#的一个Windows下的WinForm项目，
@@ -45,18 +63,6 @@ MAME.Core中，通过计算的方式，仅处理显示区域的颜色。
 即，模拟器核心中的颜色缓冲的指针引用直接提交给外部GPU DrawCall，如Unity接入可以用于直接映射Texture
 
 **效率极佳**，没有新的内存对象，无GC。
-
-## MAME.Unity 项目说明
-
-是基于MAME.Core，在Unity中的实现，
-
-如上所说，加上对色彩通道和精度的合理对齐，视频非常高效的显示。音频也处理得较为完备。
-
-PC和Android，已经就比较好的实现。
-
-目前有一个简易的游戏选择器，Android制作了虚拟按键。
-
-下一步是接入PSV，PS3等游戏机，往跨平台联机靠拢。
 
 ## References
 
