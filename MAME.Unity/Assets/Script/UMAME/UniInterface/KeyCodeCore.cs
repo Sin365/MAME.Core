@@ -1,9 +1,7 @@
-﻿using AxiReplay;
-using MAME.Core;
+﻿using MAME.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public class KeyCodeCore : IKeyboard

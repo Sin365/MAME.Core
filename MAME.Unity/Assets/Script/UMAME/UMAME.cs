@@ -46,7 +46,7 @@ public class UMAME : MonoBehaviour
 #elif UNITY_ANDROID
     public static string EmuDataPath => Application.persistentDataPath;
 #elif UNITY_PSP2
-	public static string EmuDataPath => Application.dataPath;
+	public static string EmuDataPath => "ux0:data/MAME.Unity";
 #else
     public static string EmuDataPath => Application.persistentDataPath;
 #endif
