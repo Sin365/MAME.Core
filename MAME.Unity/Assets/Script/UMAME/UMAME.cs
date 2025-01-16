@@ -75,7 +75,7 @@ public class UMAME : MonoBehaviour
         mChangeRomName = UniMAMESetting.instance.LastGameRom;
         mTimeSpan = new UniTimeSpan();
 
-        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard.mKeyCodeCore, mUniMouse, mTimeSpan);
+        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard, mUniMouse, mTimeSpan);
         ALLGame = emu.GetGameList();
 
         Debug.Log($"ALLGame:{ALLGame.Count}");
@@ -125,7 +125,7 @@ public class UMAME : MonoBehaviour
             {
                 string Path = SavePath + Machine.sName + ".rp";
                 mReplayReader = new ReplayReader(Path);
-                mUniKeyboard.mKeyCodeCore.SetRePlay(true);
+                mUniKeyboard.SetRePlay(true);
             }
 
             //读取ROM之后获得宽高初始化画面
@@ -168,7 +168,7 @@ public class UMAME : MonoBehaviour
             string Path = SavePath  + Machine.sName + ".rp";
             string dbgPath = SavePath  + Machine.sName + ".rpread";
             mReplayReader = new ReplayReader(Path, true, dbgPath);
-            mUniKeyboard.mKeyCodeCore.Init(mUniKeyboard, true);
+            mUniKeyboard.Init(true);
         }
     }
 

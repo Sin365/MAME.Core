@@ -82,6 +82,7 @@ namespace AxiReplay
 
         void UpdateNextFrame(int targetFrame)
         {
+            int LastNextFrameStartID = nextStep.FrameStartID;
             //如果已经超过
             while (targetFrame >= nextStep.FrameStartID)
             {
@@ -116,6 +117,12 @@ namespace AxiReplay
                         break;
                 }
                 dbgList.Add($"{nextStep.FrameStartID} | {nextStep.InPut}");
+
+                //如果这次的NextStep1只推进了1帧，则跳过，交给下一帧判断
+                if (nextStep.FrameStartID - LastNextFrameStartID == 1)
+                {
+                    break;
+                }
 
                 targetFrame++;
             }
@@ -159,10 +166,12 @@ namespace AxiReplay
         /// </summary>
         public bool NextFramebyFrameIdx(int FrameID, out ReplayStep data)
         {
-            if (FrameID - lastTest != 1)
-            {
-            }
             lastTest = FrameID;
+
+            if (FrameID == 3360)
+            {
+
+            }
             bool res = TakeFrame(FrameID - byFrameIdx, out data);
             byFrameIdx = FrameID;
             return res;

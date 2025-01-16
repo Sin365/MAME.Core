@@ -20,7 +20,8 @@ namespace MAME.Core
         }
         public static PlayState playState;
         public static bool is_foreground;
-        public static bool paused, exit_pending;
+        public static bool paused;
+        public static bool exit_pending;
         public static EmuTimer.emu_timer soft_reset_timer;
         public static BinaryReader brRecord = null;
         public static BinaryWriter bwRecord = null;
@@ -57,7 +58,8 @@ namespace MAME.Core
                 }
                 else
                 {
-                    Video.video_frame_update();
+                    //TODO 暂停时，不应该更新画面帧
+                    //Video.video_frame_update();
                 }
                 /*if (bPP)
                 {
