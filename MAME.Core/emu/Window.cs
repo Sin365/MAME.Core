@@ -6,9 +6,14 @@
         //[DllImport("kernel32.dll ")]
         //private static extern uint GetTickCount();
 
+        /// <summary>
+        /// 操作系统启动以来的毫秒数
+        /// </summary>
+        /// <returns></returns>
         private static uint GetTickCount()
         {
-            return (uint)Wintime._stopwatch.ElapsedMilliseconds;
+            //return (uint)Wintime._stopwatch.ElapsedMilliseconds;
+            return AxiTimeSpan.itime.GetTickCount();
         }
 
         public static bool input_enabled, input_paused, mouse_enabled, lightgun_enabled;

@@ -902,10 +902,14 @@ namespace MAME.Core
                 Machine.mainMotion.cheatmotion.ApplyCheat();
             }
             GDIDraw();
+
             if (effective_throttle())
             {
-                update_throttle(current_time);
+                //不执行该函数，避免Thread.Sleep （暂时确认无逻辑依赖）
+                //废弃
+                //update_throttle(current_time);
             }
+
             Window.osd_update(false);
             //UI.ui_input_frame_update();
             recompute_speed(current_time);
@@ -923,84 +927,86 @@ namespace MAME.Core
             video_screen_update_partial(screenstate.visarea.max_y);
             curbitmap = 1 - curbitmap;
         }
-        private static void update_throttle(Atime emutime)
-        {
-            long real_delta_attoseconds;
-            long emu_delta_attoseconds;
-            long real_is_ahead_attoseconds;
-            long attoseconds_per_tick;
-            long ticks_per_second;
-            long target_ticks;
-            long diff_ticks;
-            ticks_per_second = Wintime.ticks_per_second;
-            attoseconds_per_tick = Attotime.ATTOSECONDS_PER_SECOND / ticks_per_second;
-            if (Mame.mame_is_paused())
-            {
-                throttle_emutime = Attotime.attotime_sub_attoseconds(emutime, Attotime.ATTOSECONDS_PER_SECOND / PAUSED_REFRESH_RATE);
-                throttle_realtime = throttle_emutime;
-            }
-            emu_delta_attoseconds = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(emutime, throttle_emutime));
-            if (emu_delta_attoseconds < 0 || emu_delta_attoseconds > Attotime.ATTOSECONDS_PER_SECOND / 10)
-            {
-                goto resync;
-            }
-            diff_ticks = Wintime.osd_ticks() - throttle_last_ticks;
-            throttle_last_ticks += diff_ticks;
-            if (diff_ticks >= ticks_per_second)
-            {
-                goto resync;
-            }
-            real_delta_attoseconds = diff_ticks * attoseconds_per_tick;
-            throttle_emutime = emutime;
-            throttle_realtime = Attotime.attotime_add_attoseconds(throttle_realtime, real_delta_attoseconds);
-            throttle_history = (throttle_history << 1) | Convert.ToUInt32(emu_delta_attoseconds > real_delta_attoseconds);
-            real_is_ahead_attoseconds = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(throttle_emutime, throttle_realtime));
-            if ((real_is_ahead_attoseconds < -Attotime.ATTOSECONDS_PER_SECOND / 10) || (real_is_ahead_attoseconds < 0 && popcount[throttle_history & 0xff] < 6))
-            {
-                goto resync;
-            }
-            if (real_is_ahead_attoseconds < 0)
-            {
-                return;
-            }
-            target_ticks = throttle_last_ticks + real_is_ahead_attoseconds / attoseconds_per_tick;
-            diff_ticks = throttle_until_ticks(target_ticks) - throttle_last_ticks;
-            throttle_last_ticks += diff_ticks;
-            throttle_realtime = Attotime.attotime_add_attoseconds(throttle_realtime, diff_ticks * attoseconds_per_tick);
-            return;
-        resync:
-            throttle_realtime = throttle_emutime = emutime;
-        }
-        private static long throttle_until_ticks(long target_ticks)
-        {
-            long minimum_sleep = Wintime.ticks_per_second / 1000;
-            long current_ticks = Wintime.osd_ticks();
-            long new_ticks;
-            while (current_ticks < target_ticks)
-            {
-                long delta;
-                bool slept = false;
-                delta = (target_ticks - current_ticks) * 1000 / (1000 + average_oversleep);
-                if (delta >= minimum_sleep)
-                {
-                    Wintime.osd_sleep(delta);
-                    slept = true;
-                }
-                new_ticks = Wintime.osd_ticks();
-                if (slept)
-                {
-                    long actual_ticks = new_ticks - current_ticks;
-                    if (actual_ticks > delta)
-                    {
-                        long oversleep_milliticks = 1000 * (actual_ticks - delta) / delta;
-                        average_oversleep = (average_oversleep * 99 + oversleep_milliticks) / 100;
+        //废弃
+        //private static void update_throttle(Atime emutime)
+        //{
+        //    long real_delta_attoseconds;
+        //    long emu_delta_attoseconds;
+        //    long real_is_ahead_attoseconds;
+        //    long attoseconds_per_tick;
+        //    long ticks_per_second;
+        //    long target_ticks;
+        //    long diff_ticks;
+        //    ticks_per_second = Wintime.ticks_per_second;
+        //    attoseconds_per_tick = Attotime.ATTOSECONDS_PER_SECOND / ticks_per_second;
+        //    if (Mame.mame_is_paused())
+        //    {
+        //        throttle_emutime = Attotime.attotime_sub_attoseconds(emutime, Attotime.ATTOSECONDS_PER_SECOND / PAUSED_REFRESH_RATE);
+        //        throttle_realtime = throttle_emutime;
+        //    }
+        //    emu_delta_attoseconds = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(emutime, throttle_emutime));
+        //    if (emu_delta_attoseconds < 0 || emu_delta_attoseconds > Attotime.ATTOSECONDS_PER_SECOND / 10)
+        //    {
+        //        goto resync;
+        //    }
+        //    diff_ticks = Wintime.osd_ticks() - throttle_last_ticks;
+        //    throttle_last_ticks += diff_ticks;
+        //    if (diff_ticks >= ticks_per_second)
+        //    {
+        //        goto resync;
+        //    }
+        //    real_delta_attoseconds = diff_ticks * attoseconds_per_tick;
+        //    throttle_emutime = emutime;
+        //    throttle_realtime = Attotime.attotime_add_attoseconds(throttle_realtime, real_delta_attoseconds);
+        //    throttle_history = (throttle_history << 1) | Convert.ToUInt32(emu_delta_attoseconds > real_delta_attoseconds);
+        //    real_is_ahead_attoseconds = Attotime.attotime_to_attoseconds(Attotime.attotime_sub(throttle_emutime, throttle_realtime));
+        //    if ((real_is_ahead_attoseconds < -Attotime.ATTOSECONDS_PER_SECOND / 10) || (real_is_ahead_attoseconds < 0 && popcount[throttle_history & 0xff] < 6))
+        //    {
+        //        goto resync;
+        //    }
+        //    if (real_is_ahead_attoseconds < 0)
+        //    {
+        //        return;
+        //    }
+        //    target_ticks = throttle_last_ticks + real_is_ahead_attoseconds / attoseconds_per_tick;
+        //    diff_ticks = throttle_until_ticks(target_ticks) - throttle_last_ticks;
+        //    throttle_last_ticks += diff_ticks;
+        //    throttle_realtime = Attotime.attotime_add_attoseconds(throttle_realtime, diff_ticks * attoseconds_per_tick);
+        //    return;
+        //resync:
+        //    throttle_realtime = throttle_emutime = emutime;
+        //}
+        //废弃
+        //private static long throttle_until_ticks(long target_ticks)
+        //{
+        //    long minimum_sleep = Wintime.ticks_per_second / 1000;
+        //    long current_ticks = Wintime.osd_ticks();
+        //    long new_ticks;
+        //    while (current_ticks < target_ticks)
+        //    {
+        //        long delta;
+        //        bool slept = false;
+        //        delta = (target_ticks - current_ticks) * 1000 / (1000 + average_oversleep);
+        //        if (delta >= minimum_sleep)
+        //        {
+        //            Wintime.osd_sleep(delta);
+        //            slept = true;
+        //        }
+        //        new_ticks = Wintime.osd_ticks();
+        //        if (slept)
+        //        {
+        //            long actual_ticks = new_ticks - current_ticks;
+        //            if (actual_ticks > delta)
+        //            {
+        //                long oversleep_milliticks = 1000 * (actual_ticks - delta) / delta;
+        //                average_oversleep = (average_oversleep * 99 + oversleep_milliticks) / 100;
 
-                    }
-                }
-                current_ticks = new_ticks;
-            }
-            return current_ticks;
-        }
+        //            }
+        //        }
+        //        current_ticks = new_ticks;
+        //    }
+        //    return current_ticks;
+        //}
         private static void recompute_speed(Atime emutime)
         {
             long delta_emutime;

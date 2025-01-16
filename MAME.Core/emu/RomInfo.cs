@@ -21,14 +21,18 @@ namespace MAME.Core
         }
         public static RomInfo GetRomByName(string s1)
         {
-            foreach (RomInfo ri in romList)
-            {
-                if (s1 == ri.Name)
-                {
-                    return ri;
-                }
-            }
-            return null;
+            if (!dictName2Rom.TryGetValue(s1, out RomInfo info))
+                return null;
+            return info;
+
+            //foreach (RomInfo ri in romList)
+            //{
+            //    if (s1 == ri.Name)
+            //    {
+            //        return ri;
+            //    }
+            //}
+            //return null;
         }
         public static string GetParent(string s1)
         {

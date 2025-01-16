@@ -1,9 +1,6 @@
-﻿using MAME.Core;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
-using System.Xml.Linq;
 
 namespace MAME.Core
 {
@@ -18,7 +15,10 @@ namespace MAME.Core
         public NeogeoMotion neogeomotion;
         public Konami68000Motion konami68000motion;
         public string sSelect;
-        public static Thread mainThread;
+        //public static Thread mainThread;
+
+        //初始化停帧信号量
+        //public AutoResetEvent emuAutoLoopEvent;
 
         public static IResources resource;
         public bool bRom => Machine.bRom;
@@ -41,7 +41,8 @@ namespace MAME.Core
             IVideoPlayer ivp,
             ISoundPlayer isp,
             IKeyboard ikb,
-            IMouse imou
+            IMouse imou,
+            ITimeSpan itime
             )
         {
             Mame.RomRoot = RomDir;
@@ -53,17 +54,12 @@ namespace MAME.Core
             sSelect = string.Empty;
 
             RomInfo.Rom = new RomInfo();
-            LoadROMXML();
+            MAMEDBHelper.LoadROMXML(resource.mame);
             Keyboard.InitializeInput(ikb);
             Mouse.InitialMouse(imou);
+            AxiTimeSpan.Init(itime);
         }
 
-        private void LoadROMXML()
-        {
-            XElement xe = XElement.Parse(resource.mame);
-            IEnumerable<XElement> elements = from ele in xe.Elements("game") select ele;
-            showInfoByElements(elements);
-        }
 
         public Dictionary<string, RomInfo> GetGameList()
         {
@@ -80,25 +76,6 @@ namespace MAME.Core
             _framePtr = Video.bitmapcolorRect_Ptr;
         }
 
-        private void showInfoByElements(IEnumerable<XElement> elements)
-        {
-            RomInfo.romList = new List<RomInfo>();
-            RomInfo.dictName2Rom = new Dictionary<string, RomInfo>();
-            foreach (var ele in elements)
-            {
-                RomInfo rom = new RomInfo();
-                rom.Name = ele.Attribute("name").Value;
-                rom.Board = ele.Attribute("board").Value;
-                rom.Parent = ele.Element("parent").Value;
-                rom.Direction = ele.Element("direction").Value;
-                rom.Description = ele.Element("description").Value;
-                rom.Year = ele.Element("year").Value;
-                rom.Manufacturer = ele.Element("manufacturer").Value;
-                RomInfo.romList.Add(rom);
-                RomInfo.dictName2Rom[rom.Name] = rom;
-                //loadform.listView1.Items.Add(new ListViewItem(new string[] { rom.Description, rom.Year, rom.Name, rom.Parent, rom.Direction, rom.Manufacturer, rom.Board }));
-            }
-        }
 
         public void LoadRom(string Name)
         {
@@ -229,8 +206,55 @@ namespace MAME.Core
             M68000Motion.iStatus = 0;
             M68000Motion.iValue = 0;
             Mame.exit_pending = false;
-            mainThread = new Thread(Mame.mame_execute);
-            mainThread.Start();
+
+            //初始化停帧信号量
+            //emuAutoLoopEvent = new AutoResetEvent(false);
+
+            //mainThread = new Thread(Mame.mame_execute);
+            //mainThread.Start();
+
+            Mame.mame_execute_UpdateMode_Start();
+        }
+
+
+        public static object unlockMoreFrameObj = new object();
+        public static int unlockMoreFrame;
+        /// <summary>
+        /// 放开帧
+        /// </summary>
+        /// <param name="moveTick"></param>
+        public void UnlockNextFreme(int moreTick = 1)
+        {
+            //emuAutoLoopEvent.Set();
+
+            //TODO 等待跳帧时测试
+            if (moreTick > 1)
+            {
+                lock (unlockMoreFrameObj)
+                {
+                    unlockMoreFrame += moreTick;
+                }
+            }
+        }
+
+        /// <summary>
+        /// 等待放行帧
+        /// </summary>
+        public void WaitNextFrame()
+        {
+            //TODO 等待跳帧时测试
+            lock (unlockMoreFrameObj)
+            {
+                if (unlockMoreFrame > 0)
+                { 
+                    unlockMoreFrame--;
+                    //还有记数，则直接放行
+                    return;
+                }
+            }
+
+            //等待停帧数
+            //Machine.mainMotion.emuAutoLoopEvent.WaitOne();
         }
 
         public void StopGame()

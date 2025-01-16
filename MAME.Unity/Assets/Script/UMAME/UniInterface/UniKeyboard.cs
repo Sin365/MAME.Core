@@ -235,6 +235,8 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     {
         public MotionKey[] mCurrKey = new MotionKey[0];
         MotionKey[] ReplayCheckKey;
+        ulong currInputData;
+        List<MotionKey> temp = new List<MotionKey>();
 
         public ReplayMode()
         {
@@ -243,7 +245,6 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
 
         public MotionKey[] GetPressedKeys(out ulong InputData)
         {
-            List<MotionKey> temp = new List<MotionKey>();
             //有变化
             //if (UMAME.instance.mReplayReader.NextFrame(out AxiReplay.ReplayStep stepData))
             int targetFrame = (int)UMAME.instance.mUniVideoPlayer.mFrame;
@@ -258,19 +259,41 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
             //    }
             //    mCurrKey = temp.ToArray();
             //}
+            AxiReplay.ReplayStep stepData;
 
-            UMAME.instance.mReplayReader.NextFramebyFrameIdx(targetFrame, out AxiReplay.ReplayStep stepData);
-            temp.Clear();
+            if (UMAME.instance.mReplayReader.NextFramebyFrameIdx(targetFrame, out stepData))
+            {
+                temp.Clear();
+                //List<MotionKey> temp = new List<MotionKey>();
+                //temp.Clear();
+                ////有数据
+                //for (int i = 0; i < ReplayCheckKey.Length; i++)
+                //{
+                //    if ((stepData.InPut & (ulong)ReplayCheckKey[i]) > 0)
+                //        temp.Add(ReplayCheckKey[i]);
+                //}
+                //mCurrKey = temp.ToArray();
+                foreach (MotionKey key in GetStepDataToMotionKey(stepData))
+                {
+                    temp.Add(key);
+                }
+                mCurrKey = temp.ToArray();
+                currInputData = stepData.InPut;
+            }
+            InputData = currInputData;
+            return mCurrKey;
+        }
+
+        IEnumerable<MotionKey> GetStepDataToMotionKey(AxiReplay.ReplayStep stepData)
+        {
             //有数据
             for (int i = 0; i < ReplayCheckKey.Length; i++)
             {
                 if ((stepData.InPut & (ulong)ReplayCheckKey[i]) > 0)
-                    temp.Add(ReplayCheckKey[i]);
+                    yield return ReplayCheckKey[i];
             }
-            mCurrKey = temp.ToArray();
-            InputData = stepData.InPut;
-            return mCurrKey;
         }
+
     }
     #endregion
 }

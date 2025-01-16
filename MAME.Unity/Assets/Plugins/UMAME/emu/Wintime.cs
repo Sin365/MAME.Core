@@ -41,15 +41,19 @@ namespace MAME.Core
             QueryPerformanceCounter(ref a);
             return a;
         }
-        public static void osd_sleep(long duration)
-        {
-            int msec;
-            msec = (int)(duration * 1000 / ticks_per_second);
-            if (msec >= 2)
-            {
-                msec -= 2;
-                Thread.Sleep(msec);
-            }
-        }
+
+        //废弃
+        //public static void osd_sleep(long duration)
+        //{
+        //    int msec;
+        //    msec = (int)(duration * 1000 / ticks_per_second);
+        //    if (msec >= 2)
+        //    {
+        //        msec -= 2;
+        //        throw new System.NotImplementedException();
+        //        //TODO 是否该暂停
+        //        Thread.Sleep(msec);
+        //    }
+        //}
     }
 }

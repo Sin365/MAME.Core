@@ -12,7 +12,7 @@ using UnityEngine.UI;
 public class UMAME : MonoBehaviour
 {
     public static UMAME instance { get; private set; }
-    MAMEEmu emu;
+    public MAMEEmu emu { get; private set; }
     UniLog mUniLog;
     UniMouse mUniMouse;
     [HideInInspector]
@@ -129,7 +129,8 @@ public class UMAME : MonoBehaviour
             }
 
             //读取ROM之后获得宽高初始化画面
-            emu.GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr);
+            int _width; int _height; IntPtr _framePtr;
+            emu.GetGameScreenSize(out _width, out _height, out _framePtr);
             Debug.Log($"_width->{_width}, _height->{_height}, _framePtr->{_framePtr}");
             mUniVideoPlayer.Initialize(_width, _height, _framePtr);
             //初始化音频

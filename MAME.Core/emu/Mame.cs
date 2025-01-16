@@ -20,7 +20,8 @@ namespace MAME.Core
         }
         public static PlayState playState;
         public static bool is_foreground;
-        public static bool paused, exit_pending;
+        public static bool paused;
+        public static bool exit_pending;
         public static EmuTimer.emu_timer soft_reset_timer;
         public static BinaryReader brRecord = null;
         public static BinaryWriter bwRecord = null;
@@ -42,6 +43,7 @@ namespace MAME.Core
             new AA(13955,"3")
         };
         private static FileStream fsRecord = null;
+
         public static void mame_execute()
         {
             soft_reset();
@@ -56,7 +58,8 @@ namespace MAME.Core
                 }
                 else
                 {
-                    Video.video_frame_update();
+                    //TODO 暂停时，不应该更新画面帧
+                    //Video.video_frame_update();
                 }
                 /*if (bPP)
                 {
@@ -84,6 +87,37 @@ namespace MAME.Core
             }
         }
 
+        #region
+
+        public static void mame_execute_UpdateMode_Start()
+        {
+            soft_reset();
+            //mame_pause(true);
+            //开始不暂停
+            mame_pause(false);
+        }
+
+        public static void mame_execute_UpdateMode_NextFrame()
+        {
+            if (exit_pending)
+                return;
+
+            long lastframe = Video.screenstate.frame_number;
+            //执行CPU命令，直到一次画面更新
+            while (lastframe == Video.screenstate.frame_number)
+            {
+                if (!paused)
+                {
+                    Cpuexec.cpuexec_timeslice();
+                }
+                else
+                {
+                    Video.video_frame_update();
+                }
+                handlestate();
+            }
+        }
+        #endregion
 
         public static void mame_schedule_soft_reset()
         {

@@ -44,7 +44,8 @@ public class UniSoundPlayer : MonoBehaviour, ISoundPlayer
         for (int i = 0; i < data.Length; i += step)
         {
             float rawFloat = lastData;
-            if (_buffer.TryRead(out float rawData))
+            float rawData;
+            if (_buffer.TryRead(out rawData))
             { 
                 rawFloat = rawData;
             }

@@ -1,5 +1,4 @@
-﻿using MAME.Core;
-using System;
+﻿using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -845,6 +844,7 @@ namespace MAME.Core
             screenstate.vblank_start_time = EmuTimer.global_basetime;// Timer.get_current_time();
             screenstate.vblank_end_time = Attotime.attotime_add_attoseconds(screenstate.vblank_start_time, screenstate.vblank_period);
             Cpuexec.on_vblank();
+            //垂直同步
             if ((video_attributes & VIDEO_UPDATE_AFTER_VBLANK) == 0)
             {
                 video_frame_update();
@@ -862,6 +862,7 @@ namespace MAME.Core
         public static void vblank_end_callback()
         {
             int i;
+            //垂直同步
             if ((video_attributes & VIDEO_UPDATE_AFTER_VBLANK) != 0)
             {
                 video_frame_update();
@@ -900,6 +901,9 @@ namespace MAME.Core
                 Machine.mainMotion.cheatmotion.ApplyCheat();
             }
             GDIDraw();
+            
+            return;
+
             if (effective_throttle())
             {
                 update_throttle(current_time);

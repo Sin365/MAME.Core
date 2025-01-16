@@ -7,7 +7,7 @@ namespace MAME.Core
 {
     public class MAMEEmu : IDisposable
     {
-        MameMainMotion mameMainMotion;
+        public MameMainMotion mameMainMotion { get; private set; }
         //byte[] mGameTileData;
         //byte[] mtileListData;
         public MAMEEmu()

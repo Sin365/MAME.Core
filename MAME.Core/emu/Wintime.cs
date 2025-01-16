@@ -11,19 +11,19 @@ namespace MAME.Core
         //private static extern bool QueryPerformanceFrequency(ref long PerformanceFrequency);
 
         #region 跨平台等效实现
-        public static Stopwatch _stopwatch = Stopwatch.StartNew();
-        private static long _lastReportedCount = 0;
+        //public static Stopwatch _stopwatch = Stopwatch.StartNew();
+        //private static long _lastReportedCount = 0;
 
         public static bool QueryPerformanceCounter(ref long lpPerformanceCount)
         {
-            lpPerformanceCount = _stopwatch.ElapsedTicks;
-            return true;
+            //lpPerformanceCount = _stopwatch.ElapsedTicks;
+            return AxiTimeSpan.itime.QueryPerformanceCounter(ref lpPerformanceCount);
         }
 
         public static bool QueryPerformanceFrequency(ref long PerformanceFrequency)
         {
-            PerformanceFrequency = Stopwatch.Frequency;
-            return true;
+            //PerformanceFrequency = Stopwatch.Frequency;
+            return AxiTimeSpan.itime.QueryPerformanceFrequency(ref PerformanceFrequency);
         }
         #endregion
 
@@ -48,6 +48,7 @@ namespace MAME.Core
             if (msec >= 2)
             {
                 msec -= 2;
+                //TODO 是否该暂停
                 Thread.Sleep(msec);
             }
         }

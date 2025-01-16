@@ -7,8 +7,7 @@ namespace MAME.Core
 {
     public class MAMEEmu : IDisposable
     {
-        MameMainMotion mameMainMotion;
-
+        public MameMainMotion mameMainMotion { get; private set; }
         //byte[] mGameTileData;
         //byte[] mtileListData;
         public MAMEEmu()
@@ -25,13 +24,18 @@ namespace MAME.Core
             IVideoPlayer ivp,
             ISoundPlayer isp,
             IKeyboard ikb,
-            IMouse imou
-            ) => mameMainMotion.Init(RomDir, ilog, iRes, ivp, isp, ikb, imou);
+            IMouse imou,
+            ITimeSpan itime
+            ) => mameMainMotion.Init(RomDir, ilog, iRes, ivp, isp, ikb, imou, itime);
+
         public Dictionary<string, RomInfo> GetGameList() => mameMainMotion.GetGameList();
         public void LoadRom(string Name) => mameMainMotion.LoadRom(Name);
         public void GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr) => mameMainMotion.GetGameScreenSize(out _width, out _height, out _framePtr);
         public void StartGame() => mameMainMotion.StartGame();
+        public void UpdateFrame() => Mame.mame_execute_UpdateMode_NextFrame();
+        public void UnlockNextFreme(int moreTick = 1) => mameMainMotion.UnlockNextFreme(moreTick);
         public void StopGame() => mameMainMotion.StopGame();
+        public long currEmuFrame => Video.screenstate.frame_number;
 
         public void LoadState(BinaryReader sr)
         {

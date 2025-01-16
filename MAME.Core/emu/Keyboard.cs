@@ -50,6 +50,10 @@ namespace MAME.Core
             {
                 m_KeyStates[mKeyName[i]].IsPressed = false;
             }
+
+            //等待放行帧
+            Machine.mainMotion.WaitNextFrame();
+
             foreach (MotionKey key in mKeyboard.GetPressedKeys())
             {
                 m_KeyStates[key].IsPressed = true;
