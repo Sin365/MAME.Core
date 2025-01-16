@@ -154,7 +154,9 @@ public class UMAME : MonoBehaviour
         //采集本帧Input
         mUniKeyboard.UpdateInputKey();
         //放行下一帧
-        emu.UnlockNextFreme();
+        //emu.UnlockNextFreme();
+        //推帧
+        emu.UpdateFrame();
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
