@@ -72,6 +72,7 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
     public void SubmitVideo(int[] data, long frame_number)
     {
         mFrame = (ulong)frame_number;
+        UMAME.instance.mTimeSpan.SetTick(mFrame);
         var current = UMAME.sw.Elapsed;
         var delta = current - lastElapsed;
         lastElapsed = current;

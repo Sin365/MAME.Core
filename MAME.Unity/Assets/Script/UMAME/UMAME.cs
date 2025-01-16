@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,10 +31,12 @@ public class UMAME : MonoBehaviour
     public Dictionary<string, RomInfo> ALLGame;
     public List<RomInfo> HadGameList = new List<RomInfo>();
     string mChangeRomName = string.Empty;
+    public UniTimeSpan mTimeSpan;
     public bool bQuickTestRom = false;
     public string mQuickTestRom = string.Empty;
     public ReplayWriter mReplayWriter;
     public ReplayReader mReplayReader;
+    public long currEmuFrame => emu.currEmuFrame;
 
     Dropdown optionDropdown;
 
@@ -70,8 +73,9 @@ public class UMAME : MonoBehaviour
         mUniKeyboard = this.gameObject.AddComponent<UniKeyboard>();
         mUniResources = new UniResources();
         mChangeRomName = UniMAMESetting.instance.LastGameRom;
+        mTimeSpan = new UniTimeSpan();
 
-        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard.mKeyCodeCore, mUniMouse);
+        emu.Init(RomPath, mUniLog, mUniResources, mUniVideoPlayer, mUniSoundPlayer, mUniKeyboard.mKeyCodeCore, mUniMouse, mTimeSpan);
         ALLGame = emu.GetGameList();
 
         Debug.Log($"ALLGame:{ALLGame.Count}");
@@ -106,6 +110,8 @@ public class UMAME : MonoBehaviour
 
     void LoadGame(bool bReplay = false)
     {
+        Application.targetFrameRate = 60;
+
         mReplayWriter = new ReplayWriter(mChangeRomName, "fuck", ReplayData.ReplayFormat.FM32IP64, Encoding.UTF8);
         mChangeRomName = HadGameList[optionDropdown.value].Name;
         UniMAMESetting.instance.LastGameRom = mChangeRomName;
@@ -137,9 +143,18 @@ public class UMAME : MonoBehaviour
             Debug.Log($"ROM加载失败");
         }
     }
-    private void Update()
+
+    void Update()
     {
         mFPS.text = ($"fpsv {mUniVideoPlayer.videoFPS.ToString("F2")} fpsa {mUniSoundPlayer.audioFPS.ToString("F2")}");
+
+        if (!bInGame)
+            return;
+
+        //采集本帧Input
+        mUniKeyboard.UpdateInputKey();
+        //放行下一帧
+        emu.UnlockNextFreme();
 
         if (Input.GetKeyDown(KeyCode.F1))
         {

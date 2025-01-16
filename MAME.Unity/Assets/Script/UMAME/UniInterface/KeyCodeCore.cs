@@ -16,12 +16,30 @@ public class KeyCodeCore : IKeyboard
     bool bReplayMode;
     List<MotionKey> ReplayCheckKey = new List<MotionKey>();
 
+    ulong last_CurryInpuAllData_test = 0;
+
     public MotionKey[] GetPressedKeys()
     {
         if (!bReplayMode)
         {
-            //UMAME.instance.mReplayWriter.NextFrame(CurryInpuAllData);
+            //UMAME.instance.mReplayWriter.NextFramebyFrameIdx((int)UMAME.instance.mUniVideoPlayer.mFrame, CurryInpuAllData);
             UMAME.instance.mReplayWriter.NextFramebyFrameIdx((int)UMAME.instance.mUniVideoPlayer.mFrame, CurryInpuAllData);
+
+#if UNITY_EDITOR
+            if (last_CurryInpuAllData_test != CurryInpuAllData)
+            {
+                last_CurryInpuAllData_test = CurryInpuAllData;
+                string TempStr = "";
+                foreach (var item in mCurrKey)
+                {
+                    TempStr += $"{item.ToString()}|";
+                }
+                if (!string.IsNullOrEmpty(TempStr))
+                    Debug.Log($"{UMAME.instance.mUniVideoPlayer.mFrame} |   Input-> {TempStr}");
+                else
+                    Debug.Log($"{UMAME.instance.mUniVideoPlayer.mFrame} |   Input-> 0");
+            }
+#endif
             return mCurrKey;
         }
         else
@@ -39,17 +57,21 @@ public class KeyCodeCore : IKeyboard
                         temp.Add(ReplayCheckKey[i]);
                 }
                 mCurrKey = temp.ToArray();
-            }
+
 
 #if UNITY_EDITOR
-            string TempStr = "";
-            foreach (var item in mCurrKey)
-            {
-                TempStr += $"{item.ToString()}|";
-            }
-            if (!string.IsNullOrEmpty(TempStr))
-                Debug.Log($"Input-》{CurryInpuAllData} => {TempStr}");
+                string TempStr = "";
+                foreach (var item in mCurrKey)
+                {
+                    TempStr += $"{item.ToString()}|";
+                }
+                if (!string.IsNullOrEmpty(TempStr))
+                    Debug.Log($"{UMAME.instance.mUniVideoPlayer.mFrame} |   Input-> {TempStr}");
+                else
+                    Debug.Log($"{UMAME.instance.mUniVideoPlayer.mFrame} |   Input-> 0");
 #endif
+            }
+
             return mCurrKey;
         }
     }
@@ -66,9 +88,8 @@ public class KeyCodeCore : IKeyboard
         {
             ReplayCheckKey.Add(mkey);
         }
-
         dictKeyCfgs.Clear();
-        dictKeyCfgs.Add(KeyCode.P, MotionKey.EMU_PAUSED);
+        //dictKeyCfgs.Add(KeyCode.P, MotionKey.EMU_PAUSED);
         dictKeyCfgs.Add(KeyCode.Alpha1, MotionKey.P1_GAMESTART);
         dictKeyCfgs.Add(KeyCode.Alpha5, MotionKey.P1_INSERT_COIN);
         dictKeyCfgs.Add(KeyCode.W, MotionKey.P1_UP);

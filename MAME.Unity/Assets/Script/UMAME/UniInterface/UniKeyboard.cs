@@ -66,11 +66,8 @@ public class UniKeyboard : MonoBehaviour
         mKeyCodeCore.Init(this,false);
     }
 
-    void OnEnable()
-    {
-    }
 
-    void Update()
+    public void UpdateInputKey()
     {
         mKeyCodeCore.UpdateLogic();
     }
