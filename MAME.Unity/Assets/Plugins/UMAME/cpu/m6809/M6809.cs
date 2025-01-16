@@ -25,7 +25,7 @@ namespace cpu.m6809
         public delegate int irq_delegate(int irqline);
         public irq_delegate irq_callback;
         public delegate void debug_delegate();
-        public debug_delegate debugger_start_cpu_hook_callback, debugger_stop_cpu_hook_callback;
+        //public debug_delegate debugger_start_cpu_hook_callback, debugger_stop_cpu_hook_callback;
         private ulong totalExecutedCycles;
         private int pendingCycles;
         public override ulong TotalExecutedCycles
@@ -575,10 +575,10 @@ namespace cpu.m6809
                     //debugger_instruction_hook(Machine, PCD);
                     ireg = ReadOp(PC.LowWord);
                     PC.LowWord++;
-                    debugger_start_cpu_hook_callback();
+                    //debugger_start_cpu_hook_callback();
                     insn[ireg]();
                     pendingCycles -= cycles_6809[ireg];
-                    debugger_stop_cpu_hook_callback();
+                    //debugger_stop_cpu_hook_callback();
                     int delta = prevCycles - pendingCycles;
                     totalExecutedCycles += (ulong)delta;
                 } while (pendingCycles > 0);

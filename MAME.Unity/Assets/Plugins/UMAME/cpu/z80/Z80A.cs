@@ -120,7 +120,7 @@ namespace cpu.z80
         public Action<ushort, byte> WriteMemory;
 
         public delegate void debug_delegate();
-        public debug_delegate debugger_start_cpu_hook_callback, debugger_stop_cpu_hook_callback;
+        //public debug_delegate debugger_start_cpu_hook_callback, debugger_stop_cpu_hook_callback;
 
         public void UnregisterMemoryMapper()
         {
