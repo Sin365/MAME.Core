@@ -371,7 +371,7 @@ namespace MAME.Core
             }
             if (irq != null)
             {
-                EmuTimer.timer_pulse_internal(new Atime(0, (long)(1e18 / 480)), k054539_irq, "k054539_irq");
+                EmuTimer.timer_pulse_internal(new Atime(0, (long)(1e18 / 480)), EmuTimer.TIME_ACT.K054539_k054539_irq);
             }
         }
         static void k054539_w(int chip, int offset, byte data)

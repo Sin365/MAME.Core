@@ -1,4 +1,6 @@
-﻿namespace MAME.Core
+﻿using static MAME.Core.EmuTimer;
+
+namespace MAME.Core
 {
     public partial class Taitob
     {
@@ -89,7 +91,7 @@
         }
         public static void rastansaga2_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(rsaga2_interrupt2, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_rsaga2_interrupt2, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 4, LineState.HOLD_LINE);
         }
@@ -99,7 +101,7 @@
         }
         public static void crimec_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(crimec_interrupt3, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_crimec_interrupt3, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 5, LineState.HOLD_LINE);
         }
@@ -109,7 +111,7 @@
         }
         public static void hitice_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(hitice_interrupt6, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_hitice_interrupt6, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 4, LineState.HOLD_LINE);
         }
@@ -119,7 +121,7 @@
         }
         public static void rambo3_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(rambo3_interrupt1, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_rambo3_interrupt1, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 6, LineState.HOLD_LINE);
         }
@@ -129,7 +131,7 @@
         }
         public static void pbobble_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(pbobble_interrupt5, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_pbobble_interrupt5, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 3, LineState.HOLD_LINE);
         }
@@ -139,7 +141,7 @@
         }
         public static void viofight_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(viofight_interrupt1, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_viofight_interrupt1, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 4, LineState.HOLD_LINE);
         }
@@ -149,7 +151,7 @@
         }
         public static void masterw_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(masterw_interrupt4, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_masterw_interrupt4, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 5, LineState.HOLD_LINE);
         }
@@ -159,7 +161,7 @@
         }
         public static void silentd_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(silentd_interrupt4, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_silentd_interrupt4, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 6, LineState.HOLD_LINE);
         }
@@ -169,7 +171,7 @@
         }
         public static void selfeena_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(selfeena_interrupt4, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_selfeena_interrupt4, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(5000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 6, LineState.HOLD_LINE);
         }
@@ -179,7 +181,7 @@
         }
         public static void sbm_interrupt()
         {
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(sbm_interrupt5, "vblank_interrupt2", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(TIME_ACT.Taitob_sbm_interrupt5, true);
             EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(10000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             Cpuint.cpunum_set_input_line(0, 4, LineState.HOLD_LINE);
         }

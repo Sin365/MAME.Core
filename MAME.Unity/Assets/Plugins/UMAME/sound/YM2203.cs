@@ -143,13 +143,13 @@ namespace MAME.Core
             FF2203[sndindex].timer = new EmuTimer.emu_timer[2];
             if (sndindex == 0)
             {
-                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(timer_callback_2203_0_0, "timer_callback_2203_0_0", false);
-                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(timer_callback_2203_0_1, "timer_callback_2203_0_1", false);
+                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2203_timer_callback_2203_0_0, false);
+                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2203_timer_callback_2203_0_1, false);
             }
             else if (sndindex == 1)
             {
-                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(timer_callback_2203_1_0, "timer_callback_2203_1_0", false);
-                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(timer_callback_2203_1_1, "timer_callback_2203_1_1", false);
+                FF2203[sndindex].timer[0] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2203_timer_callback_2203_1_0, false);
+                FF2203[sndindex].timer[1] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2203_timer_callback_2203_1_1, false);
             }
             FF2203[sndindex].stream = new sound_stream(rate, 0, 1, FF2203[sndindex].ym2203_update_one);
             ym2203_init(sndindex, clock, rate);

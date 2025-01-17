@@ -74,8 +74,8 @@ namespace MAME.Core
             FMOpl.ym3812_set_timer_handler(TimerHandler_3812);
             FMOpl.ym3812_set_irq_handler(IRQHandler_3812);
             FMOpl.ym3812_set_update_handler(_stream_update_3812);
-            timer[0] = EmuTimer.timer_alloc_common(timer_callback_3812_0, "timer_callback_3812_0", false);
-            timer[1] = EmuTimer.timer_alloc_common(timer_callback_3812_1, "timer_callback_3812_1", false);
+            timer[0] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM3812_timer_callback_3812_0, false);
+            timer[1] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM3812_timer_callback_3812_1, false);
         }
         public static void ym3812_control_port_0_w(byte data)
         {
@@ -233,8 +233,8 @@ namespace MAME.Core
             FMOpl.ym3526_set_timer_handler(TimerHandler_3526);
             FMOpl.ym3526_set_irq_handler(IRQHandler_3526);
             FMOpl.ym3526_set_update_handler(_stream_update_3526);
-            timer[0] = EmuTimer.timer_alloc_common(timer_callback_3526_0, "timer_callback_3526_0", false);
-            timer[1] = EmuTimer.timer_alloc_common(timer_callback_3526_1, "timer_callback_3526_1", false);
+            timer[0] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM3812_timer_callback_3526_0, false);
+            timer[1] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM3812_timer_callback_3526_1, false);
         }
         public static void ym3526_control_port_0_w(byte data)
         {

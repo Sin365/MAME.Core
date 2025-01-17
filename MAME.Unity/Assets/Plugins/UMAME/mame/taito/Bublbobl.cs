@@ -73,7 +73,7 @@
         public static void bublbobl_sound_command_w(byte data)
         {
             Sound.soundlatch_w((ushort)data);
-            EmuTimer.timer_set_internal(nmi_callback, "nmi_callback");
+            EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Taito_nmi_callback);
         }
         public static void bublbobl_sh_nmi_disable_w()
         {

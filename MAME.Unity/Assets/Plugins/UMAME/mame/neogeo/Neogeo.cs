@@ -325,9 +325,9 @@ namespace MAME.Core
             audio_cpu_banks[1] = 0x0e;
             audio_cpu_banks[2] = 0x06;
             audio_cpu_banks[3] = 0x02;
-            display_position_interrupt_timer = EmuTimer.timer_alloc_common(display_position_interrupt_callback, "display_position_interrupt_callback", false);
-            display_position_vblank_timer = EmuTimer.timer_alloc_common(display_position_vblank_callback, "display_position_vblank_callback", false);
-            vblank_interrupt_timer = EmuTimer.timer_alloc_common(vblank_interrupt_callback, "vblank_interrupt_callback", false);
+            display_position_interrupt_timer = EmuTimer.timer_alloc_common( EmuTimer.TIME_ACT.Neogeo_display_position_interrupt_callback, false);
+            display_position_vblank_timer = EmuTimer.timer_alloc_common( EmuTimer.TIME_ACT.Neogeo_display_position_vblank_callback, false);
+            vblank_interrupt_timer = EmuTimer.timer_alloc_common( EmuTimer.TIME_ACT.Neogeo_vblank_interrupt_callback, false);
             Pd4900a.pd4990a_init();
             calendar_init();
             irq3_pending = 1;

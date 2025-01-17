@@ -72,7 +72,7 @@ namespace MAME.Core
 
 
         #region 抽象出去
-        static Action<int[],long> Act_SubmitVideo;
+        static Action<int[], long> Act_SubmitVideo;
 
         public static void BindFunc(IVideoPlayer Ivp)
         {
@@ -651,11 +651,11 @@ namespace MAME.Core
 
 
 
-            vblank_begin_timer = EmuTimer.timer_alloc_common(vblank_begin_callback, "vblank_begin_callback", false);
+            vblank_begin_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Video_vblank_begin_callback, false);
             EmuTimer.timer_adjust_periodic(vblank_begin_timer, video_screen_get_time_until_vblank_start(), Attotime.ATTOTIME_NEVER);
-            scanline0_timer = EmuTimer.timer_alloc_common(scanline0_callback, "scanline0_callback", false);
+            scanline0_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Video_scanline0_callback, false);
             EmuTimer.timer_adjust_periodic(scanline0_timer, video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
-            vblank_end_timer = EmuTimer.timer_alloc_common(vblank_end_callback, "vblank_end_callback", false);
+            vblank_end_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Video_vblank_end_callback, false);
             switch (Machine.sBoard)
             {
                 case "CPS-1":
@@ -666,19 +666,19 @@ namespace MAME.Core
                     break;
                 case "CPS2":
                     Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 262);
-                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                     break;
                 case "Tehkan":
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 2);
-                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                     break;
                 case "Neo Geo":
                     break;
                 case "SunA8":
                     Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 0x100);
-                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger2, "trigger2", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger2, false);
                     break;
                 case "IGS011":
                     switch (Machine.sName)
@@ -693,27 +693,27 @@ namespace MAME.Core
                         case "drgnwrldv40k":
                         case "lhb2":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 5);
-                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                             break;
                         case "lhb":
                         case "lhbv33c":
                         case "dbc":
                         case "ryukobou":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                             break;
                     }
                     break;
                 case "M72":
                     Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 128);
-                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                    Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                     break;
                 case "Taito":
                     switch (Machine.sName)
                     {
                         case "bub68705":
                             Cpuexec.cpu[3].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 2);
-                            Cpuexec.cpu[3].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[3].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                             break;
                     }
                     break;
@@ -722,7 +722,7 @@ namespace MAME.Core
                     {
                         case "cuebrick":
                             Cpuexec.cpu[0].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 10);
-                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[0].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                             break;
                     }
                     break;
@@ -741,7 +741,7 @@ namespace MAME.Core
                         case "makaimurg":
                         case "diamond":
                             Cpuexec.cpu[1].partial_frame_period = Attotime.attotime_div(Video.frame_update_time, 4);
-                            Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(Cpuexec.trigger_partial_frame_interrupt, "trigger_partial_frame_interrupt", false);
+                            Cpuexec.cpu[1].partial_frame_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Cpuexec_trigger_partial_frame_interrupt, false);
                             break;
                     }
                     break;

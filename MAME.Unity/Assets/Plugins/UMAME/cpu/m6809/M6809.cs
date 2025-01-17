@@ -555,7 +555,7 @@ namespace cpu.m6809
         }
         public override void cpunum_set_input_line_and_vector(int cpunum, int line, LineState state, int vector)
         {
-            EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+            EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Cpuint_cpunum_empty_event_queue);
         }
         public override int ExecuteCycles(int cycles)
         {

@@ -74,7 +74,7 @@ namespace cpu.nec
                     //Cpuint.input_event_queue[cpunum][line][event_index] = input_event;
                     //if (event_index == 0)
                     {
-                        EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+                        EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Cpuint_cpunum_empty_event_queue);
                     }
                 }
             }

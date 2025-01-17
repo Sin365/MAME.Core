@@ -157,7 +157,7 @@ namespace MAME.Core
             if (enabled == 0)
             {
                 objcpunum = cpunum;
-                EmuTimer.timer_set_internal(clear_all_lines, "clear_all_lines");
+                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Generic_clear_all_lines);
             }
         }
         public static void interrupt_enable_w(byte data)

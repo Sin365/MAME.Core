@@ -177,11 +177,11 @@ namespace MAME.Core
             mm1[sndindex].voice.stream = new sound_stream(clock, 0, 1, mm1[sndindex].MSM5205_update);
             if (sndindex == 0)
             {
-                timer[0] = EmuTimer.timer_alloc_common(MSM5205_vclk_callback0, "msm5205_vclk_callback0", false);
+                timer[0] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.MSM5205_MSM5205_vclk_callback0, false);
             }
             else if (sndindex == 1)
             {
-                timer[1] = EmuTimer.timer_alloc_common(MSM5205_vclk_callback1, "msm5205_vclk_callback1", false);
+                timer[1] = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.MSM5205_MSM5205_vclk_callback1, false);
             }
             mm1[sndindex].msm5205_reset();
         }

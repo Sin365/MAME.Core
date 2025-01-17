@@ -455,7 +455,7 @@ namespace MAME.Core
             if ((PSG.irq_enable & 0x04) != 0)
             {
                 PSG.status |= 1;
-                EmuTimer.timer_set_internal(irqAon_callback, "irqAon_callback");
+                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.YM2151_irqAon_callback);
             }
             if ((PSG.irq_enable & 0x80) != 0)
             {
@@ -469,7 +469,7 @@ namespace MAME.Core
             if ((PSG.irq_enable & 0x08) != 0)
             {
                 PSG.status |= 2;
-                EmuTimer.timer_set_internal(irqBon_callback, "irqBon_callback");
+                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.YM2151_irqBon_callback);
             }
         }
         private static void set_connect(int cha, int v)
@@ -706,12 +706,12 @@ namespace MAME.Core
                             if ((v & 0x10) != 0)	/* reset timer A irq flag */
                             {
                                 PSG.status &= 0xfffffffe;
-                                EmuTimer.timer_set_internal(irqAoff_callback, "irqAoff_callback");
+                                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.YM2151_irqAoff_callback);
                             }
                             if ((v & 0x20) != 0)	/* reset timer B irq flag */
                             {
                                 PSG.status &= 0xfffffffd;
-                                EmuTimer.timer_set_internal(irqBoff_callback, "irqBoff_callback");
+                                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.YM2151_irqBoff_callback);
                             }
                             if ((v & 0x02) != 0)
                             {	/* load and start timer B */
@@ -934,8 +934,8 @@ namespace MAME.Core
             PSG.eg_timer_add = (uint)(0x10000 * (clock / 64.0) / PSG.sampfreq);
             PSG.eg_timer_overflow = 0x30000;
             /* this must be done _before_ a call to ym2151_reset_chip() */
-            PSG.timer_A = EmuTimer.timer_alloc_common(timer_callback_a, "timer_callback_a", false);
-            PSG.timer_B = EmuTimer.timer_alloc_common(timer_callback_b, "timer_callback_b", false);
+            PSG.timer_A = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2151_timer_callback_a, false);
+            PSG.timer_B = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.YM2151_timer_callback_b, false);
             ym2151_reset_chip();
             switch (Machine.sBoard)
             {

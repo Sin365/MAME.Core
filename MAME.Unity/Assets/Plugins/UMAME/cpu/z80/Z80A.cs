@@ -109,7 +109,7 @@ namespace cpu.z80
             }
             else
             {
-                EmuTimer.timer_set_internal(Cpuint.cpunum_empty_event_queue, "cpunum_empty_event_queue");
+                EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Cpuint_cpunum_empty_event_queue);
             }
         }
 

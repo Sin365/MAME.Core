@@ -301,7 +301,7 @@ namespace MAME.Core
         {
             setvector_param = 0;
             setvector_callback();
-            scanline_timer = EmuTimer.timer_alloc_common(m92_scanline_interrupt, "m92_scanline_interrupt", false);
+            scanline_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.M92_m92_scanline_interrupt, false);
         }
         public static void machine_reset_m92()
         {
@@ -415,7 +415,7 @@ namespace MAME.Core
         {
             Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
             setvector_param = 3;
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
             EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             Sound.soundlatch_w((ushort)(data & 0xff));
         }
@@ -431,7 +431,7 @@ namespace MAME.Core
         {
             Cpuint.lvec.Add(new vec(4, EmuTimer.get_current_time()));
             setvector_param = 4;
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
             EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m92_sound_status_w(ushort data)
@@ -445,14 +445,14 @@ namespace MAME.Core
             {
                 Cpuint.lvec.Add(new vec(1, EmuTimer.get_current_time()));
                 setvector_param = 1;
-                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
                 EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
             else
             {
                 Cpuint.lvec.Add(new vec(2, EmuTimer.get_current_time()));
                 setvector_param = 2;
-                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(setvector_callback, "setvector_callback", true);
+                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
                 EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }

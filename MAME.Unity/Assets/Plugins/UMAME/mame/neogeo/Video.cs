@@ -127,7 +127,7 @@ namespace MAME.Core
         }
         private static void create_auto_animation_timer()
         {
-            auto_animation_timer = EmuTimer.timer_alloc_common(auto_animation_timer_callback, "auto_animation_timer_callback", false);
+            auto_animation_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Neogeo_auto_animation_timer_callback, false);
         }
         private static void start_auto_animation_timer()
         {
@@ -363,7 +363,7 @@ namespace MAME.Core
         }
         private static void create_sprite_line_timer()
         {
-            sprite_line_timer = EmuTimer.timer_alloc_common(sprite_line_timer_callback, "sprite_line_timer_callback", false);
+            sprite_line_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Neogeo_sprite_line_timer_callback, false);
         }
         private static void start_sprite_line_timer()
         {

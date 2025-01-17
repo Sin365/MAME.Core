@@ -334,8 +334,8 @@ namespace MAME.Core
             int i;
             voice2 = new voice_struct[32];
             timer = new timer_struct[2];
-            timer[0].timer = EmuTimer.timer_alloc_common(timer_cb_0, "timer_cb_0", false);
-            timer[1].timer = EmuTimer.timer_alloc_common(timer_cb_1, "timer_cb_1", false);
+            timer[0].timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.ICS2115_timer_cb_0, false);
+            timer[1].timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.ICS2115_timer_cb_1, false);
             ulaw = new short[256];
             for (i = 0; i < 256; i++)
             {
