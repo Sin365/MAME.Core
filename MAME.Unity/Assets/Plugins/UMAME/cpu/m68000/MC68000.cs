@@ -149,7 +149,7 @@ namespace cpu.m68000
                 X = (value & 0x0010) != 0;
             }
         }
-        public int Interrupt { get; set; }
+        public int Interrupt;// { get; set; }
 
         // Memory Access        
         public Func<int, sbyte> ReadOpByte, ReadByte;

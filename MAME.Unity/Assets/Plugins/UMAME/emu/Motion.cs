@@ -1,4 +1,5 @@
 ﻿using MAME.Core;
+using System;
 
 namespace MAME.Core
 {
@@ -58,9 +59,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = (y * Video.fullwidth) + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
                             green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
                             blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
@@ -73,9 +76,11 @@ namespace MAME.Core
 
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = (y * Video.fullwidth) + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
                         }
                     }
@@ -138,9 +143,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             if (Video.bitmapbase[Video.curbitmap][i] < 0x100)
                             {
                                 red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
@@ -159,9 +166,11 @@ namespace MAME.Core
                 {
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             if (Video.bitmapbase[Video.curbitmap][i] < 0x100)
                             {
                                 Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
@@ -216,9 +225,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             red = ((Video.bitmapbaseN[Video.curbitmap][i] & 0xff0000) >> 16) * bright / 0xff;
                             green = ((Video.bitmapbaseN[Video.curbitmap][i] & 0xff00) >> 8) * bright / 0xff;
                             blue = (Video.bitmapbaseN[Video.curbitmap][i] & 0xff) * bright / 0xff;
@@ -230,9 +241,11 @@ namespace MAME.Core
                 {
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             Video.bitmapcolorRect[target_i] = (int)(0xff000000 | (uint)Video.bitmapbaseN[Video.curbitmap][i]);
                         }
                     }
@@ -280,9 +293,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
                             green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
                             blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
@@ -294,9 +309,11 @@ namespace MAME.Core
                 {
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
                         }
                     }
@@ -345,9 +362,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
                             green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
                             blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
@@ -359,9 +378,11 @@ namespace MAME.Core
                 {
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
                         }
                     }
@@ -410,9 +431,11 @@ namespace MAME.Core
                     byte bright = 0xa7;
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
                             green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
                             blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
@@ -424,9 +447,11 @@ namespace MAME.Core
                 {
                     for (y = startY; y < endY; y++)
                     {
+                        int stepIndex = y * Video.fullwidth;
                         for (x = startX; x < endX; x++, target_i++)
                         {
-                            i = y * Video.fullwidth + x;
+                            //i = y * Video.fullwidth + x;
+                            i = stepIndex + x;
                             Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
                         }
                     }

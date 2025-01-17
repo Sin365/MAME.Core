@@ -370,11 +370,13 @@ namespace MAME.Core
             neogeo_scanline_param = 0;
             EmuTimer.timer_adjust_periodic(sprite_line_timer, Video.video_screen_get_time_until_pos(0, 0), Attotime.ATTOTIME_NEVER);
         }
+        readonly static int[] pix_offsets = new int[] { 0x10, 0x18, 0x00, 0x08 };
+        static int[] garouoffsets = new int[32];
         private static void draw_fixed_layer(int iBitmap, int scanline)
         {
             int i, j, x, y;
-            int[] garouoffsets = new int[32], pix_offsets = new int[] { 0x10, 0x18, 0x00, 0x08 };
             byte[] gfx_base;
+            //int[] garouoffsets = new int[32], pix_offsets = new int[] { 0x10, 0x18, 0x00, 0x08 };
             int addr_mask;
             int gfx_offset, char_pens_offset;
             byte data;

@@ -70,14 +70,34 @@ namespace MAME.Core
         {
             return ay8910info.regs[6] & 0x1f;
         }
+
+        //private int TONE_VOLUME(int chan)
+        //{
+        //    return ay8910info.regs[8 + chan] & 0x0f;
+        //}
+
+        //private int TONE_ENVELOPE(int chan)
+        //{
+        //    return (ay8910info.regs[8 + chan] >> 4) & 1;
+        //}
+
+        //用常量优化海量访问
+
+        private const int TONE_VOLUME_REG_OFFSET = 8;
+        private const int TONE_VOLUME_VOLUME_MASK = 0x0f;
         private int TONE_VOLUME(int chan)
         {
-            return ay8910info.regs[8 + chan] & 0x0f;
+            return ay8910info.regs[TONE_VOLUME_REG_OFFSET + chan] & TONE_VOLUME_VOLUME_MASK;
         }
+
+        private const int TONE_ENVELOPE_REG_OFFSET = 8;
+        private const int TONE_ENVELOPE_MOVE = 4;
+        private const int TONE_ENVELOPE_VOLUME_MASK = 0x01;
         private int TONE_ENVELOPE(int chan)
         {
-            return (ay8910info.regs[8 + chan] >> 4) & 1;
+            return (ay8910info.regs[TONE_ENVELOPE_REG_OFFSET + chan] >> TONE_ENVELOPE_MOVE) & TONE_ENVELOPE_VOLUME_MASK;
         }
+
         private int ENVELOPE_PERIOD()
         {
             return ay8910info.regs[11] | (ay8910info.regs[12] << 8);

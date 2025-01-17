@@ -330,7 +330,8 @@ namespace MAME.Core
                 callback_timer_modified = false;
                 callback_timer = timer;
                 callback_timer_expire_time = timer.expire;
-                if (was_enabled && (timer.action != null && timer.action != Cpuexec.null_callback))
+                //if (was_enabled && (timer.action != null && timer.action != Cpuexec.null_callback))
+                if (was_enabled && (timer.action != null && timer.func != "boost_callback"))
                 {
                     timer.action();
                 }
