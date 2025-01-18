@@ -20,6 +20,14 @@ namespace MAME.Core
         {
             Act_Log?.Invoke(msg);
         }
+
+
+        public static void Assert(bool conditional, string msg)
+        {
+            if (conditional)
+                return;
+            Act_Log?.Invoke(msg);
+        }
         #endregion
     }
 }

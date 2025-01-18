@@ -145,165 +145,533 @@ namespace MAME.Core
             return (((max_y >= y) && (scanline >= y) && (scanline <= max_y)) ||
                     ((max_y < y) && ((scanline >= y) || (scanline <= max_y))));
         }
-        private static void draw_sprites(int iBitmap, int scanline)
+
+        //private static void draw_sprites(int iBitmap, int scanline)
+        //{
+        //    int x_2, code_2;
+        //    int x, y, rows, zoom_x, zoom_y, sprite_list_offset, sprite_index, max_sprite_index, sprite_number, sprite_y, tile, attr_and_code_offs, code, zoom_x_table_offset, gfx_offset, line_pens_offset, x_inc, sprite_line, zoom_line;
+        //    ushort y_control, zoom_control, attr;
+        //    byte sprite_y_and_tile;
+        //    bool invert;
+        //    y = 0;
+        //    x = 0;
+        //    rows = 0;
+        //    zoom_y = 0;
+        //    zoom_x = 0;
+        //    if ((scanline & 0x01) != 0)
+        //    {
+        //        sprite_list_offset = 0x8680;
+        //    }
+        //    else
+        //    {
+        //        sprite_list_offset = 0x8600;
+        //    }
+        //    Span<ushort> span_neogeo_videoram = neogeo_videoram.AsSpan();
+        //    Span<int> span_bitmapbaseN_iBitmap = Video.bitmapbaseN[iBitmap].AsSpan();
+        //    Span<byte> span_sprite_gfx = sprite_gfx.AsSpan();
+        //    Span<int> span_pens = pens.AsSpan();
+        //    for (max_sprite_index = 95; max_sprite_index >= 0; max_sprite_index--)
+        //    {
+        //        if (span_neogeo_videoram[sprite_list_offset + max_sprite_index] != 0)
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    if (max_sprite_index != 95)
+        //    {
+        //        max_sprite_index = max_sprite_index + 1;
+        //    }
+        //    for (sprite_index = 0; sprite_index < max_sprite_index; sprite_index++)
+        //    {
+        //        sprite_number = span_neogeo_videoram[sprite_list_offset + sprite_index] & 0x1ff;
+        //        y_control = span_neogeo_videoram[0x8200 | sprite_number];
+        //        zoom_control = span_neogeo_videoram[0x8000 | sprite_number];
+        //        x_2 = span_neogeo_videoram[0x8400 | sprite_number];
+        //        code_2 = span_neogeo_videoram[sprite_number << 6];
+        //        if ((y_control & 0x40) != 0)
+        //        {
+        //            x = (x + zoom_x + 1) & 0x01ff;
+        //            zoom_x = (zoom_control >> 8) & 0x0f;
+        //        }
+        //        else
+        //        {
+        //            y = 0x200 - (y_control >> 7);
+        //            x = span_neogeo_videoram[0x8400 | sprite_number] >> 7;
+        //            zoom_y = zoom_control & 0xff;
+        //            zoom_x = (zoom_control >> 8) & 0x0f;
+        //            rows = y_control & 0x3f;
+        //        }
+        //        if ((x >= 0x140) && (x <= 0x1f0))
+        //        {
+        //            continue;
+        //        }
+        //        if (sprite_on_scanline(scanline, y, rows))
+        //        {
+        //            sprite_line = (scanline - y) & 0x1ff;
+        //            zoom_line = sprite_line & 0xff;
+        //            invert = ((sprite_line & 0x100) != 0) ? true : false;
+        //            if (invert)
+        //            {
+        //                zoom_line ^= 0xff;
+        //            }
+        //            if (rows > 0x20)
+        //            {
+        //                zoom_line = zoom_line % ((zoom_y + 1) << 1);
+        //                if (zoom_line > zoom_y)
+        //                {
+        //                    zoom_line = ((zoom_y + 1) << 1) - 1 - zoom_line;
+        //                    invert = !invert;
+        //                }
+        //            }
+        //            sprite_y_and_tile = zoomyrom[(zoom_y << 8) | zoom_line];
+        //            sprite_y = sprite_y_and_tile & 0x0f;
+        //            tile = sprite_y_and_tile >> 4;
+        //            if (invert)
+        //            {
+        //                sprite_y ^= 0x0f;
+        //                tile ^= 0x1f;
+        //            }
+        //            attr_and_code_offs = (sprite_number << 6) | (tile << 1);
+        //            attr = span_neogeo_videoram[attr_and_code_offs + 1];
+        //            code = ((attr << 12) & 0x70000) | span_neogeo_videoram[attr_and_code_offs];
+        //            if (auto_animation_disabled == 0)
+        //            {
+        //                if ((attr & 0x0008) != 0)
+        //                {
+        //                    code = (code & ~0x07) | (auto_animation_counter & 0x07);
+        //                }
+        //                else if ((attr & 0x0004) != 0)
+        //                {
+        //                    code = (code & ~0x03) | (auto_animation_counter & 0x03);
+        //                }
+        //            }
+        //            if ((attr & 0x0002) != 0)
+        //            {
+        //                sprite_y ^= 0x0f;
+        //            }
+        //            zoom_x_table_offset = 0;
+        //            gfx_offset = (int)(((code << 8) | (sprite_y << 4)) & sprite_gfx_address_mask);
+        //            line_pens_offset = attr >> 8 << 4;
+        //            if ((attr & 0x0001) != 0)
+        //            {
+        //                gfx_offset = gfx_offset + 0x0f;
+        //                x_inc = -1;
+        //            }
+        //            else
+        //            {
+        //                x_inc = 1;
+        //            }
+        //            int pixel_addr_offsetx, pixel_addr_offsety;
+        //            if (x <= 0x01f0)
+        //            {
+        //                int i;
+        //                pixel_addr_offsetx = x + NEOGEO_HBEND;
+        //                pixel_addr_offsety = scanline;
+        //                for (i = 0; i < 0x10; i++)
+        //                {
+        //                    if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+        //                    {
+        //                        //if (sprite_gfx[gfx_offset] != 0)
+        //                        if (span_sprite_gfx[gfx_offset] != 0)
+        //                        {
+        //                            //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                            span_bitmapbaseN_iBitmap[pixel_addr_offsety * 384 + pixel_addr_offsetx] = span_pens[line_pens_offset + span_sprite_gfx[gfx_offset]];
+        //                        }
+        //                        pixel_addr_offsetx++;
+        //                    }
+        //                    zoom_x_table_offset++;
+        //                    gfx_offset += x_inc;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                int i;
+        //                int x_save = x;
+        //                pixel_addr_offsetx = NEOGEO_HBEND;
+        //                pixel_addr_offsety = scanline;
+        //                for (i = 0; i < 0x10; i++)
+        //                {
+        //                    if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+        //                    {
+        //                        if (x >= 0x200)
+        //                        {
+        //                            //if (sprite_gfx[gfx_offset] != 0)
+        //                            if (span_sprite_gfx[gfx_offset] != 0)
+        //                            {
+        //                                //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                                span_bitmapbaseN_iBitmap[pixel_addr_offsety * 384 + pixel_addr_offsetx] = span_pens[line_pens_offset + span_sprite_gfx[gfx_offset]];
+        //                            }
+        //                            pixel_addr_offsetx++;
+        //                        }
+        //                        x++;
+        //                    }
+        //                    zoom_x_table_offset++;
+        //                    gfx_offset += x_inc;
+        //                }
+        //                x = x_save;
+        //            }
+        //        }
+        //    }
+        //}
+
+        /// <summary>
+        ///  draw_sprites (Unsafa 尝试提升效率）
+        /// </summary>
+        /// <param name="iBitmap"></param>
+        /// <param name="scanline"></param>
+        unsafe private static void draw_sprites(int iBitmap, int scanline)
         {
-            int x_2, code_2;
-            int x, y, rows, zoom_x, zoom_y, sprite_list_offset, sprite_index, max_sprite_index, sprite_number, sprite_y, tile, attr_and_code_offs, code, zoom_x_table_offset, gfx_offset, line_pens_offset, x_inc, sprite_line, zoom_line;
-            ushort y_control, zoom_control, attr;
-            byte sprite_y_and_tile;
-            bool invert;
-            y = 0;
-            x = 0;
-            rows = 0;
-            zoom_y = 0;
-            zoom_x = 0;
-            if ((scanline & 0x01) != 0)
+
+            fixed (ushort* videoramPtr = &neogeo_videoram[0])
+            fixed (int* bitmapbasePtr = &Video.bitmapbaseN[iBitmap][0])
+            fixed (byte* spriteGfxPtr = &sprite_gfx[0])
+            fixed (int* pensPtr = &pens[0])
+            fixed (byte* zoomyromPtr = &zoomyrom[0])
             {
-                sprite_list_offset = 0x8680;
-            }
-            else
-            {
-                sprite_list_offset = 0x8600;
-            }
-            for (max_sprite_index = 95; max_sprite_index >= 0; max_sprite_index--)
-            {
-                if (neogeo_videoram[sprite_list_offset + max_sprite_index] != 0)
+                ushort* neogeo_videoram = videoramPtr;
+                int* bitmapbase = bitmapbasePtr;
+                byte* spriteGfx = spriteGfxPtr;
+                int* pens = pensPtr;
+                byte* zoomyrom = zoomyromPtr;
+
+                int x_2, code_2;
+                int x, y, rows, zoom_x, zoom_y, sprite_list_offset, sprite_index, max_sprite_index, sprite_number, sprite_y, tile, attr_and_code_offs, code, zoom_x_table_offset, gfx_offset, line_pens_offset, x_inc, sprite_line, zoom_line;
+                ushort y_control, zoom_control, attr;
+                byte sprite_y_and_tile;
+                bool invert;
+                y = 0;
+                x = 0;
+                rows = 0;
+                zoom_y = 0;
+                zoom_x = 0;
+                if ((scanline & 0x01) != 0)
                 {
-                    break;
-                }
-            }
-            if (max_sprite_index != 95)
-            {
-                max_sprite_index = max_sprite_index + 1;
-            }
-            for (sprite_index = 0; sprite_index < max_sprite_index; sprite_index++)
-            {
-                sprite_number = neogeo_videoram[sprite_list_offset + sprite_index] & 0x1ff;
-                y_control = neogeo_videoram[0x8200 | sprite_number];
-                zoom_control = neogeo_videoram[0x8000 | sprite_number];
-                x_2 = neogeo_videoram[0x8400 | sprite_number];
-                code_2 = neogeo_videoram[sprite_number << 6];
-                if ((y_control & 0x40) != 0)
-                {
-                    x = (x + zoom_x + 1) & 0x01ff;
-                    zoom_x = (zoom_control >> 8) & 0x0f;
+                    sprite_list_offset = 0x8680;
                 }
                 else
                 {
-                    y = 0x200 - (y_control >> 7);
-                    x = neogeo_videoram[0x8400 | sprite_number] >> 7;
-                    zoom_y = zoom_control & 0xff;
-                    zoom_x = (zoom_control >> 8) & 0x0f;
-                    rows = y_control & 0x3f;
+                    sprite_list_offset = 0x8600;
                 }
-                if ((x >= 0x140) && (x <= 0x1f0))
+                for (max_sprite_index = 95; max_sprite_index >= 0; max_sprite_index--)
                 {
-                    continue;
+                    if (neogeo_videoram[sprite_list_offset + max_sprite_index] != 0)
+                    {
+                        break;
+                    }
                 }
-                if (sprite_on_scanline(scanline, y, rows))
+                if (max_sprite_index != 95)
                 {
-                    sprite_line = (scanline - y) & 0x1ff;
-                    zoom_line = sprite_line & 0xff;
-                    invert = ((sprite_line & 0x100) != 0) ? true : false;
-                    if (invert)
+                    max_sprite_index = max_sprite_index + 1;
+                }
+                for (sprite_index = 0; sprite_index < max_sprite_index; sprite_index++)
+                {
+                    sprite_number = neogeo_videoram[sprite_list_offset + sprite_index] & 0x1ff;
+                    y_control = neogeo_videoram[0x8200 | sprite_number];
+                    zoom_control = neogeo_videoram[0x8000 | sprite_number];
+                    x_2 = neogeo_videoram[0x8400 | sprite_number];
+                    code_2 = neogeo_videoram[sprite_number << 6];
+
+                    //sprite_number = (*(videoram + sprite_list_offset + sprite_index) & 0x1ff);
+                    //y_control = (ushort)(*(videoram + 0x8200) | sprite_number);
+                    //zoom_control = (ushort)(*(videoram + 0x8000) | sprite_number);
+                    //x_2 = (ushort)(*(videoram + 0x8400) | sprite_number);
+                    //code_2 = *(videoram + (sprite_number << 6));
+
+                    if ((y_control & 0x40) != 0)
                     {
-                        zoom_line ^= 0xff;
-                    }
-                    if (rows > 0x20)
-                    {
-                        zoom_line = zoom_line % ((zoom_y + 1) << 1);
-                        if (zoom_line > zoom_y)
-                        {
-                            zoom_line = ((zoom_y + 1) << 1) - 1 - zoom_line;
-                            invert = !invert;
-                        }
-                    }
-                    sprite_y_and_tile = zoomyrom[(zoom_y << 8) | zoom_line];
-                    sprite_y = sprite_y_and_tile & 0x0f;
-                    tile = sprite_y_and_tile >> 4;
-                    if (invert)
-                    {
-                        sprite_y ^= 0x0f;
-                        tile ^= 0x1f;
-                    }
-                    attr_and_code_offs = (sprite_number << 6) | (tile << 1);
-                    attr = neogeo_videoram[attr_and_code_offs + 1];
-                    code = ((attr << 12) & 0x70000) | neogeo_videoram[attr_and_code_offs];
-                    if (auto_animation_disabled == 0)
-                    {
-                        if ((attr & 0x0008) != 0)
-                        {
-                            code = (code & ~0x07) | (auto_animation_counter & 0x07);
-                        }
-                        else if ((attr & 0x0004) != 0)
-                        {
-                            code = (code & ~0x03) | (auto_animation_counter & 0x03);
-                        }
-                    }
-                    if ((attr & 0x0002) != 0)
-                    {
-                        sprite_y ^= 0x0f;
-                    }
-                    zoom_x_table_offset = 0;
-                    gfx_offset = (int)(((code << 8) | (sprite_y << 4)) & sprite_gfx_address_mask);
-                    line_pens_offset = attr >> 8 << 4;
-                    if ((attr & 0x0001) != 0)
-                    {
-                        gfx_offset = gfx_offset + 0x0f;
-                        x_inc = -1;
+                        x = (x + zoom_x + 1) & 0x01ff;
+                        zoom_x = (zoom_control >> 8) & 0x0f;
                     }
                     else
                     {
-                        x_inc = 1;
+                        y = 0x200 - (y_control >> 7);
+                        //x = neogeo_videoram[0x8400 | sprite_number] >> 7;
+                        x = x_2 >> 7;
+                        zoom_y = zoom_control & 0xff;
+                        zoom_x = (zoom_control >> 8) & 0x0f;
+                        rows = y_control & 0x3f;
                     }
-                    int pixel_addr_offsetx, pixel_addr_offsety;
-                    if (x <= 0x01f0)
+
+                    fixed (int* zoom_x_tablesPtr = &zoom_x_tables[zoom_x, 0])
                     {
-                        int i;
-                        pixel_addr_offsetx = x + NEOGEO_HBEND;
-                        pixel_addr_offsety = scanline;
-                        for (i = 0; i < 0x10; i++)
+                        int* zoom_x_tables = zoom_x_tablesPtr;
+
+                        if ((x >= 0x140) && (x <= 0x1f0))
                         {
-                            if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+                            continue;
+                        }
+                        if (sprite_on_scanline(scanline, y, rows))
+                        {
+                            sprite_line = (scanline - y) & 0x1ff;
+                            zoom_line = sprite_line & 0xff;
+                            invert = ((sprite_line & 0x100) != 0) ? true : false;
+                            if (invert)
                             {
-                                if (sprite_gfx[gfx_offset] != 0)
-                                {
-                                    Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
-                                }
-                                pixel_addr_offsetx++;
+                                zoom_line ^= 0xff;
                             }
-                            zoom_x_table_offset++;
-                            gfx_offset += x_inc;
-                        }
-                    }
-                    else
-                    {
-                        int i;
-                        int x_save = x;
-                        pixel_addr_offsetx = NEOGEO_HBEND;
-                        pixel_addr_offsety = scanline;
-                        for (i = 0; i < 0x10; i++)
-                        {
-                            if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+                            if (rows > 0x20)
                             {
-                                if (x >= 0x200)
+                                zoom_line = zoom_line % ((zoom_y + 1) << 1);
+                                if (zoom_line > zoom_y)
                                 {
-                                    if (sprite_gfx[gfx_offset] != 0)
+                                    zoom_line = ((zoom_y + 1) << 1) - 1 - zoom_line;
+                                    invert = !invert;
+                                }
+                            }
+                            sprite_y_and_tile = zoomyrom[(zoom_y << 8) | zoom_line];
+                            sprite_y = sprite_y_and_tile & 0x0f;
+                            tile = sprite_y_and_tile >> 4;
+                            if (invert)
+                            {
+                                sprite_y ^= 0x0f;
+                                tile ^= 0x1f;
+                            }
+                            attr_and_code_offs = (sprite_number << 6) | (tile << 1);
+                            attr = neogeo_videoram[attr_and_code_offs + 1];
+                            code = ((attr << 12) & 0x70000) | neogeo_videoram[attr_and_code_offs];
+                            if (auto_animation_disabled == 0)
+                            {
+                                if ((attr & 0x0008) != 0)
+                                {
+                                    code = (code & ~0x07) | (auto_animation_counter & 0x07);
+                                }
+                                else if ((attr & 0x0004) != 0)
+                                {
+                                    code = (code & ~0x03) | (auto_animation_counter & 0x03);
+                                }
+                            }
+                            if ((attr & 0x0002) != 0)
+                            {
+                                sprite_y ^= 0x0f;
+                            }
+                            zoom_x_table_offset = 0;
+                            gfx_offset = (int)(((code << 8) | (sprite_y << 4)) & sprite_gfx_address_mask);
+                            line_pens_offset = attr >> 8 << 4;
+                            if ((attr & 0x0001) != 0)
+                            {
+                                gfx_offset = gfx_offset + 0x0f;
+                                x_inc = -1;
+                            }
+                            else
+                            {
+                                x_inc = 1;
+                            }
+                            int pixel_addr_offsetx, pixel_addr_offsety;
+                            if (x <= 0x01f0)
+                            {
+                                int i;
+                                pixel_addr_offsetx = x + NEOGEO_HBEND;
+                                pixel_addr_offsety = scanline;
+                                for (i = 0; i < 0x10; i++)
+                                {
+                                    //if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+                                    if (zoom_x_tables[zoom_x_table_offset] != 0)
                                     {
-                                        Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+                                        //if (sprite_gfx[gfx_offset] != 0)
+                                        if (spriteGfx[gfx_offset] != 0)
+                                        {
+                                            //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+                                            bitmapbase[pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + spriteGfx[gfx_offset]];
+                                        }
+                                        pixel_addr_offsetx++;
                                     }
-                                    pixel_addr_offsetx++;
+                                    zoom_x_table_offset++;
+                                    gfx_offset += x_inc;
                                 }
-                                x++;
                             }
-                            zoom_x_table_offset++;
-                            gfx_offset += x_inc;
+                            else
+                            {
+                                int i;
+                                int x_save = x;
+                                pixel_addr_offsetx = NEOGEO_HBEND;
+                                pixel_addr_offsety = scanline;
+                                for (i = 0; i < 0x10; i++)
+                                {
+                                    //if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+                                    if (zoom_x_tables[zoom_x_table_offset] != 0)
+                                    {
+                                        if (x >= 0x200)
+                                        {
+                                            //if (sprite_gfx[gfx_offset] != 0)
+                                            if (spriteGfx[gfx_offset] != 0)
+                                            {
+                                                //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+                                                bitmapbase[pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + spriteGfx[gfx_offset]];
+                                            }
+                                            pixel_addr_offsetx++;
+                                        }
+                                        x++;
+                                    }
+                                    zoom_x_table_offset++;
+                                    gfx_offset += x_inc;
+                                }
+                                x = x_save;
+                            }
                         }
-                        x = x_save;
                     }
                 }
             }
         }
+        
+        //private static void draw_sprites(int iBitmap, int scanline)
+        //{
+        //    int x_2, code_2;
+        //    int x, y, rows, zoom_x, zoom_y, sprite_list_offset, sprite_index, max_sprite_index, sprite_number, sprite_y, tile, attr_and_code_offs, code, zoom_x_table_offset, gfx_offset, line_pens_offset, x_inc, sprite_line, zoom_line;
+        //    ushort y_control, zoom_control, attr;
+        //    byte sprite_y_and_tile;
+        //    bool invert;
+        //    y = 0;
+        //    x = 0;
+        //    rows = 0;
+        //    zoom_y = 0;
+        //    zoom_x = 0;
+        //    if ((scanline & 0x01) != 0)
+        //    {
+        //        sprite_list_offset = 0x8680;
+        //    }
+        //    else
+        //    {
+        //        sprite_list_offset = 0x8600;
+        //    }
+        //    for (max_sprite_index = 95; max_sprite_index >= 0; max_sprite_index--)
+        //    {
+        //        if (neogeo_videoram[sprite_list_offset + max_sprite_index] != 0)
+        //        {
+        //            break;
+        //        }
+        //    }
+        //    if (max_sprite_index != 95)
+        //    {
+        //        max_sprite_index = max_sprite_index + 1;
+        //    }
+        //    for (sprite_index = 0; sprite_index < max_sprite_index; sprite_index++)
+        //    {
+        //        sprite_number = neogeo_videoram[sprite_list_offset + sprite_index] & 0x1ff;
+        //        y_control = neogeo_videoram[0x8200 | sprite_number];
+        //        zoom_control = neogeo_videoram[0x8000 | sprite_number];
+        //        x_2 = neogeo_videoram[0x8400 | sprite_number];
+        //        code_2 = neogeo_videoram[sprite_number << 6];
+        //        if ((y_control & 0x40) != 0)
+        //        {
+        //            x = (x + zoom_x + 1) & 0x01ff;
+        //            zoom_x = (zoom_control >> 8) & 0x0f;
+        //        }
+        //        else
+        //        {
+        //            y = 0x200 - (y_control >> 7);
+        //            x = neogeo_videoram[0x8400 | sprite_number] >> 7;
+        //            zoom_y = zoom_control & 0xff;
+        //            zoom_x = (zoom_control >> 8) & 0x0f;
+        //            rows = y_control & 0x3f;
+        //        }
+        //        if ((x >= 0x140) && (x <= 0x1f0))
+        //        {
+        //            continue;
+        //        }
+        //        if (sprite_on_scanline(scanline, y, rows))
+        //        {
+        //            sprite_line = (scanline - y) & 0x1ff;
+        //            zoom_line = sprite_line & 0xff;
+        //            invert = ((sprite_line & 0x100) != 0) ? true : false;
+        //            if (invert)
+        //            {
+        //                zoom_line ^= 0xff;
+        //            }
+        //            if (rows > 0x20)
+        //            {
+        //                zoom_line = zoom_line % ((zoom_y + 1) << 1);
+        //                if (zoom_line > zoom_y)
+        //                {
+        //                    zoom_line = ((zoom_y + 1) << 1) - 1 - zoom_line;
+        //                    invert = !invert;
+        //                }
+        //            }
+        //            sprite_y_and_tile = zoomyrom[(zoom_y << 8) | zoom_line];
+        //            sprite_y = sprite_y_and_tile & 0x0f;
+        //            tile = sprite_y_and_tile >> 4;
+        //            if (invert)
+        //            {
+        //                sprite_y ^= 0x0f;
+        //                tile ^= 0x1f;
+        //            }
+        //            attr_and_code_offs = (sprite_number << 6) | (tile << 1);
+        //            attr = neogeo_videoram[attr_and_code_offs + 1];
+        //            code = ((attr << 12) & 0x70000) | neogeo_videoram[attr_and_code_offs];
+        //            if (auto_animation_disabled == 0)
+        //            {
+        //                if ((attr & 0x0008) != 0)
+        //                {
+        //                    code = (code & ~0x07) | (auto_animation_counter & 0x07);
+        //                }
+        //                else if ((attr & 0x0004) != 0)
+        //                {
+        //                    code = (code & ~0x03) | (auto_animation_counter & 0x03);
+        //                }
+        //            }
+        //            if ((attr & 0x0002) != 0)
+        //            {
+        //                sprite_y ^= 0x0f;
+        //            }
+        //            zoom_x_table_offset = 0;
+        //            gfx_offset = (int)(((code << 8) | (sprite_y << 4)) & sprite_gfx_address_mask);
+        //            line_pens_offset = attr >> 8 << 4;
+        //            if ((attr & 0x0001) != 0)
+        //            {
+        //                gfx_offset = gfx_offset + 0x0f;
+        //                x_inc = -1;
+        //            }
+        //            else
+        //            {
+        //                x_inc = 1;
+        //            }
+        //            int pixel_addr_offsetx, pixel_addr_offsety;
+        //            if (x <= 0x01f0)
+        //            {
+        //                int i;
+        //                pixel_addr_offsetx = x + NEOGEO_HBEND;
+        //                pixel_addr_offsety = scanline;
+        //                for (i = 0; i < 0x10; i++)
+        //                {
+        //                    if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+        //                    {
+        //                        if (sprite_gfx[gfx_offset] != 0)
+        //                        {
+        //                            Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                        }
+        //                        pixel_addr_offsetx++;
+        //                    }
+        //                    zoom_x_table_offset++;
+        //                    gfx_offset += x_inc;
+        //                }
+        //            }
+        //            else
+        //            {
+        //                int i;
+        //                int x_save = x;
+        //                pixel_addr_offsetx = NEOGEO_HBEND;
+        //                pixel_addr_offsety = scanline;
+        //                for (i = 0; i < 0x10; i++)
+        //                {
+        //                    if (zoom_x_tables[zoom_x, zoom_x_table_offset] != 0)
+        //                    {
+        //                        if (x >= 0x200)
+        //                        {
+        //                            if (sprite_gfx[gfx_offset] != 0)
+        //                            {
+        //                                Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                            }
+        //                            pixel_addr_offsetx++;
+        //                        }
+        //                        x++;
+        //                    }
+        //                    zoom_x_table_offset++;
+        //                    gfx_offset += x_inc;
+        //                }
+        //                x = x_save;
+        //            }
+        //        }
+        //    }
+        //}
         private static void parse_sprites(int scanline)
         {
             ushort sprite_number, y_control;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Numerics;
 using System.Runtime.InteropServices;
 
 namespace MAME.Core
@@ -57,7 +58,7 @@ namespace MAME.Core
         {
 
         }
-        public irq(int _cpunum, int _line, LineState _state, int _vector, Atime _time)
+        public void Init(int _cpunum, int _line, LineState _state, int _vector, Atime _time)
         {
             cpunum = _cpunum;
             line = _line;
@@ -134,7 +135,10 @@ namespace MAME.Core
         public static void cpunum_set_input_line(int cpunum, int line, LineState state)
         {
             int vector = (line >= 0 && line < 35) ? interrupt_vector[cpunum, line] : 0xff;
-            lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
+            irq _irq = ObjectPoolAuto.Acquire<irq>();
+            _irq.Init(cpunum, line, state, vector, EmuTimer.get_current_time());
+            lirq.Add(_irq);
+            //lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
             Cpuexec.cpu[cpunum].cpunum_set_input_line_and_vector(cpunum, line, state, vector);
         }
         public static void cpunum_set_input_line_vector(int cpunum, int line, int vector)
@@ -149,13 +153,17 @@ namespace MAME.Core
         {
             if (line >= 0 && line < 35)
             {
-                lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
+                irq _irq = ObjectPoolAuto.Acquire<irq>();
+                _irq.Init(cpunum, line, state, vector, EmuTimer.get_current_time());
+                lirq.Add(_irq);
+                //lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
                 EmuTimer.timer_set_internal(EmuTimer.TIME_ACT.Cpuint_cpunum_empty_event_queue);
             }
         }
         public static void cpunum_empty_event_queue()
         {
-            List<irq> lsirq = new List<irq>();
+            //List<irq> lsirq = new List<irq>();
+            List<irq> lsirq = ObjectPoolAuto.AcquireList<irq>();
             if (lirq.Count == 0)
             {
                 int i1 = 1;
@@ -219,12 +227,14 @@ namespace MAME.Core
             foreach (irq irq1 in lsirq)
             {
                 input_event_index[irq1.cpunum, irq1.line] = 0;
+                ObjectPoolAuto.Release(irq1);
                 lirq.Remove(irq1);
             }
             if (lirq.Count > 0)
             {
                 int i1 = 1;
             }
+            ObjectPoolAuto.Release(lsirq);
         }
         public static int cpu_irq_callback(int cpunum, int line)
         {
@@ -348,7 +358,9 @@ namespace MAME.Core
             lirq = new List<irq>();
             for (i = 0; i < n; i++)
             {
-                lirq.Add(new irq());
+                irq _irq = ObjectPoolAuto.Acquire<irq>();
+                lirq.Add(_irq);
+                //lirq.Add(new irq());
                 lirq[i].cpunum = reader.ReadInt32();
                 lirq[i].line = reader.ReadInt32();
                 lirq[i].state = (LineState)reader.ReadInt32();

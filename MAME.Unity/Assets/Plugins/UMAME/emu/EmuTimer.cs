@@ -25,10 +25,6 @@ namespace MAME.Core
             public Atime period;
             public Atime start;
             public Atime expire;
-            public emu_timer()
-            {
-
-            }
         }
         public class emu_timer2
         {
@@ -502,16 +498,18 @@ namespace MAME.Core
                 lt.Insert(i, timer1);
             }
         }
+
+        static List<emu_timer> timer_list_remove_lt1 = new List<emu_timer>();
         public static void timer_list_remove(emu_timer timer1)
         {
             if (timer1.action == TIME_ACT.Cpuint_cpunum_empty_event_queue || timer1.action == TIME_ACT.setvector)
             {
-                List<emu_timer> lt1 = new List<emu_timer>();
+                timer_list_remove_lt1.Clear();
                 foreach (emu_timer et in lt)
                 {
                     if (et.action == timer1.action && Attotime.attotime_compare(et.expire, timer1.expire) == 0)
                     {
-                        lt1.Add(et);
+                        timer_list_remove_lt1.Add(et);
                         //lt.Remove(et);
                         //break;
                     }
@@ -524,7 +522,7 @@ namespace MAME.Core
                         int i1 = 1;
                     }
                 }
-                foreach (emu_timer et1 in lt1)
+                foreach (emu_timer et1 in timer_list_remove_lt1)
                 {
                     lt.Remove(et1);
                 }

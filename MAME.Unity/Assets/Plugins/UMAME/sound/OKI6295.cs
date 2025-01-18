@@ -115,6 +115,8 @@ namespace MAME.Core
                 i1++;
             }
         }
+        //TODO 移动到这里，但是大小，还需要考虑
+        static short[] sample_data = new short[10000];
         public static void okim6295_update(int offset, int length)
         {
             int i;
@@ -124,7 +126,8 @@ namespace MAME.Core
             }
             for (i = 0; i < 4; i++)
             {
-                short[] sample_data = new short[10000];
+                //不每次new，避免GC，排除问题。待验证影响
+                //short[] sample_data = new short[10000];
                 int remaining = length;
                 while (remaining != 0)
                 {

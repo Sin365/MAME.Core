@@ -61,7 +61,10 @@ namespace cpu.nec
         {
             if (line >= 0 && line < 35)
             {
-                Cpuint.lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
+                irq _irq = ObjectPoolAuto.Acquire<irq>();
+                _irq.Init(cpunum, line, state, vector, EmuTimer.get_current_time());
+                Cpuint.lirq.Add(_irq);
+                //Cpuint.lirq.Add(new irq(cpunum, line, state, vector, EmuTimer.get_current_time()));
                 int event_index = Cpuint.input_event_index[cpunum, line]++;
                 if (event_index >= 35)
                 {

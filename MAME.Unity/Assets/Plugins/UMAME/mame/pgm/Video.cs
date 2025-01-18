@@ -199,47 +199,132 @@ namespace MAME.Core
                 ycnt++;
             }
         }
-        private static void draw_sprites(int priority)
+        unsafe private static void draw_sprites(int priority)
         {
-            while (pgm_sprite_source_offset < 0x500)
+            fixed (ushort* pSpriteBuffer = &pgm_spritebufferram[0])
+            fixed (byte* pVideoRegs = &pgm_videoregs[0])
             {
-                int xpos = pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x07ff;
-                int ypos = pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x03ff;
-                int xzom = (pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x7800) >> 11;
-                int xgrow = (pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x8000) >> 15;
-                int yzom = (pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x7800) >> 11;
-                int ygrow = (pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x8000) >> 15;
-                int palt = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x1f00) >> 8;
-                int flip = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x6000) >> 13;
-                int boff = ((pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x007f) << 16) | (pgm_spritebufferram[pgm_sprite_source_offset + 3] & 0xffff);
-                int wide = (pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x7e00) >> 9;
-                int high = pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x01ff;
-                int pri = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x0080) >> 7;
-                int xzoom, yzoom;
-                int pgm_sprite_zoomtable_offset = 0x1000;
-                if (xgrow != 0)
+                ushort* spritePtr = pSpriteBuffer + pgm_sprite_source_offset;
+                int offset = 0;
+
+                while (pgm_sprite_source_offset < 0x500)
                 {
-                    xzom = 0x10 - xzom;
+                    // 读取数据
+                    ushort* spriteData = (ushort*)spritePtr;
+                    int xpos = spriteData[0] & 0x07FF;
+                    int ypos = spriteData[1] & 0x03FF;
+                    int xzom = (spriteData[0] & 0x7800) >> 11;
+                    int xgrow = (spriteData[0] & 0x8000) >> 15;
+                    int yzom = (spriteData[1] & 0x7800) >> 11;
+                    int ygrow = (spriteData[1] & 0x8000) >> 15;
+                    ushort* spriteData2 = (ushort*)(spritePtr + 4);
+                    int palt = (spriteData2[0] & 0x1F00) >> 8;
+                    int flip = (spriteData2[0] & 0x6000) >> 13;
+                    int boff = ((spriteData2[0] & 0x007F) << 16) | spriteData2[1];
+                    ushort* spriteData3 = (ushort*)(spritePtr + 6);
+                    int wide = (spriteData3[0] & 0x7E00) >> 9;
+                    int high = spriteData3[0] & 0x01FF;
+                    int pri = (spriteData2[0] & 0x0080) >> 7;
+                    int pgm_sprite_zoomtable_offset = 0x1000;
+                    // 处理缩放
+                    int xzoom, yzoom;
+                    int* zoomTablePtr = (int*)(pVideoRegs + pgm_sprite_zoomtable_offset);
+                    if (xgrow != 0)
+                    {
+                        xzom = 0x10 - xzom;
+                    }
+                    if (ygrow != 0)
+                    {
+                        yzom = 0x10 - yzom;
+                    }
+                    xzoom = zoomTablePtr[xzom * 4] * 0x10000 + zoomTablePtr[xzom * 4 + 1] * 0x100 + zoomTablePtr[xzom * 4 + 2];
+                    yzoom = zoomTablePtr[yzom * 4] * 0x10000 + zoomTablePtr[yzom * 4 + 1] * 0x100 + zoomTablePtr[yzom * 4 + 2];
+
+                    // 调整偏移和边界检查
+                    boff *= 2;
+                    if (xpos > 0x3FF)
+                        xpos -= 0x800;
+                    if (ypos > 0x1FF)
+                        ypos -= 0x400;
+                    if (high == 0)
+                        break;
+                    if ((priority == 1) && (pri == 0))
+                        break;
+
+                    // 调用绘制函数（注意：这个函数也需要被修改为接受指针或适当的参数类型）
+                    draw_sprite_new_zoomed(wide, high, xpos, ypos, palt, boff, flip, xzoom, xgrow, yzoom, ygrow);
+
+                    // 移动到下一个精灵
+                    spritePtr += 10; // 每个精灵占用5个ushort，即10个字节
+                    pgm_sprite_source_offset += 5; // 假设pgm_sprite_source_offset是以ushort为单位递增的
+
+                    // 注意：这里我们直接通过指针移动，因此不需要再次访问数组来更新pgm_sprite_source_offset对应的值
                 }
-                if (ygrow != 0)
-                {
-                    yzom = 0x10 - yzom;
-                }
-                xzoom = ((pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 1]) << 16) | (pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 2] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 3]);
-                yzoom = ((pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 1]) << 16) | (pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 2] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 3]);
-                boff *= 2;
-                if (xpos > 0x3ff)
-                    xpos -= 0x800;
-                if (ypos > 0x1ff)
-                    ypos -= 0x400;
-                if (high == 0)
-                    break;
-                if ((priority == 1) && (pri == 0))
-                    break;
-                draw_sprite_new_zoomed(wide, high, xpos, ypos, palt, boff, flip, xzoom, xgrow, yzoom, ygrow);
-                pgm_sprite_source_offset += 5;
             }
         }
+
+        //private static void draw_sprites(int priority)
+        //{
+        //    while (pgm_sprite_source_offset < 0x500)
+        //    {
+        //        //用Span优化
+        //        Span<ushort> span_pgm_spritebufferram = pgm_spritebufferram.AsSpan();
+        //        int xpos = span_pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x07ff;
+        //        int ypos = span_pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x03ff;
+        //        int xzom = (span_pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x7800) >> 11;
+        //        int xgrow = (span_pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x8000) >> 15;
+        //        int yzom = (span_pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x7800) >> 11;
+        //        int ygrow = (span_pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x8000) >> 15;
+        //        int palt = (span_pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x1f00) >> 8;
+        //        int flip = (span_pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x6000) >> 13;
+        //        int boff = ((span_pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x007f) << 16) | (span_pgm_spritebufferram[pgm_sprite_source_offset + 3] & 0xffff);
+        //        int wide = (span_pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x7e00) >> 9;
+        //        int high = span_pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x01ff;
+        //        int pri = (span_pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x0080) >> 7;
+
+
+        //        //int xpos = pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x07ff;
+        //        //int ypos = pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x03ff;
+        //        //int xzom = (pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x7800) >> 11;
+        //        //int xgrow = (pgm_spritebufferram[pgm_sprite_source_offset + 0] & 0x8000) >> 15;
+        //        //int yzom = (pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x7800) >> 11;
+        //        //int ygrow = (pgm_spritebufferram[pgm_sprite_source_offset + 1] & 0x8000) >> 15;
+        //        //int palt = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x1f00) >> 8;
+        //        //int flip = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x6000) >> 13;
+        //        //int boff = ((pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x007f) << 16) | (pgm_spritebufferram[pgm_sprite_source_offset + 3] & 0xffff);
+        //        //int wide = (pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x7e00) >> 9;
+        //        //int high = pgm_spritebufferram[pgm_sprite_source_offset + 4] & 0x01ff;
+        //        //int pri = (pgm_spritebufferram[pgm_sprite_source_offset + 2] & 0x0080) >> 7;
+
+        //        int xzoom, yzoom;
+        //        int pgm_sprite_zoomtable_offset = 0x1000;
+        //        if (xgrow != 0)
+        //        {
+        //            xzom = 0x10 - xzom;
+        //        }
+        //        if (ygrow != 0)
+        //        {
+        //            yzom = 0x10 - yzom;
+        //        }
+        //        Span<byte> span_pgm_videoregs = pgm_videoregs.AsSpan();
+        //        xzoom = ((span_pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4] * 0x100 + span_pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 1]) << 16) | (span_pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 2] * 0x100 + span_pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 3]);
+        //        yzoom = ((span_pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4] * 0x100 + span_pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 1]) << 16) | (span_pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 2] * 0x100 + span_pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 3]);
+
+        //        //xzoom = ((pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 1]) << 16) | (pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 2] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + xzom * 4 + 3]);
+        //        //yzoom = ((pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 1]) << 16) | (pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 2] * 0x100 + pgm_videoregs[pgm_sprite_zoomtable_offset + yzom * 4 + 3]);
+        //        boff *= 2;
+        //        if (xpos > 0x3ff)
+        //            xpos -= 0x800;
+        //        if (ypos > 0x1ff)
+        //            ypos -= 0x400;
+        //        if (high == 0)
+        //            break;
+        //        if ((priority == 1) && (pri == 0))
+        //            break;
+        //        draw_sprite_new_zoomed(wide, high, xpos, ypos, palt, boff, flip, xzoom, xgrow, yzoom, ygrow);
+        //        pgm_sprite_source_offset += 5;
+        //    }
+        //}
         private static void pgm_tx_videoram_w(int offset, byte data)
         {
             int col, row;
