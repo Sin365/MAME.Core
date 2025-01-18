@@ -17,7 +17,7 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
     private RawImage m_drawCanvas;
     [SerializeField]
     private RectTransform m_drawCanvasrect;
-    int[] mFrameData;
+    //int[] mFrameData;
     IntPtr mFrameDataPtr;
 
     private TimeSpan lastElapsed;
@@ -41,9 +41,9 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
             mWidth = width;
             mHeight = height;
             mDataLenght = width * height * 4;
-            mFrameData = new int[mWidth * mHeight];
-            //MAME来的是BGRA32，好好好
-            m_rawBufferWarper = new Texture2D(mWidth, mHeight, TextureFormat.BGRA32, false);
+            //mFrameData = new int[mWidth * mHeight];
+            //MAME来的是BGRA32，好好好 BGRA->RGBA
+            m_rawBufferWarper = new Texture2D(mWidth, mHeight, TextureFormat.RGBA32, false);
             m_rawBufferWarper.filterMode = FilterMode.Point;
         }
 
@@ -76,7 +76,7 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
         var delta = current - lastElapsed;
         lastElapsed = current;
         videoFPS = 1d / delta.TotalSeconds;
-        mFrameData = data;
+        //mFrameData = data;
 
         //Debug.Log($"frame_number -> {frame_number}");
     }

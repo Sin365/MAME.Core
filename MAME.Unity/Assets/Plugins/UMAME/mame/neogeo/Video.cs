@@ -69,7 +69,10 @@ namespace MAME.Core
                                   (data >> 1) & 0x01,
                                   (data >> 0) & 0x01,
                                   (data >> 12) & 0x01);
-            return (r << 16) | (g << 8) | b;
+            //return (r << 16) | (g << 8) | b;
+
+            //通道修改，BGRA->RGBA
+            return (b << 16) | (g << 8) | r;
         }
         public static void regenerate_pens()
         {

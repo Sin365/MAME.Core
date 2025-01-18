@@ -4,7 +4,7 @@ namespace cpu.m68000
 {
     partial class MC68000
     {
-        void MOVEtSR()
+        unsafe void MOVEtSR()
         {
             int mode = (op >> 3) & 7;
             int reg = (op >> 0) & 7;
@@ -17,8 +17,28 @@ namespace cpu.m68000
             {
                 SR = ReadValueW(mode, reg);
             }
-            pendingCycles -= 12 + EACyclesBW[mode, reg];
+            //pendingCycles -= 12 + EACyclesBW[mode, reg];
+            fixed (int* EACyclesBW_mode = &EACyclesBW[mode,0])
+            {
+                pendingCycles -= 12 + EACyclesBW_mode[reg];
+            }
         }
+
+        //void MOVEtSR()
+        //{
+        //    int mode = (op >> 3) & 7;
+        //    int reg = (op >> 0) & 7;
+        //    if (S == false)
+        //    {
+        //        //throw new Exception("Write to SR when not in supervisor mode. supposed to trap or something...");
+        //        TrapVector2(8);
+        //    }
+        //    else
+        //    {
+        //        SR = ReadValueW(mode, reg);
+        //    }
+        //    pendingCycles -= 12 + EACyclesBW[mode, reg];
+        //}
 
         void MOVEtSR_Disasm(DisassemblyInfo info)
         {

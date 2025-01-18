@@ -342,19 +342,24 @@ namespace MAME.Core
         {
             paletteram16[offset] = data;
             ushort data1 = paletteram16[offset];
+            //TODO  通道修改，BGRA->RGBA
             Palette.palette_set_callback(offset, (uint)((Palette.pal5bit((byte)(((data1 >> 11) & 0x1e) | ((data1 >> 3) & 0x01))) << 16) | (Palette.pal5bit((byte)(((data >> 7) & 0x1e) | ((data >> 2) & 0x01))) << 8) | Palette.pal5bit((byte)(((data >> 3) & 0x1e) | ((data >> 1) & 0x01)))));
         }
         public static void paletteram16_RRRRGGGGBBBBRGBx_word_w1(int offset, byte data)
         {
             paletteram16[offset] = (ushort)((data << 8) | (paletteram16[offset] & 0xff));
             ushort data1 = paletteram16[offset];
+            //TODO  通道修改，BGRA->RGBA
             Palette.palette_set_callback(offset, (uint)((Palette.pal5bit((byte)(((data1 >> 11) & 0x1e) | ((data1 >> 3) & 0x01))) << 16) | (Palette.pal5bit((byte)(((data >> 7) & 0x1e) | ((data >> 2) & 0x01))) << 8) | Palette.pal5bit((byte)(((data >> 3) & 0x1e) | ((data >> 1) & 0x01)))));
         }
         public static void paletteram16_RRRRGGGGBBBBRGBx_word_w2(int offset, byte data)
         {
             paletteram16[offset] = (ushort)((paletteram16[offset] & 0xff00) | data);
             ushort data1 = paletteram16[offset];
+
+            //TODO  通道修改，BGRA->RGBA
             Palette.palette_set_callback(offset, (uint)((Palette.pal5bit((byte)(((data1 >> 11) & 0x1e) | ((data1 >> 3) & 0x01))) << 16) | (Palette.pal5bit((byte)(((data >> 7) & 0x1e) | ((data >> 2) & 0x01))) << 8) | Palette.pal5bit((byte)(((data >> 3) & 0x1e) | ((data >> 1) & 0x01)))));
+
         }
     }
 }

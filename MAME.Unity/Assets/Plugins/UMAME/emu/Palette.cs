@@ -304,11 +304,15 @@ namespace MAME.Core
         }
         public static uint make_rgb(int r, int g, int b)
         {
-            return ((((uint)(r) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(b) & 0xff));
+            //return ((((uint)(r) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(b) & 0xff));
+            //通道修改，BGRA->RGBA
+            return ((((uint)(b) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(r) & 0xff));
         }
         public static uint make_argb(int a, int r, int g, int b)
         {
-            return ((((uint)(a) & 0xff) << 24) | (((uint)(r) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(b) & 0xff));
+            //return ((((uint)(a) & 0xff) << 24) | (((uint)(r) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(b) & 0xff));
+            //通道修改，BGRA->RGBA
+            return ((((uint)(a) & 0xff) << 24) | (((uint)(b) & 0xff) << 16) | (((uint)(g) & 0xff) << 8) | ((uint)(r) & 0xff));
         }
         public static byte pal1bit(byte bits)
         {

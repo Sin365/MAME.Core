@@ -206,7 +206,7 @@ namespace cpu.m68000
             PC = ReadOpLong(4);
         }
 
-        public Action[] Opcodes = new Action[0x10000];
+        //public Action[] Opcodes = new Action[0x10000];
         public ushort op;
 
         public void Step()
@@ -214,7 +214,8 @@ namespace cpu.m68000
             //EmuLogger.Log(Disassemble(PC));
 
             op = (ushort)ReadOpWord(PC); PC += 2;
-            Opcodes[op]();
+            //Opcodes[op]();
+            DoOpCode(op);
         }
 
         public override int ExecuteCycles(int cycles)
@@ -231,7 +232,8 @@ namespace cpu.m68000
                     PPC = PC;
                     //debugger_start_cpu_hook_callback();
                     op = (ushort)ReadOpWord(PC); PC += 2;
-                    Opcodes[op]();
+                    //Opcodes[op]();
+                    DoOpCode(op);
                     m68ki_check_interrupts();
                     //debugger_stop_cpu_hook_callback();
                     int delta = prevCycles - pendingCycles;
@@ -267,15 +269,15 @@ namespace cpu.m68000
             }
         }
 
-        public string State()
-        {
-            string a = Disassemble(PC).ToString().PadRight(64);
-            //string a = string.Format("{0:X6}: {1:X4}", PC, ReadWord(PC)).PadRight(64);
-            string b = string.Format("D0:{0:X8} D1:{1:X8} D2:{2:X8} D3:{3:X8} D4:{4:X8} D5:{5:X8} D6:{6:X8} D7:{7:X8} ", D[0].u32, D[1].u32, D[2].u32, D[3].u32, D[4].u32, D[5].u32, D[6].u32, D[7].u32);
-            string c = string.Format("A0:{0:X8} A1:{1:X8} A2:{2:X8} A3:{3:X8} A4:{4:X8} A5:{5:X8} A6:{6:X8} A7:{7:X8} ", A[0].u32, A[1].u32, A[2].u32, A[3].u32, A[4].u32, A[5].u32, A[6].u32, A[7].u32);
-            string d = string.Format("SR:{0:X4} Pending {1}", SR, pendingCycles);
-            return a + b + c + d;
-        }
+        //public string State()
+        //{
+        //    string a = Disassemble(PC).ToString().PadRight(64);
+        //    //string a = string.Format("{0:X6}: {1:X4}", PC, ReadWord(PC)).PadRight(64);
+        //    string b = string.Format("D0:{0:X8} D1:{1:X8} D2:{2:X8} D3:{3:X8} D4:{4:X8} D5:{5:X8} D6:{6:X8} D7:{7:X8} ", D[0].u32, D[1].u32, D[2].u32, D[3].u32, D[4].u32, D[5].u32, D[6].u32, D[7].u32);
+        //    string c = string.Format("A0:{0:X8} A1:{1:X8} A2:{2:X8} A3:{3:X8} A4:{4:X8} A5:{5:X8} A6:{6:X8} A7:{7:X8} ", A[0].u32, A[1].u32, A[2].u32, A[3].u32, A[4].u32, A[5].u32, A[6].u32, A[7].u32);
+        //    string d = string.Format("SR:{0:X4} Pending {1}", SR, pendingCycles);
+        //    return a + b + c + d;
+        //}
 
         public void SaveStateBinary(BinaryWriter writer)
         {

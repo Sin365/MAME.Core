@@ -116,14 +116,30 @@
                 paletteram16[offset / 2] = (ushort)((paletteram16[offset / 2] & 0xff00) | data);
             }
             rgb = (paletteram16[(offset / 2) & 0x7ff] & 0xff) | ((paletteram16[(offset / 2) | 0x800] & 0xff) << 8);
-            Palette.palette_entry_set_color1((offset / 2) & 0x7ff, (uint)((Palette.pal5bit((byte)(rgb >> 0)) << 16) | (Palette.pal5bit((byte)(rgb >> 5)) << 8) | Palette.pal5bit((byte)(rgb >> 10))));
+
+            //Palette.palette_entry_set_color1((offset / 2) & 0x7ff, (uint)((Palette.pal5bit((byte)(rgb >> 0)) << 16) | (Palette.pal5bit((byte)(rgb >> 5)) << 8) | Palette.pal5bit((byte)(rgb >> 10))));
+            //通道修改，BGRA->RGBA
+            Palette.palette_entry_set_color1((offset / 2) & 0x7ff,
+                (uint)(
+                (Palette.pal5bit((byte)(rgb >> 10)) << 16) |
+                (Palette.pal5bit((byte)(rgb >> 5)) << 8) |
+                Palette.pal5bit((byte)(rgb >> 0))  
+                )
+                );
         }
         private static void igs011_palette(int offset, ushort data)
         {
             int rgb;
             paletteram16[offset] = data;
             rgb = (paletteram16[offset & 0x7ff] & 0xff) | ((paletteram16[offset | 0x800] & 0xff) << 8);
-            Palette.palette_entry_set_color1(offset & 0x7ff, (uint)((Palette.pal5bit((byte)(rgb >> 0)) << 16) | (Palette.pal5bit((byte)(rgb >> 5)) << 8) | Palette.pal5bit((byte)(rgb >> 10))));
+            //Palette.palette_entry_set_color1(offset & 0x7ff, (uint)((Palette.pal5bit((byte)(rgb >> 0)) << 16) | (Palette.pal5bit((byte)(rgb >> 5)) << 8) | Palette.pal5bit((byte)(rgb >> 10))));
+            //通道修改，BGRA->RGBA
+            Palette.palette_entry_set_color1(offset & 0x7ff,
+                (uint)(
+                (Palette.pal5bit((byte)(rgb >> 10)) << 16) |
+                (Palette.pal5bit((byte)(rgb >> 5)) << 8) |
+                Palette.pal5bit((byte)(rgb >> 0)))
+                );
         }
         private static void igs011_blit_x_w(int offset, byte data)
         {

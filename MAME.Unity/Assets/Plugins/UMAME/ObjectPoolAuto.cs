@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
-using UnityEngine;
 
 namespace MAME.Core
 {
@@ -229,7 +228,7 @@ namespace MAME.Core
                     if (count < value)
                     {
                         if (Items.Capacity < value)
-                            Items.Capacity = Mathf.NextPowerOfTwo(value);
+                            Items.Capacity = NextPowerOfTwo(value);
 
                         do
                         {
@@ -244,6 +243,28 @@ namespace MAME.Core
                         Items.RemoveRange(value, count - value);
                     }
                 }
+            }
+
+
+            // 计算大于或等于给定数的最小的2的幂
+            public static int NextPowerOfTwo(int value)
+            {
+                // 处理value为0的特殊情况
+                if (value == 0)
+                    return 1;
+
+                // value已经是2的幂的情况
+                if ((value & (value - 1)) == 0)
+                    return value;
+
+                // 不断左移直到找到一个大于或等于value的2的幂
+                int powerOfTwo = 1;
+                while (powerOfTwo < value)
+                {
+                    powerOfTwo <<= 1; // 左移一位，相当于乘以2
+                }
+
+                return powerOfTwo;
             }
 
             /************************************************************************************************************************/

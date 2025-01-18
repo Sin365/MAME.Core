@@ -87,7 +87,7 @@ namespace MAME.Core
             }
         }
 
-        #region
+        #region Update 推进方式
 
         public static void mame_execute_UpdateMode_Start()
         {

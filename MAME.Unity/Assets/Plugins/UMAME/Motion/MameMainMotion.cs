@@ -15,10 +15,10 @@ namespace MAME.Core
         public NeogeoMotion neogeomotion;
         public Konami68000Motion konami68000motion;
         public string sSelect;
-        //public static Thread mainThread;
+        public static Thread mainThread;
 
         //初始化停帧信号量
-        //public AutoResetEvent emuAutoLoopEvent;
+        public AutoResetEvent emuAutoLoopEvent;
 
         public static IResources resource;
         public bool bRom => Machine.bRom;
@@ -203,17 +203,26 @@ namespace MAME.Core
 
         public void StartGame()
         {
+            bIsNewThreadMode = false;
+            M68000Motion.iStatus = 0;
+            M68000Motion.iValue = 0;
+            Mame.exit_pending = false;
+
+            Mame.mame_execute_UpdateMode_Start();
+        }
+
+        public void StartGame_WithNewThread()
+        {
+            bIsNewThreadMode = true;
             M68000Motion.iStatus = 0;
             M68000Motion.iValue = 0;
             Mame.exit_pending = false;
 
             //初始化停帧信号量
-            //emuAutoLoopEvent = new AutoResetEvent(false);
+            emuAutoLoopEvent = new AutoResetEvent(false);
 
-            //mainThread = new Thread(Mame.mame_execute);
-            //mainThread.Start();
-
-            Mame.mame_execute_UpdateMode_Start();
+            mainThread = new Thread(Mame.mame_execute);
+            mainThread.Start();
         }
 
 
@@ -225,7 +234,10 @@ namespace MAME.Core
         /// <param name="moveTick"></param>
         public void UnlockNextFreme(int moreTick = 1)
         {
-            //emuAutoLoopEvent.Set();
+            if (!bIsNewThreadMode)
+                return;
+
+            emuAutoLoopEvent.Set();
 
             //TODO 等待跳帧时测试
             if (moreTick > 1)
@@ -254,7 +266,14 @@ namespace MAME.Core
             }
 
             //等待停帧数
-            //Machine.mainMotion.emuAutoLoopEvent.WaitOne();
+            Machine.mainMotion.WaitAutoEvent();
+        }
+
+        private void WaitAutoEvent()
+        {
+            if (!bIsNewThreadMode)
+                return;
+            emuAutoLoopEvent.WaitOne();
         }
 
         public void StopGame()
@@ -560,6 +579,8 @@ namespace MAME.Core
 
         int TempWidth = 0;
         int TempHeight = 0;
+        private bool bIsNewThreadMode;
+
         private void ResizeMain()
         {
             int deltaX, deltaY;

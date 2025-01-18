@@ -32,6 +32,7 @@ namespace MAME.Core
         public void LoadRom(string Name) => mameMainMotion.LoadRom(Name);
         public void GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr) => mameMainMotion.GetGameScreenSize(out _width, out _height, out _framePtr);
         public void StartGame() => mameMainMotion.StartGame();
+        public void StartGame_WithNewThread() => mameMainMotion.StartGame_WithNewThread();
         public void UpdateFrame() => Mame.mame_execute_UpdateMode_NextFrame();
         public void UnlockNextFreme(int moreTick = 1) => mameMainMotion.UnlockNextFreme(moreTick);
         public void StopGame() => mameMainMotion.StopGame();
