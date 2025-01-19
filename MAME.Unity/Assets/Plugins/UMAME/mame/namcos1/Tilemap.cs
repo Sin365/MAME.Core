@@ -167,7 +167,7 @@ namespace MAME.Core
             }
             return (byte)(andmask ^ ormask);
         }
-        public void tilemap_draw_instanceNa(RECT cliprect, int xpos, int ypos)
+        public unsafe void tilemap_draw_instanceNa(RECT cliprect, int xpos, int ypos)
         {
             int mincol, maxcol;
             int x1, y1, x2, y2;
@@ -232,7 +232,7 @@ namespace MAME.Core
                             {
                                 for (i = xpos + x_start; i < xpos + x_end; i++)
                                 {
-                                    Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * 0x200 + i - xpos] + palette_offset);
+                                    Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * 0x200 + i - xpos] + palette_offset);
                                     Tilemap.priority_bitmap[offsety2 + ypos, i] = priority;
                                 }
                                 offsety2++;
@@ -246,7 +246,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * 0x200 + i - xpos] + palette_offset);
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * 0x200 + i - xpos] + palette_offset);
                                         Tilemap.priority_bitmap[offsety2 + ypos, i] = priority;
                                     }
                                 }

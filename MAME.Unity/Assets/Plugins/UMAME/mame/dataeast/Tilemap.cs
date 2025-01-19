@@ -35,7 +35,7 @@ namespace MAME.Core
             bg_tilemap.tile_update3 = bg_tilemap.tile_updatePcktgalbg;
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tile_updatePcktgalbg(int col, int row)
         {
@@ -172,7 +172,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
                                     }
                                 }
                                 offsety2++;

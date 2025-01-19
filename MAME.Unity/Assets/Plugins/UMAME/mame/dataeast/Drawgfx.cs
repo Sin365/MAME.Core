@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Drawgfx
+    public unsafe partial class Drawgfx
     {
         public static void common_drawgfx_pcktgal(byte[] bb1, int gfxwidth, int gfxheight, int gfxsrcmodulo, int gfxtotal_elements, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {
@@ -96,7 +96,7 @@
                     col = bb1[srcdata_offset + srcmodulo * i + j];
                     if (col != 0)
                     {
-                        Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
                     }
                 }
             }

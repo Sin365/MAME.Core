@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Taitob
+    public unsafe partial class Taitob
     {
         public static ushort[][] framebuffer;
         public static ushort[] taitob_scroll, TC0180VCU_ram, taitob_spriteram, taitob_pixelram;
@@ -507,7 +507,7 @@ namespace MAME.Core
                             ushort c = framebuffer[framebuffer_page][y * 512 + x];
                             if (c != 0)
                             {
-                                Video.bitmapbase[Video.curbitmap][(255 - y) * 512 + 319 - x] = (ushort)(b_sp_color_base + c);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][(255 - y) * 512 + 319 - x] = (ushort)(b_sp_color_base + c);
                             }
                         }
                     }
@@ -521,7 +521,7 @@ namespace MAME.Core
                             ushort c = framebuffer[framebuffer_page][y * 512 + x];
                             if (c != 0)
                             {
-                                Video.bitmapbase[Video.curbitmap][y * 512 + x] = (ushort)(b_sp_color_base + c);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][y * 512 + x] = (ushort)(b_sp_color_base + c);
                             }
                         }
                     }
@@ -538,7 +538,7 @@ namespace MAME.Core
                             ushort c = framebuffer[framebuffer_page][y * 512 + x];
                             if ((c != 0) && ((c & 0x10) == priority))
                             {
-                                Video.bitmapbase[Video.curbitmap][(255 - y) * 512 + 319 - x] = (ushort)(b_sp_color_base + c);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][(255 - y) * 512 + 319 - x] = (ushort)(b_sp_color_base + c);
                             }
                         }
                     }
@@ -552,7 +552,7 @@ namespace MAME.Core
                             ushort c = framebuffer[framebuffer_page][y * 512 + x];
                             if ((c != 0) && ((c & 0x10) == priority))
                             {
-                                Video.bitmapbase[Video.curbitmap][y * 512 + x] = (ushort)(b_sp_color_base + c);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][y * 512 + x] = (ushort)(b_sp_color_base + c);
                             }
                         }
                     }

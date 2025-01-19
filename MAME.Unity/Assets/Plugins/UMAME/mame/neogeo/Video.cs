@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Neogeo
+    public unsafe partial class Neogeo
     {
         public static byte[] sprite_gfx;
         public static uint sprite_gfx_address_mask;
@@ -170,7 +170,7 @@ namespace MAME.Core
         //        sprite_list_offset = 0x8600;
         //    }
         //    Span<ushort> span_neogeo_videoram = neogeo_videoram.AsSpan();
-        //    Span<int> span_bitmapbaseN_iBitmap = Video.bitmapbaseN[iBitmap].AsSpan();
+        //    Span<int> span_bitmapbaseN_iBitmap = Video.bitmapbaseN_Ptrs[iBitmap].AsSpan();
         //    Span<byte> span_sprite_gfx = sprite_gfx.AsSpan();
         //    Span<int> span_pens = pens.AsSpan();
         //    for (max_sprite_index = 95; max_sprite_index >= 0; max_sprite_index--)
@@ -277,7 +277,7 @@ namespace MAME.Core
         //                        //if (sprite_gfx[gfx_offset] != 0)
         //                        if (span_sprite_gfx[gfx_offset] != 0)
         //                        {
-        //                            //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                            //Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
         //                            span_bitmapbaseN_iBitmap[pixel_addr_offsety * 384 + pixel_addr_offsetx] = span_pens[line_pens_offset + span_sprite_gfx[gfx_offset]];
         //                        }
         //                        pixel_addr_offsetx++;
@@ -301,7 +301,7 @@ namespace MAME.Core
         //                            //if (sprite_gfx[gfx_offset] != 0)
         //                            if (span_sprite_gfx[gfx_offset] != 0)
         //                            {
-        //                                //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                                //Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
         //                                span_bitmapbaseN_iBitmap[pixel_addr_offsety * 384 + pixel_addr_offsetx] = span_pens[line_pens_offset + span_sprite_gfx[gfx_offset]];
         //                            }
         //                            pixel_addr_offsetx++;
@@ -326,13 +326,14 @@ namespace MAME.Core
         {
 
             fixed (ushort* videoramPtr = &neogeo_videoram[0])
-            fixed (int* bitmapbasePtr = &Video.bitmapbaseN[iBitmap][0])
+            //fixed (int* bitmapbasePtr = &Video.bitmapbaseN_Ptrs[iBitmap][0])
             fixed (byte* spriteGfxPtr = &sprite_gfx[0])
             fixed (int* pensPtr = &pens[0])
             fixed (byte* zoomyromPtr = &zoomyrom[0])
             {
                 ushort* neogeo_videoram = videoramPtr;
-                int* bitmapbase = bitmapbasePtr;
+                //int* bitmapbase = bitmapbasePtr;
+                int* bitmapbase = &Video.bitmapbaseN_Ptrs[iBitmap][0];
                 byte* spriteGfx = spriteGfxPtr;
                 int* pens = pensPtr;
                 byte* zoomyrom = zoomyromPtr;
@@ -473,7 +474,7 @@ namespace MAME.Core
                                         //if (sprite_gfx[gfx_offset] != 0)
                                         if (spriteGfx[gfx_offset] != 0)
                                         {
-                                            //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+                                            //Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
                                             bitmapbase[pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + spriteGfx[gfx_offset]];
                                         }
                                         pixel_addr_offsetx++;
@@ -498,7 +499,7 @@ namespace MAME.Core
                                             //if (sprite_gfx[gfx_offset] != 0)
                                             if (spriteGfx[gfx_offset] != 0)
                                             {
-                                                //Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+                                                //Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
                                                 bitmapbase[pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + spriteGfx[gfx_offset]];
                                             }
                                             pixel_addr_offsetx++;
@@ -639,7 +640,7 @@ namespace MAME.Core
         //                    {
         //                        if (sprite_gfx[gfx_offset] != 0)
         //                        {
-        //                            Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                            Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
         //                        }
         //                        pixel_addr_offsetx++;
         //                    }
@@ -661,7 +662,7 @@ namespace MAME.Core
         //                        {
         //                            if (sprite_gfx[gfx_offset] != 0)
         //                            {
-        //                                Video.bitmapbaseN[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
+        //                                Video.bitmapbaseN_Ptrs[iBitmap][pixel_addr_offsety * 384 + pixel_addr_offsetx] = pens[line_pens_offset + sprite_gfx[gfx_offset]];
         //                            }
         //                            pixel_addr_offsetx++;
         //                        }
@@ -814,7 +815,7 @@ namespace MAME.Core
                     }
                     if ((data & 0x0f) != 0)
                     {
-                        Video.bitmapbaseN[iBitmap][384 * scanline + 30 + x * 8 + i] = pens[char_pens_offset + (data & 0x0f)];
+                        Video.bitmapbaseN_Ptrs[iBitmap][384 * scanline + 30 + x * 8 + i] = pens[char_pens_offset + (data & 0x0f)];
                     }
                 }
                 video_data_offset += 0x20;

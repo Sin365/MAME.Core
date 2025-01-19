@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tilemap_draw_instanceTaito_opwolf(RECT cliprect, int xpos, int ypos)
         {
@@ -88,7 +88,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x140 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x140 + i] = pixmap[offsety2 * width + i - xpos];
                                         Tilemap.priority_bitmap[offsety2 + ypos, i] = (byte)(Tilemap.priority_bitmap[offsety2 + ypos, i] | priority);
                                     }
                                 }

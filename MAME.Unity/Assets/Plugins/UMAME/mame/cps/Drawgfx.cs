@@ -62,7 +62,7 @@
             int colorbase = 0x10 * color;
             blockmove_4toN_transpen_pri16(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx, primask);
         }
-        private static void blockmove_4toN_transpen_pri16(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx, uint primask)
+        private unsafe static void blockmove_4toN_transpen_pri16(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx, uint primask)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * 0x100;
@@ -97,7 +97,7 @@
                     {
                         if (((1 << (Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x1f)) & primask) == 0)
                         {
-                            Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                            Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);
                         }
                         Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] = (byte)((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x7f) | 0x1f);
                     }

@@ -61,11 +61,11 @@
             int colorbase = 0x10 * color;
             blockmove_8toN_transpen_pri16(tx, ty, code, sw, sh, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx);
         }
-        private static void setpixelcolorNa(int offsety, int offsetx, int n)
+        private unsafe static void setpixelcolorNa(int offsety, int offsetx, int n)
         {
             if (Tilemap.priority_bitmap[offsety, offsetx] != 0x1f && Tilemap.priority_bitmap[offsety, offsetx] <= Namcos1.namcos1_pri)
             {
-                Video.bitmapbase[Video.curbitmap][offsety * 0x200 + offsetx] = (ushort)n;
+                Video.bitmapbase_Ptrs[Video.curbitmap][offsety * 0x200 + offsetx] = (ushort)n;
             }
             Tilemap.priority_bitmap[offsety, offsetx] = 0x1f;
         }

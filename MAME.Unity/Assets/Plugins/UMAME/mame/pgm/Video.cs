@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class PGM
+    public unsafe partial class PGM
     {
         public static ushort[] pgm_spritebufferram; // buffered spriteram
         public static ushort[] sprite_temp_render;
@@ -48,13 +48,13 @@ namespace MAME.Core
                 {
                     if (pri == 0)
                     {
-                        Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                        Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                     else
                     {
                         if ((Tilemap.priority_bitmap[ydrawpos, xdrawpos] & 2) == 0)
                         {
-                            Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                            Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                         }
                     }
                 }
@@ -67,7 +67,7 @@ namespace MAME.Core
             {
                 if ((Tilemap.priority_bitmap[ydrawpos, xdrawpos] & 1) == 0)
                 {
-                    Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                    Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                 }
                 Tilemap.priority_bitmap[ydrawpos, xdrawpos] |= 1;
             }
@@ -80,7 +80,7 @@ namespace MAME.Core
                 {
                     if ((Tilemap.priority_bitmap[ydrawpos, xdrawpos] & 2) == 0)
                     {
-                        Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                        Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                 }
                 Tilemap.priority_bitmap[ydrawpos, xdrawpos] |= 1;
@@ -109,14 +109,14 @@ namespace MAME.Core
                     if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
-                            Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                            Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                     xcntdraw++;
                     xdrawpos = xpos + xcntdraw;
                     if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
-                            Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                            Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                     xcntdraw++;
                 }
@@ -130,7 +130,7 @@ namespace MAME.Core
                     if ((srcdat & 0x8000) == 0)
                     {
                         if ((xdrawpos >= 0) && (xdrawpos < 448))
-                            Video.bitmapbase[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
+                            Video.bitmapbase_Ptrs[Video.curbitmap][ydrawpos * 0x200 + xdrawpos] = srcdat;
                     }
                     xcntdraw++;
                 }

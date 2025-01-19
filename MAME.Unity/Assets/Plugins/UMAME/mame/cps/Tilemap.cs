@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class CPS
+    public unsafe partial class CPS
     {
         public static Tmap[] ttmap;
         public static void tilemap_init()
@@ -63,7 +63,7 @@ namespace MAME.Core
             ttmap[2].total_elements = CPS.gfxrom.Length / 0x200;
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tile_updateC0(int col, int row)
         {
@@ -376,7 +376,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
                                         Tilemap.priority_bitmap[offsety2 + ypos, i] = (byte)(Tilemap.priority_bitmap[offsety2 + ypos, i] | priority);
                                     }
                                 }

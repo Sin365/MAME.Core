@@ -19,7 +19,7 @@ namespace MAME.Core
         public Atime vblank_end_time;
         public long frame_number;
     };
-    partial class Video
+    unsafe partial class Video
     {
         public static bool flip_screen_x, flip_screen_y;
         public static long frame_number_obj;
@@ -37,13 +37,19 @@ namespace MAME.Core
         private static uint throttle_history, overall_valid_counter, overall_real_seconds;
         private static int[] popcount;
         //public static ushort[][] bitmapbase;
-        public static int[][] bitmapbaseN;
+        //public static int[][] bitmapbaseN;
         //public static int[] bitmapcolor;
 
         /**  bitmapcolor的指针管理  **/
-        public static ushort[][] bitmapbase;
+        public static ushort[][] bitmapbase; //还有 部分 Array.Copy 在引用
         static GCHandle[] bitmapbase_handles;
-        public static IntPtr[] bitmapbase_Ptrs;
+        public static ushort*[] bitmapbase_Ptrs;
+        /**  end **/
+
+        /**  bitmapbaseN的指针管理  **/
+        public static int[][] bitmapbaseN; //还有 部分 Array.Copy 在引用
+        static GCHandle[] bitmapbaseN_handles;
+        public static int*[] bitmapbaseN_Ptrs;
         /**  end **/
 
         /**  bitmapcolor的指针管理  **/
@@ -52,10 +58,10 @@ namespace MAME.Core
         //static GCHandle bitmapcolor_handle;
         //public static IntPtr bitmapcolor_Ptr;
 
-
         public static int[] bitmapcolorRect;
         static GCHandle bitmapcolorRect_handle;
         public static IntPtr bitmapcolorRect_Ptr;
+        public static int* bitmapcolorRect_Ptrunsafe;
         /**  end **/
 
         public static int fullwidth, fullheight;
@@ -634,14 +640,36 @@ namespace MAME.Core
             if (bitmapbase != null)
             {
                 bitmapbase_handles = new GCHandle[bitmapbase.Length];
-                bitmapbase_Ptrs = new IntPtr[bitmapbase.Length];
+                bitmapbase_Ptrs = new ushort*[bitmapbase.Length];
                 for (int i = 0; i < bitmapbase.Length; i++)
                 {
                     bitmapbase_handles[i] = GCHandle.Alloc(bitmapbase[i], GCHandleType.Pinned);
-                    bitmapbase_Ptrs[i] = bitmapbase_handles[i].AddrOfPinnedObject();
+                    bitmapbase_Ptrs[i] = (ushort*)bitmapbase_handles[i].AddrOfPinnedObject();
                 }
             }
-            
+
+
+            if (bitmapbaseN_handles != null)
+            {
+                for (int i = 0; i < bitmapbaseN_handles.Length; i++)
+                {
+                    if (bitmapbaseN_handles[i].IsAllocated)
+                        bitmapbaseN_handles[i].Free();
+                }
+                bitmapbaseN_handles = null;
+                bitmapbaseN_Ptrs = null;
+            }
+
+            if (bitmapbaseN != null)
+            {
+                bitmapbaseN_handles = new GCHandle[bitmapbaseN.Length];
+                bitmapbaseN_Ptrs = new int*[bitmapbaseN.Length];
+                for (int i = 0; i < bitmapbaseN.Length; i++)
+                {
+                    bitmapbaseN_handles[i] = GCHandle.Alloc(bitmapbaseN[i], GCHandleType.Pinned);
+                    bitmapbaseN_Ptrs[i] = (int*)bitmapbaseN_handles[i].AddrOfPinnedObject();
+                }
+            }
 
             /**  end **/
 
@@ -674,6 +702,8 @@ namespace MAME.Core
             bitmapcolorRect_handle = GCHandle.Alloc(bitmapcolorRect, GCHandleType.Pinned);
             // 获取数组的指针  
             bitmapcolorRect_Ptr = bitmapcolorRect_handle.AddrOfPinnedObject();
+
+            bitmapcolorRect_Ptrunsafe = (int*)bitmapcolorRect_Ptr;
             /**  end **/
 
 

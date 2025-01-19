@@ -34,7 +34,7 @@
             }
             lhb2_pen_hi = 0;
         }
-        public static void video_update_igs011()
+        public unsafe static void video_update_igs011()
         {
             int x, y, l, scr_addr, pri_addr;
             int pri_ram_offset;
@@ -53,7 +53,7 @@
                         }
                     }
                     l = priority_ram[pri_ram_offset + pri_addr] & 7;
-                    Video.bitmapbase[Video.curbitmap][y * 0x200 + x] = (ushort)(layer[l][scr_addr] | (l << 8));
+                    Video.bitmapbase_Ptrs[Video.curbitmap][y * 0x200 + x] = (ushort)(layer[l][scr_addr] | (l << 8));
                 }
             }
         }

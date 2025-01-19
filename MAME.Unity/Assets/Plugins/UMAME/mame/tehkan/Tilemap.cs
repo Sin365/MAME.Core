@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Tehkan
+    public unsafe partial class Tehkan
     {
         public static Tmap bg_tilemap, fg_tilemap;
         public static void tilemap_init()
@@ -62,7 +62,7 @@ namespace MAME.Core
             fg_tilemap.tile_update3 = fg_tilemap.tile_updatePbactionfg;
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tile_updatePbactionbg(int col, int row)
         {
@@ -261,7 +261,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
                                     }
                                 }
                                 offsety2++;

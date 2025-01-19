@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MAME.Core
 {
-    public partial class Capcom
+    public unsafe partial class Capcom
     {
         public static void tilemap_init()
         {
@@ -193,7 +193,7 @@ namespace MAME.Core
             Tilemap.lsTmap.Add(tx_tilemap);
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tilemap_draw_instanceCapcom_gng(RECT cliprect, int xpos, int ypos)
         {
@@ -274,7 +274,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x100 + i] = pixmap[offsety2 * width + i - xpos];
                                     }
                                 }
                                 offsety2++;
@@ -373,7 +373,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
                                     }
                                 }
                                 offsety2++;

@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Konami68000
+    public unsafe partial class Konami68000
     {
         public static void common_drawgfxzoom_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley)
         {
@@ -93,7 +93,7 @@
                             c = bb1[source_baseoffset + srcoffset];
                             if (c != transparent_color)
                             {
-                                Video.bitmapbase[Video.curbitmap][(sy + i) * 0x200 + sx + j] = (ushort)(colorbase + c);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][(sy + i) * 0x200 + sx + j] = (ushort)(colorbase + c);
                             }
                         }
                     }
@@ -193,7 +193,7 @@
                             {
                                 if (((1 << Tilemap.priority_bitmap[sy + i, sx + j]) & pri_mask) == 0)
                                 {
-                                    Video.bitmapbase[Video.curbitmap][(sy + i) * 0x200 + sx + j] = (ushort)(colorbase + c);
+                                    Video.bitmapbase_Ptrs[Video.curbitmap][(sy + i) * 0x200 + sx + j] = (ushort)(colorbase + c);
                                 }
                                 Tilemap.priority_bitmap[sy + i, sx + j] = 0x1f;
                             }
@@ -306,11 +306,11 @@
                         {
                             if ((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x80) != 0)
                             {
-                                Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);//palette_shadow_table[paldata[col]];
+                                Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);//palette_shadow_table[paldata[col]];
                             }
                             else
                             {
-                                Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                                Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x200 + offsetx + xdir * j] = (ushort)(colorbase + col);
                             }
                         }
                         Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] = (byte)((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x7f) | 0x1f);

@@ -220,7 +220,7 @@ namespace MAME.Core
             bg_tilemap_large.tile_update3 = bg_tilemap.tile_updateM72_bg_m72;
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tilemap_draw_instanceM72(RECT cliprect, int xpos, int ypos)
         {
@@ -289,7 +289,7 @@ namespace MAME.Core
                             {
                                 for (i = xpos + x_start; i < xpos + x_end; i++)
                                 {
-                                    Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * width + i - xpos] + palette_offset);
+                                    Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * width + i - xpos] + palette_offset);
                                 }
                                 offsety2++;
                             }
@@ -302,7 +302,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * width + i - xpos] + palette_offset);
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = (ushort)(pixmap[offsety2 * width + i - xpos] + palette_offset);
                                     }
                                 }
                                 offsety2++;

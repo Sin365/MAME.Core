@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace MAME.Core
 {
-    public partial class CPS
+    public unsafe partial class CPS
     {
         private static int iXAll, iYAll, nBitmap;
         //private static Bitmap bmAll=new Bitmap(512,512);
@@ -646,7 +646,7 @@ namespace MAME.Core
                         sy = ((sy - stars2y) & 0xff) + 0x100;
                         col = (int)(((col & 0xe0) >> 1) + (Video.screenstate.frame_number / 16 & 0x0f));
                         if (sx >= Video.screenstate.visarea.min_x && sx <= Video.screenstate.visarea.max_x && sy >= Video.screenstate.visarea.min_y && sy <= Video.screenstate.visarea.max_y)
-                            Video.bitmapbase[Video.curbitmap][sy * 0x200 + sx] = (ushort)(0xa00 + col);
+                            Video.bitmapbase_Ptrs[Video.curbitmap][sy * 0x200 + sx] = (ushort)(0xa00 + col);
                     }
                 }
             }
@@ -663,7 +663,7 @@ namespace MAME.Core
                         sy = ((sy - stars1y) & 0xff) + 0x100;
                         col = (int)(((col & 0xe0) >> 1) + (Video.screenstate.frame_number / 16 & 0x0f));
                         if (sx >= Video.screenstate.visarea.min_x && sx <= Video.screenstate.visarea.max_x && sy >= Video.screenstate.visarea.min_y && sy <= Video.screenstate.visarea.max_y)
-                            Video.bitmapbase[Video.curbitmap][sy * 0x200 + sx] = (ushort)(0x800 + col);
+                            Video.bitmapbase_Ptrs[Video.curbitmap][sy * 0x200 + sx] = (ushort)(0x800 + col);
                     }
                 }
             }
@@ -703,7 +703,7 @@ namespace MAME.Core
                     break;
             }
         }
-        public static void video_update_cps1()
+        public unsafe static void video_update_cps1()
         {
             int i;
             int l0, l1, l2, l3;

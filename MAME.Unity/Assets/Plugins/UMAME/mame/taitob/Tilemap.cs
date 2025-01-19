@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Taitob
+    public unsafe partial class Taitob
     {
         public static Tmap bg_tilemap, fg_tilemap, tx_tilemap;
         public static void tilemap_init()
@@ -95,7 +95,7 @@ namespace MAME.Core
             tx_tilemap.tile_update3 = tx_tilemap.tile_updateTaitobtx;
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tilemap_draw_instanceTaitob(RECT cliprect, int xpos, int ypos)
         {
@@ -181,7 +181,7 @@ namespace MAME.Core
                                 {
                                     if ((flagsmap[offsety2, i - xpos] & mask) == value)
                                     {
-                                        Video.bitmapbase[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
+                                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety2 + ypos) * 0x200 + i] = pixmap[offsety2 * width + i - xpos];
                                         Tilemap.priority_bitmap[offsety2 + ypos, i] = (byte)(Tilemap.priority_bitmap[offsety2 + ypos, i] | priority);
                                     }
                                 }

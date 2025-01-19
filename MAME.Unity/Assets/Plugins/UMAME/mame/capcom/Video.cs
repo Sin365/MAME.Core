@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Capcom
+    public unsafe partial class Capcom
     {
         public static Tmap bg_tilemap, fg_tilemap, tx_tilemap;
         public static int bg_scrollx, fg_scrollx;

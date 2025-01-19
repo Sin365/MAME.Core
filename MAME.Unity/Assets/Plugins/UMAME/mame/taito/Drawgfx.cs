@@ -61,7 +61,7 @@
             int colorbase = 0x10 * color;
             blockmove_8toN_transpen16_bublbobl(bb1, code, sw, sh, 8, ls, ts, flipx, flipy, dw, dh, colorbase, sx, sy);
         }
-        public static void blockmove_8toN_transpen16_bublbobl(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsetx, int offsety)
+        public unsafe static void blockmove_8toN_transpen16_bublbobl(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsetx, int offsety)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * 0x40;
@@ -94,7 +94,7 @@
                     col = bb1[srcdata_offset + srcmodulo * i + j];
                     if (col != 0x0f)
                     {
-                        Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
                     }
                 }
             }
@@ -162,7 +162,7 @@
             int colorbase = color * 0x10;
             blockmove_8toN_transpen_pri16_opwolf(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, pri_mask, sx, sy);
         }
-        public static void blockmove_8toN_transpen_pri16_opwolf(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,
+        public unsafe static void blockmove_8toN_transpen_pri16_opwolf(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,
                 int leftskip, int topskip, int flipx, int flipy,
                 int dstwidth, int dstheight, int colorbase, uint pmask, int sx, int sy)
         {
@@ -201,7 +201,7 @@
                     {
                         if (((1 << (Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x1f)) & pmask) == 0)
                         {
-                            Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x140 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                            Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x140 + offsetx + xdir * j] = (ushort)(colorbase + col);
                         }
                         Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] = (byte)((Tilemap.priority_bitmap[offsety + ydir * i, offsetx + xdir * j] & 0x7f) | 0x1f);
                     }

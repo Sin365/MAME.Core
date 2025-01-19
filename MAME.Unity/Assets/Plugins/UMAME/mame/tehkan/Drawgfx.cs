@@ -63,7 +63,7 @@
             int colorbase = 8 * color;
             blockmove_8toN_transpen16_pbaction(bb1, code, sw, sh, sm, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx);
         }
-        public static void blockmove_8toN_transpen16_pbaction(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
+        public unsafe static void blockmove_8toN_transpen16_pbaction(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * srcwidth * srcheight;
@@ -96,7 +96,7 @@
                     col = bb1[srcdata_offset + srcmodulo * i + j];
                     if (col != 0)
                     {
-                        Video.bitmapbase[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
+                        Video.bitmapbase_Ptrs[Video.curbitmap][(offsety + ydir * i) * 0x100 + offsetx + xdir * j] = (ushort)(colorbase + col);
                     }
                 }
             }

@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Konami68000
+    public unsafe partial class Konami68000
     {
         private static int[] layer_colorbase;
         private static int sprite_colorbase, bg_colorbase;
@@ -589,7 +589,7 @@ namespace MAME.Core
             Array.Clear(Tilemap.priority_bitmap, 0, 0x40000);
             for (i = 0; i < 0x20000; i++)
             {
-                Video.bitmapbase[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
+                Video.bitmapbase_Ptrs[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
             }
             K052109_tilemap[sorted_layer[0]].tilemap_draw_primask(Video.screenstate.visarea, 0x10, 1);
             K052109_tilemap[sorted_layer[1]].tilemap_draw_primask(Video.screenstate.visarea, 0x10, 2);
@@ -627,7 +627,7 @@ namespace MAME.Core
             Array.Clear(Tilemap.priority_bitmap, 0, 0x40000);
             for (i = 0; i < 0x20000; i++)
             {
-                Video.bitmapbase[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
+                Video.bitmapbase_Ptrs[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
             }
             K052109_tilemap[sorted_layer[0]].tilemap_draw_primask(Video.screenstate.visarea, 0x10, 1);
             if (layerpri[0] >= 0x30 && layerpri[1] < 0x30)
@@ -709,7 +709,7 @@ namespace MAME.Core
             Array.Clear(Tilemap.priority_bitmap, 0, 0x40000);
             for (i = 0; i < 0x20000; i++)
             {
-                Video.bitmapbase[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
+                Video.bitmapbase_Ptrs[Video.curbitmap][i] = (ushort)(16 * bg_colorbase);
             }
             K052109_tilemap[sorted_layer[0]].tilemap_draw_primask(Video.screenstate.visarea, 0x10, 1);
             K052109_tilemap[sorted_layer[1]].tilemap_draw_primask(Video.screenstate.visarea, 0x10, 2);

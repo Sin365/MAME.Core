@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Taito
+    public unsafe partial class Taito
     {
         public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom, prom;
         public static int bublbobl_objectram_size = 0x300;
