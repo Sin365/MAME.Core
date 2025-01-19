@@ -46,8 +46,8 @@ namespace MAME.Core
             Machine.bRom = true;
             EmuTimer.setvector = setvector_callback;
             protection_ram = new byte[0x1000];
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
-            Memory.audiorom = Machine.GetRom("soundcpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+            Memory.Set_audiorom(Machine.GetRom("soundcpu.rom"));
             //Memory.audiorom = new byte[0x10000];
             spritesrom = Machine.GetRom("sprites.rom");
             n1 = spritesrom.Length;
@@ -77,10 +77,10 @@ namespace MAME.Core
                 }
             }
             samplesrom = Machine.GetRom("samples.rom");
-            Memory.mainram = new byte[0x4000];
+            Memory.Set_mainram(new byte[0x4000]);
             Memory.audioram = new byte[0x10000];
             dsw = 0xffbf;
-            if (Memory.mainrom == null || Memory.audiorom == null || sprites1rom == null || gfx21rom == null || samplesrom == null)
+            if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || sprites1rom == null || gfx21rom == null || samplesrom == null)
             {
                 Machine.bRom = false;
             }

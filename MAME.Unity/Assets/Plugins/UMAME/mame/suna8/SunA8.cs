@@ -25,8 +25,8 @@ namespace MAME.Core
                 case "starfigh":
                     Generic.spriteram = new byte[0x4000];
                     mainromop = Machine.GetRom("maincpuop.rom");
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
-                    Memory.audiorom = Machine.GetRom("audiocpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+                    Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     samplesrom = Machine.GetRom("samples.rom");
                     gfx12rom = Machine.GetRom("gfx1.rom");
                     n = gfx12rom.Length;
@@ -36,10 +36,10 @@ namespace MAME.Core
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    Memory.mainram = new byte[0x1800];
+                    Memory.Set_mainram(new byte[0x1800]);
                     Memory.audioram = new byte[0x800];
                     Generic.paletteram = new byte[0x200];
-                    if (mainromop == null || Memory.mainrom == null || Memory.audiorom == null || samplesrom == null || gfx12rom == null)
+                    if (mainromop == null || Memory.mainrom_IsNull || Memory.audiorom_IsNull || samplesrom == null || gfx12rom == null)
                     {
                         Machine.bRom = false;
                     }

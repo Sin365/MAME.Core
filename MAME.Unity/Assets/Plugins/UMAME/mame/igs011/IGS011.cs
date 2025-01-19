@@ -29,13 +29,13 @@
                 case "drgnwrldv10c":
                 case "drgnwrldv11h":
                 case "drgnwrldv40k":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
                     dsw1 = 0xff;
                     dsw2 = 0xff;
                     dsw3 = 0xff;
-                    if (Memory.mainrom == null || gfx1rom == null || OKI6295.okirom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || OKI6295.okirom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -44,7 +44,7 @@
                 case "lhbv33c":
                 case "dbc":
                 case "ryukobou":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
                     dsw1 = 0xf7;
@@ -52,13 +52,13 @@
                     dsw3 = 0xff;
                     dsw4 = 0xf0;
                     dsw5 = 0xff;
-                    if (Memory.mainrom == null || gfx1rom == null || OKI6295.okirom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || OKI6295.okirom == null)
                     {
                         Machine.bRom = false;
                     }
                     break;
                 case "lhb2":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
 

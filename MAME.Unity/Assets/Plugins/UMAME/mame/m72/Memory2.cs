@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class M72
+    public unsafe partial class M72
     {
         public static byte NReadOpByte_airduel(int address)
         {
@@ -15,7 +15,7 @@ namespace MAME.Core
             }
             else
             {
-                result = Memory.mainrom[address];
+                result = Memory.mainrom_Ptr[address];
             }
             return result;
         }

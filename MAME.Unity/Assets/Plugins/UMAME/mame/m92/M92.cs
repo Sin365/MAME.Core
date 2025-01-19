@@ -231,11 +231,15 @@ namespace MAME.Core
             m92_vram_data = new ushort[0x8000];
             m92_spritecontrol = new ushort[8];
             bb1 = Machine.GetRom("maincpu.rom");
-            Memory.mainrom = new byte[0x190000];
-            Array.Copy(bb1, Memory.mainrom, bb1.Length);
-            Memory.audiorom = Machine.GetRom("soundcpu.rom");
+            //Memory.mainrom = new byte[0x190000];
+            //Array.Copy(bb1, Memory.mainrom, bb1.Length);
+            byte[] temp_mainrom = new byte[0x190000];
+            Array.Copy(bb1, temp_mainrom, bb1.Length);
+            Memory.Set_mainrom(temp_mainrom);
+
+            Memory.Set_audiorom(Machine.GetRom("soundcpu.rom"));
             Iremga20.iremrom = Machine.GetRom("irem.rom");
-            Memory.mainram = new byte[0x10000];
+            Memory.Set_mainram(new byte[0x10000]);
             Memory.audioram = new byte[0x4000];
             gfx1rom = Machine.GetRom("gfx1.rom");
             n1 = gfx1rom.Length;
@@ -292,7 +296,7 @@ namespace MAME.Core
                     m92_irq_vectorbase = 0x20;
                     break;
             }
-            if (Memory.mainrom == null || Memory.audiorom == null || gfx11rom == null || gfx21rom == null)
+            if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx11rom == null || gfx21rom == null)
             {
                 Machine.bRom = false;
             }

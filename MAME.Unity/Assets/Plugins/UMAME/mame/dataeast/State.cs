@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class Dataeast
+    public unsafe partial class Dataeast
     {
         public static void SaveStateBinary_pcktgal(BinaryWriter writer)
         {
@@ -18,7 +18,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x800);
+            writer.Write(Memory.mainram_Ptr, 0, 0x800);
             writer.Write(Generic.videoram, 0, 0x800);
             writer.Write(Generic.spriteram, 0, 0x200);
             writer.Write(Memory.audioram, 0, 0x800);
@@ -61,7 +61,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x800);
+            Memory.Set_mainram(reader.ReadBytes(0x800));
             Generic.videoram = reader.ReadBytes(0x800);
             Generic.spriteram = reader.ReadBytes(0x200);
             Memory.audioram = reader.ReadBytes(0x800);

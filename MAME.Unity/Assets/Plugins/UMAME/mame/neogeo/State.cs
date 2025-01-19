@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class Neogeo
+    public unsafe partial class Neogeo
     {
         public static void SaveStateBinary(BinaryWriter writer)
         {
@@ -46,7 +46,7 @@ namespace MAME.Core
             writer.Write(auto_animation_disabled);
             writer.Write(auto_animation_counter);
             writer.Write(auto_animation_frame_counter);
-            writer.Write(Memory.mainram, 0, 0x10000);
+            writer.Write(Memory.mainram_Ptr, 0, 0x10000);
             MC68000.m1.SaveStateBinary(writer);
             writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
@@ -117,7 +117,7 @@ namespace MAME.Core
             auto_animation_disabled = reader.ReadByte();
             auto_animation_counter = reader.ReadInt32();
             auto_animation_frame_counter = reader.ReadInt32();
-            Memory.mainram = reader.ReadBytes(0x10000);
+            Memory.Set_mainram(reader.ReadBytes(0x10000));
             MC68000.m1.LoadStateBinary(reader);
             Memory.audioram = reader.ReadBytes(0x800);
             Z80A.zz1[0].LoadStateBinary(reader);

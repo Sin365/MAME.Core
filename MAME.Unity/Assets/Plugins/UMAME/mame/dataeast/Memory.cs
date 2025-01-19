@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Dataeast
+    public unsafe partial class Dataeast
     {
         public static byte byte1, byte2;
         public static byte byte1_old, byte2_old;
@@ -9,21 +9,21 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.mainram[address];
+                result = Memory.mainram_Ptr[address];
             }
             else if (address >= 0x4000 && address <= 0x5fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.mainrom[basebankmain1 + offset];
+                result = Memory.mainrom_Ptr[basebankmain1 + offset];
             }
             else if (address >= 0x6000 && address <= 0x7fff)
             {
                 int offset = address - 0x6000;
-                result = Memory.mainrom[basebankmain2 + offset];
+                result = Memory.mainrom_Ptr[basebankmain2 + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.mainrom[address];
+                result = Memory.mainrom_Ptr[address];
             }
             return result;
         }
@@ -32,21 +32,21 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.mainram[address];
+                result = Memory.mainram_Ptr[address];
             }
             else if (address >= 0x4000 && address <= 0x5fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.mainrom[basebankmain1 + offset];
+                result = Memory.mainrom_Ptr[basebankmain1 + offset];
             }
             else if (address >= 0x6000 && address <= 0x7fff)
             {
                 int offset = address - 0x6000;
-                result = Memory.mainrom[basebankmain2 + offset];
+                result = Memory.mainrom_Ptr[basebankmain2 + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.mainrom[address];
+                result = Memory.mainrom_Ptr[address];
             }
             return result;
         }
@@ -55,7 +55,7 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.mainram[address];
+                result = Memory.mainram_Ptr[address];
             }
             else if (address == 0x1800)
             {
@@ -72,16 +72,16 @@
             else if (address >= 0x4000 && address <= 0x5fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.mainrom[basebankmain1 + offset];
+                result = Memory.mainrom_Ptr[basebankmain1 + offset];
             }
             else if (address >= 0x6000 && address <= 0x7fff)
             {
                 int offset = address - 0x6000;
-                result = Memory.mainrom[basebankmain2 + offset];
+                result = Memory.mainrom_Ptr[basebankmain2 + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.mainrom[address];
+                result = Memory.mainrom_Ptr[address];
             }
             return result;
         }
@@ -89,7 +89,7 @@
         {
             if (address <= 0x7ff)
             {
-                Memory.mainram[address] = data;
+                Memory.mainram_Ptr[address] = data;
             }
             else if (address >= 0x800 && address <= 0xfff)
             {
@@ -115,7 +115,7 @@
             }
             else if (address >= 0x4000 && address <= 0xffff)
             {
-                Memory.mainrom[address] = data;
+                Memory.mainrom_Ptr[address] = data;
             }
         }
         public static byte D1ReadOp(ushort address)
@@ -147,11 +147,11 @@
             else if (address >= 0x4000 && address <= 0x7fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.audiorom[basebanksnd + offset];
+                result = Memory.audiorom_Ptr[basebanksnd + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.audiorom[address];
+                result = Memory.audiorom_Ptr[address];
             }
             return result;
         }
@@ -165,11 +165,11 @@
             else if (address >= 0x4000 && address <= 0x7fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.audiorom[basebanksnd + offset];
+                result = Memory.audiorom_Ptr[basebanksnd + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.audiorom[address];
+                result = Memory.audiorom_Ptr[address];
             }
             return result;
         }
@@ -191,11 +191,11 @@
             else if (address >= 0x4000 && address <= 0x7fff)
             {
                 int offset = address - 0x4000;
-                result = Memory.audiorom[basebanksnd + offset];
+                result = Memory.audiorom_Ptr[basebanksnd + offset];
             }
             else if (address >= 0x8000 && address <= 0xffff)
             {
-                result = Memory.audiorom[address];
+                result = Memory.audiorom_Ptr[address];
             }
             return result;
         }
@@ -231,7 +231,7 @@
             }
             else if (address >= 0x4000 && address <= 0xffff)
             {
-                Memory.audiorom[address] = data;
+                Memory.audiorom_Ptr[address] = data;
             }
         }
     }

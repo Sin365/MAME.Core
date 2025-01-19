@@ -631,13 +631,17 @@ namespace MAME.Core
                 bitmapbase_Ptrs = null;
             }
 
-            bitmapbase_handles = new GCHandle[bitmapbase.Length];
-            bitmapbase_Ptrs = new IntPtr[bitmapbase.Length];
-            for (int i = 0; i < bitmapbase.Length; i++)
+            if (bitmapbase != null)
             {
-                bitmapbase_handles[i] = GCHandle.Alloc(bitmapbase[i], GCHandleType.Pinned);
-                bitmapbase_Ptrs[i] = bitmapbase_handles[i].AddrOfPinnedObject();
+                bitmapbase_handles = new GCHandle[bitmapbase.Length];
+                bitmapbase_Ptrs = new IntPtr[bitmapbase.Length];
+                for (int i = 0; i < bitmapbase.Length; i++)
+                {
+                    bitmapbase_handles[i] = GCHandle.Alloc(bitmapbase[i], GCHandleType.Pinned);
+                    bitmapbase_Ptrs[i] = bitmapbase_handles[i].AddrOfPinnedObject();
+                }
             }
+            
 
             /**  end **/
 

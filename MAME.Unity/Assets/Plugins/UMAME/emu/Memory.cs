@@ -1,8 +1,15 @@
-﻿namespace MAME.Core
+﻿using System;
+using System.IO;
+using System.Runtime.InteropServices;
+
+namespace MAME.Core
 {
-    public class Memory
+    public unsafe class Memory
     {
-        public static byte[] mainrom, audiorom, mainram, audioram;
+        //public static byte[] mainrom, audiorom, mainram, audioram;
+        public static byte[] audioram;
+
+        static byte[] mainrom, audiorom, mainram;
         public static void memory_reset()
         {
             switch (Machine.sBoard)
@@ -321,6 +328,102 @@
                     }
                     break;
             }
+        }
+
+        static GCHandle mainrom_handle;
+        public static byte* mainrom_Ptr;
+        public static int mainrom_Lenght;
+        public static bool mainrom_IsNull => mainrom == null;
+
+        public static void Set_mainrom(byte[] data)
+        {
+            Release_mainrom();
+            mainrom = data;
+            mainrom_handle = GCHandle.Alloc(mainrom, GCHandleType.Pinned);
+            mainrom_Ptr = (byte*)mainrom_handle.AddrOfPinnedObject();
+            mainrom_Lenght = data.Length;
+        }
+        static void Release_mainrom()
+        {
+            if (mainrom != null)
+            {
+                if (mainrom_handle.IsAllocated)
+                    mainrom_handle.Free();
+            }
+            mainrom = null;
+            mainrom_handle = default;
+            mainrom_Ptr = null;
+            mainrom_Lenght = default;
+        }
+
+
+        static GCHandle audiorom_handle;
+        public static byte* audiorom_Ptr;
+
+        public static bool audiorom_IsNull => audiorom == null;
+
+        public static void Set_audiorom(byte[] data)
+        {
+            Release_audiorom();
+            audiorom = data;
+            audiorom_handle = GCHandle.Alloc(audiorom, GCHandleType.Pinned);
+            audiorom_Ptr = (byte*)audiorom_handle.AddrOfPinnedObject();
+        }
+        static void Release_audiorom()
+        {
+            if (audiorom != null)
+            {
+                if (audiorom_handle.IsAllocated)
+                    audiorom_handle.Free();
+            }
+            audiorom = null;
+            audiorom_handle = default;
+            audiorom_Ptr = null;
+        }
+
+        static GCHandle mainram_handle;
+        public static byte* mainram_Ptr;
+        public static int mainram_Lenght;
+        public static bool mainram_IsNull => mainram == null;
+
+        public static void Set_mainram(byte[] data)
+        {
+            Release_mainram();
+            mainram = data;
+            mainram_handle = GCHandle.Alloc(mainram, GCHandleType.Pinned);
+            mainram_Ptr = (byte*)mainram_handle.AddrOfPinnedObject();
+            mainram_Lenght = data.Length;
+        }
+        static void Release_mainram()
+        {
+            if (mainram != null)
+            {
+                if (mainram_handle.IsAllocated)
+                    mainram_handle.Free();
+            }
+            mainram = null;
+            mainram_handle = default;
+            mainram_Ptr = null;
+            mainram_Lenght = default;
+        }
+
+
+    }
+
+    public unsafe static class MemoryEx
+    {
+        // 创建一个临时数组来存储从指针指向的数据中复制的内容
+        static byte[] tempBuffer = new byte[0x20000];
+        public static void Write(this BinaryWriter bw, byte* buffer, int index, int count)
+        {
+            fixed (byte* pTempBuffer = tempBuffer)
+            {
+                // 使用指针复制数据到临时数组
+                Buffer.MemoryCopy(buffer + index, pTempBuffer, count, count);
+            }
+
+            // 使用BinaryWriter写入临时数组
+            bw.Write(tempBuffer, 0, count);
         }
     }
 }

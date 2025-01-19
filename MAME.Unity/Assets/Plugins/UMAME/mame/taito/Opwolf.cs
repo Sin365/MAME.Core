@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Taito
+    public unsafe partial class Taito
     {
         public static int opwolf_region;
         public static byte[] cchip_ram, adpcmrom;
@@ -700,8 +700,8 @@ namespace MAME.Core
                     {
                         if (coin_table[slot] != 0)
                         {
-                            cchip_coins_for_credit[slot] = (byte)((Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2] * 0x100 + Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2 + 1]) & 0xff);
-                            cchip_credits_for_coin[slot] = (byte)((Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2] * 0x100 + Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2 + 1]) & 0xff);
+                            cchip_coins_for_credit[slot] = (byte)((Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2] * 0x100 + Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2 + 1]) & 0xff);
+                            cchip_credits_for_coin[slot] = (byte)((Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2] * 0x100 + Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2 + 1]) & 0xff);
                         }
                     }
                 }
@@ -741,8 +741,8 @@ namespace MAME.Core
                     {
                         if (coin_table[slot] != 0)
                         {
-                            cchip_coins_for_credit[slot] = (byte)((Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2] * 0x100 + Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2 + 1]) & 0xff);
-                            cchip_credits_for_coin[slot] = (byte)((Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2] * 0x100 + Memory.mainrom[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2 + 1]) & 0xff);
+                            cchip_coins_for_credit[slot] = (byte)((Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2] * 0x100 + Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 0) / 2 * 2 + 1]) & 0xff);
+                            cchip_credits_for_coin[slot] = (byte)((Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2] * 0x100 + Memory.mainrom_Ptr[(coin_table[slot] + coin_offset[slot] + 2) / 2 * 2 + 1]) & 0xff);
                         }
                     }
                 }

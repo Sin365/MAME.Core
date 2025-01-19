@@ -19,7 +19,7 @@ namespace MAME.Core
             TC0220IOC_port = 0;
             TC0640FIO_regs = new byte[8];
             taitob_scroll = new ushort[0x400];
-            Memory.mainram = new byte[0x10000];
+            Memory.Set_mainram(new byte[0x10000]);
             mainram2 = new byte[0x1e80];
             mainram3 = new byte[0x2000];
             Memory.audioram = new byte[0x2000];
@@ -39,8 +39,9 @@ namespace MAME.Core
                 TC0180VCU_ctrl[i] = 0;
             }
             Machine.bRom = true;
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
-            Memory.audiorom = Machine.GetRom("audiocpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+            //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+            Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
             gfxrom = Machine.GetRom("gfx1.rom");
             n = gfxrom.Length;
             gfx0rom = new byte[n * 2];
@@ -56,7 +57,7 @@ namespace MAME.Core
             }
             FM.ymsndrom = Machine.GetRom("ymsnd.rom");
             YMDeltat.ymsnddeltatrom = Machine.GetRom("ymsnddeltat.rom");
-            if (Memory.mainrom == null || gfxrom == null || Memory.audiorom == null || FM.ymsndrom == null)
+            if (Memory.mainrom_IsNull || gfxrom == null || Memory.audiorom_IsNull || FM.ymsndrom == null)
             {
                 Machine.bRom = false;
             }

@@ -1,10 +1,11 @@
 ﻿using cpu.m68000;
 using cpu.z80;
+using System;
 using System.IO;
 
 namespace MAME.Core
 {
-    public partial class Taitob
+    public unsafe partial class Taitob
     {
         public static void SaveStateBinary(BinaryWriter writer)
         {
@@ -52,7 +53,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x10000);
+            writer.Write(Memory.mainram_Ptr, 0, 0x10000);
             writer.Write(mainram2, 0, 0x1e80);
             MC68000.m1.SaveStateBinary(writer);
             writer.Write(Memory.audioram, 0, 0x2000);
@@ -141,7 +142,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x10000);
+            Memory.Set_mainram(reader.ReadBytes(0x10000));
             mainram2 = reader.ReadBytes(0x1e80);
             MC68000.m1.LoadStateBinary(reader);
             Memory.audioram = reader.ReadBytes(0x2000);

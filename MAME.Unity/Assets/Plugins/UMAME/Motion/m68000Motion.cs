@@ -179,7 +179,7 @@ namespace MAME.Core
         //    }
         //    if (iStatus == 0)
         //    {
-        //        /*if(Memory.mainram[0xd1b]==0x05)
+        //        /*if(Memory.mainram_Ptr[0xd1b]==0x05)
         //        {
         //            iStatus = 1;
         //            GetData();

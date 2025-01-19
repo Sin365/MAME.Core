@@ -14,13 +14,14 @@ namespace MAME.Core
             {
                 case "pbaction":
                 case "pbaction2":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
-                    Memory.audiorom = Machine.GetRom("audiocpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+                    //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+                    Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
                     gfx3rom = Machine.GetRom("gfx3.rom");
                     gfx32rom = Machine.GetRom("gfx32.rom");
-                    Memory.mainram = new byte[0x1000];
+                    Memory.Set_mainram(new byte[0x1000]);
                     Memory.audioram = new byte[0x800];
                     Generic.videoram = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
@@ -28,7 +29,7 @@ namespace MAME.Core
                     pbaction_colorram2 = new byte[0x400];
                     Generic.spriteram = new byte[0x80];
                     Generic.paletteram = new byte[0x200];
-                    if (Memory.mainrom == null || Memory.audiorom == null || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
+                    if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -36,14 +37,15 @@ namespace MAME.Core
                 case "pbaction3":
                 case "pbaction4":
                 case "pbaction5":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     mainromop = Machine.GetRom("maincpuop.rom");
-                    Memory.audiorom = Machine.GetRom("audiocpu.rom");
+                    //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+                    Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
                     gfx3rom = Machine.GetRom("gfx3.rom");
                     gfx32rom = Machine.GetRom("gfx32.rom");
-                    Memory.mainram = new byte[0x1000];
+                    Memory.Set_mainram(new byte[0x1000]);
                     Memory.audioram = new byte[0x800];
                     Generic.videoram = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
@@ -51,7 +53,7 @@ namespace MAME.Core
                     pbaction_colorram2 = new byte[0x400];
                     Generic.spriteram = new byte[0x80];
                     Generic.paletteram = new byte[0x200];
-                    if (Memory.mainrom == null || mainromop == null || Memory.audiorom == null || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
+                    if (Memory.mainrom_IsNull || mainromop == null || Memory.audiorom_IsNull || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -81,7 +83,7 @@ namespace MAME.Core
         {
             Cpuint.cpunum_set_input_line_and_vector2(1, 0, LineState.HOLD_LINE, 0x02);
         }
-        public static byte pbaction3_prot_kludge_r()
+        public unsafe static byte pbaction3_prot_kludge_r()
         {
             byte result;
             if (Z80A.zz1[0].PC == 0xab80)
@@ -90,7 +92,7 @@ namespace MAME.Core
             }
             else
             {
-                result = Memory.mainram[0];
+                result = Memory.mainram_Ptr[0];
             }
             return result;
         }

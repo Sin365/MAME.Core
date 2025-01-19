@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace MAME.Core
 {
-    public partial class CheatMotion
+    public unsafe partial class CheatMotion
     {
         public enum LockState
         {
@@ -41,8 +41,8 @@ namespace MAME.Core
                 case "Taito B":
                 case "Konami 68000":
                 case "Capcom":
-                    CheatReadByte = (int i1) => { return Memory.mainram[i1]; };
-                    CheatWriteByte = (int i1, byte b1) => { Memory.mainram[i1] = b1; };
+                    CheatReadByte = (int i1) => { return Memory.mainram_Ptr[i1]; };
+                    CheatWriteByte = (int i1, byte b1) => { Memory.mainram_Ptr[i1] = b1; };
                     break;
                 case "Namco System 1":
                     CheatReadByte = (int i1) => { return Namcos1.N0ReadMemory((ushort)i1); };

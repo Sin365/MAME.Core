@@ -41,19 +41,19 @@ namespace MAME.Core
                 tiles1rom[i3 * 2] = (byte)(tilesrom[i3] & 0x0f);
                 tiles1rom[i3 * 2 + 1] = (byte)(tilesrom[i3] >> 4);
             }
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
             sprmaskrom = Machine.GetRom("sprmask.rom");
             sprcolrom = Machine.GetRom("sprcol.rom");
             expand_32x32x5bpp();
             expand_colourdata();
-            Memory.mainram = new byte[0x20000];
+            Memory.Set_mainram(new byte[0x20000]);
             pgm_bg_videoram = new byte[0x4000];
             pgm_tx_videoram = new byte[0x2000];
             pgm_rowscrollram = new byte[0x800];
             Generic.paletteram16 = new ushort[0x900];
             pgm_videoregs = new byte[0x10000];
             Memory.audioram = new byte[0x10000];
-            if (Memory.mainrom == null || sprmaskrom == null || pgm_sprite_a_region == null)
+            if (Memory.mainrom_IsNull || sprmaskrom == null || pgm_sprite_a_region == null)
             {
                 Machine.bRom = false;
             }

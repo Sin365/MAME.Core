@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class M92
+    public unsafe partial class M92
     {
         public static void SaveStateBinary(BinaryWriter writer)
         {
@@ -59,7 +59,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x10000);
+            writer.Write(Memory.mainram_Ptr, 0, 0x10000);
             Nec.nn1[0].SaveStateBinary(writer);
             writer.Write(Memory.audioram, 0, 0x4000);
             Nec.nn1[1].SaveStateBinary(writer);
@@ -136,7 +136,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x10000);
+            Memory.Set_mainram(reader.ReadBytes(0x10000));
             Nec.nn1[0].LoadStateBinary(reader);
             Memory.audioram = reader.ReadBytes(0x4000);
             Nec.nn1[1].LoadStateBinary(reader);

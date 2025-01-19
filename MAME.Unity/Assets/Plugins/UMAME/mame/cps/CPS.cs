@@ -49,10 +49,10 @@ namespace MAME.Core
             cps_a_regs = new ushort[0x20];
             cps_b_regs = new ushort[0x20];
             gfxram = new byte[0x30000];
-            Memory.mainram = new byte[0x10000];
+            Memory.Set_mainram(new byte[0x10000]);
             Memory.audioram = new byte[0x800];
             Machine.bRom = true;
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
             gfxrom = Machine.GetRom("gfx.rom");
             n = gfxrom.Length;
             gfx1rom = new byte[n * 2];
@@ -62,14 +62,15 @@ namespace MAME.Core
                 gfx1rom[i * 2 + 1] = (byte)(gfxrom[i] >> 4);
             }
             total_elements = n / 0x80;
-            Memory.audiorom = Machine.GetRom("audiocpu.rom");
+            //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+            Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
             switch (Machine.sBoard)
             {
                 case "CPS-1":
                     cps_version = 1;
                     starsrom = Machine.GetRom("stars.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
-                    if (Memory.mainrom == null || gfxrom == null || Memory.audiorom == null || OKI6295.okirom == null)
+                    if (Memory.mainrom_IsNull || gfxrom == null || Memory.audiorom_IsNull || OKI6295.okirom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -81,7 +82,7 @@ namespace MAME.Core
                     audioromop = Machine.GetRom("audiocpuop.rom");
                     user1rom = Machine.GetRom("user1.rom");
                     QSound.qsoundrom = ByteToSbyte(Machine.GetRom("qsound.rom"));
-                    if (Memory.mainrom == null || audioromop == null || gfxrom == null || Memory.audiorom == null || QSound.qsoundrom == null)
+                    if (Memory.mainrom_IsNull || audioromop == null || gfxrom == null || Memory.audiorom_IsNull || QSound.qsoundrom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -105,7 +106,7 @@ namespace MAME.Core
                     }
                     audioromop = Machine.GetRom("audiocpu.rom");
                     QSound.qsoundrom = ByteToSbyte(Machine.GetRom("qsound.rom"));
-                    if (Memory.mainrom == null || (Machine.sManufacturer != "bootleg" && mainromop == null) || audioromop == null || gfxrom == null || Memory.audiorom == null || QSound.qsoundrom == null)
+                    if (Memory.mainrom_IsNull || (Machine.sManufacturer != "bootleg" && mainromop == null) || audioromop == null || gfxrom == null || Memory.audiorom_IsNull || QSound.qsoundrom == null)
                     {
                         Machine.bRom = false;
                     }

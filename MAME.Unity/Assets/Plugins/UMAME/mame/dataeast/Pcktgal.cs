@@ -9,7 +9,7 @@
         {
             int i, n;
             Machine.bRom = true;
-            Memory.mainram = new byte[0x800];
+            Memory.Set_mainram(new byte[0x800]);
             Memory.audioram = new byte[0x800];
             Generic.spriteram = new byte[0x200];
             Generic.videoram = new byte[0x800];
@@ -17,13 +17,14 @@
             {
                 case "pcktgal":
                 case "pcktgalb":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
-                    Memory.audiorom = Machine.GetRom("audiocpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+                    //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+                    Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     audioromop = Machine.GetRom("audiocpuop.rom");
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
                     prom = Machine.GetRom("proms.rom");
-                    if (Memory.mainrom == null || Memory.audiorom == null || audioromop == null || gfx1rom == null || gfx2rom == null || prom == null)
+                    if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || audioromop == null || gfx1rom == null || gfx2rom == null || prom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -32,12 +33,13 @@
                 case "pcktgal2j":
                 case "spool3":
                 case "spool3i":
-                    Memory.mainrom = Machine.GetRom("maincpu.rom");
-                    Memory.audiorom = Machine.GetRom("audiocpu.rom");
+                    Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+                    //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
+                    Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     gfx1rom = Machine.GetRom("gfx1.rom");
                     gfx2rom = Machine.GetRom("gfx2.rom");
                     prom = Machine.GetRom("proms.rom");
-                    if (Memory.mainrom == null || Memory.audiorom == null || gfx1rom == null || gfx2rom == null || prom == null)
+                    if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx1rom == null || gfx2rom == null || prom == null)
                     {
                         Machine.bRom = false;
                     }

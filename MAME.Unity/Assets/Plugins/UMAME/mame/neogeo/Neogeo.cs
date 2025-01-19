@@ -35,7 +35,7 @@ namespace MAME.Core
         {
             audio_cpu_banks = new byte[4];
             pvc_cartridge_ram = new byte[0x2000];
-            Memory.mainram = new byte[0x10000];
+            Memory.Set_mainram(new byte[0x10000]);
             mainram2 = new byte[0x10000];
             Memory.audioram = new byte[0x800];
             Machine.bRom = true;
@@ -44,13 +44,13 @@ namespace MAME.Core
             zoomyrom = MameMainMotion.resource._000_lo;
             audiobiosrom = MameMainMotion.resource.sm1;
             mainbiosrom = MameMainMotion.resource.mainbios;
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
-            Memory.audiorom = Machine.GetRom("audiocpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+            Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
             fixedrom = Machine.GetRom("fixed.rom");
             FM.ymsndrom = Machine.GetRom("ymsnd.rom");
             YMDeltat.ymsnddeltatrom = Machine.GetRom("ymsnddeltat.rom");
             spritesrom = Machine.GetRom("sprites.rom");
-            if (fixedbiosrom == null || zoomyrom == null || audiobiosrom == null || mainbiosrom == null || Memory.mainrom == null || Memory.audiorom == null || fixedrom == null || FM.ymsndrom == null || spritesrom == null)
+            if (fixedbiosrom == null || zoomyrom == null || audiobiosrom == null || mainbiosrom == null || Memory.mainrom_IsNull || Memory.audiorom_IsNull || fixedrom == null || FM.ymsndrom == null || spritesrom == null)
             {
                 Machine.bRom = false;
             }
@@ -262,7 +262,7 @@ namespace MAME.Core
         public static void main_cpu_bank_select_w(int data)
         {
             int bank_address;
-            int len = Memory.mainrom.Length;
+            int len = Memory.mainrom_Lenght;
             if ((len <= 0x100000) && ((data & 0x07) != 0))
             {
                 int i1 = 1;
@@ -313,7 +313,7 @@ namespace MAME.Core
         }
         public static void machine_start_neogeo()
         {
-            if (Memory.mainrom.Length > 0x100000)
+            if (Memory.mainrom_Lenght > 0x100000)
             {
                 main_cpu_bank_address = 0x100000;
             }

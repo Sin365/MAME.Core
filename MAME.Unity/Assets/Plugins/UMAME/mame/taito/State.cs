@@ -6,7 +6,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class Taito
+    public unsafe partial class Taito
     {
         public static void SaveStateBinary_tokio(BinaryWriter writer)
         {
@@ -25,7 +25,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x1800);
+            writer.Write(Memory.mainram_Ptr, 0, 0x1800);
             writer.Write(Memory.audioram, 0, 0x1000);
             for (i = 0; i < 3; i++)
             {
@@ -74,7 +74,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x1800);
+            Memory.Set_mainram(reader.ReadBytes(0x1800));
             Memory.audioram = reader.ReadBytes(0x1000);
             for (i = 0; i < 3; i++)
             {
@@ -133,7 +133,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x1800);
+            writer.Write(Memory.mainram_Ptr, 0, 0x1800);
             writer.Write(Memory.audioram, 0, 0x1000);
             writer.Write(mcuram, 0, 0xc0);
             for (i = 0; i < 3; i++)
@@ -197,7 +197,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x1800);
+            Memory.Set_mainram(reader.ReadBytes(0x1800));
             Memory.audioram = reader.ReadBytes(0x1000);
             mcuram = reader.ReadBytes(0xc0);
             for (i = 0; i < 3; i++)
@@ -250,7 +250,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x1800);
+            writer.Write(Memory.mainram_Ptr, 0, 0x1800);
             writer.Write(mainram2, 0, 0x100);
             writer.Write(mainram3, 0, 0x100);
             writer.Write(Memory.audioram, 0, 0x1000);
@@ -304,7 +304,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x1800);
+            Memory.Set_mainram(reader.ReadBytes(0x1800));
             mainram2 = reader.ReadBytes(0x100);
             mainram3 = reader.ReadBytes(0x100);
             Memory.audioram = reader.ReadBytes(0x1000);
@@ -362,7 +362,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x1800);
+            writer.Write(Memory.mainram_Ptr, 0, 0x1800);
             writer.Write(Memory.audioram, 0, 0x1000);
             writer.Write(mcuram, 0, 0xc0);
             for (i = 0; i < 3; i++)
@@ -420,7 +420,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x1800);
+            Memory.Set_mainram(reader.ReadBytes(0x1800));
             Memory.audioram = reader.ReadBytes(0x1000);
             mcuram = reader.ReadBytes(0xc0);
             for (i = 0; i < 3; i++)
@@ -565,7 +565,7 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram, 0, 0x8000);
+            writer.Write(Memory.mainram_Ptr, 0, 0x8000);
             writer.Write(mainram2, 0, 0x10000);
             MC68000.m1.SaveStateBinary(writer);
             writer.Write(Memory.audioram, 0, 0x1000);
@@ -702,7 +702,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Memory.mainram = reader.ReadBytes(0x8000);
+            Memory.Set_mainram(reader.ReadBytes(0x8000));
             mainram2 = reader.ReadBytes(0x10000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.audioram = reader.ReadBytes(0x1000);

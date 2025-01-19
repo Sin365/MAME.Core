@@ -21,7 +21,7 @@ namespace MAME.Core
             Generic.spriteram16 = new ushort[0x2000];
             init_eeprom_count = 10;
             toggle = 0;
-            Memory.mainram = new byte[0x4000];
+            Memory.Set_mainram(new byte[0x4000]);
             Memory.audioram = new byte[0x2000];//0x800 prmrsocr_0x2000
             mainram2 = new byte[0x4000];//0x4000 tmnt2_ssriders_0x80
             layer_colorbase = new int[3];
@@ -60,8 +60,8 @@ namespace MAME.Core
             layerpri = new int[3];
             sorted_layer = new int[3];
             Machine.bRom = true;
-            Memory.mainrom = Machine.GetRom("maincpu.rom");
-            Memory.audiorom = Machine.GetRom("audiocpu.rom");
+            Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
+            Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
             gfx1rom = Machine.GetRom("gfx1.rom");
             n1 = gfx1rom.Length;
             gfx12rom = new byte[n1 * 2];
@@ -84,7 +84,7 @@ namespace MAME.Core
                 case "cuebrick":
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K051960_memory_region = Machine.GetRom("k051960.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null)
                     {
                         Machine.bRom = false;
                     }
@@ -94,7 +94,7 @@ namespace MAME.Core
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K051960_memory_region = Machine.GetRom("k051960.rom");
                     K007232.k007232rom = Machine.GetRom("k007232.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom == null || K007232.k007232rom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom_IsNull || K007232.k007232rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -117,7 +117,7 @@ namespace MAME.Core
                     K007232.k007232rom = Machine.GetRom("k007232.rom");
                     Upd7759.updrom = Machine.GetRom("upd.rom");
                     titlerom = Machine.GetRom("title.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom == null || K007232.k007232rom == null || Upd7759.updrom == null || titlerom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom_IsNull || K007232.k007232rom == null || Upd7759.updrom == null || titlerom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -131,7 +131,7 @@ namespace MAME.Core
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K051960_memory_region = Machine.GetRom("k051960.rom");
                     K053260.k053260rom = Machine.GetRom("k053260.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom == null || K053260.k053260rom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom_IsNull || K053260.k053260rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -165,7 +165,7 @@ namespace MAME.Core
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K053245_memory_region[0] = Machine.GetRom("k053245.rom");
                     K053260.k053260rom = Machine.GetRom("k053260.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || Memory.audiorom == null || K053260.k053260rom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || Memory.audiorom_IsNull || K053260.k053260rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -177,7 +177,7 @@ namespace MAME.Core
                     zoomrom = Machine.GetRom("zoom.rom");
                     user1rom = Machine.GetRom("user1.rom");
                     K053260.k053260rom = Machine.GetRom("k053260.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom == null || K053260.k053260rom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom_IsNull || K053260.k053260rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -189,7 +189,7 @@ namespace MAME.Core
                     zoomrom = Machine.GetRom("zoom.rom");
                     user1rom = Machine.GetRom("user1.rom");
                     K054539.k054539rom = Machine.GetRom("k054539.rom");
-                    if (Memory.mainrom == null || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom == null || K054539.k054539rom == null)
+                    if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom_IsNull || K054539.k054539rom == null)
                     {
                         Machine.bRom = false;
                     }
@@ -920,17 +920,17 @@ namespace MAME.Core
         {
             Cpuint.cpunum_set_input_line(1, 0, LineState.HOLD_LINE);
         }
-        public static byte tmnt2_get_byte(int addr)
+        public unsafe static byte tmnt2_get_byte(int addr)
         {
             byte result = 0;
             if (addr <= 0x07ffff)
             {
-                result = Memory.mainrom[addr];
+                result = Memory.mainrom_Ptr[addr];
             }
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = addr - 0x104000;
-                result = Memory.mainram[offset];
+                result = Memory.mainram_Ptr[offset];
             }
             else if (addr >= 0x180000 && addr <= 0x183fff)
             {
@@ -946,18 +946,18 @@ namespace MAME.Core
             }
             return result;
         }
-        public static ushort tmnt2_get_word(int addr)
+        public unsafe static ushort tmnt2_get_word(int addr)
         {
             ushort result = 0;
             addr *= 2;
             if (addr <= 0x07ffff)
             {
-                result = (ushort)(Memory.mainrom[addr] * 0x100 + Memory.mainrom[addr + 1]);
+                result = (ushort)(Memory.mainrom_Ptr[addr] * 0x100 + Memory.mainrom_Ptr[addr + 1]);
             }
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = addr - 0x104000;
-                result = (ushort)(Memory.mainram[offset] * 0x100 + Memory.mainram[offset + 1]);
+                result = (ushort)(Memory.mainram_Ptr[offset] * 0x100 + Memory.mainram_Ptr[offset + 1]);
             }
             else if (addr >= 0x180000 && addr <= 0x183fff)
             {
@@ -966,7 +966,7 @@ namespace MAME.Core
             }
             return result;
         }
-        public static void tmnt2_put_word(int addr, ushort data)
+        public unsafe static void tmnt2_put_word(int addr, ushort data)
         {
             addr *= 2;
             if (addr >= 0x180000 && addr <= 0x183fff)
@@ -987,8 +987,8 @@ namespace MAME.Core
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = (addr - 0x104000) / 2;
-                Memory.mainram[offset] = (byte)(data >> 8);
-                Memory.mainram[offset + 1] = (byte)data;
+                Memory.mainram_Ptr[offset] = (byte)(data >> 8);
+                Memory.mainram_Ptr[offset + 1] = (byte)data;
             }
         }
         public static void tmnt2_1c0800_w(int offset, ushort data)

@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class IGS011
+    public unsafe partial class IGS011
     {
         public static byte bkey0, bkey1, bkey2, bkey3, bkey4;
         public static byte bkey0_old, bkey1_old, bkey2_old, bkey3_old, bkey4_old;
@@ -23,7 +23,7 @@
             }
             else if (address >= 0 && address <= 0x7ffff)
             {
-                result = (sbyte)Memory.mainrom[address];
+                result = (sbyte)Memory.mainrom_Ptr[address];
             }
             return result;
         }
@@ -44,7 +44,7 @@
             }
             else if (address >= 0 && address <= 0x7ffff)
             {
-                result = (sbyte)Memory.mainrom[address];
+                result = (sbyte)Memory.mainrom_Ptr[address];
             }
             else if (address >= 0x100000 && address <= 0x103fff)
             {
@@ -117,7 +117,7 @@
             }
             else if (address >= 0 && address + 1 <= 0x7ffff)
             {
-                result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
+                result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
             }
             return result;
         }
@@ -131,7 +131,7 @@
             }
             else if (address >= 0 && address + 1 <= 0x7ffff)
             {
-                result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
+                result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
             }
             else if (address >= 0x100000 && address + 1 <= 0x103fff)
             {
@@ -179,7 +179,7 @@
             int result = 0;
             if (address >= 0 && address + 3 <= 0x7ffff)
             {
-                result = Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3];
+                result = Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3];
             }
             return result;
         }
@@ -189,7 +189,7 @@
             int result = 0;
             if (address >= 0 && address + 3 <= 0x7ffff)
             {
-                result = Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3];
+                result = Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3];
             }
             else if (address >= 0x100000 && address + 3 <= 0x103fff)
             {

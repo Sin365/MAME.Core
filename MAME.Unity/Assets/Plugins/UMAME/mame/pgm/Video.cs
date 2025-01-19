@@ -393,12 +393,12 @@ namespace MAME.Core
             pgm_tx_tilemap.tilemap_set_scrollx(0, pgm_videoregs[0x6000] * 0x100 + pgm_videoregs[0x6000 + 1]);
             pgm_tx_tilemap.tilemap_draw_primask(new_clip, 0x10, 0);
         }
-        public static void video_eof_pgm()
+        public unsafe static void video_eof_pgm()
         {
             int i;
             for (i = 0; i < 0x500; i++)
             {
-                pgm_spritebufferram[i] = (ushort)(Memory.mainram[i * 2] * 0x100 + Memory.mainram[i * 2 + 1]);
+                pgm_spritebufferram[i] = (ushort)(Memory.mainram_Ptr[i * 2] * 0x100 + Memory.mainram_Ptr[i * 2 + 1]);
             }
         }
     }
