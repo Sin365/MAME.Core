@@ -1,5 +1,6 @@
 ﻿using MAME.Core;
 using System;
+using System.Reflection;
 
 namespace MAME.Core
 {
@@ -17,8 +18,90 @@ namespace MAME.Core
             motion_update_callback();
             motion_handler_callback();
         }
-        public static void ui_updateC()
+        //public static void ui_updateC()
+        //{
+        //    //不再填充完整画布
+        //    //{
+        //    //    int i;
+        //    //    int red, green, blue;
+        //    //    if (single_step || Mame.paused)
+        //    //    {
+        //    //        byte bright = 0xa7;
+        //    //        for (i = 0; i < Video.fullwidth * Video.fullheight; i++)
+        //    //        {
+        //    //            red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
+        //    //            green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
+        //    //            blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
+        //    //            Video.bitmapcolor[i] = (int)Palette.make_argb(0xff, red, green, blue);
+        //    //        }
+        //    //    }
+        //    //    else
+        //    //    {
+        //    //        for (i = 0; i < Video.fullwidth * Video.fullheight; i++)
+        //    //        {
+        //    //            Video.bitmapcolor[i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
+        //    //        }
+        //    //    }
+        //    //}
+
+        //    {
+        //        int i;
+        //        int target_i = 0;
+        //        int x, y;
+        //        int red, green, blue;
+
+        //        int startX = Video.offsetx;
+        //        int endX = Video.offsetx + Video.width;
+        //        int startY = Video.offsety;
+        //        int endY = Video.offsety + Video.height;
+
+        //        if (single_step || Mame.paused)
+        //        {
+        //            byte bright = 0xa7;
+        //            for (y = startY; y < endY; y++)
+        //            {
+        //                int stepIndex = y * Video.fullwidth;
+        //                for (x = startX; x < endX; x++, target_i++)
+        //                {
+        //                    //i = y * Video.fullwidth + x;
+        //                    i = stepIndex + x;
+        //                    red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
+        //                    green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
+        //                    blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
+        //                    Video.bitmapcolorRect[target_i] = (int)Palette.make_argb(0xff, red, green, blue);
+        //                }
+        //            }
+        //        }
+        //        else
+        //        {
+
+        //            for (y = startY; y < endY; y++)
+        //            {
+        //                int stepIndex = y * Video.fullwidth;
+        //                for (x = startX; x < endX; x++, target_i++)
+        //                {
+        //                    //i = y * Video.fullwidth + x;
+        //                    i = stepIndex + x;
+        //                    Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+        public unsafe static void ui_updateC()
         {
+            //fixed (ushort* curbitmapPtr = &Video.bitmapbase[Video.curbitmap][0])
+            //fixed (uint* entry_colorPtr = &Palette.entry_color[0])
+            //fixed (int* bitmapcolorRectPtr = &Video.bitmapcolorRect[0])
+            {
+                //ushort* curbitmap = curbitmapPtr;
+                ushort* curbitmap = (ushort*)Video.bitmapbase_Ptrs[Video.curbitmap];
+                //uint* entry_color = entry_colorPtr;
+                uint* entry_color = (uint*)Palette.entry_color_Ptr;
+                //int* bitmapcolorRect = bitmapcolorRectPtr;
+                int* bitmapcolorRect = (int*)Video.bitmapcolorRect_Ptr;
+
+                /*
             //不再填充完整画布
             //{
             //    int i;
@@ -42,46 +125,45 @@ namespace MAME.Core
             //        }
             //    }
             //}
-
-            {
-                int i;
-                int target_i = 0;
-                int x, y;
-                int red, green, blue;
-
-                int startX = Video.offsetx;
-                int endX = Video.offsetx + Video.width;
-                int startY = Video.offsety;
-                int endY = Video.offsety + Video.height;
-
-                if (single_step || Mame.paused)
+                */
                 {
-                    byte bright = 0xa7;
-                    for (y = startY; y < endY; y++)
+                    int i;
+                    int target_i = 0;
+                    int x, y;
+                    int red, green, blue;
+
+                    int startX = Video.offsetx;
+                    int endX = Video.offsetx + Video.width;
+                    int startY = Video.offsety;
+                    int endY = Video.offsety + Video.height;
+
+                    if (single_step || Mame.paused)
                     {
-                        int stepIndex = y * Video.fullwidth;
-                        for (x = startX; x < endX; x++, target_i++)
+                        byte bright = 0xa7;
+                        for (y = startY; y < endY; y++)
                         {
-                            //i = y * Video.fullwidth + x;
-                            i = stepIndex + x;
-                            red = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff0000) >> 16) * bright / 0xff);
-                            green = (int)(((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff00) >> 8) * bright / 0xff);
-                            blue = (int)((Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]] & 0xff) * bright / 0xff);
-                            Video.bitmapcolorRect[target_i] = (int)Palette.make_argb(0xff, red, green, blue);
+                            int stepIndex = y * Video.fullwidth;
+                            for (x = startX; x < endX; x++, target_i++)
+                            {
+                                i = stepIndex + x;
+                                red = (int)(((entry_color[curbitmap[i]] & 0xff0000) >> 16) * bright / 0xff);
+                                green = (int)(((entry_color[curbitmap[i]] & 0xff00) >> 8) * bright / 0xff);
+                                blue = (int)((entry_color[curbitmap[i]] & 0xff) * bright / 0xff);
+                                bitmapcolorRect[target_i] = (int)Palette.make_argb(0xff, red, green, blue);
+                            }
                         }
                     }
-                }
-                else
-                {
-
-                    for (y = startY; y < endY; y++)
+                    else
                     {
-                        int stepIndex = y * Video.fullwidth;
-                        for (x = startX; x < endX; x++, target_i++)
+
+                        for (y = startY; y < endY; y++)
                         {
-                            //i = y * Video.fullwidth + x;
-                            i = stepIndex + x;
-                            Video.bitmapcolorRect[target_i] = (int)Palette.entry_color[Video.bitmapbase[Video.curbitmap][i]];
+                            int stepIndex = y * Video.fullwidth;
+                            for (x = startX; x < endX; x++, target_i++)
+                            {
+                                i = stepIndex + x;
+                                bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
+                            }
                         }
                     }
                 }

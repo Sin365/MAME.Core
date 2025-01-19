@@ -1,4 +1,6 @@
 ﻿using MAME.Core.AxiBitmap;
+using System.Runtime.InteropServices;
+using System;
 using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace MAME.Core
@@ -6,6 +8,11 @@ namespace MAME.Core
     public class Palette
     {
         public static uint[] entry_color;
+        /**  entry_color的指针管理  **/
+        static GCHandle entry_color_handle;
+        public static IntPtr entry_color_Ptr;
+        /**  end **/
+
         public static float[] entry_contrast;
         private static uint trans_uint;
         private static int numcolors, numgroups;
@@ -165,8 +172,29 @@ namespace MAME.Core
                     }
                     break;
             }
+
+
+            //entry_color = new uint[numcolors];
+
+
+            /**  entry_color的指针管理  **/
+            // 释放句柄
+            if (entry_color != null && entry_color_handle.IsAllocated)
+                entry_color_handle.Free();
+
             entry_color = new uint[numcolors];
+            // 固定数组，防止垃圾回收器移动它  
+            entry_color_handle = GCHandle.Alloc(entry_color, GCHandleType.Pinned);
+            // 获取数组的指针  
+            entry_color_Ptr = entry_color_handle.AddrOfPinnedObject();
+            /**  end **/
+
+
+
             entry_contrast = new float[numcolors];
+
+
+
             for (index = 0; index < numcolors; index++)
             {
                 palette_set_callback(index, make_argb(0xff, pal1bit((byte)(index >> 0)), pal1bit((byte)(index >> 1)), pal1bit((byte)(index >> 2))));

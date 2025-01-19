@@ -36,15 +36,22 @@ namespace MAME.Core
         private static double speed_percent;
         private static uint throttle_history, overall_valid_counter, overall_real_seconds;
         private static int[] popcount;
-        public static ushort[][] bitmapbase;
+        //public static ushort[][] bitmapbase;
         public static int[][] bitmapbaseN;
         //public static int[] bitmapcolor;
+
+        /**  bitmapcolor的指针管理  **/
+        public static ushort[][] bitmapbase;
+        static GCHandle[] bitmapbase_handles;
+        public static IntPtr[] bitmapbase_Ptrs;
+        /**  end **/
 
         /**  bitmapcolor的指针管理  **/
         //不再拷贝完整画布
         //public static int[] bitmapcolor;
         //static GCHandle bitmapcolor_handle;
         //public static IntPtr bitmapcolor_Ptr;
+
 
         public static int[] bitmapcolorRect;
         static GCHandle bitmapcolorRect_handle;
@@ -611,6 +618,29 @@ namespace MAME.Core
             screenstate.frame_number = 0;
 
 
+            /**  bitmapbase的指针管理  **/
+            // 释放句柄
+            if (bitmapbase_handles != null)
+            {
+                for (int i = 0; i < bitmapbase_handles.Length; i++)
+                {
+                    if (bitmapbase_handles[i].IsAllocated)
+                        bitmapbase_handles[i].Free();
+                }
+                bitmapbase_handles = null;
+                bitmapbase_Ptrs = null;
+            }
+
+            bitmapbase_handles = new GCHandle[bitmapbase.Length];
+            bitmapbase_Ptrs = new IntPtr[bitmapbase.Length];
+            for (int i = 0; i < bitmapbase.Length; i++)
+            {
+                bitmapbase_handles[i] = GCHandle.Alloc(bitmapbase[i], GCHandleType.Pinned);
+                bitmapbase_Ptrs[i] = bitmapbase_handles[i].AddrOfPinnedObject();
+            }
+
+            /**  end **/
+
             //bitmapcolor = new int[Video.fullwidth * Video.fullheight];
             /**  bitmapcolor的指针管理  **/
             //不再拷贝完整画布
@@ -631,20 +661,15 @@ namespace MAME.Core
 
 
 
-            if (bitmapcolorRect != null)
-            {
-                // 释放句柄  
-                if (bitmapcolorRect_handle.IsAllocated)
-                {
-                    bitmapcolorRect_handle.Free();
-                }
-            }
+            // 释放句柄
+            if (bitmapcolorRect != null && bitmapcolorRect_handle.IsAllocated)
+                bitmapcolorRect_handle.Free();
+
             bitmapcolorRect = new int[width * height];
             // 固定数组，防止垃圾回收器移动它  
             bitmapcolorRect_handle = GCHandle.Alloc(bitmapcolorRect, GCHandleType.Pinned);
             // 获取数组的指针  
             bitmapcolorRect_Ptr = bitmapcolorRect_handle.AddrOfPinnedObject();
-
             /**  end **/
 
 
