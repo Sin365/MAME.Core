@@ -123,7 +123,7 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.audioram[address];
+                result = Memory.audioram_Ptr[address];
             }
             else if (address >= 0x4000 && address <= 0x7fff)
             {
@@ -142,7 +142,7 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.audioram[address];
+                result = Memory.audioram_Ptr[address];
             }
             else if (address >= 0x4000 && address <= 0x7fff)
             {
@@ -160,7 +160,7 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.audioram[address];
+                result = Memory.audioram_Ptr[address];
             }
             else if (address >= 0x4000 && address <= 0x7fff)
             {
@@ -178,7 +178,7 @@
             byte result = 0;
             if (address <= 0x7ff)
             {
-                result = Memory.audioram[address];
+                result = Memory.audioram_Ptr[address];
             }
             else if (address == 0x3000)
             {
@@ -203,7 +203,7 @@
         {
             if (address <= 0x7ff)
             {
-                Memory.audioram[address] = data;
+                Memory.audioram_Ptr[address] = data;
             }
             else if (address == 0x0800)
             {

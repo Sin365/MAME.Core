@@ -47,7 +47,7 @@ namespace MAME.Core
             }
             writer.Write(Memory.mainram_Ptr, 0, 0x4000);
             Nec.nn1[0].SaveStateBinary(writer);
-            writer.Write(Memory.audioram, 0, 0x10000);
+            writer.Write(Memory.audioram_Ptr, 0, 0x10000);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             Cpuint.SaveStateBinary_v(writer);
@@ -108,7 +108,7 @@ namespace MAME.Core
             }
             Memory.Set_mainram(reader.ReadBytes(0x4000));
             Nec.nn1[0].LoadStateBinary(reader);
-            Memory.audioram = reader.ReadBytes(0x10000);
+            Memory.Set_audioram(reader.ReadBytes(0x10000));
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
             Cpuint.LoadStateBinary_v(reader);

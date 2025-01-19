@@ -58,7 +58,7 @@ namespace MAME.Core
                         gfx3rom[i * 2 + 1] = (byte)(gfx32rom[i] & 0x0f);
                     }
                     Memory.Set_mainram(new byte[0x1e00]);
-                    Memory.audioram = new byte[0x800];
+                    Memory.Set_audioram(new byte[0x800]);
                     Generic.paletteram = new byte[0x100];
                     Generic.paletteram_2 = new byte[0x100];
                     if (Memory.mainrom_IsNull|| Memory.audiorom_IsNull || gfx12rom == null || gfx22rom == null || gfx32rom == null)
@@ -113,7 +113,7 @@ namespace MAME.Core
                     }
                     gfx5rom = Machine.GetRom("gfx5.rom");
                     Memory.Set_mainram(new byte[0x6000]);
-                    Memory.audioram = new byte[0x800];
+                    Memory.Set_audioram(new byte[0x800]);
                     if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx12rom == null || gfx22rom == null || gfx32rom == null || gfx42rom == null || gfx5rom == null)
                     {
                         Machine.bRom = false;

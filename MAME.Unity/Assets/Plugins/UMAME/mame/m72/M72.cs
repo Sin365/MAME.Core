@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class M72
+    public unsafe partial class M72
     {
         public static byte[] protection_ram;
         public static EmuTimer.emu_timer scanline_timer;
@@ -78,7 +78,7 @@ namespace MAME.Core
             }
             samplesrom = Machine.GetRom("samples.rom");
             Memory.Set_mainram(new byte[0x4000]);
-            Memory.audioram = new byte[0x10000];
+            Memory.Set_audioram(new byte[0x10000]);
             dsw = 0xffbf;
             if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || sprites1rom == null || gfx21rom == null || samplesrom == null)
             {
@@ -137,20 +137,20 @@ namespace MAME.Core
         }
         public static byte soundram_r(int offset)
         {
-            return Memory.audioram[offset];
+            return Memory.audioram_Ptr[offset];
         }
         public static ushort soundram_r2(int offset)
         {
-            return (ushort)(Memory.audioram[offset * 2 + 0] | (Memory.audioram[offset * 2 + 1] << 8));
+            return (ushort)(Memory.audioram_Ptr[offset * 2 + 0] | (Memory.audioram_Ptr[offset * 2 + 1] << 8));
         }
         public static void soundram_w(int offset, byte data)
         {
-            Memory.audioram[offset] = data;
+            Memory.audioram_Ptr[offset] = data;
         }
         public static void soundram_w(int offset, ushort data)
         {
-            Memory.audioram[offset * 2] = (byte)data;
-            Memory.audioram[offset * 2 + 1] = (byte)(data >> 8);
+            Memory.audioram_Ptr[offset * 2] = (byte)data;
+            Memory.audioram_Ptr[offset * 2 + 1] = (byte)(data >> 8);
         }
         public static void machine_start_m72()
         {

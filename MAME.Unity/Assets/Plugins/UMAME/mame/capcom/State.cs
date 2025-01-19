@@ -27,7 +27,7 @@ namespace MAME.Core
             }
             writer.Write(Memory.mainram_Ptr, 0, 0x1e00);
             M6809.mm1[0].SaveStateBinary(writer);
-            writer.Write(Memory.audioram, 0, 0x800);
+            writer.Write(Memory.audioram_Ptr, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -73,7 +73,7 @@ namespace MAME.Core
             }
             Memory.Set_mainram(reader.ReadBytes(0x1e00));
             M6809.mm1[0].LoadStateBinary(reader);
-            Memory.audioram = reader.ReadBytes(0x800);
+            Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
             EmuTimer.global_basetime.seconds = reader.ReadInt32();
@@ -126,7 +126,7 @@ namespace MAME.Core
             }
             writer.Write(Memory.mainram_Ptr, 0, 0x6000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram, 0, 0x800);
+            writer.Write(Memory.audioram_Ptr, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Z80A.zz1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
@@ -175,7 +175,7 @@ namespace MAME.Core
             }
             Memory.Set_mainram(reader.ReadBytes(0x6000));
             MC68000.m1.LoadStateBinary(reader);
-            Memory.audioram = reader.ReadBytes(0x800);
+            Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
             Z80A.zz1[1].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);

@@ -22,7 +22,7 @@ namespace MAME.Core
             init_eeprom_count = 10;
             toggle = 0;
             Memory.Set_mainram(new byte[0x4000]);
-            Memory.audioram = new byte[0x2000];//0x800 prmrsocr_0x2000
+            Memory.Set_audioram(new byte[0x2000]);//0x800 prmrsocr_0x2000
             mainram2 = new byte[0x4000];//0x4000 tmnt2_ssriders_0x80
             layer_colorbase = new int[3];
             cuebrick_nvram = new ushort[0x400 * 0x20];

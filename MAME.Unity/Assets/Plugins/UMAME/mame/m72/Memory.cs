@@ -544,7 +544,7 @@
             byte result = 0;
             if (address >= 0 && address <= 0xffff)
             {
-                result = Memory.audioram[address];
+                result = Memory.audioram_Ptr[address];
             }
             return result;
         }
@@ -557,7 +557,7 @@
             }
             else if (address >= 0xf000 && address <= 0xffff)
             {
-                result = Memory.audioram[address - 0xf000];
+                result = Memory.audioram_Ptr[address - 0xf000];
             }
             return result;
         }
@@ -565,14 +565,14 @@
         {
             if (address >= 0x0000 && address <= 0xffff)
             {
-                Memory.audioram[address] = value;
+                Memory.audioram_Ptr[address] = value;
             }
         }
         public static void ZWriteMemory_rom(ushort address, byte value)
         {
             if (address >= 0xf000 && address <= 0xffff)
             {
-                Memory.audioram[address - 0xf000] = value;
+                Memory.audioram_Ptr[address - 0xf000] = value;
             }
         }
         public static byte ZReadHardware(ushort address)

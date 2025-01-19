@@ -19,7 +19,7 @@ namespace MAME.Core
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
-                    Memory.audioram = new byte[0x1000];
+                    Memory.Set_audioram(new byte[0x1000]);
                     Generic.paletteram = new byte[0x200];
                     //bublbobl_mcu_sharedram = new byte[0x400];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
@@ -57,7 +57,7 @@ namespace MAME.Core
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
-                    Memory.audioram = new byte[0x1000];
+                    Memory.Set_audioram(new byte[0x1000]);
                     mcuram = new byte[0xc0];
                     Generic.paletteram = new byte[0x200];
                     bublbobl_mcu_sharedram = new byte[0x400];
@@ -99,7 +99,7 @@ namespace MAME.Core
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
-                    Memory.audioram = new byte[0x1000];
+                    Memory.Set_audioram(new byte[0x1000]);
                     Generic.paletteram = new byte[0x200];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
@@ -132,7 +132,7 @@ namespace MAME.Core
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
-                    Memory.audioram = new byte[0x1000];
+                    Memory.Set_audioram(new byte[0x1000]);
                     Generic.paletteram = new byte[0x200];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
@@ -167,7 +167,7 @@ namespace MAME.Core
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16 = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
-                        Memory.audioram = new byte[0x1000];
+                        Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
                         //Memory.audiorom = new byte[0x20000];
@@ -211,7 +211,7 @@ namespace MAME.Core
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16 = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
-                        Memory.audioram = new byte[0x1000];
+                        Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
                         //Memory.audiorom = new byte[0x20000];
@@ -256,7 +256,7 @@ namespace MAME.Core
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16 = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
-                        Memory.audioram = new byte[0x1000];
+                        Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
                         //Memory.audiorom = new byte[0x20000];

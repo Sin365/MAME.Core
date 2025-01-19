@@ -52,7 +52,7 @@ namespace MAME.Core
             pgm_rowscrollram = new byte[0x800];
             Generic.paletteram16 = new ushort[0x900];
             pgm_videoregs = new byte[0x10000];
-            Memory.audioram = new byte[0x10000];
+            Memory.Set_audioram(new byte[0x10000]);
             if (Memory.mainrom_IsNull || sprmaskrom == null || pgm_sprite_a_region == null)
             {
                 Machine.bRom = false;
@@ -101,14 +101,14 @@ namespace MAME.Core
             Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_HALT, LineState.ASSERT_LINE);
             device_reset();
         }
-        public static byte z80_ram_r(int offset)
+        public unsafe static byte z80_ram_r(int offset)
         {
-            return Memory.audioram[offset];
+            return Memory.audioram_Ptr[offset];
         }
-        public static void z80_ram_w(int offset, byte data)
+        public unsafe static void z80_ram_w(int offset, byte data)
         {
             int pc = MC68000.m1.PC;
-            Memory.audioram[offset] = data;
+            Memory.audioram_Ptr[offset] = data;
             if (pc != 0xf12 && pc != 0xde2 && pc != 0x100c50 && pc != 0x100b20)
             {
                 //error

@@ -22,7 +22,7 @@ namespace MAME.Core
             Memory.Set_mainram(new byte[0x10000]);
             mainram2 = new byte[0x1e80];
             mainram3 = new byte[0x2000];
-            Memory.audioram = new byte[0x2000];
+            Memory.Set_audioram(new byte[0x2000]);
             bg_rambank = new ushort[2];
             fg_rambank = new ushort[2];
             pixel_scroll = new ushort[2];

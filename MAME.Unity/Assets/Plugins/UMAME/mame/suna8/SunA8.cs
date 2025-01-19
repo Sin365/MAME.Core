@@ -37,7 +37,7 @@ namespace MAME.Core
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
                     Memory.Set_mainram(new byte[0x1800]);
-                    Memory.audioram = new byte[0x800];
+                    Memory.Set_audioram(new byte[0x800]);
                     Generic.paletteram = new byte[0x200];
                     if (mainromop == null || Memory.mainrom_IsNull || Memory.audiorom_IsNull || samplesrom == null || gfx12rom == null)
                     {

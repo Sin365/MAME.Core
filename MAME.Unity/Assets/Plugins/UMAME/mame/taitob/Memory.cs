@@ -702,7 +702,7 @@ namespace MAME.Core
             }
             else if (address >= 0xc000 && address <= 0xdfff)
             {
-                result = Memory.audioram[address - 0xc000];
+                result = Memory.audioram_Ptr[address - 0xc000];
             }
             else if (address >= 0xe000 && address <= 0xe000)
             {
@@ -738,7 +738,7 @@ namespace MAME.Core
             }
             else if (address >= 0xc000 && address <= 0xdfff)
             {
-                Memory.audioram[address - 0xc000] = value;
+                Memory.audioram_Ptr[address - 0xc000] = value;
             }
             else if (address >= 0xe000 && address <= 0xe000)
             {

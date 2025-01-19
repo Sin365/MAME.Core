@@ -383,7 +383,7 @@
             else if (address >= 0xa0000 && address <= 0xa3fff)
             {
                 int offset = address - 0xa0000;
-                result = Memory.audioram[offset];
+                result = Memory.audioram_Ptr[offset];
             }
             else if (address >= 0xa8000 && address <= 0xa803f)
             {
@@ -416,7 +416,7 @@
             else if (address >= 0xa0000 && address + 1 <= 0xa3fff)
             {
                 int offset = address - 0xa0000;
-                result = (ushort)(Memory.audioram[offset] + Memory.audioram[offset + 1] * 0x100);
+                result = (ushort)(Memory.audioram_Ptr[offset] + Memory.audioram_Ptr[offset + 1] * 0x100);
             }
             else if (address >= 0xa8000 && address + 1 <= 0xa803f)
             {
@@ -448,7 +448,7 @@
             else if (address >= 0xa0000 && address <= 0xa3fff)
             {
                 int offset = address - 0xa0000;
-                Memory.audioram[offset] = value;
+                Memory.audioram_Ptr[offset] = value;
             }
             else if (address >= 0xa8000 && address <= 0xa803f)
             {
@@ -482,8 +482,8 @@
             else if (address >= 0xa0000 && address + 1 <= 0xa3fff)
             {
                 int offset = address - 0xa0000;
-                Memory.audioram[offset] = (byte)value;
-                Memory.audioram[offset + 1] = (byte)(value >> 8);
+                Memory.audioram_Ptr[offset] = (byte)value;
+                Memory.audioram_Ptr[offset + 1] = (byte)(value >> 8);
             }
             else if (address >= 0xa8000 && address + 1 <= 0xa803f)
             {

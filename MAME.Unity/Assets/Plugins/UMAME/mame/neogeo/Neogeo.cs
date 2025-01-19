@@ -37,7 +37,7 @@ namespace MAME.Core
             pvc_cartridge_ram = new byte[0x2000];
             Memory.Set_mainram(new byte[0x10000]);
             mainram2 = new byte[0x10000];
-            Memory.audioram = new byte[0x800];
+            Memory.Set_audioram(new byte[0x800]);
             Machine.bRom = true;
             dsw = 0xff;
             fixedbiosrom = MameMainMotion.resource.sfix;

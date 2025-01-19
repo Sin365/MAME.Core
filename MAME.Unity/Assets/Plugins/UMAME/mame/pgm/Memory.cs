@@ -587,12 +587,12 @@
         }
         public static byte ZReadMemory(ushort address)
         {
-            byte result = Memory.audioram[address];
+            byte result = Memory.audioram_Ptr[address];
             return result;
         }
         public static void ZWriteMemory(ushort address, byte value)
         {
-            Memory.audioram[address] = value;
+            Memory.audioram_Ptr[address] = value;
         }
         public static byte ZReadHardware(ushort address)
         {

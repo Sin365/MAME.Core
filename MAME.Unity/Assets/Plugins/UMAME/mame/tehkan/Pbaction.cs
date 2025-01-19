@@ -22,7 +22,7 @@ namespace MAME.Core
                     gfx3rom = Machine.GetRom("gfx3.rom");
                     gfx32rom = Machine.GetRom("gfx32.rom");
                     Memory.Set_mainram(new byte[0x1000]);
-                    Memory.audioram = new byte[0x800];
+                    Memory.Set_audioram(new byte[0x800]);
                     Generic.videoram = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
                     Generic.colorram = new byte[0x400];
@@ -46,7 +46,7 @@ namespace MAME.Core
                     gfx3rom = Machine.GetRom("gfx3.rom");
                     gfx32rom = Machine.GetRom("gfx32.rom");
                     Memory.Set_mainram(new byte[0x1000]);
-                    Memory.audioram = new byte[0x800];
+                    Memory.Set_audioram(new byte[0x800]);
                     Generic.videoram = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
                     Generic.colorram = new byte[0x400];

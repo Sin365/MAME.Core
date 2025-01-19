@@ -7,9 +7,9 @@ namespace MAME.Core
     public unsafe class Memory
     {
         //public static byte[] mainrom, audiorom, mainram, audioram;
-        public static byte[] audioram;
+        //public static byte[] ;
 
-        static byte[] mainrom, audiorom, mainram;
+        static byte[] mainrom, audiorom, mainram, audioram;
         public static void memory_reset()
         {
             switch (Machine.sBoard)
@@ -381,6 +381,7 @@ namespace MAME.Core
             audiorom_Ptr = null;
         }
 
+
         static GCHandle mainram_handle;
         public static byte* mainram_Ptr;
         public static int mainram_Lenght;
@@ -407,6 +408,32 @@ namespace MAME.Core
             mainram_Lenght = default;
         }
 
+
+        static GCHandle audioram_handle;
+        public static byte* audioram_Ptr;
+        public static int audioram_Lenght;
+        public static bool audioram_IsNull => audioram == null;
+
+        public static void Set_audioram(byte[] data)
+        {
+            Release_audioram();
+            audioram = data;
+            audioram_handle = GCHandle.Alloc(audioram, GCHandleType.Pinned);
+            audioram_Ptr = (byte*)audioram_handle.AddrOfPinnedObject();
+            audioram_Lenght = data.Length;
+        }
+        static void Release_audioram()
+        {
+            if (audioram != null)
+            {
+                if (audioram_handle.IsAllocated)
+                    audioram_handle.Free();
+            }
+            audioram = null;
+            audioram_handle = default;
+            audioram_Ptr = null;
+            audioram_Lenght = default;
+        }
 
     }
 

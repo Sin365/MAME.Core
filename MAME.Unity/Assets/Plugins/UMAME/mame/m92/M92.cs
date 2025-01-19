@@ -240,7 +240,7 @@ namespace MAME.Core
             Memory.Set_audiorom(Machine.GetRom("soundcpu.rom"));
             Iremga20.iremrom = Machine.GetRom("irem.rom");
             Memory.Set_mainram(new byte[0x10000]);
-            Memory.audioram = new byte[0x4000];
+            Memory.Set_audioram(new byte[0x4000]);
             gfx1rom = Machine.GetRom("gfx1.rom");
             n1 = gfx1rom.Length;
             gfx11rom = new byte[n1 * 2];

@@ -50,7 +50,7 @@ namespace MAME.Core
             cps_b_regs = new ushort[0x20];
             gfxram = new byte[0x30000];
             Memory.Set_mainram(new byte[0x10000]);
-            Memory.audioram = new byte[0x800];
+            Memory.Set_audioram(new byte[0x800]);
             Machine.bRom = true;
             Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
             gfxrom = Machine.GetRom("gfx.rom");

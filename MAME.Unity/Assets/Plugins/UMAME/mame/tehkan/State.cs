@@ -22,7 +22,7 @@ namespace MAME.Core
             writer.Write(pbaction_colorram2, 0, 0x400);
             writer.Write(Generic.spriteram, 0, 0x80);
             writer.Write(Generic.paletteram, 0, 0x200);
-            writer.Write(Memory.audioram, 0, 0x800);
+            writer.Write(Memory.audioram_Ptr, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Z80A.zz1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
@@ -63,7 +63,7 @@ namespace MAME.Core
             pbaction_colorram2 = reader.ReadBytes(0x400);
             Generic.spriteram = reader.ReadBytes(0x80);
             Generic.paletteram = reader.ReadBytes(0x200);
-            Memory.audioram = reader.ReadBytes(0x800);
+            Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
             Z80A.zz1[1].LoadStateBinary(reader);
             Cpuint.LoadStateBinary(reader);
