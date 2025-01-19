@@ -167,8 +167,11 @@ namespace cpu.m68000
 
         public MC68000()
         {
+            //倒是已经废弃
             BuildOpcodeTable();
         }
+
+
         public override void Reset()
         {
             Pulse_Reset();

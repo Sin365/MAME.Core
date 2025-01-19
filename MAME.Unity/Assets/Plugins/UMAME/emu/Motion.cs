@@ -1,6 +1,8 @@
 ﻿using MAME.Core;
 using System;
 using System.Reflection;
+using System.Runtime.InteropServices;
+using UnityEngine.UIElements;
 
 namespace MAME.Core
 {
@@ -165,6 +167,20 @@ namespace MAME.Core
                                 bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
                             }
                         }
+
+                        //for (y = startY; y < endY; y++)
+                        //{
+                        //    int stepIndex = y * Video.fullwidth;
+
+                        //    for (x = startX; x < endX; x++, target_i++)
+                        //    {
+                        //        i = stepIndex + x;
+                        //        bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
+                        //    }
+
+                        //    // 使用Marshal.Copy进行内存拷贝
+                        //    Marshal.Copy(Palette.entry_color_Ptr,, Video.bitmapcolorRect_Ptr, endX - startX);
+                        //}
                     }
                 }
             }
