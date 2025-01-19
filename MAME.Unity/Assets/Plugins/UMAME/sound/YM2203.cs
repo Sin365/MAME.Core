@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class YM2203
+    public unsafe class YM2203
     {
         public byte[] REGS;
         public FM.FM_OPN OPN;
@@ -273,7 +273,7 @@ namespace MAME.Core
                     lt = FM.out_fm[0] + FM.out_fm[1] + FM.out_fm[2];
                     lt >>= 0;
                     lt = FM.Limit(lt, 32767, -32768);
-                    stream.streamoutput[0][offset + i] = lt;
+                    stream.streamoutput_Ptrs[0][offset + i] = lt;
                 }
             }
         }

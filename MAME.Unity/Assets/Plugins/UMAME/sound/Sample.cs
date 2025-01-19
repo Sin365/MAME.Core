@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public class Sample
+    public unsafe class Sample
     {
         public struct sample_channel
         {
@@ -86,7 +86,7 @@ namespace MAME.Core
                     int sample1 = info.channel[0].source[pos];
                     int sample2 = info.channel[0].source[(pos + 1) % sample_length];
                     int fracmult = (int)(frac >> (24 - 14));
-                    Sound.samplestream.streamoutput[0][offset + i] = ((0x4000 - fracmult) * sample1 + fracmult * sample2) >> 14;
+                    Sound.samplestream.streamoutput_Ptrs[0][offset + i] = ((0x4000 - fracmult) * sample1 + fracmult * sample2) >> 14;
                     frac += step;
                     pos += frac >> 24;
                     frac = frac & ((1 << 24) - 1);
@@ -104,7 +104,7 @@ namespace MAME.Core
                             {
                                 for (j = i + 1; j < length; j++)
                                 {
-                                    Sound.samplestream.streamoutput[0][offset + j] = 0;
+                                    Sound.samplestream.streamoutput_Ptrs[0][offset + j] = 0;
                                 }
                             }
                             break;
@@ -118,7 +118,7 @@ namespace MAME.Core
             {
                 for (i = 0; i < length; i++)
                 {
-                    Sound.samplestream.streamoutput[0][offset + i] = 0;
+                    Sound.samplestream.streamoutput_Ptrs[0][offset + i] = 0;
                 }
             }
         }

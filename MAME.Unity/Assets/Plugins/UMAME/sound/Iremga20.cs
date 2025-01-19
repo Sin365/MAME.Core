@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class Iremga20
+    public unsafe class Iremga20
     {
         public struct IremGA20_channel_def
         {
@@ -74,8 +74,8 @@ namespace MAME.Core
                     play[3] = pos[3] < end[3] ? 1 : 0;
                 }
                 sampleout >>= 2;
-                Sound.iremga20stream.streamoutput[0][offset + i] = sampleout;
-                Sound.iremga20stream.streamoutput[1][offset + i] = sampleout;
+                Sound.iremga20stream.streamoutput_Ptrs[0][offset + i] = sampleout;
+                Sound.iremga20stream.streamoutput_Ptrs[1][offset + i] = sampleout;
             }
             for (i = 0; i < 4; i++)
             {

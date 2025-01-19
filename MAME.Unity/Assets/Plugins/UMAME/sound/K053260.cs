@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class K053260
+    public unsafe class K053260
     {
         public struct k053260_channel_def
         {
@@ -226,8 +226,8 @@ namespace MAME.Core
                 {
                     dataR = 32767;
                 }
-                Sound.k053260stream.streamoutput[1][offset + j] = dataL;
-                Sound.k053260stream.streamoutput[0][offset + j] = dataR;
+                Sound.k053260stream.streamoutput_Ptrs[1][offset + j] = dataL;
+                Sound.k053260stream.streamoutput_Ptrs[0][offset + j] = dataR;
             }
             for (i = 0; i < 4; i++)
             {

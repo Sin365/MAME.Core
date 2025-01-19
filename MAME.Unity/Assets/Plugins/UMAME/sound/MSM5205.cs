@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public class MSM5205
+    public unsafe class MSM5205
     {
         public struct MSM5205Voice
         {
@@ -58,14 +58,14 @@ namespace MAME.Core
                 short val = (short)(voice.signal * 16);
                 for (i = 0; i < length; i++)
                 {
-                    voice.stream.streamoutput[0][offset + i] = val;
+                    voice.stream.streamoutput_Ptrs[0][offset + i] = val;
                 }
             }
             else
             {
                 for (i = 0; i < length; i++)
                 {
-                    voice.stream.streamoutput[0][offset + i] = 0;
+                    voice.stream.streamoutput_Ptrs[0][offset + i] = 0;
                 }
             }
         }

@@ -1785,16 +1785,18 @@ namespace MAME.Core
             fixed (uint* PSGfreqPtr = &PSG.freq[0])
             fixed (YM2151Operator* PSGoperPtr = &PSG.oper[0])
             fixed (int* chanoutPtr = &chanout[0])
-            fixed (int* streamoutput0Ptr = &Sound.ym2151stream.streamoutput[0][0])
-            fixed (int* streamoutput1Ptr = &Sound.ym2151stream.streamoutput[0][1])
+            //fixed (int* streamoutput0Ptr = &Sound.ym2151stream.streamoutput_Ptrs[0][0])
+            //fixed (int* streamoutput1Ptr = &Sound.ym2151stream.streamoutput_Ptrs[0][1])
             fixed (int* imemPtr = &imem[0])
             {
                 YM2151Operator* PSGoper = PSGoperPtr;
                 uint* PSGpan = PSGpanPtr;
                 uint* PSGfreq = PSGfreqPtr;
                 int* chanout = chanoutPtr;
-                int* streamoutput0 = streamoutput0Ptr;
-                int* streamoutput1 = streamoutput1Ptr;
+                //int* streamoutput0 = streamoutput0Ptr;
+                //int* streamoutput1 = streamoutput1Ptr;
+                int* streamoutput0 = &Sound.ym2151stream.streamoutput_Ptrs[0][0];
+                int* streamoutput1 = &Sound.ym2151stream.streamoutput_Ptrs[0][1];
                 int* imem = imemPtr;
 
                 int i;
@@ -1911,8 +1913,8 @@ namespace MAME.Core
         //        {
         //            outr = -32768;
         //        }
-        //        Sound.ym2151stream.streamoutput[0][offset + i] = outl;
-        //        Sound.ym2151stream.streamoutput[1][offset + i] = outr;
+        //        Sound.ym2151stream.streamoutput_Ptrs[0][offset + i] = outl;
+        //        Sound.ym2151stream.streamoutput_Ptrs[1][offset + i] = outr;
         //        advance();
         //    }
         //}

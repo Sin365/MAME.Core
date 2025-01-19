@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public class sound_stream
+    public unsafe class sound_stream
     {
         public int sample_rate;
         public int new_sample_rate;
@@ -13,7 +14,15 @@ namespace MAME.Core
         public int outputs;
         public int output_sampindex;
         public int output_base_sampindex;
-        public int[][] streaminput, streamoutput;
+        //改成指针读取
+        private int[][] streaminput;
+        GCHandle[] streaminput_handles;
+        public int*[] streaminput_Ptrs;
+        //改成指针读取
+        private int[][] streamoutput;
+        GCHandle[] streamoutput_handles;
+        public int*[] streamoutput_Ptrs;
+
         private updatedelegate updatecallback;
         public delegate void updatedelegate(int offset, int length);
         public sound_stream(int _sample_rate, int _inputs, int _outputs, updatedelegate callback)
@@ -26,16 +35,56 @@ namespace MAME.Core
             max_samples_per_update = (int)((Sound.update_attoseconds + attoseconds_per_sample - 1) / attoseconds_per_sample);
             output_base_sampindex = -max_samples_per_update;
             streaminput = new int[inputs][];
+            //
+            streaminput_handles = new GCHandle[inputs];
+            streaminput_Ptrs = new int*[inputs];
             for (i = 0; i < inputs; i++)
             {
                 streaminput[i] = new int[max_samples_per_update];
+                //
+                streaminput_handles[i] = GCHandle.Alloc(streaminput[i], GCHandleType.Pinned);
+                streaminput_Ptrs[i] = (int*)streaminput_handles[i].AddrOfPinnedObject();
+
             }
             streamoutput = new int[outputs][];
+            //
+            streamoutput_handles = new GCHandle[outputs];
+            streamoutput_Ptrs = new int*[outputs];
             for (i = 0; i < outputs; i++)
             {
                 streamoutput[i] = new int[5 * max_samples_per_update];
+                //
+                streamoutput_handles[i] = GCHandle.Alloc(streamoutput[i], GCHandleType.Pinned);
+                streamoutput_Ptrs[i] = (int*)streamoutput_handles[i].AddrOfPinnedObject();
             }
             updatecallback = callback;
+        }
+
+        ~sound_stream()
+        {
+            // 释放句柄
+            if (streaminput_handles != null)
+            {
+                for (int i = 0; i < streaminput_handles.Length; i++)
+                {
+                    if (streaminput_handles[i].IsAllocated)
+                        streaminput_handles[i].Free();
+                }
+                streaminput_handles = null;
+                streaminput_Ptrs = null;
+            }
+
+
+            if (streamoutput_handles != null)
+            {
+                for (int i = 0; i < streamoutput_handles.Length; i++)
+                {
+                    if (streamoutput_handles[i].IsAllocated)
+                        streamoutput_handles[i].Free();
+                }
+                streamoutput_handles = null;
+                streamoutput_Ptrs = null;
+            }
         }
         public void stream_update()
         {
@@ -103,7 +152,7 @@ namespace MAME.Core
             }
         }
     };
-    public partial class Sound
+    public unsafe partial class Sound
     {
         public static int last_update_second;
         public static sound_stream ym2151stream, okistream, mixerstream;
@@ -119,7 +168,7 @@ namespace MAME.Core
         public static sound_stream samplestream;
         public static sound_stream k054539stream;
         public static long update_attoseconds = Attotime.ATTOSECONDS_PER_SECOND / 50;
-        private static void generate_resampled_dataY5(int gain)
+        private unsafe static void generate_resampled_dataY5(int gain)
         {
             int offset;
             int sample0, sample1;
@@ -145,30 +194,30 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = ym2151stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = ym2151stream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = ym2151stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = ym2151stream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += ym2151stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += ym2151stream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += ym2151stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += ym2151stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += ym2151stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += ym2151stream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += ym2151stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += ym2151stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[0][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[1][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[1][sampindex] = (sample1 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
                 }
             }
         }
-        private static void generate_resampled_dataO(int gain, int minput)
+        private unsafe static void generate_resampled_dataO(int gain, int minput)
         {
             int offset;
             int sample;
@@ -190,8 +239,8 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    sample = (okistream.streamoutput[0][offset] * (0x1000 - interp_frac) + okistream.streamoutput[0][offset + 1] * interp_frac) >> 12;
-                    mixerstream.streaminput[minput][sampindex] = (sample * gain) >> 8;
+                    sample = (okistream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + okistream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -219,8 +268,8 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    mixerstream.streaminput[0][sampindex] = (qsoundstream.streamoutput[0][offset] * (0x1000 - interp_frac) + qsoundstream.streamoutput[0][offset + 1] * interp_frac) >> 12;
-                    mixerstream.streaminput[1][sampindex] = (qsoundstream.streamoutput[1][offset] * (0x1000 - interp_frac) + qsoundstream.streamoutput[1][offset + 1] * interp_frac) >> 12;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (qsoundstream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + qsoundstream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12;
+                    mixerstream.streaminput_Ptrs[1][sampindex] = (qsoundstream.streamoutput_Ptrs[1][offset] * (0x1000 - interp_frac) + qsoundstream.streamoutput_Ptrs[1][offset + 1] * interp_frac) >> 12;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -253,18 +302,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * scale;
+                    sample = AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[0][sampindex] = (sample * 0x99) >> 8;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (sample * 0x99) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -297,28 +346,28 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = AY8910.AA8910[chip].stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = AY8910.AA8910[chip].stream.streamoutput[1][offset + tpos] * scale;
-                    sample2 = AY8910.AA8910[chip].stream.streamoutput[2][offset + tpos] * scale;
+                    sample0 = AY8910.AA8910[chip].stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = AY8910.AA8910[chip].stream.streamoutput_Ptrs[1][offset + tpos] * scale;
+                    sample2 = AY8910.AA8910[chip].stream.streamoutput_Ptrs[2][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += AY8910.AA8910[chip].stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += AY8910.AA8910[chip].stream.streamoutput[1][offset + tpos] * 0x100;
-                        sample2 += AY8910.AA8910[chip].stream.streamoutput[2][offset + tpos] * 0x100;
+                        sample0 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
+                        sample2 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[2][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += AY8910.AA8910[chip].stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += AY8910.AA8910[chip].stream.streamoutput[1][offset + tpos] * remainder;
-                    sample2 += AY8910.AA8910[chip].stream.streamoutput[2][offset + tpos] * remainder;
+                    sample0 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
+                    sample2 += AY8910.AA8910[chip].stream.streamoutput_Ptrs[2][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
                     sample2 /= smallstep;
-                    mixerstream.streaminput[start][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[start + 1][sampindex] = (sample1 * gain) >> 8;
-                    mixerstream.streaminput[start + 2][sampindex] = (sample2 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[start][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[start + 1][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[start + 2][sampindex] = (sample2 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -353,18 +402,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * scale;
+                    sample = AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += AY8910.AA8910[0].stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += AY8910.AA8910[0].stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[0][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -392,10 +441,10 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    int i2 = YM2203.FF2203[c].stream.streamoutput[0][offset];
-                    int i3 = YM2203.FF2203[c].stream.streamoutput[0][offset + 1];
-                    int i4 = (((YM2203.FF2203[c].stream.streamoutput[0][offset] * (0x1000 - interp_frac) + YM2203.FF2203[c].stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
-                    mixerstream.streaminput[minput][sampindex] = (((YM2203.FF2203[c].stream.streamoutput[0][offset] * (0x1000 - interp_frac) + YM2203.FF2203[c].stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    int i2 = YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset];
+                    int i3 = YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset + 1];
+                    int i4 = (((YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (((YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + YM2203.FF2203[c].stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -423,7 +472,7 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    mixerstream.streaminput[minput][sampindex] = (((ym3526stream.streamoutput[0][offset] * (0x1000 - interp_frac) + ym3526stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (((ym3526stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + ym3526stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -456,23 +505,23 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = ym2610stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = ym2610stream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = ym2610stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = ym2610stream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += ym2610stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += ym2610stream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += ym2610stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += ym2610stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += ym2610stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += ym2610stream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += ym2610stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += ym2610stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[1][sampindex] = sample0;
-                    mixerstream.streaminput[2][sampindex] = sample1;
+                    mixerstream.streaminput_Ptrs[1][sampindex] = sample0;
+                    mixerstream.streaminput_Ptrs[2][sampindex] = sample1;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -507,23 +556,23 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> (14));
-                    sample0 = namcostream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = namcostream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = namcostream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = namcostream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += namcostream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += namcostream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += namcostream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += namcostream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += namcostream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += namcostream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += namcostream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += namcostream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[2][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[3][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[2][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[3][sampindex] = (sample1 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -556,18 +605,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> (14));
-                    sample = dacstream.streamoutput[0][offset + tpos] * scale;
+                    sample = dacstream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += dacstream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += dacstream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += dacstream.streamoutput[0][offset + tpos] * remainder;
+                    sample += dacstream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[minput][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -600,23 +649,23 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = ym2413stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = ym2413stream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = ym2413stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = ym2413stream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += ym2413stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += ym2413stream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += ym2413stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += ym2413stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += ym2413stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += ym2413stream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += ym2413stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += ym2413stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[minput][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[minput + 1][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput + 1][sampindex] = (sample1 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -649,18 +698,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = ym3812stream.streamoutput[0][offset + tpos] * scale;
+                    sample = ym3812stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += ym3812stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += ym3812stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += ym3812stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += ym3812stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[minput][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -671,7 +720,7 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    mixerstream.streaminput[minput][sampindex] = (((ym3812stream.streamoutput[0][offset] * (0x1000 - interp_frac) + ym3812stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (((ym3812stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + ym3812stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -699,8 +748,8 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    mixerstream.streaminput[0][sampindex] = (((ics2115stream.streamoutput[0][offset] * (0x1000 - interp_frac) + ics2115stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
-                    mixerstream.streaminput[1][sampindex] = (((ics2115stream.streamoutput[1][offset] * (0x1000 - interp_frac) + ics2115stream.streamoutput[1][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (((ics2115stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + ics2115stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[1][sampindex] = (((ics2115stream.streamoutput_Ptrs[1][offset] * (0x1000 - interp_frac) + ics2115stream.streamoutput_Ptrs[1][offset + 1] * interp_frac) >> 12) * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -733,23 +782,23 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = iremga20stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = iremga20stream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = iremga20stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = iremga20stream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += iremga20stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += iremga20stream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += iremga20stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += iremga20stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += iremga20stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += iremga20stream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += iremga20stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += iremga20stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[2][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[3][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[2][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[3][sampindex] = (sample1 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -782,23 +831,23 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample0 = k053260stream.streamoutput[0][offset + tpos] * scale;
-                    sample1 = k053260stream.streamoutput[1][offset + tpos] * scale;
+                    sample0 = k053260stream.streamoutput_Ptrs[0][offset + tpos] * scale;
+                    sample1 = k053260stream.streamoutput_Ptrs[1][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample0 += k053260stream.streamoutput[0][offset + tpos] * 0x100;
-                        sample1 += k053260stream.streamoutput[1][offset + tpos] * 0x100;
+                        sample0 += k053260stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
+                        sample1 += k053260stream.streamoutput_Ptrs[1][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample0 += k053260stream.streamoutput[0][offset + tpos] * remainder;
-                    sample1 += k053260stream.streamoutput[1][offset + tpos] * remainder;
+                    sample0 += k053260stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
+                    sample1 += k053260stream.streamoutput_Ptrs[1][offset + tpos] * remainder;
                     sample0 /= smallstep;
                     sample1 /= smallstep;
-                    mixerstream.streaminput[minput1][sampindex] = (sample0 * gain) >> 8;
-                    mixerstream.streaminput[minput2][sampindex] = (sample1 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput1][sampindex] = (sample0 * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput2][sampindex] = (sample1 * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -826,8 +875,8 @@ namespace MAME.Core
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
                     int interp_frac = (int)(basefrac >> 10);
-                    mixerstream.streaminput[2][sampindex] = (((k007232stream.streamoutput[0][offset] * (0x1000 - interp_frac) + k007232stream.streamoutput[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
-                    mixerstream.streaminput[3][sampindex] = (((k007232stream.streamoutput[1][offset] * (0x1000 - interp_frac) + k007232stream.streamoutput[1][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[2][sampindex] = (((k007232stream.streamoutput_Ptrs[0][offset] * (0x1000 - interp_frac) + k007232stream.streamoutput_Ptrs[0][offset + 1] * interp_frac) >> 12) * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[3][sampindex] = (((k007232stream.streamoutput_Ptrs[1][offset] * (0x1000 - interp_frac) + k007232stream.streamoutput_Ptrs[1][offset + 1] * interp_frac) >> 12) * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -860,18 +909,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = upd7759stream.streamoutput[0][offset + tpos] * scale;
+                    sample = upd7759stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += upd7759stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += upd7759stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += upd7759stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += upd7759stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[4][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[4][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -898,7 +947,7 @@ namespace MAME.Core
             {
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
-                    mixerstream.streaminput[minput][sampindex] = (samplestream.streamoutput[0][offset + sampindex] * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (samplestream.streamoutput_Ptrs[0][offset + sampindex] * gain) >> 8;
                 }
             }
         }
@@ -922,8 +971,8 @@ namespace MAME.Core
             {
                 for (sampindex = 0; sampindex < 0x3c0; sampindex++)
                 {
-                    mixerstream.streaminput[0][sampindex] = (k054539stream.streamoutput[0][offset + sampindex] * gain) >> 8;
-                    mixerstream.streaminput[1][sampindex] = (k054539stream.streamoutput[1][offset + sampindex] * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[0][sampindex] = (k054539stream.streamoutput_Ptrs[0][offset + sampindex] * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[1][sampindex] = (k054539stream.streamoutput_Ptrs[1][offset + sampindex] * gain) >> 8;
                 }
             }
         }
@@ -953,18 +1002,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = MSM5205.mm1[0].voice.stream.streamoutput[0][offset + tpos] * scale;
+                    sample = MSM5205.mm1[0].voice.stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += MSM5205.mm1[0].voice.stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += MSM5205.mm1[0].voice.stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += MSM5205.mm1[0].voice.stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += MSM5205.mm1[0].voice.stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[minput][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;
@@ -997,18 +1046,18 @@ namespace MAME.Core
                     int tpos = 0;
                     int scale;
                     scale = (int)((0x400000 - basefrac) >> 14);
-                    sample = MSM5205.mm1[1].voice.stream.streamoutput[0][offset + tpos] * scale;
+                    sample = MSM5205.mm1[1].voice.stream.streamoutput_Ptrs[0][offset + tpos] * scale;
                     tpos++;
                     remainder -= scale;
                     while (remainder > 0x100)
                     {
-                        sample += MSM5205.mm1[1].voice.stream.streamoutput[0][offset + tpos] * 0x100;
+                        sample += MSM5205.mm1[1].voice.stream.streamoutput_Ptrs[0][offset + tpos] * 0x100;
                         tpos++;
                         remainder -= 0x100;
                     }
-                    sample += MSM5205.mm1[1].voice.stream.streamoutput[0][offset + tpos] * remainder;
+                    sample += MSM5205.mm1[1].voice.stream.streamoutput_Ptrs[0][offset + tpos] * remainder;
                     sample /= smallstep;
-                    mixerstream.streaminput[minput][sampindex] = (sample * gain) >> 8;
+                    mixerstream.streaminput_Ptrs[minput][sampindex] = (sample * gain) >> 8;
                     basefrac += step;
                     offset += (int)(basefrac >> 22);
                     basefrac &= 0x3fffff;

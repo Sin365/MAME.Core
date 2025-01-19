@@ -1158,7 +1158,7 @@ namespace MAME.Core
         {
             OPLLSetUpdateHandler(UpdateHandler, param);
         }*/
-        public static void ym2413_update_one(int offset, int length)
+        public unsafe static void ym2413_update_one(int offset, int length)
         {
             byte rhythm = (byte)(OPLL.rhythm & 0x20);
             int i;
@@ -1188,8 +1188,8 @@ namespace MAME.Core
                 ro = output[1];
                 mo = limit(mo, 32767, -32768);
                 ro = limit(ro, 32767, -32768);
-                Sound.ym2413stream.streamoutput[0][offset + i] = mo;
-                Sound.ym2413stream.streamoutput[1][offset + i] = ro;
+                Sound.ym2413stream.streamoutput_Ptrs[0][offset + i] = mo;
+                Sound.ym2413stream.streamoutput_Ptrs[1][offset + i] = ro;
                 advance();
             }
         }

@@ -12,14 +12,14 @@ namespace MAME.Core
             public short[] SignedVolTable;
         };
         public static dac_info dac1;
-        public static void DAC_update(int offset, int length)
+        public unsafe static void DAC_update(int offset, int length)
         {
             ;
             short out1 = dac1.output;
             int i;
             for (i = 0; i < length; i++)
             {
-                Sound.dacstream.streamoutput[0][offset + i] = out1;
+                Sound.dacstream.streamoutput_Ptrs[0][offset + i] = out1;
             }
         }
         public static void dac_signed_data_w(int num, byte data)

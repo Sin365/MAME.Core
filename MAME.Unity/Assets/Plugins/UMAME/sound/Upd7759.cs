@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class Upd7759
+    public unsafe class Upd7759
     {
         public struct upd7759_chip
         {
@@ -219,7 +219,7 @@ namespace MAME.Core
             {
                 for (i = 0; i < length; i++)
                 {
-                    Sound.upd7759stream.streamoutput[0][offset + i] = sample << 7;
+                    Sound.upd7759stream.streamoutput_Ptrs[0][offset + i] = sample << 7;
                     pos += step;
                     while (updrom != null && pos >= 0x100000)
                     {
@@ -247,7 +247,7 @@ namespace MAME.Core
             {
                 for (j = i; j < length; j++)
                 {
-                    Sound.upd7759stream.streamoutput[0][offset + j] = 0;
+                    Sound.upd7759stream.streamoutput_Ptrs[0][offset + j] = 0;
                 }
             }
             chip.clocks_left = clocks_left;

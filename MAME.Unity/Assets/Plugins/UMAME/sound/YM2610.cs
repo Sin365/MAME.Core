@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class YM2610
+    public unsafe class YM2610
     {
         public byte[] REGS;
         public FM.FM_OPN OPN;
@@ -522,8 +522,8 @@ namespace MAME.Core
                 rt += (int)((FM.out_fm[5] >> 1) & OPN.pan[11]);
                 lt = FM.Limit(lt, 32767, -32768);
                 rt = FM.Limit(rt, 32767, -32768);
-                Sound.ym2610stream.streamoutput[0][offset + i] = lt;
-                Sound.ym2610stream.streamoutput[1][offset + i] = rt;
+                Sound.ym2610stream.streamoutput_Ptrs[0][offset + i] = lt;
+                Sound.ym2610stream.streamoutput_Ptrs[1][offset + i] = rt;
             }
         }
         public void ym2610b_update_one(int offset, int length)
@@ -607,8 +607,8 @@ namespace MAME.Core
                 rt += (int)((FM.out_fm[5] >> 1) & OPN.pan[11]);
                 lt = FM.Limit(lt, 32767, -32768);
                 rt = FM.Limit(rt, 32767, -32768);
-                Sound.ym2610stream.streamoutput[0][offset + i] = lt;
-                Sound.ym2610stream.streamoutput[1][offset + i] = rt;
+                Sound.ym2610stream.streamoutput_Ptrs[0][offset + i] = lt;
+                Sound.ym2610stream.streamoutput_Ptrs[1][offset + i] = rt;
             }
         }
         public void ym2610_postload()

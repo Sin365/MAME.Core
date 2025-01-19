@@ -30,7 +30,7 @@ namespace MAME.Core
         public int[] pan_table;		 /* Pan volume table */
         public float frq_ratio;		   /* Frequency ratio */
     };
-    public class QSound
+    public unsafe class QSound
     {
         public static sbyte[] qsoundrom;
         public static qsound_info QChip;
@@ -159,8 +159,8 @@ namespace MAME.Core
             int rvol, lvol, count;
             for (i = 0; i < length; i++)
             {
-                Sound.qsoundstream.streamoutput[0][offset + i] = 0;
-                Sound.qsoundstream.streamoutput[1][offset + i] = 0;
+                Sound.qsoundstream.streamoutput_Ptrs[0][offset + i] = 0;
+                Sound.qsoundstream.streamoutput_Ptrs[1][offset + i] = 0;
             }
             for (i = 0; i < 16; i++)
             {
@@ -188,8 +188,8 @@ namespace MAME.Core
                             }
                             QChip.channel[i].lastdt = qsoundrom[(QChip.channel[i].bank + QChip.channel[i].address) % (QChip.sample_rom_length)];
                         }
-                        Sound.qsoundstream.streamoutput[0][offset + j] += ((QChip.channel[i].lastdt * lvol) >> 6);
-                        Sound.qsoundstream.streamoutput[1][offset + j] += ((QChip.channel[i].lastdt * rvol) >> 6);
+                        Sound.qsoundstream.streamoutput_Ptrs[0][offset + j] += ((QChip.channel[i].lastdt * lvol) >> 6);
+                        Sound.qsoundstream.streamoutput_Ptrs[1][offset + j] += ((QChip.channel[i].lastdt * rvol) >> 6);
                         QChip.channel[i].offset += QChip.channel[i].pitch;
                     }
                 }

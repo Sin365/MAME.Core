@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class AY8910
+    public unsafe class AY8910
     {
         public struct _ay_ym_param
         {
@@ -383,7 +383,7 @@ namespace MAME.Core
                 {
                     for (j = 0; j < length; j++)
                     {
-                        stream.streamoutput[chan][offset + j] = 0;
+                        stream.streamoutput_Ptrs[chan][offset + j] = 0;
                     }
                 }
             }
@@ -453,18 +453,18 @@ namespace MAME.Core
                         if (TONE_ENVELOPE(chan) != 0)
                         {
                             int i1 = ay8910info.env_table[chan][ay8910info.vol_enabled[chan] != 0 ? ay8910info.env_volume : 0];
-                            stream.streamoutput[chan][offset] = ay8910info.env_table[chan][ay8910info.vol_enabled[chan] != 0 ? ay8910info.env_volume : 0];
+                            stream.streamoutput_Ptrs[chan][offset] = ay8910info.env_table[chan][ay8910info.vol_enabled[chan] != 0 ? ay8910info.env_volume : 0];
                         }
                         else
                         {
                             int i1 = ay8910info.vol_table[chan][ay8910info.vol_enabled[chan] != 0 ? TONE_VOLUME(chan) : 0];
-                            stream.streamoutput[chan][offset] = ay8910info.vol_table[chan][ay8910info.vol_enabled[chan] != 0 ? TONE_VOLUME(chan) : 0];
+                            stream.streamoutput_Ptrs[chan][offset] = ay8910info.vol_table[chan][ay8910info.vol_enabled[chan] != 0 ? TONE_VOLUME(chan) : 0];
                         }
                     }
                 }
                 else
                 {
-                    stream.streamoutput[0][offset] = mix_3D();
+                    stream.streamoutput_Ptrs[0][offset] = mix_3D();
                 }
                 offset++;
             }

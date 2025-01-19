@@ -3,7 +3,7 @@ using System;
 
 namespace MAME.Core
 {
-    public partial class Sound
+    public unsafe partial class Sound
     {
         public static EmuTimer.emu_timer sound_update_timer;
         private static int[] leftmix, rightmix;
@@ -724,7 +724,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -750,7 +750,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -759,7 +759,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -791,7 +791,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex] + mixerstream.streaminput[5][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex] + mixerstream.streaminput_Ptrs[5][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -821,7 +821,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex] + mixerstream.streaminput[5][sampindex] + mixerstream.streaminput[6][sampindex] + mixerstream.streaminput[7][sampindex] + mixerstream.streaminput[8][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex] + mixerstream.streaminput_Ptrs[5][sampindex] + mixerstream.streaminput_Ptrs[6][sampindex] + mixerstream.streaminput_Ptrs[7][sampindex] + mixerstream.streaminput_Ptrs[8][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -849,7 +849,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -858,7 +858,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -888,7 +888,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -918,7 +918,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[4][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -927,7 +927,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -955,7 +955,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -981,7 +981,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1009,7 +1009,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1035,7 +1035,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1061,7 +1061,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1089,7 +1089,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1098,7 +1098,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1126,7 +1126,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1135,7 +1135,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1163,7 +1163,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1193,7 +1193,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1223,7 +1223,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1232,7 +1232,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1260,7 +1260,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1286,7 +1286,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1295,7 +1295,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1323,7 +1323,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1332,7 +1332,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1364,7 +1364,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex] + mixerstream.streaminput[5][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex] + mixerstream.streaminput_Ptrs[5][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1373,7 +1373,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex] + mixerstream.streaminput[5][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex] + mixerstream.streaminput_Ptrs[5][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1401,7 +1401,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1410,7 +1410,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1436,7 +1436,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1445,7 +1445,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1473,7 +1473,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1482,7 +1482,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1510,7 +1510,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1519,7 +1519,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1547,7 +1547,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1556,7 +1556,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1582,7 +1582,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1591,7 +1591,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;
@@ -1623,7 +1623,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int samp;
-                samp = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex] + mixerstream.streaminput[4][sampindex] + mixerstream.streaminput[5][sampindex] + mixerstream.streaminput[6][sampindex] + mixerstream.streaminput[7][sampindex];
+                samp = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex] + mixerstream.streaminput_Ptrs[4][sampindex] + mixerstream.streaminput_Ptrs[5][sampindex] + mixerstream.streaminput_Ptrs[6][sampindex] + mixerstream.streaminput_Ptrs[7][sampindex];
                 if (samp < -32768)
                 {
                     samp = -32768;
@@ -1653,7 +1653,7 @@ namespace MAME.Core
             for (sampindex = 0; sampindex < 0x3c0; sampindex++)
             {
                 int sampL, sampR;
-                sampL = mixerstream.streaminput[0][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampL = mixerstream.streaminput_Ptrs[0][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampL < -32768)
                 {
                     sampL = -32768;
@@ -1662,7 +1662,7 @@ namespace MAME.Core
                 {
                     sampL = 32767;
                 }
-                sampR = mixerstream.streaminput[1][sampindex] + mixerstream.streaminput[2][sampindex] + mixerstream.streaminput[3][sampindex];
+                sampR = mixerstream.streaminput_Ptrs[1][sampindex] + mixerstream.streaminput_Ptrs[2][sampindex] + mixerstream.streaminput_Ptrs[3][sampindex];
                 if (sampR < -32768)
                 {
                     sampR = -32768;

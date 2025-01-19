@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public class K054539
+    public unsafe class K054539
     {
         public struct k054539_channel
         {
@@ -80,7 +80,7 @@ namespace MAME.Core
             {
                 for (j = 0; j < length; j++)
                 {
-                    Sound.k054539stream.streamoutput[i][offset + j] = 0;
+                    Sound.k054539stream.streamoutput_Ptrs[i][offset + j] = 0;
                 }
             }
             samples = k054539rom;//info.rom;
@@ -189,8 +189,8 @@ namespace MAME.Core
                                             goto end_channel_0;
                                         }
                                     }
-                                    Sound.k054539stream.streamoutput[0][offset1] += (short)(cur_val * lvol);
-                                    Sound.k054539stream.streamoutput[1][offset1] += (short)(cur_val * rvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[0][offset1] += (short)(cur_val * lvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[1][offset1] += (short)(cur_val * rvol);
                                     offset1++;
                                     info.ram[rdelta] += (short)(cur_val * rbvol);
                                     rdelta++;
@@ -226,8 +226,8 @@ namespace MAME.Core
                                             goto end_channel_4;
                                         }
                                     }
-                                    Sound.k054539stream.streamoutput[0][offset1] += (short)(cur_val * lvol);
-                                    Sound.k054539stream.streamoutput[1][offset1] += (short)(cur_val * rvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[0][offset1] += (short)(cur_val * lvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[1][offset1] += (short)(cur_val * rvol);
                                     offset1++;
                                     info.ram[rdelta] += (short)(cur_val * rbvol);
                                     rdelta++;
@@ -285,8 +285,8 @@ namespace MAME.Core
                                             cur_val = 32767;
                                         }
                                     }
-                                    Sound.k054539stream.streamoutput[0][offset1] += (short)(cur_val * lvol);
-                                    Sound.k054539stream.streamoutput[1][offset1] += (short)(cur_val * rvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[0][offset1] += (short)(cur_val * lvol);
+                                    Sound.k054539stream.streamoutput_Ptrs[1][offset1] += (short)(cur_val * rvol);
                                     offset1++;
                                     info.ram[rdelta] += (short)(cur_val * rbvol);
                                     rdelta++;
@@ -321,8 +321,8 @@ namespace MAME.Core
                 for (i = 0; i < length; i++)
                 {
                     short val = info.ram[(i + reverb_pos) & 0x3fff];
-                    Sound.k054539stream.streamoutput[0][offset + i] += val;
-                    Sound.k054539stream.streamoutput[1][offset + i] += val;
+                    Sound.k054539stream.streamoutput_Ptrs[0][offset + i] += val;
+                    Sound.k054539stream.streamoutput_Ptrs[1][offset + i] += val;
                 }
             }
             if (reverb_pos + length > 0x4000)

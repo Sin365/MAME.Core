@@ -117,12 +117,12 @@ namespace MAME.Core
         }
         //TODO 移动到这里，但是大小，还需要考虑
         static short[] sample_data = new short[10000];
-        public static void okim6295_update(int offset, int length)
+        public unsafe static void okim6295_update(int offset, int length)
         {
             int i;
             for (i = 0; i < length; i++)
             {
-                Sound.okistream.streamoutput[0][offset + i] = 0;
+                Sound.okistream.streamoutput_Ptrs[0][offset + i] = 0;
             }
             for (i = 0; i < 4; i++)
             {
@@ -136,7 +136,7 @@ namespace MAME.Core
                     generate_adpcm(i, sample_data, samples1);
                     for (samp = 0; samp < length; samp++)
                     {
-                        Sound.okistream.streamoutput[0][offset + samp] += sample_data[samp];
+                        Sound.okistream.streamoutput_Ptrs[0][offset + samp] += sample_data[samp];
                     }
                     remaining -= samples1;
                 }

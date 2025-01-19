@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class Namco
+    public unsafe class Namco
     {
         public struct sound_channel
         {
@@ -82,8 +82,8 @@ namespace MAME.Core
             int counter;
             for (i = 0; i < length; i++)
             {
-                Sound.namcostream.streamoutput[0][offset + i] = 0;
-                Sound.namcostream.streamoutput[1][offset + i] = 0;
+                Sound.namcostream.streamoutput_Ptrs[0][offset + i] = 0;
+                Sound.namcostream.streamoutput_Ptrs[1][offset + i] = 0;
             }
             for (voice = 0; voice < 8; voice++)
             {
@@ -105,13 +105,13 @@ namespace MAME.Core
                             int cnt;
                             if (nam1.channel_list[voice].noise_state != 0)
                             {
-                                Sound.namcostream.streamoutput[0][offset + i] += l_noise_data;
-                                Sound.namcostream.streamoutput[1][offset + i] += r_noise_data;
+                                Sound.namcostream.streamoutput_Ptrs[0][offset + i] += l_noise_data;
+                                Sound.namcostream.streamoutput_Ptrs[1][offset + i] += r_noise_data;
                             }
                             else
                             {
-                                Sound.namcostream.streamoutput[0][offset + i] += l_noise_data;
-                                Sound.namcostream.streamoutput[1][offset + i] += r_noise_data;
+                                Sound.namcostream.streamoutput_Ptrs[0][offset + i] += l_noise_data;
+                                Sound.namcostream.streamoutput_Ptrs[1][offset + i] += r_noise_data;
                             }
                             if (hold != 0)
                             {
@@ -145,7 +145,7 @@ namespace MAME.Core
                             counter = nam1.channel_list[voice].counter;
                             for (i = 0; i < length; i++)
                             {
-                                Sound.namcostream.streamoutput[0][offset + i] += nam1.waveform[lv][nam1.channel_list[voice].waveform_select * 32 + (counter >> nam1.f_fracbits) & 0x1f];
+                                Sound.namcostream.streamoutput_Ptrs[0][offset + i] += nam1.waveform[lv][nam1.channel_list[voice].waveform_select * 32 + (counter >> nam1.f_fracbits) & 0x1f];
                                 counter += nam1.channel_list[voice].frequency;
                             }
                             c = counter;
@@ -155,7 +155,7 @@ namespace MAME.Core
                             counter = nam1.channel_list[voice].counter;
                             for (i = 0; i < length; i++)
                             {
-                                Sound.namcostream.streamoutput[1][offset + i] += nam1.waveform[rv][nam1.channel_list[voice].waveform_select * 32 + (counter >> nam1.f_fracbits) & 0x1f];
+                                Sound.namcostream.streamoutput_Ptrs[1][offset + i] += nam1.waveform[rv][nam1.channel_list[voice].waveform_select * 32 + (counter >> nam1.f_fracbits) & 0x1f];
                                 counter += nam1.channel_list[voice].frequency;
                             }
                             c = counter;

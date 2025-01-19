@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class K007232
+    public unsafe class K007232
     {
         public struct kdacApcm
         {
@@ -39,7 +39,7 @@ namespace MAME.Core
             {
                 for (j = 0; j < length; j++)
                 {
-                    Sound.k007232stream.streamoutput[i][offset + j] = 0;
+                    Sound.k007232stream.streamoutput_Ptrs[i][offset + j] = 0;
                 }
             }
             for (i = 0; i < 2; i++)
@@ -84,8 +84,8 @@ namespace MAME.Core
                         }
                         info.addr[i] += info.step[i];
                         out1 = (k007232rom[info.pcmbuf_offset[i] + addr] & 0x7f) - 0x40;
-                        Sound.k007232stream.streamoutput[0][offset + j] += out1 * volA;
-                        Sound.k007232stream.streamoutput[1][offset + j] += out1 * volB;
+                        Sound.k007232stream.streamoutput_Ptrs[0][offset + j] += out1 * volA;
+                        Sound.k007232stream.streamoutput_Ptrs[1][offset + j] += out1 * volB;
                     }
                 }
             }

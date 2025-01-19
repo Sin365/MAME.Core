@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class FMOpl
+    public unsafe class FMOpl
     {
         public struct OPL_SLOT
         {
@@ -1260,7 +1260,7 @@ namespace MAME.Core
                 }
                 lt = output0;
                 lt = limit(lt, 32767, -32768);
-                Sound.ym3812stream.streamoutput[0][offset + i] = lt;
+                Sound.ym3812stream.streamoutput_Ptrs[0][offset + i] = lt;
                 YM3812.advance();
             }
         }
@@ -1330,7 +1330,7 @@ namespace MAME.Core
                 }
                 lt = output0;
                 lt = limit(lt, 32767, -32768);
-                Sound.ym3526stream.streamoutput[0][offset + i] = lt;
+                Sound.ym3526stream.streamoutput_Ptrs[0][offset + i] = lt;
                 YM3526.advance();
             }
         }

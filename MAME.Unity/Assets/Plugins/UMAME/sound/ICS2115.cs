@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public class ICS2115
+    public unsafe class ICS2115
     {
         public static byte V_ON = 1, V_DONE = 2;
         public static voice_struct[] voice2;
@@ -75,8 +75,8 @@ namespace MAME.Core
             bool irq_invalid = false;
             for (i = 0; i < length; i++)
             {
-                Sound.ics2115stream.streamoutput[0][offset + i] = 0;
-                Sound.ics2115stream.streamoutput[1][offset + i] = 0;
+                Sound.ics2115stream.streamoutput_Ptrs[0][offset + i] = 0;
+                Sound.ics2115stream.streamoutput_Ptrs[1][offset + i] = 0;
             }
             for (osc = 0; osc < 32; osc++)
             {
@@ -106,8 +106,8 @@ namespace MAME.Core
                         else
                             v = ((sbyte)v) << 6;
                         v = (v * vol) >> (16 + 5);
-                        Sound.ics2115stream.streamoutput[0][offset + i] += v;
-                        Sound.ics2115stream.streamoutput[1][offset + i] += v;
+                        Sound.ics2115stream.streamoutput_Ptrs[0][offset + i] += v;
+                        Sound.ics2115stream.streamoutput_Ptrs[1][offset + i] += v;
                         adr += delta;
                         if (adr >= end)
                         {
