@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Threading.Tasks;
 
 namespace MAME.Core
 {
@@ -1034,26 +1033,17 @@ namespace MAME.Core
             }
         }
 
-        //unsafe static int op_calc(YM2151Operator* PSGoper, int i1, uint env, int pm)
-        //{
-        //    uint p;
-        //    p = (env << 3) + sin_tab[(((int)((PSGoper[i1].phase & 0xffff0000) + (pm << 15))) >> 16) & 0x3ff];
-        //    if (p >= 13 * 2 * 0x100)
-        //    {
-        //        return 0;
-        //    }
-        //    return tl_tab[p];
-        //}
-        unsafe static int op_calc(YM2151Operator* PSGoper_il, uint env, int pm)
+        unsafe static int op_calc(YM2151Operator* PSGoper, int i1, uint env, int pm)
         {
             uint p;
-            p = (env << 3) + sin_tab[(((int)((PSGoper_il->phase & 0xffff0000) + (pm << 15))) >> 16) & 0x3ff];
+            p = (env << 3) + sin_tab[(((int)((PSGoper[i1].phase & 0xffff0000) + (pm << 15))) >> 16) & 0x3ff];
             if (p >= 13 * 2 * 0x100)
             {
                 return 0;
             }
             return tl_tab[p];
         }
+
         //private static int op_calc(int i1, uint env, int pm)
         //{
         //    uint p;
@@ -1092,20 +1082,12 @@ namespace MAME.Core
         //    return tl_tab[p];
         //}
 
-        //unsafe static uint volume_calc(YM2151Operator* PSGoper, int i1, uint AM)
-        //{
-        //    YM2151Operator* PSGoper_il = &PSGoper[i1];
-        //    return PSGoper_il->tl + ((uint)PSGoper_il->volume) + (AM & PSGoper_il->AMmask);
-        //    //uint i11;
-        //    //i11 = PSGoper[i1].tl + ((uint)PSGoper[i1].volume) + (AM & PSGoper[i1].AMmask);
-        //    //return i11;
-        //}
-
-        unsafe static uint volume_calc(YM2151Operator* PSGoper_il, uint AM)
+        unsafe static uint volume_calc(YM2151Operator* PSGoper, int i1, uint AM)
         {
-            return PSGoper_il->tl + ((uint)PSGoper_il->volume) + (AM & PSGoper_il->AMmask);
+            uint i11;
+            i11 = PSGoper[i1].tl + ((uint)PSGoper[i1].volume) + (AM & PSGoper[i1].AMmask);
+            return i11;
         }
-
         //private static uint volume_calc_old(int i1, uint AM)
         //{
         //    uint i11;
@@ -1117,70 +1099,62 @@ namespace MAME.Core
 
         unsafe static void chan_calc(YM2151Operator* PSGoper, int* chanout, int* imem, int chan)
         {
+
+            //fixed (YM2151Operator* PSGoperPtr = &PSG.oper[0])
             {
-
-
-                YM2151Operator* PSGoper_chan_x_4 = &PSGoper[chan * 4];
-                YM2151Operator* PSGoper_chan_x_4_ad_1 = &PSGoper_chan_x_4[1];
-                YM2151Operator* PSGoper_chan_x_4_ad_2 = &PSGoper_chan_x_4[2];
-                YM2151Operator* PSGoper_chan_x_4_ad_3 = &PSGoper_chan_x_4[2];
-
+                //YM2151Operator* PSGoper = PSGoperPtr;
                 uint env;
                 uint AM = 0;
+                //m2 = c1 = c2 = mem = 0;
                 chanout[8] = chanout[9] = chanout[10] = chanout[11] = 0;
-
-                //手动内联set_mem函数--start--
-                //set_mem(PSGoper_chan_x_4, chanout, imem, chan * 4);
-                int imem_op1 = imem[chan * 4];
-                if (imem_op1 == 8 || imem_op1 == 10 || imem_op1 == 11)
-                    chanout[imem_op1] = PSGoper_chan_x_4->mem_value;
-                //手动内联set_mem函数--end--
-
-                //if (PSGoper[chan * 4].ams != 0)
-                if (PSGoper_chan_x_4->ams != 0)
+                //op = PSGoper[chan * 4];	/* M1 */
+                //op.mem_connect = op.mem_value;	/* restore delayed sample (MEM) value to m2 or c2 */
+                set_mem(PSGoper, chanout, imem, chan * 4);
+                if (PSGoper[chan * 4].ams != 0)
                 {
-                    AM = PSG.lfa << (int)(PSGoper_chan_x_4->ams - 1);
+                    AM = PSG.lfa << (int)(PSGoper[chan * 4].ams - 1);
                 }
 
-                env = volume_calc(PSGoper_chan_x_4, AM);
+                env = volume_calc(PSGoper, (chan * 4), AM);
+                //env = volume_calc_planB(PSGoper[chan * 4], AM);
                 {
-                    int iout = PSGoper_chan_x_4->fb_out_prev + PSGoper_chan_x_4->fb_out_curr;
-                    PSGoper_chan_x_4->fb_out_prev = PSGoper_chan_x_4->fb_out_curr;
-                    set_value1(chanout, PSGoper_chan_x_4, chan * 4);
+                    int iout = PSGoper[chan * 4].fb_out_prev + PSGoper[chan * 4].fb_out_curr;
+                    PSGoper[chan * 4].fb_out_prev = PSGoper[chan * 4].fb_out_curr;
 
-                    PSGoper_chan_x_4->fb_out_curr = 0;
+                    set_value1(chanout, PSGoper, chan * 4);
+
+                    PSGoper[chan * 4].fb_out_curr = 0;
                     if (env < 13 * 64)
                     {
-                        if (PSGoper_chan_x_4->fb_shift == 0)
+                        if (PSGoper[chan * 4].fb_shift == 0)
                         {
                             iout = 0;
                         }
-                        PSGoper_chan_x_4->fb_out_curr = op_calc1(PSGoper, (chan * 4), env, (iout << (int)PSGoper_chan_x_4->fb_shift));
+                        PSGoper[chan * 4].fb_out_curr = op_calc1(PSGoper, (chan * 4), env, (iout << (int)PSGoper[chan * 4].fb_shift));
                     }
                 }
-                //env = volume_calc(PSGoper, (chan * 4 + 1), AM);
-                env = volume_calc(PSGoper_chan_x_4_ad_1, AM);
+                env = volume_calc(PSGoper, (chan * 4 + 1), AM); /* M2 */
+                //env = volume_calc_planB(PSGoper[chan * 4 + 1], AM);/* M2 */
                 if (env < 13 * 64)
                 {
-                    //set_value2(chanout, chan * 4 + 1, op_calc(PSGoper, (chan * 4 + 1), env, chanout[8]));// m2));
-                    set_value2(chanout, chan * 4 + 1, op_calc(PSGoper_chan_x_4_ad_1, env, chanout[8]));// m2));
+                    //PSGoper[chan * 4 + 1].connect += op_calc((int)(chan * 4 + 1), env, m2);
+                    set_value2(chanout, chan * 4 + 1, op_calc(PSGoper, (chan * 4 + 1), env, chanout[8]));// m2));
                 }
-                //env = volume_calc(PSGoper, (chan * 4 + 2), AM);
-                env = volume_calc(PSGoper_chan_x_4_ad_2, AM);
+                env = volume_calc(PSGoper, (chan * 4 + 2), AM); /* C1 */
+                //env = volume_calc_planB(PSGoper[chan * 4 + 2], AM); /* C1 */
                 if (env < 13 * 64)
                 {
-                    //set_value2(chanout, chan * 4 + 2, op_calc(PSGoper, (chan * 4 + 2), env, chanout[9]));// c1));
-                    set_value2(chanout, chan * 4 + 2, op_calc(PSGoper_chan_x_4_ad_2, env, chanout[9]));// c1));
+                    //PSGoper[chan * 4 + 2].connect += op_calc((int)(chan * 4 + 2), env, c1);
+                    set_value2(chanout, chan * 4 + 2, op_calc(PSGoper, (chan * 4 + 2), env, chanout[9]));// c1));
                 }
-                //env = volume_calc(PSGoper, (chan * 4 + 3), AM);
-                env = volume_calc(PSGoper_chan_x_4_ad_3, AM);
+                env = volume_calc(PSGoper, (chan * 4 + 3), AM); /* C2 */
+                //env = volume_calc_planB(PSGoper[chan * 4 + 3], AM); /* C2 */
                 if (env < 13 * 64)
                 {
-                    //chanout[chan] += op_calc(PSGoper, (chan * 4 + 3), env, chanout[10]);// c2);
-                    chanout[chan] += op_calc(PSGoper_chan_x_4_ad_3, env, chanout[10]);// c2);
+                    chanout[chan] += op_calc(PSGoper, (chan * 4 + 3), env, chanout[10]);// c2);
                 }
                 /* M1 */
-                PSGoper_chan_x_4->mem_value = chanout[11];//mem;
+                PSGoper[chan * 4].mem_value = chanout[11];//mem;
             }
 
         }
@@ -1244,64 +1218,46 @@ namespace MAME.Core
 
         unsafe static void chan7_calc(YM2151Operator* PSGoper, int* chanout, int* imem)
         {
-            YM2151Operator* PSGoper_7_x_4 = &PSGoper[7 * 4];
-            YM2151Operator* PSGoper_7_x_4_ad_1 = &PSGoper_7_x_4[1];
-            YM2151Operator* PSGoper_7_x_4_ad_2 = &PSGoper_7_x_4[2];
-            YM2151Operator* PSGoper_7_x_4_ad_3 = &PSGoper_7_x_4[2];
             uint env;
             uint AM = 0;
             //m2 = c1 = c2 = mem = 0;
             chanout[8] = chanout[9] = chanout[10] = chanout[11] = 0;
             //op = PSG.oper[7 * 4];		/* M1 */
             //op.mem_connect = op.mem_value;	/* restore delayed sample (MEM) value to m2 or c2 */
-
-            //手动内联set_mem函数--start--
-            //set_mem(PSGoper_7_x_4, chanout, imem, 7 * 4);
-            int imem_op1 = imem[7 * 4];
-            if (imem_op1 == 8 || imem_op1 == 10 || imem_op1 == 11)
-                chanout[imem_op1] = PSGoper_7_x_4->mem_value;
-            //手动内联set_mem函数--end--
-
-
-            if (PSGoper_7_x_4->ams != 0)
+            set_mem(PSGoper, chanout, imem, 7 * 4);
+            if (PSGoper[7 * 4].ams != 0)
             {
-                AM = PSG.lfa << (int)(PSGoper_7_x_4->ams - 1);
+                AM = PSG.lfa << (int)(PSGoper[7 * 4].ams - 1);
             }
-            //env = volume_calc(PSGoper, 7 * 4, AM);
-            env = volume_calc(PSGoper_7_x_4, AM);
+            env = volume_calc(PSGoper, 7 * 4, AM);
             //env = volume_calc_planB(PSGoper[7*4], AM);
-            int iout = PSGoper_7_x_4->fb_out_prev + PSGoper_7_x_4->fb_out_curr;
-            PSGoper_7_x_4->fb_out_prev = PSGoper_7_x_4->fb_out_curr;
-            set_value1(chanout, PSGoper_7_x_4, 7 * 4);
-            PSGoper_7_x_4->fb_out_curr = 0;
+            int iout = PSGoper[7 * 4].fb_out_prev + PSGoper[7 * 4].fb_out_curr;
+            PSGoper[7 * 4].fb_out_prev = PSGoper[7 * 4].fb_out_curr;
+            set_value1(chanout, PSGoper, 7 * 4);
+            PSGoper[7 * 4].fb_out_curr = 0;
             if (env < 13 * 64)
             {
-                if (PSGoper_7_x_4->fb_shift == 0)
+                if (PSGoper[7 * 4].fb_shift == 0)
                 {
                     iout = 0;
                 }
-                PSGoper_7_x_4->fb_out_curr = op_calc1(PSGoper, 7 * 4, env, (iout << (int)PSGoper_7_x_4->fb_shift));
+                PSGoper[7 * 4].fb_out_curr = op_calc1(PSGoper, 7 * 4, env, (iout << (int)PSGoper[7 * 4].fb_shift));
             }
-            //env = volume_calc(PSGoper, 7 * 4 + 1, AM);	/* M2 */
-            env = volume_calc(PSGoper_7_x_4_ad_1, AM);	/* M2 */
+            env = volume_calc(PSGoper, 7 * 4 + 1, AM);	/* M2 */
             //env = volume_calc_planB(PSGoper[7 * 4 + 1], AM);/* M2 */
             if (env < 13 * 64)
             {
                 //PSGoper[7 * 4 + 1].connect += op_calc(7 * 4 + 1, env, m2);
-                //set_value2(chanout, 7 * 4 + 1, op_calc(PSGoper, 7 * 4 + 1, env, chanout[8]));// m2));
-                set_value2(chanout, 7 * 4 + 1, op_calc(PSGoper_7_x_4_ad_1, env, chanout[8]));// m2));
+                set_value2(chanout, 7 * 4 + 1, op_calc(PSGoper, 7 * 4 + 1, env, chanout[8]));// m2));
             }
-            //env = volume_calc(PSGoper, 7 * 4 + 2, AM);	/* C1 */
-            env = volume_calc(PSGoper_7_x_4_ad_2, AM);	/* C1 */
+            env = volume_calc(PSGoper, 7 * 4 + 2, AM);	/* C1 */
             //env = volume_calc_planB(PSGoper[7 * 4 + 2], AM);/* C1 */
             if (env < 13 * 64)
             {
                 //PSGoper[7 * 4 + 2].connect += op_calc(7 * 4 + 2, env, c1);
-                //set_value2(chanout, 7 * 4 + 2, op_calc(PSGoper, 7 * 4 + 2, env, chanout[9]));// c1));
-                set_value2(chanout, 7 * 4 + 2, op_calc(PSGoper_7_x_4_ad_2, env, chanout[9]));// c1));
+                set_value2(chanout, 7 * 4 + 2, op_calc(PSGoper, 7 * 4 + 2, env, chanout[9]));// c1));
             }
-            //env = volume_calc(PSGoper, 7 * 4 + 3, AM);	/* C2 */
-            env = volume_calc(PSGoper_7_x_4_ad_3, AM);	/* C2 */
+            env = volume_calc(PSGoper, 7 * 4 + 3, AM);	/* C2 */
             //env = volume_calc_planB(PSGoper[7 * 4 + 3], AM);/* C2 */
             if ((PSG.noise & 0x80) != 0)
             {
@@ -1315,11 +1271,10 @@ namespace MAME.Core
             else
             {
                 if (env < 13 * 64)
-                    //chanout[7] += op_calc(PSGoper, 7 * 4 + 3, env, chanout[10]);// c2);
-                    chanout[7] += op_calc(PSGoper_7_x_4_ad_3, env, chanout[10]);// c2);
+                    chanout[7] += op_calc(PSGoper, 7 * 4 + 3, env, chanout[10]);// c2);
             }
             /* M1 */
-            PSGoper_7_x_4->mem_value = chanout[11];//mem;
+            PSGoper[7 * 4].mem_value = chanout[11];//mem;
         }
 
         //private static void chan7_calc_src()
@@ -1397,50 +1352,49 @@ namespace MAME.Core
                 i = 32;
                 do
                 {
-                    YM2151Operator* PSGoper_i1 = &PSGoper[i1];
-                    switch (PSGoper_i1->state)
+                    switch (PSGoper[i1].state)
                     {
                         case 4:	/* attack phase */
-                            if ((PSG.eg_cnt & ((1 << PSGoper_i1->eg_sh_ar) - 1)) == 0)
+                            if ((PSG.eg_cnt & ((1 << PSGoper[i1].eg_sh_ar) - 1)) == 0)
                             {
-                                PSGoper_i1->volume += (~PSGoper_i1->volume *
-                                               (eg_inc[PSGoper_i1->eg_sel_ar + ((PSG.eg_cnt >> PSGoper_i1->eg_sh_ar) & 7)])
+                                PSGoper[i1].volume += (~PSGoper[i1].volume *
+                                               (eg_inc[PSGoper[i1].eg_sel_ar + ((PSG.eg_cnt >> PSGoper[i1].eg_sh_ar) & 7)])
                                               ) >> 4;
 
-                                if (PSGoper_i1->volume <= 0)
+                                if (PSGoper[i1].volume <= 0)
                                 {
-                                    PSGoper_i1->volume = 0;
-                                    PSGoper_i1->state = 3;
+                                    PSGoper[i1].volume = 0;
+                                    PSGoper[i1].state = 3;
                                 }
                             }
                             break;
                         case 3:	/* decay phase */
-                            if ((PSG.eg_cnt & ((1 << PSGoper_i1->eg_sh_d1r) - 1)) == 0)
+                            if ((PSG.eg_cnt & ((1 << PSGoper[i1].eg_sh_d1r) - 1)) == 0)
                             {
-                                PSGoper_i1->volume += eg_inc[PSGoper_i1->eg_sel_d1r + ((PSG.eg_cnt >> PSGoper_i1->eg_sh_d1r) & 7)];
-                                if (PSGoper_i1->volume >= PSGoper_i1->d1l)
-                                    PSGoper_i1->state = 2;
+                                PSGoper[i1].volume += eg_inc[PSGoper[i1].eg_sel_d1r + ((PSG.eg_cnt >> PSGoper[i1].eg_sh_d1r) & 7)];
+                                if (PSGoper[i1].volume >= PSGoper[i1].d1l)
+                                    PSGoper[i1].state = 2;
                             }
                             break;
                         case 2:	/* sustain phase */
-                            if ((PSG.eg_cnt & ((1 << PSGoper_i1->eg_sh_d2r) - 1)) == 0)
+                            if ((PSG.eg_cnt & ((1 << PSGoper[i1].eg_sh_d2r) - 1)) == 0)
                             {
-                                PSGoper_i1->volume += eg_inc[PSGoper_i1->eg_sel_d2r + ((PSG.eg_cnt >> PSGoper_i1->eg_sh_d2r) & 7)];
-                                if (PSGoper_i1->volume >= 0x3ff)
+                                PSGoper[i1].volume += eg_inc[PSGoper[i1].eg_sel_d2r + ((PSG.eg_cnt >> PSGoper[i1].eg_sh_d2r) & 7)];
+                                if (PSGoper[i1].volume >= 0x3ff)
                                 {
-                                    PSGoper_i1->volume = 0x3ff;
-                                    PSGoper_i1->state = 0;
+                                    PSGoper[i1].volume = 0x3ff;
+                                    PSGoper[i1].state = 0;
                                 }
                             }
                             break;
                         case 1:	/* release phase */
-                            if ((PSG.eg_cnt & ((1 << PSGoper_i1->eg_sh_rr) - 1)) == 0)
+                            if ((PSG.eg_cnt & ((1 << PSGoper[i1].eg_sh_rr) - 1)) == 0)
                             {
-                                PSGoper_i1->volume += eg_inc[PSGoper_i1->eg_sel_rr + ((PSG.eg_cnt >> PSGoper_i1->eg_sh_rr) & 7)];
-                                if (PSGoper_i1->volume >= 0x3ff)
+                                PSGoper[i1].volume += eg_inc[PSGoper[i1].eg_sel_rr + ((PSG.eg_cnt >> PSGoper[i1].eg_sh_rr) & 7)];
+                                if (PSGoper[i1].volume >= 0x3ff)
                                 {
-                                    PSGoper_i1->volume = 0x3ff;
-                                    PSGoper_i1->state = 0;
+                                    PSGoper[i1].volume = 0x3ff;
+                                    PSGoper[i1].state = 0;
                                 }
                             }
                             break;
@@ -1608,39 +1562,35 @@ namespace MAME.Core
             i = 8;
             do
             {
-                YM2151Operator* PSGoper_i1 = &PSGoper[i1];
-                YM2151Operator* PSGoper_i1_ad_1 = &PSGoper_i1[1];
-                YM2151Operator* PSGoper_i1_ad_2 = &PSGoper_i1[2];
-                YM2151Operator* PSGoper_i1_ad_3 = &PSGoper_i1[3];
-                if (PSGoper_i1->pms != 0)	/* only when phase modulation from LFO is enabled for this channel */
+                if (PSGoper[i1].pms != 0)	/* only when phase modulation from LFO is enabled for this channel */
                 {
                     int mod_ind = PSG.lfp;		/* -128..+127 (8bits signed) */
-                    if (PSGoper_i1->pms < 6)
-                        mod_ind >>= (int)(6 - PSGoper_i1->pms);
+                    if (PSGoper[i1].pms < 6)
+                        mod_ind >>= (int)(6 - PSGoper[i1].pms);
                     else
-                        mod_ind <<= (int)(PSGoper_i1->pms - 5);
+                        mod_ind <<= (int)(PSGoper[i1].pms - 5);
                     if (mod_ind != 0)
                     {
-                        uint kc_channel = (uint)(PSGoper_i1->kc_i + mod_ind);
-                        PSGoper_i1->phase += (uint)(((PSGfreq[kc_channel + PSGoper_i1->dt2] + PSGoper_i1->dt1) * PSGoper_i1->mul) >> 1);
-                        PSGoper_i1_ad_1->phase += (uint)(((PSGfreq[kc_channel + PSGoper_i1_ad_1->dt2] + PSGoper_i1_ad_1->dt1) * PSGoper_i1_ad_1->mul) >> 1);
-                        PSGoper_i1_ad_2->phase += (uint)(((PSGfreq[kc_channel + PSGoper_i1_ad_2->dt2] + PSGoper_i1_ad_2->dt1) * PSGoper_i1_ad_2->mul) >> 1);
-                        PSGoper_i1_ad_3->phase += (uint)(((PSGfreq[kc_channel + PSGoper_i1_ad_3->dt2] + PSGoper_i1_ad_3->dt1) * PSGoper_i1_ad_3->mul) >> 1);
+                        uint kc_channel = (uint)(PSGoper[i1].kc_i + mod_ind);
+                        PSGoper[i1].phase += (uint)(((PSGfreq[kc_channel + PSGoper[i1].dt2] + PSGoper[i1].dt1) * PSGoper[i1].mul) >> 1);
+                        PSGoper[i1 + 1].phase += (uint)(((PSGfreq[kc_channel + PSGoper[i1 + 1].dt2] + PSGoper[i1 + 1].dt1) * PSGoper[i1 + 1].mul) >> 1);
+                        PSGoper[i1 + 2].phase += (uint)(((PSGfreq[kc_channel + PSGoper[i1 + 2].dt2] + PSGoper[i1 + 2].dt1) * PSGoper[i1 + 2].mul) >> 1);
+                        PSGoper[i1 + 3].phase += (uint)(((PSGfreq[kc_channel + PSGoper[i1 + 3].dt2] + PSGoper[i1 + 3].dt1) * PSGoper[i1 + 3].mul) >> 1);
                     }
                     else		/* phase modulation from LFO is equal to zero */
                     {
-                        PSGoper_i1->phase += PSGoper_i1->freq;
-                        PSGoper_i1_ad_1->phase += PSGoper_i1_ad_1->freq;
-                        PSGoper_i1_ad_2->phase += PSGoper_i1_ad_2->freq;
-                        PSGoper_i1_ad_3->phase += PSGoper_i1_ad_3->freq;
+                        PSGoper[i1].phase += PSGoper[i1].freq;
+                        PSGoper[i1 + 1].phase += PSGoper[i1 + 1].freq;
+                        PSGoper[i1 + 2].phase += PSGoper[i1 + 2].freq;
+                        PSGoper[i1 + 3].phase += PSGoper[i1 + 3].freq;
                     }
                 }
                 else			/* phase modulation from LFO is disabled */
                 {
-                    PSGoper_i1->phase += PSGoper_i1->freq;
-                    PSGoper_i1_ad_1->phase += PSGoper_i1_ad_1->freq;
-                    PSGoper_i1_ad_2->phase += PSGoper_i1_ad_2->freq;
-                    PSGoper_i1_ad_3->phase += PSGoper_i1_ad_3->freq;
+                    PSGoper[i1].phase += PSGoper[i1].freq;
+                    PSGoper[i1 + 1].phase += PSGoper[i1 + 1].freq;
+                    PSGoper[i1 + 2].phase += PSGoper[i1 + 2].freq;
+                    PSGoper[i1 + 3].phase += PSGoper[i1 + 3].freq;
                 }
                 i1 += 4;
                 i--;
@@ -1851,74 +1801,6 @@ namespace MAME.Core
 
                 int i;
                 int outl, outr;
-
-
-
-                //for (i = 0; i < length; i++)
-                //{
-                //    advance_eg(PSGoper);
-                //    chanout[0] = 0;
-                //    chanout[1] = 0;
-                //    chanout[2] = 0;
-                //    chanout[3] = 0;
-                //    chanout[4] = 0;
-                //    chanout[5] = 0;
-                //    chanout[6] = 0;
-                //    chanout[7] = 0;
-                //    ParallelOptions options = new ParallelOptions();
-                //    options.MaxDegreeOfParallelism = 8; // 设置最大并行
-                //    Parallel.For(0, 8, options, i =>
-                //    {
-                //        if (i == 7)
-                //            chan7_calc(PSGoper, chanout, imem);
-                //        else
-                //            chan_calc(PSGoper, chanout, imem, i);
-                //    });
-                //    //chan_calc(PSGoper, chanout, imem, 0);
-                //    //chan_calc(PSGoper, chanout, imem, 1);
-                //    //chan_calc(PSGoper, chanout, imem, 2);
-                //    //chan_calc(PSGoper, chanout, imem, 3);
-                //    //chan_calc(PSGoper, chanout, imem, 4);
-                //    //chan_calc(PSGoper, chanout, imem, 5);
-                //    //chan_calc(PSGoper, chanout, imem, 6);
-                //    //chan7_calc(PSGoper, chanout, imem);
-                //    outl = (int)(chanout[0] & PSGpan[0]);
-                //    outr = (int)(chanout[0] & PSGpan[1]);
-                //    outl += (int)(chanout[1] & PSGpan[2]);
-                //    outr += (int)(chanout[1] & PSGpan[3]);
-                //    outl += (int)(chanout[2] & PSGpan[4]);
-                //    outr += (int)(chanout[2] & PSGpan[5]);
-                //    outl += (int)(chanout[3] & PSGpan[6]);
-                //    outr += (int)(chanout[3] & PSGpan[7]);
-                //    outl += (int)(chanout[4] & PSGpan[8]);
-                //    outr += (int)(chanout[4] & PSGpan[9]);
-                //    outl += (int)(chanout[5] & PSGpan[10]);
-                //    outr += (int)(chanout[5] & PSGpan[11]);
-                //    outl += (int)(chanout[6] & PSGpan[12]);
-                //    outr += (int)(chanout[6] & PSGpan[13]);
-                //    outl += (int)(chanout[7] & PSGpan[14]);
-                //    outr += (int)(chanout[7] & PSGpan[15]);
-                //    if (outl > 32767)
-                //    {
-                //        outl = 32767;
-                //    }
-                //    else if (outl < -32768)
-                //    {
-                //        outl = -32768;
-                //    }
-                //    if (outr > 32767)
-                //    {
-                //        outr = 32767;
-                //    }
-                //    else if (outr < -32768)
-                //    {
-                //        outr = -32768;
-                //    }
-                //    streamoutput0[offset + i] = outl;
-                //    streamoutput1[offset + i] = outr;
-                //    advance(PSGoper, PSGfreq);
-                //}
-
                 for (i = 0; i < length; i++)
                 {
                     advance_eg(PSGoper);
@@ -2051,14 +1933,17 @@ namespace MAME.Core
             ym2151_write_reg(PSG.lastreg0, data);
         }
 
-        unsafe static void set_value1(int* chanout, YM2151Operator* PSGoper_op, int op1)
+        unsafe static void set_value1(int* chanout, YM2151Operator* PSGoper, int op1)
         {
             if (iconnect[op1] == 12)
-                chanout[9] = chanout[10] = chanout[11] = PSGoper_op->fb_out_prev;
+            {
+                chanout[9] = chanout[10] = chanout[11] = PSGoper[op1].fb_out_prev;
+            }
             else
-                chanout[iconnect[op1]] = PSGoper_op->fb_out_prev;
+            {
+                chanout[iconnect[op1]] = PSGoper[op1].fb_out_prev;
+            }
         }
-
         //private static void set_value1(int op1)
         //{
         //    if (iconnect[op1] == 12)
@@ -2073,9 +1958,13 @@ namespace MAME.Core
         unsafe static void set_value2(int* chanout, int op1, int i)
         {
             if (iconnect[op1] == 12)
+            {
                 return;
+            }
             else
+            {
                 chanout[iconnect[op1]] += i;
+            }
         }
 
         //private static void set_value2(int op1, int i)
@@ -2089,19 +1978,13 @@ namespace MAME.Core
         //        chanout[iconnect[op1]] += i;
         //    }
         //}
-        unsafe static void set_mem(YM2151Operator* PSGoper_op1, int* chanout, int* imem, int op1)
+        unsafe static void set_mem(YM2151Operator* PSGoper, int* chanout, int* imem, int op1)
         {
-            int imem_op1 = imem[op1];
-            if (imem_op1 == 8 || imem_op1 == 10 || imem_op1 == 11)
-                chanout[imem_op1] = PSGoper_op1->mem_value;
+            if (imem[op1] == 8 || imem[op1] == 10 || imem[op1] == 11)
+            {
+                chanout[imem[op1]] = PSGoper[op1].mem_value;
+            }
         }
-        //unsafe static void set_mem(YM2151Operator* PSGoper, int* chanout, int* imem, int op1)
-        //{
-        //    if (imem[op1] == 8 || imem[op1] == 10 || imem[op1] == 11)
-        //    {
-        //        chanout[imem[op1]] = PSGoper[op1].mem_value;
-        //    }
-        //}
         //private static void set_mem(int op1)
         //{
         //    if (imem[op1] == 8 || imem[op1] == 10 || imem[op1] == 11)
