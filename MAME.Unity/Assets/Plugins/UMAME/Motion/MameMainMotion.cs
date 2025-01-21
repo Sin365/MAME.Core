@@ -7,7 +7,7 @@ namespace MAME.Core
     public class MameMainMotion
     {
         public string tsslStatus;
-        public CheatMotion cheatmotion;
+        //public CheatMotion cheatmotion;
         public M68000Motion m68000motion;
         public Z80Motion z80motion;
         public M6809Motion m6809motion;
@@ -26,7 +26,7 @@ namespace MAME.Core
         public MameMainMotion()
         {
             neogeomotion = new NeogeoMotion();
-            cheatmotion = new CheatMotion();
+            //cheatmotion = new CheatMotion();
             m68000motion = new M68000Motion();
             m6809motion = new M6809Motion();
             z80motion = new Z80Motion();
@@ -204,8 +204,6 @@ namespace MAME.Core
         public void StartGame()
         {
             bIsNewThreadMode = false;
-            M68000Motion.iStatus = 0;
-            M68000Motion.iValue = 0;
             Mame.exit_pending = false;
 
             Mame.mame_execute_UpdateMode_Start();
@@ -214,8 +212,6 @@ namespace MAME.Core
         public void StartGame_WithNewThread()
         {
             bIsNewThreadMode = true;
-            M68000Motion.iStatus = 0;
-            M68000Motion.iValue = 0;
             Mame.exit_pending = false;
 
             //初始化停帧信号量

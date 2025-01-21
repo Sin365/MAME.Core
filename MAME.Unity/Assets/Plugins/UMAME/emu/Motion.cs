@@ -1,8 +1,4 @@
-﻿using MAME.Core;
-using System;
-using System.Reflection;
-using System.Runtime.InteropServices;
-using UnityEngine.UIElements;
+﻿using System;
 
 namespace MAME.Core
 {
@@ -158,29 +154,29 @@ namespace MAME.Core
                     else
                     {
 
-                        for (y = startY; y < endY; y++)
-                        {
-                            int stepIndex = y * Video.fullwidth;
-                            for (x = startX; x < endX; x++, target_i++)
-                            {
-                                i = stepIndex + x;
-                                bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
-                            }
-                        }
-
                         //for (y = startY; y < endY; y++)
                         //{
                         //    int stepIndex = y * Video.fullwidth;
-
                         //    for (x = startX; x < endX; x++, target_i++)
                         //    {
                         //        i = stepIndex + x;
                         //        bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
                         //    }
-
-                        //    // 使用Marshal.Copy进行内存拷贝
-                        //    Marshal.Copy(Palette.entry_color_Ptr,, Video.bitmapcolorRect_Ptr, endX - startX);
                         //}
+
+                        for (y = startY; y < endY; y++)
+                        {
+                            int stepIndex = y * Video.fullwidth;
+                            //for (x = startX; x < endX; x++, target_i++)
+                            //{
+                            //    i = stepIndex + x;
+                            //    //bitmapcolorRect[target_i] = (int)entry_color[curbitmap[i]];
+                            //}
+                            int stepStartIdx = stepIndex + startX;
+                            int linelenght = endX - startX;
+                            Array.Copy(Palette.entry_color, stepStartIdx, Video.bitmapcolorRect, 0, linelenght);
+                            target_i += linelenght;
+                        }
                     }
                 }
             }
@@ -627,10 +623,6 @@ namespace MAME.Core
         }
         public static void cpurun()
         {
-            M68000Motion.m68000State = M68000Motion.M68000State.M68000_RUN;
-            Machine.mainMotion.m68000motion.mTx_tsslStatus = "run";
-            Z80Motion.z80State = Z80Motion.Z80AState.Z80A_RUN;
-            Machine.mainMotion.z80motion.mTx_tsslStatus = "run";
         }
         private static double ui_get_line_height()
         {

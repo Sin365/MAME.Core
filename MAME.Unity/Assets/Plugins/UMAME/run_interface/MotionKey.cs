@@ -56,7 +56,7 @@ namespace MAME.Core
         UNKNOW_T = 1<< 31,
         UNKNOW_M = 1<< 31,
         UNKNOW_V = 1<< 31,
-        UNKNOW_B = 1<< 12
+        UNKNOW_B = 1<< 31
 
         //EMU_PAUSED = (1 << 36),
         //F10 = (1 << 37),

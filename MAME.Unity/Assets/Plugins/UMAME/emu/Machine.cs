@@ -283,8 +283,6 @@ namespace MAME.Core
         }
         public static byte[] GetRom(string sFile)
         {
-            byte[] bb1 = null;
-            int n1;
             foreach (string s1 in lsParents)
             {
                 string path = System.IO.Path.Combine(Mame.RomRoot + "/" + s1 + "/", sFile);
@@ -292,19 +290,13 @@ namespace MAME.Core
                 {
                     EmuLogger.Log($"Had File => {path}");
                     return File.ReadAllBytes(path);
-                    //FileStream fs1 = new FileStream(path, FileMode.Open);
-                    //n1 = (int)fs1.Length;
-                    //bb1 = new byte[n1];
-                    //fs1.Read(bb1, 0, n1);
-                    //fs1.Close();
-                    break;
                 }
                 else
                 {
                     EmuLogger.Log($"Miss File => {path}");
                 }
             }
-            return bb1;
+            return null;
         }
     }
 }

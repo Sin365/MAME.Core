@@ -1779,6 +1779,9 @@ namespace MAME.Core
         //        }
         //    }
         //}
+
+        static bool skiprun_update_one;
+        static int run_update_one_Index;
         public unsafe static void ym2151_update_one(int offset, int length)
         {
             fixed (uint* PSGpanPtr = &PSG.pan[0])
@@ -1812,6 +1815,48 @@ namespace MAME.Core
                     chanout[5] = 0;
                     chanout[6] = 0;
                     chanout[7] = 0;
+
+                    //二分交替混音
+                    //skiprun_update_one = !skiprun_update_one;
+                    //if (!skiprun_update_one)
+                    //{
+                    //    chan_calc(PSGoper, chanout, imem, 0);
+                    //    chan_calc(PSGoper, chanout, imem, 2);
+                    //    chan_calc(PSGoper, chanout, imem, 4);
+                    //    chan_calc(PSGoper, chanout, imem, 6);
+                    //}
+                    //else
+                    //{
+                    //    chan_calc(PSGoper, chanout, imem, 1);
+                    //    chan_calc(PSGoper, chanout, imem, 3);
+                    //    chan_calc(PSGoper, chanout, imem, 5);
+                    //    chan7_calc(PSGoper, chanout, imem);
+                    //}
+
+                    //三分交替混音
+                    //run_update_one_Index++;
+                    //if (run_update_one_Index > 2)
+                    //    run_update_one_Index = 0;
+                    //switch (run_update_one_Index)
+                    //{
+                    //    case 0:
+                    //        chan_calc(PSGoper, chanout, imem, 0);
+                    //        chan_calc(PSGoper, chanout, imem, 2);
+                    //        chan_calc(PSGoper, chanout, imem, 4);
+                    //        break;
+                    //    case 1:
+                    //        chan_calc(PSGoper, chanout, imem, 1);
+                    //        chan_calc(PSGoper, chanout, imem, 3);
+                    //        chan7_calc(PSGoper, chanout, imem);
+                    //        break;
+                    //    case 2:
+                    //        chan_calc(PSGoper, chanout, imem, 0);
+                    //        chan_calc(PSGoper, chanout, imem, 5);
+                    //        chan_calc(PSGoper, chanout, imem, 6);
+                    //        break;
+                    //}
+
+                    //完全渲染混音
                     chan_calc(PSGoper, chanout, imem, 0);
                     chan_calc(PSGoper, chanout, imem, 1);
                     chan_calc(PSGoper, chanout, imem, 2);
@@ -1820,6 +1865,7 @@ namespace MAME.Core
                     chan_calc(PSGoper, chanout, imem, 5);
                     chan_calc(PSGoper, chanout, imem, 6);
                     chan7_calc(PSGoper, chanout, imem);
+
                     outl = (int)(chanout[0] & PSGpan[0]);
                     outr = (int)(chanout[0] & PSGpan[1]);
                     outl += (int)(chanout[1] & PSGpan[2]);

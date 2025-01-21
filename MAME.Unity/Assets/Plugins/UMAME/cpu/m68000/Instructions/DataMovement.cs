@@ -41,36 +41,6 @@ namespace cpu.m68000
             Z = (value == 0);
         }
 
-        void MOVE_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = ((op >> 12) & 0x03);
-            int dstMode = ((op >> 6) & 0x07);
-            int dstReg = ((op >> 9) & 0x07);
-            int srcMode = ((op >> 3) & 0x07);
-            int srcReg = (op & 0x07);
-
-            switch (size)
-            {
-                case 1:
-                    info.Mnemonic = "move.b";
-                    info.Args = DisassembleValue(srcMode, srcReg, 1, ref pc) + ", ";
-                    info.Args += DisassembleValue(dstMode, dstReg, 1, ref pc);
-                    break;
-                case 3:
-                    info.Mnemonic = "move.w";
-                    info.Args = DisassembleValue(srcMode, srcReg, 2, ref pc) + ", ";
-                    info.Args += DisassembleValue(dstMode, dstReg, 2, ref pc);
-                    break;
-                case 2:
-                    info.Mnemonic = "move.l";
-                    info.Args = DisassembleValue(srcMode, srcReg, 4, ref pc) + ", ";
-                    info.Args += DisassembleValue(dstMode, dstReg, 4, ref pc);
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void MOVEA()
         {
@@ -131,26 +101,6 @@ namespace cpu.m68000
             }
         }
 
-        void MOVEA_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = ((op >> 12) & 0x03);
-            int dstReg = ((op >> 9) & 0x07);
-            int srcMode = ((op >> 3) & 0x07);
-            int srcReg = (op & 0x07);
-
-            if (size == 3)
-            {
-                info.Mnemonic = "movea.w";
-                info.Args = DisassembleValue(srcMode, srcReg, 2, ref pc) + ", A" + dstReg;
-            }
-            else
-            {
-                info.Mnemonic = "movea.l";
-                info.Args = DisassembleValue(srcMode, srcReg, 4, ref pc) + ", A" + dstReg;
-            }
-            info.Length = pc - info.PC;
-        }
 
         void MOVEP()
         {
@@ -196,39 +146,6 @@ namespace cpu.m68000
             }
         }
 
-        void MOVEP_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int dReg = ((op >> 9) & 0x07);
-            int dir = ((op >> 7) & 0x01);
-            int size = ((op >> 6) & 0x01);
-            int aReg = (op & 0x07);
-            if (size == 0)
-            {
-                info.Mnemonic = "movep.w";
-                if (dir == 0)
-                {
-                    info.Args = DisassembleValue(5, aReg, 2, ref pc) + ", D" + dReg;
-                }
-                else if (dir == 1)
-                {
-                    info.Args = "D" + dReg + ", " + DisassembleValue(5, aReg, 2, ref pc);
-                }
-            }
-            else if (size == 1)
-            {
-                info.Mnemonic = "movep.l";
-                if (dir == 0)
-                {
-                    info.Args = DisassembleValue(5, aReg, 4, ref pc) + ", D" + dReg;
-                }
-                else if (dir == 1)
-                {
-                    info.Args = "D" + dReg + ", " + DisassembleValue(5, aReg, 4, ref pc);
-                }
-            }
-            info.Length = pc - info.PC;
-        }
 
         void MOVEQ()
         {
@@ -241,11 +158,6 @@ namespace cpu.m68000
             pendingCycles -= 4;
         }
 
-        void MOVEQ_Disasm(DisassemblyInfo info)
-        {
-            info.Mnemonic = "moveq";
-            info.Args = String.Format("${0:X}, D{1}", (int)((sbyte)op), (op >> 9) & 7);
-        }
 
         static string DisassembleRegisterList0(ushort registers)
         {
@@ -434,20 +346,6 @@ namespace cpu.m68000
             }
         }
 
-        void MOVEM0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = (op >> 6) & 1;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            ushort registers = (ushort)ReadOpWord(pc); pc += 2;
-            string address = DisassembleAddress(mode, reg, ref pc);
-
-            info.Mnemonic = size == 0 ? "movem.w" : "movem.l";
-            info.Args = DisassembleRegisterList0(registers) + ", " + address;
-            info.Length = pc - info.PC;
-        }
 
         void MOVEM1()
         {
@@ -562,21 +460,6 @@ namespace cpu.m68000
             }
         }
 
-        void MOVEM1_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = (op >> 6) & 1;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            ushort registers = (ushort)ReadOpWord(pc); pc += 2;
-            string address = DisassembleAddress(mode, reg, ref pc);
-
-            info.Mnemonic = size == 0 ? "movem.w" : "movem.l";
-            info.Args = address + ", " + DisassembleRegisterList1(registers);
-            info.Length = pc - info.PC;
-        }
-
         void LEA()
         {
             int mode = (op >> 3) & 7;
@@ -601,19 +484,6 @@ namespace cpu.m68000
             }
         }
 
-        void LEA_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 7;
-            int sReg = (op >> 0) & 7;
-            int dReg = (op >> 9) & 7;
-
-            info.Mnemonic = "lea";
-            info.Args = DisassembleAddress(mode, sReg, ref pc);
-            info.Args += ", A" + dReg;
-
-            info.Length = pc - info.PC;
-        }
 
         void CLR()
         {
@@ -634,21 +504,6 @@ namespace cpu.m68000
             Z = true;
         }
 
-        void CLR_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = (op >> 6) & 3;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "clr.b"; info.Args = DisassembleValue(mode, reg, 1, ref pc); break;
-                case 1: info.Mnemonic = "clr.w"; info.Args = DisassembleValue(mode, reg, 2, ref pc); break;
-                case 2: info.Mnemonic = "clr.l"; info.Args = DisassembleValue(mode, reg, 4, ref pc); break;
-            }
-            info.Length = pc - info.PC;
-        }
 
         void EXT()
         {
@@ -674,17 +529,6 @@ namespace cpu.m68000
             pendingCycles -= 4;
         }
 
-        void EXT_Disasm(DisassemblyInfo info)
-        {
-            int size = (op >> 6) & 1;
-            int reg = op & 7;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "ext.w"; info.Args = "D" + reg; break;
-                case 1: info.Mnemonic = "ext.l"; info.Args = "D" + reg; break;
-            }
-        }
 
         void PEA()
         {
@@ -712,15 +556,5 @@ namespace cpu.m68000
             }
         }
 
-        void PEA_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            info.Mnemonic = "pea";
-            info.Args = DisassembleAddress(mode, reg, ref pc);
-            info.Length = pc - info.PC;
-        }
     }
 }

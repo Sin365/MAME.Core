@@ -87,7 +87,6 @@
                     PPC = RegPC.Word;
                     OP = ReadOp(PPC);
                     RegPC.Word++;
-                    //debugger_start_cpu_hook_callback();
                     switch (OP)//ReadMemory(RegPC.Word++))
                     {
                         case 0x00: // NOP
@@ -11699,7 +11698,6 @@
                             totalExecutedCycles += 11; pendingCycles -= 11;
                             break;
                     }
-                    //debugger_stop_cpu_hook_callback();
                 }
             }
             while (pendingCycles > 0);

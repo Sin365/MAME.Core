@@ -146,7 +146,6 @@ namespace cpu.m6502
             {
                 byte op;
                 ppc.d = pc.d;
-                //debugger_instruction_hook(Machine, PCD);
                 if (pending_irq != 0)
                 {
                     m6502_take_irq();

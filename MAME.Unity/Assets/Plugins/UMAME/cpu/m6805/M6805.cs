@@ -564,7 +564,6 @@ namespace cpu.m6805
                         Interrupt();
                     }
                 }
-                //debugger_instruction_hook(Machine, PC);
                 ireg = ReadOp(pc.LowWord++);
                 switch (ireg)
                 {

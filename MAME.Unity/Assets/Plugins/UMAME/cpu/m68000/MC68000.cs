@@ -160,15 +160,11 @@ namespace cpu.m68000
         public Action<int, short> WriteWord;
         public Action<int, int> WriteLong;
 
-        public delegate void debug_delegate();
-        //public debug_delegate debugger_start_cpu_hook_callback, debugger_stop_cpu_hook_callback;
-
-        // Initialization
 
         public MC68000()
         {
             //倒是已经废弃
-            BuildOpcodeTable();
+            //BuildOpcodeTable();
         }
 
 
@@ -233,18 +229,15 @@ namespace cpu.m68000
                 {
                     int prevCycles = pendingCycles;
                     PPC = PC;
-                    //debugger_start_cpu_hook_callback();
                     op = (ushort)ReadOpWord(PC); PC += 2;
                     //Opcodes[op]();
                     DoOpCode(op);
                     m68ki_check_interrupts();
-                    //debugger_stop_cpu_hook_callback();
                     int delta = prevCycles - pendingCycles;
                     totalExecutedCycles += (ulong)delta;
                 }
                 while (pendingCycles > 0);
                 pendingCycles -= int_cycles;
-                //totalExecutedCycles += (ulong)int_cycles;
                 int_cycles = 0;
                 ran = cycles - pendingCycles;
                 return ran;

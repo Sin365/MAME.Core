@@ -1,6 +1,4 @@
-﻿using MAME.Core.AxiBitmap;
-using System;
-using Color = MAME.Core.AxiBitmap.AxiColor;
+﻿using System;
 
 namespace MAME.Core
 {
@@ -55,30 +53,30 @@ namespace MAME.Core
         }*/
 
 
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="bitmap"></param>
-        /// <param name="factor"></param>
-        /// <returns></returns>
-        public static int[] MultiplyAlpha(int[] bitmap, float factor)
-        {
-            int[] result = (int[])bitmap.Clone();
-            for (int i = 0; i < result.Length; i++)
-            {
-                Color originalColor = AxiColor.FromArgb(result[i]);
-                byte newAlpha = (byte)Math.Min(255, (int)(originalColor.a * factor));
-                Color newColor = new Color
-                {
-                    r = originalColor.r,
-                    g = originalColor.g,
-                    b = originalColor.b,
-                    a = newAlpha
-                };
-                result[i] = AxiColor.ToArgb(newColor);
-            }
-            return result;
-        }
+        ///// <summary>
+        /////
+        ///// </summary>
+        ///// <param name="bitmap"></param>
+        ///// <param name="factor"></param>
+        ///// <returns></returns>
+        //public static int[] MultiplyAlpha(int[] bitmap, float factor)
+        //{
+        //    int[] result = (int[])bitmap.Clone();
+        //    for (int i = 0; i < result.Length; i++)
+        //    {
+        //        Color originalColor = AxiColor.FromArgb(result[i]);
+        //        byte newAlpha = (byte)Math.Min(255, (int)(originalColor.a * factor));
+        //        Color newColor = new Color
+        //        {
+        //            r = originalColor.r,
+        //            g = originalColor.g,
+        //            b = originalColor.b,
+        //            a = newAlpha
+        //        };
+        //        result[i] = AxiColor.ToArgb(newColor);
+        //    }
+        //    return result;
+        //}
 
         //public static void GDIDraw()
         //{

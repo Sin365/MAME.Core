@@ -29,9 +29,7 @@ namespace MAME.Core
         private static int PAUSED_REFRESH_RATE = 30, VIDEO_UPDATE_AFTER_VBLANK = 4;
         public static EmuTimer.emu_timer vblank_begin_timer, vblank_end_timer;
         public static EmuTimer.emu_timer scanline0_timer, scanline_timer;
-        private static Atime throttle_emutime, throttle_realtime, speed_last_emutime, overall_emutime;
-        private static long throttle_last_ticks;
-        private static long average_oversleep;
+        private static Atime speed_last_emutime, overall_emutime;
         private static long speed_last_realtime, overall_real_ticks;
         private static double speed_percent;
         private static uint throttle_history, overall_valid_counter, overall_real_seconds;
@@ -956,10 +954,10 @@ namespace MAME.Core
             Mouse.Update();
             Inptport.frame_update_callback();
             Motion.ui_update_and_render();
-            if (Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_FRAME)
-            {
-                Machine.mainMotion.cheatmotion.ApplyCheat();
-            }
+            //if (Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_FRAME)
+            //{
+            //    Machine.mainMotion.cheatmotion.ApplyCheat();
+            //}
             GDIDraw();
 
             if (effective_throttle())

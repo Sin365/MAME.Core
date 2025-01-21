@@ -1,7 +1,5 @@
-﻿using MAME.Core.AxiBitmap;
+﻿using System;
 using System.Runtime.InteropServices;
-using System;
-using Color = MAME.Core.AxiBitmap.AxiColor;
 
 namespace MAME.Core
 {
@@ -16,7 +14,7 @@ namespace MAME.Core
         public static float[] entry_contrast;
         private static uint trans_uint;
         private static int numcolors, numgroups;
-        public static Color trans_color;
+        //public static Color trans_color;
         public delegate void palette_delegate(int index, uint rgb);
         public static palette_delegate palette_set_callback;
         public static void palette_init()
@@ -28,59 +26,59 @@ namespace MAME.Core
                 case "CPS-1(QSound)":
                 case "CPS2":
                     //trans_color = Color.Magenta;
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0xc00;
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "Data East":
                     //trans_color = Color.Magenta;
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x200;
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "Tehkan":
                     //trans_color = Color.Magenta;
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x100;
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "SunA8":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x100;
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "Namco System 1":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x2001;
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "IGS011":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x800;
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "PGM":
                     //trans_color = Color.Magenta;
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x901;
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "M72":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x201;
                     palette_set_callback = palette_entry_set_color1;
                     break;
                 case "M92":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x801;
                     palette_set_callback = palette_entry_set_color2;
                     break;
@@ -110,7 +108,7 @@ namespace MAME.Core
                         case "bublcave11":
                         case "bublcave10":
                             //trans_color = Color.Magenta;
-                            trans_color = Color.Black;
+                            //trans_color = Color.Black;
                             numcolors = 0x100;
                             break;
                         case "opwolf":
@@ -119,23 +117,23 @@ namespace MAME.Core
                         case "opwolfu":
                         case "opwolfb":
                         case "opwolfp":
-                            trans_color = Color.Black;
+                            //trans_color = Color.Black;
                             numcolors = 0x2000;
                             break;
                     }
-                    trans_uint = (uint)trans_color.ToArgb();
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     palette_set_callback = palette_entry_set_color2;
                     break;
                 case "Taito B":
                     //trans_color = Color.Magenta;
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x1000;
                     palette_set_callback = palette_entry_set_color3;
                     break;
                 case "Konami 68000":
-                    trans_color = Color.Black;
-                    trans_uint = (uint)trans_color.ToArgb();
+                    //trans_color = Color.Black;
+                    trans_uint = 0x0;//(uint)trans_color.ToArgb();
                     numcolors = 0x800;
                     palette_set_callback = palette_entry_set_color3;
                     break;
@@ -153,8 +151,8 @@ namespace MAME.Core
                         case "makaimurc":
                         case "makaimurg":
                         case "diamond":
-                            trans_color = Color.Black;
-                            trans_uint = (uint)trans_color.ToArgb();
+                            //trans_color = Color.Black;
+                            trans_uint = 0x0;//(uint)trans_color.ToArgb();
                             numcolors = 0x100;
                             palette_set_callback = palette_entry_set_color2;
                             break;
@@ -164,8 +162,8 @@ namespace MAME.Core
                         case "sfjan":
                         case "sfan":
                         case "sfp":
-                            trans_color = Color.Black;
-                            trans_uint = (uint)trans_color.ToArgb();
+                            //trans_color = Color.Black;
+                            trans_uint = 0x0;//(uint)trans_color.ToArgb();
                             numcolors = 0x400;
                             palette_set_callback = palette_entry_set_color3;
                             break;

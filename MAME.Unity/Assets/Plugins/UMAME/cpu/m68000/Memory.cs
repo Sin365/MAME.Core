@@ -315,83 +315,6 @@ namespace cpu.m68000
             throw new Exception("Invalid addressing mode!");
         }
 
-        string DisassembleValue(int mode, int reg, int size, ref int pc)
-        {
-            string value;
-            int addr;
-            switch (mode)
-            {
-                case 0: return "D" + reg;       // Dn
-                case 1: return "A" + reg;       // An
-                case 2: return "(A" + reg + ")";  // (An)
-                case 3: return "(A" + reg + ")+"; // (An)+
-                case 4: return "-(A" + reg + ")"; // -(An)
-                case 5: value = string.Format("(${0:X},A{1})", ReadOpWord(pc), reg); pc += 2; return value; // (d16,An)
-                case 6: addr = ReadOpWord(pc); pc += 2; return DisassembleIndex("A" + reg, (short)addr); // (d8,An,Xn)
-                case 7:
-                    switch (reg)
-                    {
-                        case 0: value = String.Format("(${0:X})", ReadOpWord(pc)); pc += 2; return value; // (imm).W
-                        case 1: value = String.Format("(${0:X})", ReadOpLong(pc)); pc += 4; return value; // (imm).L
-                        case 2: value = String.Format("(${0:X})", pc + ReadOpWord(pc)); pc += 2; return value; // (d16,PC)
-                        case 3: addr = ReadOpWord(pc); pc += 2; return DisassembleIndex("PC", (short)addr); // (d8,PC,Xn)
-                        case 4:
-                            switch (size)
-                            {
-                                case 1: value = String.Format("${0:X}", (byte)ReadOpWord(pc)); pc += 2; return value;
-                                case 2: value = String.Format("${0:X}", ReadOpWord(pc)); pc += 2; return value;
-                                case 4: value = String.Format("${0:X}", ReadOpLong(pc)); pc += 4; return value;
-                            }
-                            break;
-                    }
-                    break;
-            }
-            throw new Exception("Invalid addressing mode!");
-        }
-
-        string DisassembleImmediate(int size, ref int pc)
-        {
-            int immed;
-            switch (size)
-            {
-                case 1:
-                    immed = (byte)ReadOpWord(pc); pc += 2;
-                    return String.Format("${0:X}", immed);
-                case 2:
-                    immed = (ushort)ReadOpWord(pc); pc += 2;
-                    return String.Format("${0:X}", immed);
-                case 4:
-                    immed = ReadOpLong(pc); pc += 4;
-                    return String.Format("${0:X}", immed);
-            }
-            throw new ArgumentException("Invalid size");
-        }
-
-        string DisassembleAddress(int mode, int reg, ref int pc)
-        {
-            int addr;
-            switch (mode)
-            {
-                case 0: return "INVALID"; // Dn
-                case 1: return "INVALID"; // An
-                case 2: return "(A" + reg + ")"; // (An)
-                case 3: return "(A" + reg + ")+"; // (An)+
-                case 4: return "-(A" + reg + ")"; // -(An)
-                case 5: addr = ReadOpWord(pc); pc += 2; return String.Format("(${0:X},A{1})", (short)addr, reg); // (d16,An)
-                case 6: addr = ReadOpWord(pc); pc += 2; return DisassembleIndex("A" + reg, (short)addr); // (d8,An,Xn)
-                case 7:
-                    switch (reg)
-                    {
-                        case 0: addr = ReadOpWord(pc); pc += 2; return String.Format("${0:X}.w", addr); // (imm).w
-                        case 1: addr = ReadOpLong(pc); pc += 4; return String.Format("${0:X}.l", addr); // (imm).l
-                        case 2: addr = ReadOpWord(pc); pc += 2; return String.Format("(${0:X},PC)", addr); // (d16,PC)
-                        case 3: addr = ReadOpWord(pc); pc += 2; return DisassembleIndex("PC", (short)addr); // (d8,PC,Xn)
-                        case 4: return "INVALID"; // immediate
-                    }
-                    break;
-            }
-            throw new Exception("Invalid addressing mode!");
-        }
 
         void WriteValueB(int mode, int reg, sbyte value)
         {
@@ -597,27 +520,5 @@ namespace cpu.m68000
             return displacement + indexReg;
         }
 
-        string DisassembleIndex(string baseRegister, short extension)
-        {
-            int d_a = (extension >> 15) & 0x1;
-            int reg = (extension >> 12) & 0x7;
-            int size = (extension >> 11) & 0x1;
-            int scale = (extension >> 9) & 0x3;
-            sbyte displacement = (sbyte)extension;
-
-            string scaleFactor;
-            switch (scale)
-            {
-                case 0: scaleFactor = ""; break;
-                case 1: scaleFactor = "2"; break;
-                case 2: scaleFactor = "4"; break;
-                default: scaleFactor = "8"; break;
-            }
-
-            string offsetRegister = (d_a == 0) ? "D" : "A";
-            string sizeStr = size == 0 ? ".w" : ".l";
-            string displacementStr = displacement == 0 ? "" : ("," + (displacement >= 0 ? "$" + displacement.ToString("X") : "-$" + (-displacement).ToString("X")));
-            return string.Format("({0},{1}{2}{3}{4}{5})", baseRegister, scaleFactor, offsetRegister, reg, sizeStr, displacementStr);
-        }
     }
 }

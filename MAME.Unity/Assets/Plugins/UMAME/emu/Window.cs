@@ -2,7 +2,7 @@
 {
     public class Window
     {
-        private static MameMainMotion _myParentForm;
+        //private static MameMainMotion _myParentForm;
         //[DllImport("kernel32.dll ")]
         //private static extern uint GetTickCount();
 

@@ -44,33 +44,6 @@ namespace cpu.m68000
             }
         }
 
-        void AND0_Disasm(DisassemblyInfo info)
-        {
-            int dstReg = (op >> 9) & 0x07;
-            int size = (op >> 6) & 0x03;
-            int srcMode = (op >> 3) & 0x07;
-            int srcReg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "and.b";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 1, ref pc), dstReg);
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "and.w";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 2, ref pc), dstReg);
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "and.l";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 4, ref pc), dstReg);
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void AND1() // AND Dn, <ea>
         {
@@ -117,33 +90,6 @@ namespace cpu.m68000
             }
         }
 
-        void AND1_Disasm(DisassemblyInfo info)
-        {
-            int srcReg = (op >> 9) & 0x07;
-            int size = (op >> 6) & 0x03;
-            int dstMode = (op >> 3) & 0x07;
-            int dstReg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "and.b";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 1, ref pc));
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "and.w";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 2, ref pc));
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "and.l";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 4, ref pc));
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void ANDI() // ANDI #<data>, <ea>
         {
@@ -192,44 +138,6 @@ namespace cpu.m68000
             }
         }
 
-        void ANDI_Disasm(DisassemblyInfo info)
-        {
-            int size = ((op >> 6) & 0x03);
-            int dstMode = ((op >> 3) & 0x07);
-            int dstReg = (op & 0x07);
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    {
-                        info.Mnemonic = "andi.b";
-                        sbyte imm = (sbyte)ReadOpWord(pc); pc += 2;
-                        info.Args = string.Format("${0:X}, ", imm);
-                        info.Args += DisassembleValue(dstMode, dstReg, 1, ref pc);
-                        break;
-                    }
-                case 1: // Word
-                    {
-                        info.Mnemonic = "andi.w";
-                        short imm = ReadOpWord(pc); pc += 2;
-                        info.Args = string.Format("${0:X}, ", imm);
-                        info.Args += DisassembleValue(dstMode, dstReg, 2, ref pc);
-                        break;
-                    }
-                case 2: // Long
-                    {
-                        info.Mnemonic = "andi.l";
-                        int imm = ReadOpLong(pc); pc += 4;
-                        info.Args = string.Format("${0:X}, ", imm);
-                        info.Args += DisassembleValue(dstMode, dstReg, 4, ref pc);
-                        break;
-                    }
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void ANDI_CCR() //m68k_op_andi_16_toc         , 0xffff, 0x023c, { 20}
         {
@@ -239,13 +147,6 @@ namespace cpu.m68000
             pendingCycles -= 20;
         }
 
-        void ANDI_CCR_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            info.Mnemonic = "andi";
-            info.Args = DisassembleImmediate(1, ref pc) + ", CCR";
-            info.Length = pc - info.PC;
-        }
 
         void EOR() // EOR Dn, <ea>
         {
@@ -292,33 +193,6 @@ namespace cpu.m68000
             }
         }
 
-        void EOR_Disasm(DisassemblyInfo info)
-        {
-            int srcReg = (op >> 9) & 0x07;
-            int size = (op >> 6) & 0x03;
-            int dstMode = (op >> 3) & 0x07;
-            int dstReg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "eor.b";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 1, ref pc));
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "eor.w";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 2, ref pc));
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "eor.l";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 4, ref pc));
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void EORI()
         {
@@ -364,40 +238,6 @@ namespace cpu.m68000
             }
         }
 
-        void EORI_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = (op >> 6) & 3;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            switch (size)
-            {
-                case 0: // byte
-                    {
-                        info.Mnemonic = "eori.b";
-                        sbyte immed = (sbyte)ReadOpWord(pc); pc += 2;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 1, ref pc));
-                        break;
-                    }
-                case 1: // word
-                    {
-                        info.Mnemonic = "eori.w";
-                        short immed = ReadOpWord(pc); pc += 2;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 2, ref pc));
-                        break;
-                    }
-                case 2: // long
-                    {
-                        info.Mnemonic = "eori.l";
-                        int immed = ReadOpLong(pc); pc += 4;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 4, ref pc));
-                        break;
-                    }
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void EORI_CCR()//m68k_op_eori_16_toc         , 0xffff, 0x0a3c, { 20}
         {
@@ -408,13 +248,6 @@ namespace cpu.m68000
             pendingCycles -= 20;
         }
 
-        void EORI_CCR_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            info.Mnemonic = "eori";
-            info.Args = DisassembleImmediate(1, ref pc) + ", CCR";
-            info.Length = pc - info.PC;
-        }
 
         void OR0() // OR <ea>, Dn
         {
@@ -456,33 +289,6 @@ namespace cpu.m68000
             }
         }
 
-        void OR0_Disasm(DisassemblyInfo info)
-        {
-            int dstReg = (op >> 9) & 0x07;
-            int size = (op >> 6) & 0x03;
-            int srcMode = (op >> 3) & 0x07;
-            int srcReg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "or.b";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 1, ref pc), dstReg);
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "or.w";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 2, ref pc), dstReg);
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "or.l";
-                    info.Args = string.Format("{0}, D{1}", DisassembleValue(srcMode, srcReg, 4, ref pc), dstReg);
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void OR1() // OR Dn, <ea>
         {
@@ -529,33 +335,6 @@ namespace cpu.m68000
             }
         }
 
-        void OR1_Disasm(DisassemblyInfo info)
-        {
-            int srcReg = (op >> 9) & 0x07;
-            int size = (op >> 6) & 0x03;
-            int dstMode = (op >> 3) & 0x07;
-            int dstReg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "or.b";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 1, ref pc));
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "or.w";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 2, ref pc));
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "or.l";
-                    info.Args = string.Format("D{0}, {1}", srcReg, DisassembleValue(dstMode, dstReg, 4, ref pc));
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void ORI()
         {
@@ -601,40 +380,6 @@ namespace cpu.m68000
             }
         }
 
-        void ORI_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int size = (op >> 6) & 3;
-            int mode = (op >> 3) & 7;
-            int reg = (op >> 0) & 7;
-
-            switch (size)
-            {
-                case 0: // byte
-                    {
-                        info.Mnemonic = "ori.b";
-                        sbyte immed = (sbyte)ReadOpWord(pc); pc += 2;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 1, ref pc));
-                        break;
-                    }
-                case 1: // word
-                    {
-                        info.Mnemonic = "ori.w";
-                        short immed = ReadOpWord(pc); pc += 2;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 2, ref pc));
-                        break;
-                    }
-                case 2: // long
-                    {
-                        info.Mnemonic = "ori.l";
-                        int immed = ReadOpLong(pc); pc += 4;
-                        info.Args = String.Format("${0:X}, {1}", immed, DisassembleValue(mode, reg, 4, ref pc));
-                        break;
-                    }
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void ORI_CCR()//m68k_op_ori_16_toc          , 0xffff, 0x003c, { 20}
         {
@@ -644,13 +389,6 @@ namespace cpu.m68000
             pendingCycles -= 20;
         }
 
-        void ORI_CCR_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            info.Mnemonic = "ori";
-            info.Args = DisassembleImmediate(1, ref pc) + ", CCR";
-            info.Length = pc - info.PC;
-        }
 
         void NOT()
         {
@@ -696,32 +434,6 @@ namespace cpu.m68000
             }
         }
 
-        void NOT_Disasm(DisassemblyInfo info)
-        {
-            int size = (op >> 6) & 0x03;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-
-            int pc = info.PC + 2;
-
-            switch (size)
-            {
-                case 0: // Byte
-                    info.Mnemonic = "not.b";
-                    info.Args = DisassembleValue(mode, reg, 1, ref pc);
-                    break;
-                case 1: // Word
-                    info.Mnemonic = "not.w";
-                    info.Args = DisassembleValue(mode, reg, 2, ref pc);
-                    break;
-                case 2: // Long
-                    info.Mnemonic = "not.l";
-                    info.Args = DisassembleValue(mode, reg, 4, ref pc);
-                    break;
-            }
-
-            info.Length = pc - info.PC;
-        }
 
         void LSLd()
         {
@@ -771,27 +483,6 @@ namespace cpu.m68000
             }
         }
 
-        void LSLd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "lsl.b"; break;
-                case 1: info.Mnemonic = "lsl.w"; break;
-                case 2: info.Mnemonic = "lsl.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void LSLd0()
         {
@@ -816,15 +507,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void LSLd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "lsl";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void LSRd()
         {
@@ -874,27 +556,6 @@ namespace cpu.m68000
             }
         }
 
-        void LSRd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "lsr.b"; break;
-                case 1: info.Mnemonic = "lsr.w"; break;
-                case 2: info.Mnemonic = "lsr.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void LSRd0()
         {
@@ -920,15 +581,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void LSRd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "lsr";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void ASLd()
         {
@@ -984,27 +636,6 @@ namespace cpu.m68000
             }
         }
 
-        void ASLd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "asl.b"; break;
-                case 1: info.Mnemonic = "asl.w"; break;
-                case 2: info.Mnemonic = "asl.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void ASLd0()
         {
@@ -1030,15 +661,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void ASLd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "asl";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void ASRd()
         {
@@ -1094,27 +716,6 @@ namespace cpu.m68000
             }
         }
 
-        void ASRd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "asr.b"; break;
-                case 1: info.Mnemonic = "asr.w"; break;
-                case 2: info.Mnemonic = "asr.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void ASRd0()
         {
@@ -1143,15 +744,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void ASRd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "asr";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void ROLd()
         {
@@ -1201,27 +793,6 @@ namespace cpu.m68000
             }
         }
 
-        void ROLd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "rol.b"; break;
-                case 1: info.Mnemonic = "rol.w"; break;
-                case 2: info.Mnemonic = "rol.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void ROLd0()
         {
@@ -1246,15 +817,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void ROLd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "rol";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void RORd()
         {
@@ -1304,27 +866,6 @@ namespace cpu.m68000
             }
         }
 
-        void RORd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "ror.b"; break;
-                case 1: info.Mnemonic = "ror.w"; break;
-                case 2: info.Mnemonic = "ror.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void RORd0()
         {
@@ -1349,15 +890,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void RORd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "ror";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void ROXLd()
         {
@@ -1410,27 +942,6 @@ namespace cpu.m68000
             }
         }
 
-        void ROXLd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "roxl.b"; break;
-                case 1: info.Mnemonic = "roxl.w"; break;
-                case 2: info.Mnemonic = "roxl.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
 
         void ROXLd0()
         {
@@ -1457,15 +968,7 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void ROXLd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "roxl";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
+
 
         void ROXRd()
         {
@@ -1518,28 +1021,6 @@ namespace cpu.m68000
             }
         }
 
-        void ROXRd_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int rot = (op >> 9) & 7;
-            int size = (op >> 6) & 3;
-            int m = (op >> 5) & 1;
-            int reg = op & 7;
-
-            if (m == 0 && rot == 0) rot = 8;
-
-            switch (size)
-            {
-                case 0: info.Mnemonic = "roxr.b"; break;
-                case 1: info.Mnemonic = "roxr.w"; break;
-                case 2: info.Mnemonic = "roxr.l"; break;
-            }
-            if (m == 0) info.Args = rot + ", D" + reg;
-            else info.Args = "D" + rot + ", D" + reg;
-
-            info.Length = pc - info.PC;
-        }
-
         void ROXRd0()
         {
             //m68k_op_roxr_16_ai          , 0xfff8, 0xe4d0, { 12}
@@ -1566,15 +1047,6 @@ namespace cpu.m68000
             pendingCycles -= 8 + EACyclesBW[mode, reg];
         }
 
-        void ROXRd0_Disasm(DisassemblyInfo info)
-        {
-            int pc = info.PC + 2;
-            int mode = (op >> 3) & 0x07;
-            int reg = op & 0x07;
-            info.Mnemonic = "roxr";
-            info.Args = DisassembleValue(mode, reg, 1, ref pc);
-            info.Length = pc - info.PC;
-        }
 
         void SWAP()
         {
@@ -1586,11 +1058,5 @@ namespace cpu.m68000
             pendingCycles -= 4;
         }
 
-        void SWAP_Disasm(DisassemblyInfo info)
-        {
-            int reg = op & 7;
-            info.Mnemonic = "swap";
-            info.Args = "D" + reg;
-        }
     }
 }

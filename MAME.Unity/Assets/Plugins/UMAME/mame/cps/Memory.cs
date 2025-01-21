@@ -400,6 +400,7 @@ namespace MAME.Core
             }
             return result;
         }
+
         public static void ZCWriteMemory(ushort address, byte value)
         {
             if (address >= 0xd000 && address <= 0xd7ff)
