@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Tehkan
+    public unsafe partial class Tehkan
     {
         public static byte[] pbaction_videoram2, pbaction_colorram2;
         public static int scroll;

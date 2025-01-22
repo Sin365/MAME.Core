@@ -50,7 +50,7 @@ namespace MAME.Core
             pgm_bg_videoram = new byte[0x4000];
             pgm_tx_videoram = new byte[0x2000];
             pgm_rowscrollram = new byte[0x800];
-            Generic.paletteram16 = new ushort[0x900];
+            Generic.paletteram16_set = new ushort[0x900];
             pgm_videoregs = new byte[0x10000];
             Memory.Set_audioram(new byte[0x10000]);
             if (Memory.mainrom_IsNull || sprmaskrom == null || pgm_sprite_a_region == null)

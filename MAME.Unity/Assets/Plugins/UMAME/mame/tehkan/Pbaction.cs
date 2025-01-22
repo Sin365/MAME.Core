@@ -23,12 +23,12 @@ namespace MAME.Core
                     gfx32rom = Machine.GetRom("gfx32.rom");
                     Memory.Set_mainram(new byte[0x1000]);
                     Memory.Set_audioram(new byte[0x800]);
-                    Generic.videoram = new byte[0x400];
+                    Generic.videoram_set = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
-                    Generic.colorram = new byte[0x400];
+                    Generic.colorram_set = new byte[0x400];
                     pbaction_colorram2 = new byte[0x400];
-                    Generic.spriteram = new byte[0x80];
-                    Generic.paletteram = new byte[0x200];
+                    Generic.spriteram_set = new byte[0x80];
+                    Generic.paletteram_set = new byte[0x200];
                     if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;
@@ -47,12 +47,12 @@ namespace MAME.Core
                     gfx32rom = Machine.GetRom("gfx32.rom");
                     Memory.Set_mainram(new byte[0x1000]);
                     Memory.Set_audioram(new byte[0x800]);
-                    Generic.videoram = new byte[0x400];
+                    Generic.videoram_set = new byte[0x400];
                     pbaction_videoram2 = new byte[0x400];
-                    Generic.colorram = new byte[0x400];
+                    Generic.colorram_set = new byte[0x400];
                     pbaction_colorram2 = new byte[0x400];
-                    Generic.spriteram = new byte[0x80];
-                    Generic.paletteram = new byte[0x200];
+                    Generic.spriteram_set = new byte[0x80];
+                    Generic.paletteram_set = new byte[0x200];
                     if (Memory.mainrom_IsNull || mainromop == null || Memory.audiorom_IsNull || gfx1rom == null || gfx2rom == null || gfx3rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;

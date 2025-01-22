@@ -3,7 +3,7 @@ using System;
 
 namespace MAME.Core
 {
-    public partial class Konami68000
+    public unsafe partial class Konami68000
     {
         public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom, titlerom, user1rom, zoomrom;
         public static byte dsw1, dsw2, dsw3, bytee;
@@ -17,8 +17,8 @@ namespace MAME.Core
         public static void Konami68000Init()
         {
             int i, n1, n2;
-            Generic.paletteram16 = new ushort[0x800];
-            Generic.spriteram16 = new ushort[0x2000];
+            Generic.paletteram16_set = new ushort[0x800];
+            Generic.spriteram16_set = new ushort[0x2000];
             init_eeprom_count = 10;
             toggle = 0;
             Memory.Set_mainram(new byte[0x4000]);

@@ -40,9 +40,9 @@ namespace MAME.Core
         public static void M72Init()
         {
             int i1, i2, i3, n1, n2, n3;
-            Generic.paletteram16 = new ushort[0x600];
-            Generic.paletteram16_2 = new ushort[0x600];
-            Generic.spriteram16 = new ushort[0x200];
+            Generic.paletteram16_set = new ushort[0x600];
+            Generic.paletteram16_2_set = new ushort[0x600];
+            Generic.spriteram16_set = new ushort[0x200];
             Machine.bRom = true;
             EmuTimer.setvector = setvector_callback;
             protection_ram = new byte[0x1000];

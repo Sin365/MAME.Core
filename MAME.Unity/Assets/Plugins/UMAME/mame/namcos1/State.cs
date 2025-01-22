@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class Namcos1
+    public unsafe partial class Namcos1
     {
         public static void SaveStateBinary(BinaryWriter writer)
         {
@@ -101,7 +101,7 @@ namespace MAME.Core
             dac1_value = reader.ReadInt32();
             dac0_gain = reader.ReadInt32();
             dac1_gain = reader.ReadInt32();
-            Generic.generic_nvram = reader.ReadBytes(0x800);
+            Generic.generic_nvram_set = reader.ReadBytes(0x800);
             for (i = 0; i < 2; i++)
             {
                 for (j = 0; j < 8; j++)

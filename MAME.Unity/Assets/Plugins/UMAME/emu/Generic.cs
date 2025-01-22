@@ -1,30 +1,290 @@
 ﻿using cpu.m68000;
 using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public class Generic
+    public unsafe class Generic
     {
-        private static uint[] coin_count;
-        private static uint[] coinlockedout;
-        private static uint[] lastcoin;
-        public static byte[] videoram, colorram;
-        public static byte[] generic_nvram;
-        public static byte[] buffered_spriteram;
-        public static ushort[] buffered_spriteram16;
-        public static byte[] spriteram;
-        public static ushort[] spriteram16, spriteram16_2;
-        public static byte[] paletteram, paletteram_2;
-        public static ushort[] paletteram16, paletteram16_2;
+        //private static uint[] coin_count;
+        //private static uint[] coinlockedout;
+        //private static uint[] lastcoin;
+        //public static byte[] videoram, colorram;
+        //public static byte[] generic_nvram;
+        //public static byte[] buffered_spriteram;
+        //public static ushort[] buffered_spriteram16;
+        //public static byte[] spriteram;
+        //public static ushort[] spriteram16, spriteram16_2;
+        //public static byte[] paletteram, paletteram_2;
+        //public static ushort[] paletteram16, paletteram16_2;
+
+        #region //指针化coin_count
+        static uint[] coin_count_src;
+        static GCHandle coin_count_handle;
+        public static uint* coin_count;
+        public static int coin_countLength;
+        public static uint[] coin_count_set
+        {
+            set
+            {
+                coin_count_handle.ReleaseGCHandle();
+                coin_count_src = value;
+                coin_countLength = value.Length;
+                coin_count_src.GetObjectPtr(ref coin_count_handle, ref coin_count);
+            }
+        }
+        #endregion
+
+        #region //指针化coinlockedout
+        static uint[] coinlockedout_src;
+        static GCHandle coinlockedout_handle;
+        public static uint* coinlockedout;
+        public static int coinlockedoutLength;
+        public static uint[] coinlockedout_set
+        {
+            set
+            {
+                coinlockedout_handle.ReleaseGCHandle();
+                coinlockedout_src = value;
+                coinlockedoutLength = value.Length;
+                coinlockedout_src.GetObjectPtr(ref coinlockedout_handle, ref coinlockedout);
+            }
+        }
+        #endregion
+
+        #region //指针化lastcoin
+        static uint[] lastcoin_src;
+        static GCHandle lastcoin_handle;
+        public static uint* lastcoin;
+        public static int lastcoinLength;
+        public static uint[] lastcoin_set
+        {
+            set
+            {
+                lastcoin_handle.ReleaseGCHandle();
+                lastcoin_src = value;
+                lastcoinLength = value.Length;
+                lastcoin_src.GetObjectPtr(ref lastcoin_handle, ref lastcoin);
+            }
+        }
+        #endregion
+
+        #region //指针化colorram
+        static byte[] colorram_src;
+        static GCHandle colorram_handle;
+        public static byte* colorram;
+        public static int colorramLength;
+        public static byte[] colorram_set
+        {
+            set
+            {
+                colorram_handle.ReleaseGCHandle();
+                colorram_src = value;
+                colorramLength = value.Length;
+                colorram_src.GetObjectPtr(ref colorram_handle, ref colorram);
+            }
+        }
+        #endregion
+
+        #region //指针化videoram
+        static byte[] videoram_src;
+        static GCHandle videoram_handle;
+        public static byte* videoram;
+        public static int videoramLength;
+        public static byte[] videoram_set
+        {
+            set
+            {
+                videoram_handle.ReleaseGCHandle();
+                videoram_src = value;
+                videoramLength = value.Length;
+                videoram_src.GetObjectPtr(ref videoram_handle, ref videoram);
+            }
+        }
+        #endregion
+
+        #region //指针化generic_nvram
+        static byte[] generic_nvram_src;
+        static GCHandle generic_nvram_handle;
+        public static byte* generic_nvram;
+        public static int generic_nvramLength;
+        public static byte[] generic_nvram_set
+        {
+            set
+            {
+                generic_nvram_handle.ReleaseGCHandle();
+                generic_nvram_src = value;
+                generic_nvramLength = value.Length;
+                generic_nvram_src.GetObjectPtr(ref generic_nvram_handle, ref generic_nvram);
+            }
+        }
+        #endregion
+
+        #region //指针化buffered_spriteram
+        static byte[] buffered_spriteram_src;
+        static GCHandle buffered_spriteram_handle;
+        public static byte* buffered_spriteram;
+        public static int buffered_spriteramLength;
+        public static byte[] buffered_spriteram_set
+        {
+            set
+            {
+                buffered_spriteram_handle.ReleaseGCHandle();
+                buffered_spriteram_src = value;
+                buffered_spriteramLength = value.Length;
+                buffered_spriteram_src.GetObjectPtr(ref buffered_spriteram_handle, ref buffered_spriteram);
+            }
+        }
+        #endregion
+
+        #region //指针化buffered_spriteram16
+        static ushort[] buffered_spriteram16_src;
+        static GCHandle buffered_spriteram16_handle;
+        public static ushort* buffered_spriteram16;
+        public static int buffered_spriteram16Length;
+        public static ushort[] buffered_spriteram16_set
+        {
+            set
+            {
+                buffered_spriteram16_handle.ReleaseGCHandle();
+                buffered_spriteram16_src = value;
+                buffered_spriteram16Length = value.Length;
+                buffered_spriteram16_src.GetObjectPtr(ref buffered_spriteram16_handle, ref buffered_spriteram16);
+            }
+        }
+        #endregion
+
+
+        #region //指针化spriteram
+        static byte[] spriteram_src;
+        static GCHandle spriteram_handle;
+        public static byte* spriteram;
+        public static int spriteramLength;
+        public static byte[] spriteram_set
+        {
+            set
+            {
+                spriteram_handle.ReleaseGCHandle();
+                spriteram_src = value;
+                spriteramLength = value.Length;
+                spriteram_src.GetObjectPtr(ref spriteram_handle, ref spriteram);
+            }
+        }
+        #endregion
+
+        #region //指针化spriteram16
+        static ushort[] spriteram16_src;
+        static GCHandle spriteram16_handle;
+        public static ushort* spriteram16;
+        public static int spriteram16Length;
+        public static ushort[] spriteram16_set
+        {
+            set
+            {
+                spriteram16_handle.ReleaseGCHandle();
+                spriteram16_src = value;
+                spriteram16Length = value.Length;
+                spriteram16_src.GetObjectPtr(ref spriteram16_handle, ref spriteram16);
+            }
+        }
+        #endregion
+
+        #region //指针化spriteram16_2
+        static ushort[] spriteram16_2_src;
+        static GCHandle spriteram16_2_handle;
+        public static ushort* spriteram16_2;
+        public static int spriteram16_2Length;
+        public static ushort[] spriteram16_2_set
+        {
+            set
+            {
+                spriteram16_2_handle.ReleaseGCHandle();
+                spriteram16_2_src = value;
+                spriteram16_2Length = value.Length;
+                spriteram16_2_src.GetObjectPtr(ref spriteram16_2_handle, ref spriteram16_2);
+            }
+        }
+        #endregion
+
+        #region //指针化paletteram
+        static byte[] paletteram_src;
+        static GCHandle paletteram_handle;
+        public static byte* paletteram;
+        public static int paletteramLength;
+        public static byte[] paletteram_set
+        {
+            set
+            {
+                paletteram_handle.ReleaseGCHandle();
+                paletteram_src = value;
+                paletteramLength = value.Length;
+                paletteram_src.GetObjectPtr(ref paletteram_handle, ref paletteram);
+            }
+        }
+        #endregion
+
+        #region //指针化paletteram_2
+        static byte[] paletteram_2_src;
+        static GCHandle paletteram_2_handle;
+        public static byte* paletteram_2;
+        public static int paletteram_2Length;
+        public static byte[] paletteram_2_set
+        {
+            set
+            {
+                paletteram_2_handle.ReleaseGCHandle();
+                paletteram_2_src = value;
+                paletteram_2Length = value.Length;
+                paletteram_2_src.GetObjectPtr(ref paletteram_2_handle, ref paletteram_2);
+            }
+        }
+        #endregion
+
+        #region //指针化paletteram16
+        static ushort[] paletteram16_src;
+        static GCHandle paletteram16_handle;
+        public static ushort* paletteram16;
+        public static int paletteram16Length;
+        public static ushort[] paletteram16_set
+        {
+            set
+            {
+                paletteram16_handle.ReleaseGCHandle();
+                paletteram16_src = value;
+                paletteram16Length = value.Length;
+                paletteram16_src.GetObjectPtr(ref paletteram16_handle, ref paletteram16);
+            }
+        }
+        #endregion
+
+
+        #region //指针化paletteram16_2
+        static ushort[] paletteram16_2_src;
+        static GCHandle paletteram16_2_handle;
+        public static ushort* paletteram16_2;
+        public static int paletteram16_2Length;
+        public static ushort[] paletteram16_2_set
+        {
+            set
+            {
+                paletteram16_2_handle.ReleaseGCHandle();
+                paletteram16_2_src = value;
+                paletteram16_2Length = value.Length;
+                paletteram16_2_src.GetObjectPtr(ref paletteram16_2_handle, ref paletteram16_2);
+            }
+        }
+        #endregion
+
+
         public static int[] interrupt_enable;
         public static int objcpunum;
         public static int flip_screen_x, flip_screen_y;
         public static void generic_machine_init()
         {
             int counternum;
-            coin_count = new uint[8];
-            coinlockedout = new uint[8];
-            lastcoin = new uint[8];
+            coin_count_set = new uint[8];
+            coinlockedout_set = new uint[8];
+            lastcoin_set = new uint[8];
             for (counternum = 0; counternum < 8; counternum++)
             {
                 lastcoin[counternum] = 0;
@@ -205,11 +465,11 @@ namespace MAME.Core
         }
         public static void buffer_spriteram_w()
         {
-            Array.Copy(spriteram, buffered_spriteram, spriteram.Length);
+            AxiArray.Copy(spriteram, buffered_spriteram, spriteramLength);
         }
         public static void buffer_spriteram16_w()
         {
-            Array.Copy(spriteram16, buffered_spriteram16, spriteram16.Length);
+            AxiArray.Copy(spriteram16, buffered_spriteram16, spriteram16Length);
         }
         public static ushort paletteram16_le(int offset)
         {

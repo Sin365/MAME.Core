@@ -62,8 +62,8 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x800));
-            Generic.videoram = reader.ReadBytes(0x800);
-            Generic.spriteram = reader.ReadBytes(0x200);
+            Generic.videoram_set = reader.ReadBytes(0x800);
+            Generic.spriteram_set = reader.ReadBytes(0x200);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             M6502.mm1[0].LoadStateBinary(reader);
             M6502.mm1[1].LoadStateBinary(reader);

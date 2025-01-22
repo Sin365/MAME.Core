@@ -57,12 +57,12 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x1000));
-            Generic.videoram = reader.ReadBytes(0x400);
+            Generic.videoram_set = reader.ReadBytes(0x400);
             pbaction_videoram2 = reader.ReadBytes(0x400);
-            Generic.colorram = reader.ReadBytes(0x400);
+            Generic.colorram_set = reader.ReadBytes(0x400);
             pbaction_colorram2 = reader.ReadBytes(0x400);
-            Generic.spriteram = reader.ReadBytes(0x80);
-            Generic.paletteram = reader.ReadBytes(0x200);
+            Generic.spriteram_set = reader.ReadBytes(0x80);
+            Generic.paletteram_set = reader.ReadBytes(0x200);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
             Z80A.zz1[1].LoadStateBinary(reader);

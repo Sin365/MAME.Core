@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <CodeSnippet Format="1.0.0">
+        <Header>
+            <Title>SafeCust</Title>
+            <Shortcut>safecust</Shortcut>
+            <Description>SafeCust for C#Array.</Description>
+            <Author>YourName</Author>
+        </Header>
+        <Snippet>       
+            <Declarations>
+                <Literal>
+                    <ID>PtrDataname</ID>
+                    <ToolTip>Name of the delegate</ToolTip>
+                    <Default>PtrDataname</Default>
+                </Literal>
+                <Literal>
+                    <ID>PtrDataType</ID>
+                    <ToolTip>Type</ToolTip>
+                    <Default>byte</Default>
+                </Literal>
+            </Declarations>
+            <Code Language="csharp">
+                <![CDATA[
+#region //指针化$PtrDataname$
+static $PtrDataType$[] $PtrDataname$_src;
+static GCHandle $PtrDataname$_handle;
+public static $PtrDataType$* $PtrDataname$;
+public static int $PtrDataname$Length;
+public static $PtrDataType$[] $PtrDataname$_set
+{
+    set
+    {
+        $PtrDataname$_handle.ReleaseGCHandle();
+        $PtrDataname$_src = value;
+		$PtrDataname$Length = value.Length;
+        $PtrDataname$_src.GetObjectPtr(ref $PtrDataname$_handle, ref $PtrDataname$);
+    }
+}
+#endregion
+                ]]>
+            </Code>
+            <Imports>
+                <Import>
+                    <Namespace>System</Namespace>
+                </Import>
+                <Import>
+                    <Namespace>System.Runtime.InteropServices</Namespace>
+                </Import>
+            </Imports>
+        </Snippet>
+    </CodeSnippet>
+</CodeSnippets>

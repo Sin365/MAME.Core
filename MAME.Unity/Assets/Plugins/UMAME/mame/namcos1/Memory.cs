@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Namcos1
+    public unsafe partial class Namcos1
     {
         public static byte byte0, byte1, byte2, byte00, byte01, byte02, byte03;
         public static byte byte0_old, byte1_old, byte2_old;

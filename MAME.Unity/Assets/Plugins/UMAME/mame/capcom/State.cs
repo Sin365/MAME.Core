@@ -63,10 +63,10 @@ namespace MAME.Core
             gng_bgvideoram = reader.ReadBytes(0x800);
             scrollx = reader.ReadBytes(2);
             scrolly = reader.ReadBytes(2);
-            Generic.paletteram = reader.ReadBytes(0x100);
-            Generic.paletteram_2 = reader.ReadBytes(0x100);
-            Generic.spriteram = reader.ReadBytes(0x200);
-            Generic.buffered_spriteram = reader.ReadBytes(0x200);
+            Generic.paletteram_set = reader.ReadBytes(0x100);
+            Generic.paletteram_2_set = reader.ReadBytes(0x100);
+            Generic.spriteram_set = reader.ReadBytes(0x200);
+            Generic.buffered_spriteram_set = reader.ReadBytes(0x200);
             for (i = 0; i < 0x100; i++)
             {
                 Palette.entry_color[i] = reader.ReadUInt32();

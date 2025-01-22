@@ -12,7 +12,7 @@ namespace MAME.Core
         public static void TaitobInit()
         {
             int i, n;
-            Generic.paletteram16 = new ushort[0x1000];
+            Generic.paletteram16_set = new ushort[0x1000];
             TC0180VCU_ram = new ushort[0x8000];
             TC0180VCU_ctrl = new ushort[0x10];
             TC0220IOC_regs = new byte[8];

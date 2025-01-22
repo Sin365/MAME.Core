@@ -1,13 +1,32 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class M72
+    public unsafe partial class M72
     {
         public static byte[] m72_videoram1, m72_videoram2;
         public static ushort[] majtitle_rowscrollram;
         public static int m72_raster_irq_position;
-        public static ushort[] m72_spriteram;
+        //public static ushort[] m72_spriteram;
+
+        #region //指针化m72_spriteram
+        static ushort[] m72_spriteram_src;
+        static GCHandle m72_spriteram_handle;
+        public static ushort* m72_spriteram;
+        public static int m72_spriteramLength;
+        public static ushort[] m72_spriteram_set
+        {
+            set
+            {
+                m72_spriteram_handle.ReleaseGCHandle();
+                m72_spriteram_src = value;
+                m72_spriteramLength = value.Length;
+                m72_spriteram_src.GetObjectPtr(ref m72_spriteram_handle, ref m72_spriteram);
+            }
+        }
+        #endregion
+
         private static ushort[] uuB200;
         public static int scrollx1, scrolly1, scrollx2, scrolly2;
         public static int video_off, spriteram_size, majtitle_rowscroll;
@@ -96,7 +115,7 @@ namespace MAME.Core
         public static void m72_dmaon_w(ushort data)
         {
             //if (ACCESSING_BITS_0_7)
-            Array.Copy(Generic.spriteram16, m72_spriteram, spriteram_size / 2);
+            AxiArray.Copy(Generic.spriteram16, m72_spriteram, spriteram_size / 2);
         }
         public static void m72_port02_w(ushort data)
         {
@@ -200,7 +219,7 @@ namespace MAME.Core
             {
                 uuB200[i] = 0x200;
             }
-            m72_spriteram = new ushort[0x200];
+            m72_spriteram_set = new ushort[0x200];
             m72_videoram1 = new byte[0x4000];
             m72_videoram2 = new byte[0x4000];
             fg_tilemap.tilemap_set_scrolldx(0, 0);

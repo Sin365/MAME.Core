@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class IGS011
+    public unsafe partial class IGS011
     {
         public static ushort[] priority_ram, paletteram16;
         public static byte prot1, prot2, prot1_swap;
@@ -14,7 +14,7 @@
         public static void IGS011Init()
         {
             Machine.bRom = true;
-            Generic.generic_nvram = new byte[0x4000];
+            Generic.generic_nvram_set = new byte[0x4000];
             priority_ram = new ushort[0x800];
             paletteram16 = new ushort[0x1000];
             igs003_reg = new ushort[2];

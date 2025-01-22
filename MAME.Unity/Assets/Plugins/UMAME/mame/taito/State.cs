@@ -65,7 +65,7 @@ namespace MAME.Core
             basebankmain = reader.ReadInt32();
             videoram = reader.ReadBytes(0x1d00);
             bublbobl_objectram = reader.ReadBytes(0x300);
-            Generic.paletteram = reader.ReadBytes(0x200);
+            Generic.paletteram_set = reader.ReadBytes(0x200);
             bublbobl_video_enable = reader.ReadInt32();
             tokio_prot_count = reader.ReadInt32();
             sound_nmi_enable = reader.ReadInt32();
@@ -178,7 +178,7 @@ namespace MAME.Core
             basebankmain = reader.ReadInt32();
             videoram = reader.ReadBytes(0x1d00);
             bublbobl_objectram = reader.ReadBytes(0x300);
-            Generic.paletteram = reader.ReadBytes(0x200);
+            Generic.paletteram_set = reader.ReadBytes(0x200);
             bublbobl_mcu_sharedram = reader.ReadBytes(0x400);
             bublbobl_video_enable = reader.ReadInt32();
             ddr1 = reader.ReadByte();
@@ -296,7 +296,7 @@ namespace MAME.Core
             basebankmain = reader.ReadInt32();
             videoram = reader.ReadBytes(0x1d00);
             bublbobl_objectram = reader.ReadBytes(0x300);
-            Generic.paletteram = reader.ReadBytes(0x200);
+            Generic.paletteram_set = reader.ReadBytes(0x200);
             bublbobl_video_enable = reader.ReadInt32();
             ic43_a = reader.ReadInt32();
             ic43_b = reader.ReadInt32();
@@ -407,7 +407,7 @@ namespace MAME.Core
             basebankmain = reader.ReadInt32();
             videoram = reader.ReadBytes(0x1d00);
             bublbobl_objectram = reader.ReadBytes(0x300);
-            Generic.paletteram = reader.ReadBytes(0x200);
+            Generic.paletteram_set = reader.ReadBytes(0x200);
             bublbobl_mcu_sharedram = reader.ReadBytes(0x400);
             bublbobl_video_enable = reader.ReadInt32();
             portA_in = reader.ReadByte();

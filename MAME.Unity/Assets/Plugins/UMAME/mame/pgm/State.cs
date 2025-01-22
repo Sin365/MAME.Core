@@ -4,7 +4,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class PGM
+    public unsafe partial class PGM
     {
         public unsafe static void SaveStateBinary(BinaryWriter writer)
         {

@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class SunA8
+    public unsafe partial class SunA8
     {
         public static RECT cliprect;
         public static ushort[] uuFF;
@@ -61,9 +61,9 @@ namespace MAME.Core
             m_palettebank = 0;
             if (m_has_text == 0)
             {
-                Generic.paletteram = new byte[0x200 * 2];
-                Generic.spriteram = new byte[0x2000 * 2 * 2];
-                Array.Clear(Generic.spriteram, 0, 0x2000 * 2 * 2);
+                Generic.paletteram_set = new byte[0x200 * 2];
+                Generic.spriteram_set = new byte[0x2000 * 2 * 2];
+                AxiArray.Clear(Generic.spriteram, 0, 0x2000 * 2 * 2);
             }
         }
         public static void video_start_suna8_text()

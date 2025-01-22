@@ -28,8 +28,8 @@ namespace MAME.Core
                 case "makaimurc":
                 case "makaimurg":
                 case "diamond":
-                    Generic.spriteram = new byte[0x200];
-                    Generic.buffered_spriteram = new byte[0x200];
+                    Generic.spriteram_set = new byte[0x200];
+                    Generic.buffered_spriteram_set = new byte[0x200];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
@@ -59,8 +59,8 @@ namespace MAME.Core
                     }
                     Memory.Set_mainram(new byte[0x1e00]);
                     Memory.Set_audioram(new byte[0x800]);
-                    Generic.paletteram = new byte[0x100];
-                    Generic.paletteram_2 = new byte[0x100];
+                    Generic.paletteram_set = new byte[0x100];
+                    Generic.paletteram_2_set = new byte[0x100];
                     if (Memory.mainrom_IsNull|| Memory.audiorom_IsNull || gfx12rom == null || gfx22rom == null || gfx32rom == null)
                     {
                         Machine.bRom = false;
@@ -74,7 +74,7 @@ namespace MAME.Core
                 case "sfp":
                     sf_objectram = new ushort[0x1000];
                     sf_videoram = new ushort[0x800];
-                    Generic.paletteram16 = new ushort[0x400];
+                    Generic.paletteram16_set = new ushort[0x400];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));

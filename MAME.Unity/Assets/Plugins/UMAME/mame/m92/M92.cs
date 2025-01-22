@@ -225,9 +225,9 @@ namespace MAME.Core
             {
                 pf_layer[i1].control = new ushort[4];
             }
-            Generic.paletteram16 = new ushort[0x800];
-            Generic.spriteram16 = new ushort[0x400];
-            Generic.buffered_spriteram16 = new ushort[0x400];
+            Generic.paletteram16_set = new ushort[0x800];
+            Generic.spriteram16_set = new ushort[0x400];
+            Generic.buffered_spriteram16_set = new ushort[0x400];
             m92_vram_data = new ushort[0x8000];
             m92_spritecontrol = new ushort[8];
             bb1 = Machine.GetRom("maincpu.rom");

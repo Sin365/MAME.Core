@@ -41,7 +41,7 @@ namespace MAME.Core
             bank_ram20 = new byte[0x2000];
             bank_ram30 = new byte[0x80];
             Namco.namco_wavedata = new byte[0x400];
-            Generic.generic_nvram = new byte[0x800];
+            Generic.generic_nvram_set = new byte[0x800];
             cus117_offset = new int[2, 8];
             key = new byte[8];
             if (audiorom == null || gfx1rom == null || gfx2rom == null || gfx3rom == null || user1rom == null || voicerom == null)

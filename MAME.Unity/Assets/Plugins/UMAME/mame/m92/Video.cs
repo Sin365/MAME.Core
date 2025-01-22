@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class M92
+    public unsafe partial class M92
     {
         public static ushort[] pf_master_control;
         public static int m92_sprite_list;

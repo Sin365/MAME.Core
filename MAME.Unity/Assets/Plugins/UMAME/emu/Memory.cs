@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -437,20 +438,129 @@ namespace MAME.Core
 
     }
 
-    public unsafe static class MemoryEx
+    public unsafe static class AxiMemoryEx
     {
-        // 创建一个临时数组来存储从指针指向的数据中复制的内容
-        static byte[] tempBuffer = new byte[0x20000];
+        static HashSet<GCHandle> GCHandles = new HashSet<GCHandle>();
+
+        public static void Init()
+        {
+            FreeAllGCHandle();
+            set_TempBuffer = new byte[0x20000];
+        }
+
+        public static void GetObjectPtr(this object srcObj, ref GCHandle handle, ref uint* ptr)
+        {
+            GetObjectPtr(srcObj, ref handle, out IntPtr intptr);
+            ptr = (uint*)intptr;
+        }
+        public static void GetObjectPtr(this object srcObj, ref GCHandle handle, ref ushort* ptr)
+        {
+            GetObjectPtr(srcObj, ref handle, out IntPtr intptr);
+            ptr = (ushort*)intptr;
+        }
+        public static void GetObjectPtr(this object srcObj, ref GCHandle handle, ref int* ptr)
+        {
+            GetObjectPtr(srcObj, ref handle, out IntPtr intptr);
+            ptr = (int*)intptr;
+        }
+        public static void GetObjectPtr(this object srcObj, ref GCHandle handle, ref byte* ptr)
+        {
+            GetObjectPtr(srcObj, ref handle, out IntPtr intptr);
+            ptr = (byte*)intptr;
+        }
+
+        static void GetObjectPtr(this object srcObj, ref GCHandle handle, out IntPtr intptr)
+        {
+            ReleaseGCHandle(ref handle);
+            handle = GCHandle.Alloc(srcObj, GCHandleType.Pinned);
+            GCHandles.Add(handle);
+            intptr = handle.AddrOfPinnedObject();
+        }
+
+        public static void ReleaseGCHandle(this ref GCHandle handle)
+        {
+            if (handle.IsAllocated)
+                handle.Free();
+            GCHandles.Remove(handle);
+        }
+
+        public static void FreeAllGCHandle()
+        {
+            foreach (var handle in GCHandles)
+            {
+                if (handle.IsAllocated)
+                    handle.Free();
+            }
+            GCHandles.Clear();
+        }
+
+        #region 指针化 TempBuffer
+        static byte[] TempBuffer_src;
+        static GCHandle TempBuffer_handle;
+        public static byte* TempBuffer;
+        public static byte[] set_TempBuffer
+        {
+            set
+            {
+                TempBuffer_handle.ReleaseGCHandle();
+                TempBuffer_src = value;
+                TempBuffer_src.GetObjectPtr(ref TempBuffer_handle, ref TempBuffer);
+            }
+        }
+        #endregion
+
         public static void Write(this BinaryWriter bw, byte* buffer, int index, int count)
         {
-            fixed (byte* pTempBuffer = tempBuffer)
-            {
-                // 使用指针复制数据到临时数组
-                Buffer.MemoryCopy(buffer + index, pTempBuffer, count, count);
-            }
-
+            // 使用指针复制数据到临时数组
+            Buffer.MemoryCopy(buffer + index, TempBuffer, count, count);
             // 使用BinaryWriter写入临时数组
-            bw.Write(tempBuffer, 0, count);
+            bw.Write(TempBuffer, 0, count);
+        }
+
+    }
+
+    public unsafe static class AxiArray
+    {
+
+        public static void Copy(byte* src, int srcindex, byte* target, int targetindex, int count)
+        {
+            Buffer.MemoryCopy(&src[srcindex], target, targetindex, count);
+        }
+
+        public static void Copy(byte* src, byte* target, int index, int count)
+        {
+            Buffer.MemoryCopy(src, target, index, count);
+        }
+
+        public static void Copy(ushort* src, ushort* target, int index, int count)
+        {
+            long destinationStartIndexInBytes = index * sizeof(ushort);
+            long totalBytesToCopy = count * sizeof(ushort);
+            Buffer.MemoryCopy(src, target, destinationStartIndexInBytes, totalBytesToCopy);
+        }
+        public static void Copy(ushort* src, ushort* target, int count)
+        {
+            long totalBytesToCopy = count * sizeof(ushort);
+            Buffer.MemoryCopy(src, target, 0, totalBytesToCopy);
+        }
+        public static void Copy(byte* src, byte* target, int count)
+        {
+            Buffer.MemoryCopy(src, target, 0, count);
+        }
+        public static void Clear(byte* data, int index, int lenght)
+        {
+            for (int i = index; i < lenght; i++, index++)
+            {
+                data[index] = 0;
+            }
+        }
+        public static void Clear(ushort* data, int index, int lenght)
+        {
+            for (int i = index; i < lenght; i++, index++)
+            {
+                data[index] = 0;
+            }
         }
     }
+
 }

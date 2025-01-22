@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Dataeast
+    public unsafe partial class Dataeast
     {
         public static void palette_init_pcktgal(byte[] color_prom)
         {

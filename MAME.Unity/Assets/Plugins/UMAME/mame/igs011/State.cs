@@ -3,7 +3,7 @@ using System.IO;
 
 namespace MAME.Core
 {
-    public partial class IGS011
+    public unsafe partial class IGS011
     {
         public static void SaveStateBinary(BinaryWriter writer)
         {
@@ -81,7 +81,7 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            Generic.generic_nvram = reader.ReadBytes(0x4000);
+            Generic.generic_nvram_set = reader.ReadBytes(0x4000);
             for (i = 0; i < 0x800; i++)
             {
                 priority_ram[i] = reader.ReadUInt16();

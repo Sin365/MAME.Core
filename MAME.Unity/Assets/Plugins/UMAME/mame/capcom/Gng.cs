@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Capcom
+    public unsafe partial class Capcom
     {
         public static byte[] gng_fgvideoram, gng_bgvideoram;
         public static byte[] scrollx, scrolly;

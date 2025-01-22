@@ -11,8 +11,8 @@
             Machine.bRom = true;
             Memory.Set_mainram(new byte[0x800]);
             Memory.Set_audioram(new byte[0x800]);
-            Generic.spriteram = new byte[0x200];
-            Generic.videoram = new byte[0x800];
+            Generic.spriteram_set = new byte[0x200];
+            Generic.videoram_set = new byte[0x800];
             switch (Machine.sName)
             {
                 case "pcktgal":

@@ -45,6 +45,7 @@ namespace MAME.Core
             ITimeSpan itime
             )
         {
+            AxiMemoryEx.Init();
             Mame.RomRoot = RomDir;
             EmuLogger.BindFunc(ilog);
             Video.BindFunc(ivp);

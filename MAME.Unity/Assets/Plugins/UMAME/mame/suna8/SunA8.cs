@@ -23,7 +23,7 @@ namespace MAME.Core
             switch (Machine.sName)
             {
                 case "starfigh":
-                    Generic.spriteram = new byte[0x4000];
+                    Generic.spriteram_set = new byte[0x4000];
                     mainromop = Machine.GetRom("maincpuop.rom");
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
@@ -38,7 +38,7 @@ namespace MAME.Core
                     }
                     Memory.Set_mainram(new byte[0x1800]);
                     Memory.Set_audioram(new byte[0x800]);
-                    Generic.paletteram = new byte[0x200];
+                    Generic.paletteram_set = new byte[0x200];
                     if (mainromop == null || Memory.mainrom_IsNull || Memory.audiorom_IsNull || samplesrom == null || gfx12rom == null)
                     {
                         Machine.bRom = false;

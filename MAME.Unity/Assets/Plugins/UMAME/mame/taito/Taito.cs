@@ -20,7 +20,7 @@ namespace MAME.Core
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
                     Memory.Set_audioram(new byte[0x1000]);
-                    Generic.paletteram = new byte[0x200];
+                    Generic.paletteram_set = new byte[0x200];
                     //bublbobl_mcu_sharedram = new byte[0x400];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
@@ -59,7 +59,7 @@ namespace MAME.Core
                     Memory.Set_mainram(new byte[0x1800]);
                     Memory.Set_audioram(new byte[0x1000]);
                     mcuram = new byte[0xc0];
-                    Generic.paletteram = new byte[0x200];
+                    Generic.paletteram_set = new byte[0x200];
                     bublbobl_mcu_sharedram = new byte[0x400];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
@@ -100,7 +100,7 @@ namespace MAME.Core
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
                     Memory.Set_audioram(new byte[0x1000]);
-                    Generic.paletteram = new byte[0x200];
+                    Generic.paletteram_set = new byte[0x200];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
@@ -133,7 +133,7 @@ namespace MAME.Core
                     bublbobl_objectram = new byte[0x300];
                     Memory.Set_mainram(new byte[0x1800]);
                     Memory.Set_audioram(new byte[0x1000]);
-                    Generic.paletteram = new byte[0x200];
+                    Generic.paletteram_set = new byte[0x200];
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     slaverom = Machine.GetRom("slave.rom");
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
@@ -165,7 +165,7 @@ namespace MAME.Core
                     {
                         mainram2 = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
-                        Generic.paletteram16 = new ushort[0x800];
+                        Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
@@ -209,7 +209,7 @@ namespace MAME.Core
                     {
                         mainram2 = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
-                        Generic.paletteram16 = new ushort[0x800];
+                        Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
@@ -254,7 +254,7 @@ namespace MAME.Core
                     {
                         mainram2 = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
-                        Generic.paletteram16 = new ushort[0x800];
+                        Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
