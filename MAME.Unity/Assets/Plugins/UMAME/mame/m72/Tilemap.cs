@@ -20,8 +20,8 @@ namespace MAME.Core
             bg_tilemap.pixmap = new ushort[0x200 * 0x200];
             bg_tilemap.flagsmap = new byte[0x200, 0x200];
             bg_tilemap.tileflags = new byte[0x40, 0x40];
-            bg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
-            bg_tilemap.pen_data = new byte[0x40];
+            bg_tilemap.total_elements = M72.gfx21romLength / 0x40;
+            bg_tilemap.pen_data_set = new byte[0x40];
             bg_tilemap.pen_to_flags = new byte[3, 16];
             for (i = 0; i < 16; i++)
             {
@@ -57,8 +57,8 @@ namespace MAME.Core
             fg_tilemap.pixmap = new ushort[0x200 * 0x200];
             fg_tilemap.flagsmap = new byte[0x200, 0x200];
             fg_tilemap.tileflags = new byte[0x40, 0x40];
-            fg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
-            fg_tilemap.pen_data = new byte[0x400];
+            fg_tilemap.total_elements = M72.gfx21romLength / 0x40;
+            fg_tilemap.pen_data_set = new byte[0x400];
             fg_tilemap.pen_to_flags = new byte[3, 32];
             fg_tilemap.pen_to_flags[0, 0] = 0;
             for (i = 1; i < 16; i++)
@@ -114,8 +114,8 @@ namespace MAME.Core
             bg_tilemap.pixmap = new ushort[0x200 * 0x200];
             bg_tilemap.flagsmap = new byte[0x200, 0x200];
             bg_tilemap.tileflags = new byte[0x40, 0x40];
-            bg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
-            bg_tilemap.pen_data = new byte[0x40];
+            bg_tilemap.total_elements = M72.gfx21romLength / 0x40;
+            bg_tilemap.pen_data_set = new byte[0x40];
             bg_tilemap.pen_to_flags = new byte[3, 16];
             for (i = 0; i < 16; i++)
             {
@@ -151,8 +151,8 @@ namespace MAME.Core
             fg_tilemap.pixmap = new ushort[0x200 * 0x200];
             fg_tilemap.flagsmap = new byte[0x200, 0x200];
             fg_tilemap.tileflags = new byte[0x40, 0x40];
-            fg_tilemap.total_elements = M72.gfx21rom.Length / 0x40;
-            fg_tilemap.pen_data = new byte[0x400];
+            fg_tilemap.total_elements = M72.gfx21romLength / 0x40;
+            fg_tilemap.pen_data_set = new byte[0x400];
             fg_tilemap.pen_to_flags = new byte[3, 32];
             fg_tilemap.pen_to_flags[0, 0] = 0;
             for (i = 1; i < 16; i++)
@@ -190,8 +190,8 @@ namespace MAME.Core
             bg_tilemap_large.pixmap = new ushort[0x400 * 0x200];
             bg_tilemap_large.flagsmap = new byte[0x200, 0x400];
             bg_tilemap_large.tileflags = new byte[0x40, 0x80];
-            bg_tilemap_large.total_elements = M72.gfx21rom.Length / 0x40;
-            bg_tilemap_large.pen_data = new byte[0x40];
+            bg_tilemap_large.total_elements = M72.gfx21romLength / 0x40;
+            bg_tilemap_large.pen_data_set = new byte[0x40];
             bg_tilemap_large.pen_to_flags = new byte[3, 16];
             for (i = 0; i < 16; i++)
             {
@@ -372,7 +372,7 @@ namespace MAME.Core
             pen_data_offset = code1 * 0x40;
             tileflags[row, col] = tile_drawM72(M72.gfx21rom, pen_data_offset, x0, y0, 0x100 + 0x10 * (color & 0x0f), pri, (((color & 0x60) >> 5) & 3) ^ (attributes & 0x03));
         }
-        public byte tile_drawM72(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawM72(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             int height = tileheight;
             int width = tilewidth;
@@ -383,7 +383,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += height - 1;

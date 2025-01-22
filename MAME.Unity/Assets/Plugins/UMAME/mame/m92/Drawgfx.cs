@@ -1,8 +1,8 @@
 ﻿namespace MAME.Core
 {
-    public partial class Drawgfx
+    public unsafe partial class Drawgfx
     {
-        public static void common_drawgfx_m92(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint primask)
+        public static void common_drawgfx_m92(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint primask)
         {
             int ox;
             int oy;
@@ -61,7 +61,7 @@
             int colorbase = 0x10 * color;
             blockmove_8toN_transpen_pri16_m92(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx, primask);
         }
-        public unsafe static void blockmove_8toN_transpen_pri16_m92(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int sy, int sx, uint primask)
+        public unsafe static void blockmove_8toN_transpen_pri16_m92(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int sy, int sx, uint primask)
         {
             int ydir, xdir, col, i, j;
             int offsetx = sx, offsety = sy;

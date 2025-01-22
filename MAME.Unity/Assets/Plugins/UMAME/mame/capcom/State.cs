@@ -59,10 +59,10 @@ namespace MAME.Core
             bytedsw1 = reader.ReadByte();
             bytedsw2 = reader.ReadByte();
             basebankmain = reader.ReadInt32();
-            gng_fgvideoram = reader.ReadBytes(0x800);
-            gng_bgvideoram = reader.ReadBytes(0x800);
-            scrollx = reader.ReadBytes(2);
-            scrolly = reader.ReadBytes(2);
+            gng_fgvideoram_set = reader.ReadBytes(0x800);
+            gng_bgvideoram_set = reader.ReadBytes(0x800);
+            scrollx_set = reader.ReadBytes(2);
+            scrolly_set = reader.ReadBytes(2);
             Generic.paletteram_set = reader.ReadBytes(0x100);
             Generic.paletteram_2_set = reader.ReadBytes(0x100);
             Generic.spriteram_set = reader.ReadBytes(0x200);

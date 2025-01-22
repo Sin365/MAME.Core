@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
@@ -16,7 +17,7 @@ namespace MAME.Core
         public int max_x;
         public int max_y;
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public int laynum;
         public int rows;
@@ -43,11 +44,30 @@ namespace MAME.Core
         public byte[,] flagsmap;
         public byte[,] tileflags;
         public byte[,] pen_to_flags;
-        public byte[] pen_data;
+        //public byte[] pen_data;
         public int mask, value;
         public int total_elements;
         public Action<int, int> tile_update3;
         public Action<RECT, int, int> tilemap_draw_instance3;
+
+        #region //指针化 pen_data
+        byte[] pen_data_src;
+        GCHandle pen_data_handle;
+        public byte* pen_data;
+        public int pen_dataLength;
+        public bool pen_data_IsNull => pen_data == null;
+        public byte[] pen_data_set
+        {
+            set
+            {
+                pen_data_handle.ReleaseGCHandle();
+                pen_data_src = value;
+                pen_dataLength = value.Length;
+                pen_data_src.GetObjectPtr(ref pen_data_handle, ref pen_data);
+            }
+        }
+        #endregion
+
         public int effective_rowscroll(int index)
         {
             int value;
@@ -263,12 +283,12 @@ namespace MAME.Core
             all_tiles_dirty = true;
         }
     }
-    public class Tilemap
+    public unsafe class Tilemap
     {
         public static List<Tmap> lsTmap = new List<Tmap>();
         public static byte[,] priority_bitmap;
         public static byte[,] bb00, bbFF;
-        public static byte[] bb0F;
+        //public static byte[] bb0F;
         public static int screen_width, screen_height;
         private static int INVALID_LOGICAL_INDEX = -1;
         public static byte TILEMAP_PIXEL_TRANSPARENT = 0x00;
@@ -278,7 +298,26 @@ namespace MAME.Core
         public static byte TILE_FLIPX = 0x01;		/* draw this tile horizontally flipped */
         public static byte TILE_FLIPY = 0x02;		/* draw this tile vertically flipped */
         public static byte TILEMAP_FLIPX = TILE_FLIPX;	/* draw the tilemap horizontally flipped */
-        public static byte TILEMAP_FLIPY = TILE_FLIPY;	/* draw the tilemap vertically flipped */
+        public static byte TILEMAP_FLIPY = TILE_FLIPY;  /* draw the tilemap vertically flipped */
+
+        #region //指针化 bb0F
+        static byte[] bb0F_src;
+        static GCHandle bb0F_handle;
+        public static byte* bb0F;
+        public static int bb0FLength;
+        public static bool bb0F_IsNull => bb0F == null;
+        public static byte[] bb0F_set
+        {
+            set
+            {
+                bb0F_handle.ReleaseGCHandle();
+                bb0F_src = value;
+                bb0FLength = value.Length;
+                bb0F_src.GetObjectPtr(ref bb0F_handle, ref bb0F);
+            }
+        }
+        #endregion
+
         public static void tilemap_init()
         {
             int i, j;
@@ -364,7 +403,7 @@ namespace MAME.Core
                 case "Taito":
                 case "Taito B":
                 case "Konami 68000":
-                    bb0F = new byte[0x400];
+                    bb0F_set = new byte[0x400];
                     bbFF = new byte[0x80, 0x40];
                     for (i = 0; i < 0x80; i++)
                     {

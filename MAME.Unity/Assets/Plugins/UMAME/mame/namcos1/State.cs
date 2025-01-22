@@ -81,8 +81,8 @@ namespace MAME.Core
             {
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
-            bank_ram20 = reader.ReadBytes(0x2000);
-            bank_ram30 = reader.ReadBytes(0x80);
+            bank_ram20_set = reader.ReadBytes(0x2000);
+            bank_ram30_set = reader.ReadBytes(0x80);
             namcos1_videoram = reader.ReadBytes(0x8000);
             namcos1_cus116 = reader.ReadBytes(0x10);
             namcos1_spriteram = reader.ReadBytes(0x1000);

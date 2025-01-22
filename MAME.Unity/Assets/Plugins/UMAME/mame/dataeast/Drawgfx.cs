@@ -2,7 +2,7 @@
 {
     public unsafe partial class Drawgfx
     {
-        public static void common_drawgfx_pcktgal(byte[] bb1, int gfxwidth, int gfxheight, int gfxsrcmodulo, int gfxtotal_elements, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
+        public static void common_drawgfx_pcktgal(byte* bb1, int gfxwidth, int gfxheight, int gfxsrcmodulo, int gfxtotal_elements, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {
             int ox;
             int oy;
@@ -63,7 +63,7 @@
             int colorbase = 4 * color;
             blockmove_8toN_transpen16_pcktgal(bb1, code, sw, sh, sm, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx);
         }
-        public static void blockmove_8toN_transpen16_pcktgal(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
+        public static void blockmove_8toN_transpen16_pcktgal(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * srcwidth * srcheight;

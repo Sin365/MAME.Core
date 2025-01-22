@@ -1,24 +1,139 @@
-﻿namespace MAME.Core
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace MAME.Core
 {
     public unsafe partial class IGS011
     {
-        public static ushort[] priority_ram, paletteram16;
+        //public static ushort[] priority_ram, paletteram16;
         public static byte prot1, prot2, prot1_swap;
         public static uint prot1_addr;
-        public static ushort[] igs003_reg, vbowl_trackball;
+        //public static ushort[] igs003_reg, vbowl_trackball;
         public static ushort priority, igs_dips_sel, igs_input_sel, lhb_irq_enable;
         public static byte igs012_prot, igs012_prot_swap;
         private static bool igs012_prot_mode;
-        public static byte[] gfx1rom, gfx2rom;
+        //public static byte[] /*gfx1rom,*/ /*gfx2rom*/;
         public static byte dsw1, dsw2, dsw3, dsw4, dsw5;
+
+        #region //指针化 priority_ram
+        static ushort[] priority_ram_src;
+        static GCHandle priority_ram_handle;
+        public static ushort* priority_ram;
+        public static int priority_ramLength;
+        public static bool priority_ram_IsNull => priority_ram == null;
+        public static ushort[] priority_ram_set
+        {
+            set
+            {
+                priority_ram_handle.ReleaseGCHandle();
+                priority_ram_src = value;
+                priority_ramLength = value.Length;
+                priority_ram_src.GetObjectPtr(ref priority_ram_handle, ref priority_ram);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 paletteram16
+        static ushort[] paletteram16_src;
+        static GCHandle paletteram16_handle;
+        public static ushort* paletteram16;
+        public static int paletteram16Length;
+        public static bool paletteram16_IsNull => paletteram16 == null;
+        public static ushort[] paletteram16_set
+        {
+            set
+            {
+                paletteram16_handle.ReleaseGCHandle();
+                paletteram16_src = value;
+                paletteram16Length = value.Length;
+                paletteram16_src.GetObjectPtr(ref paletteram16_handle, ref paletteram16);
+            }
+        }
+        #endregion
+
+        #region //指针化 igs003_reg
+        static ushort[] igs003_reg_src;
+        static GCHandle igs003_reg_handle;
+        public static ushort* igs003_reg;
+        public static int igs003_regLength;
+        public static bool igs003_reg_IsNull => igs003_reg == null;
+        public static ushort[] igs003_reg_set
+        {
+            set
+            {
+                igs003_reg_handle.ReleaseGCHandle();
+                igs003_reg_src = value;
+                igs003_regLength = value.Length;
+                igs003_reg_src.GetObjectPtr(ref igs003_reg_handle, ref igs003_reg);
+            }
+        }
+        #endregion
+
+        #region //指针化 vbowl_trackball
+        static ushort[] vbowl_trackball_src;
+        static GCHandle vbowl_trackball_handle;
+        public static ushort* vbowl_trackball;
+        public static int vbowl_trackballLength;
+        public static bool vbowl_trackball_IsNull => vbowl_trackball == null;
+        public static ushort[] vbowl_trackball_set
+        {
+            set
+            {
+                vbowl_trackball_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                vbowl_trackball_src = value;
+                vbowl_trackballLength = value.Length;
+                vbowl_trackball_src.GetObjectPtr(ref vbowl_trackball_handle, ref vbowl_trackball);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx2rom
+        static byte[] gfx2rom_src;
+        static GCHandle gfx2rom_handle;
+        public static byte* gfx2rom;
+        public static int gfx2romLength;
+        public static bool gfx2rom_IsNull => gfx2rom == null;
+        public static byte[] gfx2rom_set
+        {
+            set
+            {
+                gfx2rom_handle.ReleaseGCHandle();
+                gfx2rom_src = value;
+                gfx2romLength = value.Length;
+                gfx2rom_src.GetObjectPtr(ref gfx2rom_handle, ref gfx2rom);
+            }
+        }
+        #endregion
+
         public static void IGS011Init()
         {
             Machine.bRom = true;
             Generic.generic_nvram_set = new byte[0x4000];
-            priority_ram = new ushort[0x800];
-            paletteram16 = new ushort[0x1000];
-            igs003_reg = new ushort[2];
-            vbowl_trackball = new ushort[2];
+            priority_ram_set = new ushort[0x800];
+            paletteram16_set = new ushort[0x1000];
+            igs003_reg_set = new ushort[2];
+            vbowl_trackball_set = new ushort[2];
             switch (Machine.sName)
             {
                 case "drgnwrld":
@@ -30,7 +145,7 @@
                 case "drgnwrldv11h":
                 case "drgnwrldv40k":
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
-                    gfx1rom = Machine.GetRom("gfx1.rom");
+                    gfx1rom_set = Machine.GetRom("gfx1.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
                     dsw1 = 0xff;
                     dsw2 = 0xff;
@@ -45,7 +160,7 @@
                 case "dbc":
                 case "ryukobou":
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
-                    gfx1rom = Machine.GetRom("gfx1.rom");
+                    gfx1rom_set = Machine.GetRom("gfx1.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
                     dsw1 = 0xf7;
                     dsw2 = 0xff;
@@ -59,8 +174,8 @@
                     break;
                 case "lhb2":
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
-                    gfx1rom = Machine.GetRom("gfx1.rom");
-                    gfx2rom = Machine.GetRom("gfx2.rom");
+                    gfx1rom_set = Machine.GetRom("gfx1.rom");
+                    gfx2rom_set = Machine.GetRom("gfx2.rom");
 
                     break;
             }

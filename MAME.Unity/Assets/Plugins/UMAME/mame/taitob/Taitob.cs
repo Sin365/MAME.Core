@@ -1,10 +1,104 @@
-﻿using static MAME.Core.EmuTimer;
+﻿using System;
+using System.Runtime.InteropServices;
+using static MAME.Core.EmuTimer;
 
 namespace MAME.Core
 {
-    public partial class Taitob
+    public unsafe partial class Taitob
     {
-        public static byte[] gfxrom, gfx0rom, gfx1rom, mainram2, mainram3;
+        //public static byte[] /*gfxrom,*/ /*gfx0rom,*/ /*gfx1rom,*/ mainram2, mainram3;
+
+        #region //指针化 gfxrom
+        static byte[] gfxrom_src;
+        static GCHandle gfxrom_handle;
+        public static byte* gfxrom;
+        public static int gfxromLength;
+        public static bool gfxrom_IsNull => gfxrom == null;
+        public static byte[] gfxrom_set
+        {
+            set
+            {
+                gfxrom_handle.ReleaseGCHandle();
+                gfxrom_src = value;
+                gfxromLength = value.Length;
+                gfxrom_src.GetObjectPtr(ref gfxrom_handle, ref gfxrom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx0rom
+        static byte[] gfx0rom_src;
+        static GCHandle gfx0rom_handle;
+        public static byte* gfx0rom;
+        public static int gfx0romLength;
+        public static bool gfx0rom_IsNull => gfx0rom == null;
+        public static byte[] gfx0rom_set
+        {
+            set
+            {
+                gfx0rom_handle.ReleaseGCHandle();
+                gfx0rom_src = value;
+                gfx0romLength = value.Length;
+                gfx0rom_src.GetObjectPtr(ref gfx0rom_handle, ref gfx0rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 mainram2
+        static byte[] mainram2_src;
+        static GCHandle mainram2_handle;
+        public static byte* mainram2;
+        public static int mainram2Length;
+        public static bool mainram2_IsNull => mainram2 == null;
+        public static byte[] mainram2_set
+        {
+            set
+            {
+                mainram2_handle.ReleaseGCHandle();
+                mainram2_src = value;
+                mainram2Length = value.Length;
+                mainram2_src.GetObjectPtr(ref mainram2_handle, ref mainram2);
+            }
+        }
+        #endregion
+
+        #region //指针化 mainram3
+        static byte[] mainram3_src;
+        static GCHandle mainram3_handle;
+        public static byte* mainram3;
+        public static int mainram3Length;
+        public static bool mainram3_IsNull => mainram3 == null;
+        public static byte[] mainram3_set
+        {
+            set
+            {
+                mainram3_handle.ReleaseGCHandle();
+                mainram3_src = value;
+                mainram3Length = value.Length;
+                mainram3_src.GetObjectPtr(ref mainram3_handle, ref mainram3);
+            }
+        }
+        #endregion
+
+
         public static ushort eep_latch;
         public static ushort coin_word;
         public static int basebanksnd;
@@ -20,8 +114,8 @@ namespace MAME.Core
             TC0640FIO_regs = new byte[8];
             taitob_scroll = new ushort[0x400];
             Memory.Set_mainram(new byte[0x10000]);
-            mainram2 = new byte[0x1e80];
-            mainram3 = new byte[0x2000];
+            mainram2_set = new byte[0x1e80];
+            mainram3_set = new byte[0x2000];
             Memory.Set_audioram(new byte[0x2000]);
             bg_rambank = new ushort[2];
             fg_rambank = new ushort[2];
@@ -42,10 +136,10 @@ namespace MAME.Core
             Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
             //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
             Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-            gfxrom = Machine.GetRom("gfx1.rom");
-            n = gfxrom.Length;
-            gfx0rom = new byte[n * 2];
-            gfx1rom = new byte[n * 2];
+            gfxrom_set = Machine.GetRom("gfx1.rom");
+            n = gfxromLength;
+            gfx0rom_set = new byte[n * 2];
+            gfx1rom_set = new byte[n * 2];
             for (i = 0; i < n; i++)
             {
                 gfx1rom[i * 2] = (byte)(gfxrom[i] >> 4);

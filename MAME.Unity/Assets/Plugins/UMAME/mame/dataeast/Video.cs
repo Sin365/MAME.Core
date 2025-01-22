@@ -2,7 +2,7 @@
 {
     public unsafe partial class Dataeast
     {
-        public static void palette_init_pcktgal(byte[] color_prom)
+        public static void palette_init_pcktgal(byte* color_prom)
         {
             int i;
             for (i = 0; i < 0x200; i++)

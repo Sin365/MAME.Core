@@ -1,8 +1,8 @@
 ﻿namespace MAME.Core
 {
-    public partial class Drawgfx
+    public unsafe partial class Drawgfx
     {
-        public static void common_drawgfx_bublbobl(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
+        public static void common_drawgfx_bublbobl(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {
             int ox;
             int oy;
@@ -61,7 +61,7 @@
             int colorbase = 0x10 * color;
             blockmove_8toN_transpen16_bublbobl(bb1, code, sw, sh, 8, ls, ts, flipx, flipy, dw, dh, colorbase, sx, sy);
         }
-        public unsafe static void blockmove_8toN_transpen16_bublbobl(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsetx, int offsety)
+        public unsafe static void blockmove_8toN_transpen16_bublbobl(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsetx, int offsety)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * 0x40;
@@ -99,7 +99,7 @@
                 }
             }
         }
-        public static void common_drawgfx_opwolf(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint pri_mask)
+        public static void common_drawgfx_opwolf(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint pri_mask)
         {
             int ox;
             int oy;
@@ -162,7 +162,7 @@
             int colorbase = color * 0x10;
             blockmove_8toN_transpen_pri16_opwolf(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, pri_mask, sx, sy);
         }
-        public unsafe static void blockmove_8toN_transpen_pri16_opwolf(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,
+        public unsafe static void blockmove_8toN_transpen_pri16_opwolf(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo,
                 int leftskip, int topskip, int flipx, int flipy,
                 int dstwidth, int dstheight, int colorbase, uint pmask, int sx, int sy)
         {

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
@@ -7,12 +8,33 @@ namespace MAME.Core
         public static Tmap bg_tilemap, fg_tilemap, tx_tilemap;
         public static int bg_scrollx, fg_scrollx;
         public static int sf_active;
-        public static ushort[] uuB0000;
+        //public static ushort[] uuB0000;
+
+        #region //指针化 uuB0000
+        static ushort[] uuB0000_src;
+        static GCHandle uuB0000_handle;
+        public static ushort* uuB0000;
+        public static int uuB0000Length;
+        public static bool uuB0000_IsNull => uuB0000 == null;
+        public static ushort[] uuB0000_set
+        {
+            set
+            {
+                uuB0000_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                uuB0000_src = value;
+                uuB0000Length = value.Length;
+                uuB0000_src.GetObjectPtr(ref uuB0000_handle, ref uuB0000);
+            }
+        }
+        #endregion
+
         public static void video_start_sf()
         {
             int i;
             sf_active = 0;
-            uuB0000 = new ushort[0x200 * 0x100];
+            uuB0000_set = new ushort[0x200 * 0x100];
             for (i = 0; i < 0x20000; i++)
             {
                 uuB0000[i] = 0x0;
@@ -155,7 +177,7 @@ namespace MAME.Core
             }
             else
             {
-                Array.Copy(uuB0000, Video.bitmapbase[Video.curbitmap], 0x20000);
+                AxiArray.Copy(uuB0000, Video.bitmapbase_Ptrs[Video.curbitmap], 0x20000);
             }
             fg_tilemap.tilemap_draw_primask(Video.screenstate.visarea, 0x10, 0);
             if ((sf_active & 0x80) != 0)

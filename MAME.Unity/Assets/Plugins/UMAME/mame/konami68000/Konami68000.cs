@@ -1,19 +1,230 @@
 ﻿using cpu.m68000;
 using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
     public unsafe partial class Konami68000
     {
-        public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom, titlerom, user1rom, zoomrom;
+        //public static byte[] /*gfx1rom,*/ /*gfx2rom, *//*gfx12rom,*/ gfx22rom, titlerom, user1rom, zoomrom;
         public static byte dsw1, dsw2, dsw3, bytee;
-        public static byte[] mainram2;
-        public static short[] sampledata;
-        public static ushort[] cuebrick_nvram, tmnt2_1c0800;
+        //public static byte[] mainram2;
+        //public static short[] sampledata;
+        //public static ushort[] cuebrick_nvram, tmnt2_1c0800;
         private static int init_eeprom_count;
         private static int toggle, sprite_totel_element;
         private static int tmnt_soundlatch, cuebrick_snd_irqlatch, cuebrick_nvram_bank;
         public static int basebanksnd;
+
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx2rom
+        static byte[] gfx2rom_src;
+        static GCHandle gfx2rom_handle;
+        public static byte* gfx2rom;
+        public static int gfx2romLength;
+        public static bool gfx2rom_IsNull => gfx2rom == null;
+        public static byte[] gfx2rom_set
+        {
+            set
+            {
+                gfx2rom_handle.ReleaseGCHandle();
+                gfx2rom_src = value;
+                gfx2romLength = value.Length;
+                gfx2rom_src.GetObjectPtr(ref gfx2rom_handle, ref gfx2rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx12rom
+        static byte[] gfx12rom_src;
+        static GCHandle gfx12rom_handle;
+        public static byte* gfx12rom;
+        public static int gfx12romLength;
+        public static bool gfx12rom_IsNull => gfx12rom == null;
+        public static byte[] gfx12rom_set
+        {
+            set
+            {
+                gfx12rom_handle.ReleaseGCHandle();
+                gfx12rom_src = value;
+                gfx12romLength = value.Length;
+                gfx12rom_src.GetObjectPtr(ref gfx12rom_handle, ref gfx12rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx22rom
+        static byte[] gfx22rom_src;
+        static GCHandle gfx22rom_handle;
+        public static byte* gfx22rom;
+        public static int gfx22romLength;
+        public static bool gfx22rom_IsNull => gfx22rom == null;
+        public static byte[] gfx22rom_set
+        {
+            set
+            {
+                gfx22rom_handle.ReleaseGCHandle();
+                gfx22rom_src = value;
+                gfx22romLength = value.Length;
+                gfx22rom_src.GetObjectPtr(ref gfx22rom_handle, ref gfx22rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 titlerom
+        static byte[] titlerom_src;
+        static GCHandle titlerom_handle;
+        public static byte* titlerom;
+        public static int titleromLength;
+        public static bool titlerom_IsNull => titlerom == null;
+        public static byte[] titlerom_set
+        {
+            set
+            {
+                titlerom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                titlerom_src = value;
+                titleromLength = value.Length;
+                titlerom_src.GetObjectPtr(ref titlerom_handle, ref titlerom);
+            }
+        }
+        #endregion
+
+        #region //指针化 user1rom
+        static byte[] user1rom_src;
+        static GCHandle user1rom_handle;
+        public static byte* user1rom;
+        public static int user1romLength;
+        public static bool user1rom_IsNull => user1rom == null;
+        public static byte[] user1rom_set
+        {
+            set
+            {
+                user1rom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                user1rom_src = value;
+                user1romLength = value.Length;
+                user1rom_src.GetObjectPtr(ref user1rom_handle, ref user1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 zoomrom
+        static byte[] zoomrom_src;
+        static GCHandle zoomrom_handle;
+        public static byte* zoomrom;
+        public static int zoomromLength;
+        public static bool zoomrom_IsNull => zoomrom == null;
+        public static byte[] zoomrom_set
+        {
+            set
+            {
+                zoomrom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                zoomrom_src = value;
+                zoomromLength = value.Length;
+                zoomrom_src.GetObjectPtr(ref zoomrom_handle, ref zoomrom);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 mainram2
+        static byte[] mainram2_src;
+        static GCHandle mainram2_handle;
+        public static byte* mainram2;
+        public static int mainram2Length;
+        public static bool mainram2_IsNull => mainram2 == null;
+        public static byte[] mainram2_set
+        {
+            set
+            {
+                mainram2_handle.ReleaseGCHandle();
+                mainram2_src = value;
+                mainram2Length = value.Length;
+                mainram2_src.GetObjectPtr(ref mainram2_handle, ref mainram2);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 sampledata
+        static short[] sampledata_src;
+        static GCHandle sampledata_handle;
+        public static short* sampledata;
+        public static int sampledataLength;
+        public static bool sampledata_IsNull => sampledata == null;
+        public static short[] sampledata_set
+        {
+            set
+            {
+                sampledata_handle.ReleaseGCHandle();
+                sampledata_src = value;
+                sampledataLength = value.Length;
+                sampledata_src.GetObjectPtr(ref sampledata_handle, ref sampledata);
+            }
+        }
+        #endregion
+
+        #region //指针化 cuebrick_nvram
+        static ushort[] cuebrick_nvram_src;
+        static GCHandle cuebrick_nvram_handle;
+        public static ushort* cuebrick_nvram;
+        public static int cuebrick_nvramLength;
+        public static bool cuebrick_nvram_IsNull => cuebrick_nvram == null;
+        public static ushort[] cuebrick_nvram_set
+        {
+            set
+            {
+                cuebrick_nvram_handle.ReleaseGCHandle();
+                cuebrick_nvram_src = value;
+                cuebrick_nvramLength = value.Length;
+                cuebrick_nvram_src.GetObjectPtr(ref cuebrick_nvram_handle, ref cuebrick_nvram);
+            }
+        }
+        #endregion
+
+        #region //指针化 tmnt2_1c0800
+        static ushort[] tmnt2_1c0800_src;
+        static GCHandle tmnt2_1c0800_handle;
+        public static ushort* tmnt2_1c0800;
+        public static int tmnt2_1c0800Length;
+        public static bool tmnt2_1c0800_IsNull => tmnt2_1c0800 == null;
+        public static ushort[] tmnt2_1c0800_set
+        {
+            set
+            {
+                tmnt2_1c0800_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                tmnt2_1c0800_src = value;
+                tmnt2_1c0800Length = value.Length;
+                tmnt2_1c0800_src.GetObjectPtr(ref tmnt2_1c0800_handle, ref tmnt2_1c0800);
+            }
+        }
+        #endregion
+
+
         public static void Konami68000Init()
         {
             int i, n1, n2;
@@ -23,10 +234,10 @@ namespace MAME.Core
             toggle = 0;
             Memory.Set_mainram(new byte[0x4000]);
             Memory.Set_audioram(new byte[0x2000]);//0x800 prmrsocr_0x2000
-            mainram2 = new byte[0x4000];//0x4000 tmnt2_ssriders_0x80
+            mainram2_set = new byte[0x4000];//0x4000 tmnt2_ssriders_0x80
             layer_colorbase = new int[3];
-            cuebrick_nvram = new ushort[0x400 * 0x20];
-            tmnt2_1c0800 = new ushort[0x10];
+            cuebrick_nvram_set = new ushort[0x400 * 0x20];
+            tmnt2_1c0800_set = new ushort[0x10];
             K053245_memory_region = new byte[2][];
             K053244_rombank = new int[2];
             K053245_ramsize = new int[2];
@@ -62,23 +273,23 @@ namespace MAME.Core
             Machine.bRom = true;
             Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
             Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-            gfx1rom = Machine.GetRom("gfx1.rom");
-            n1 = gfx1rom.Length;
-            gfx12rom = new byte[n1 * 2];
+            gfx1rom_set = Machine.GetRom("gfx1.rom");
+            n1 = gfx1romLength;
+            gfx12rom_set = new byte[n1 * 2];
             for (i = 0; i < n1; i++)
             {
                 gfx12rom[i * 2] = (byte)(gfx1rom[i] >> 4);
                 gfx12rom[i * 2 + 1] = (byte)(gfx1rom[i] & 0x0f);
             }
-            gfx2rom = Machine.GetRom("gfx2.rom");
-            n2 = gfx2rom.Length;
-            gfx22rom = new byte[n2 * 2];
+            gfx2rom_set = Machine.GetRom("gfx2.rom");
+            n2 = gfx2romLength;
+            gfx22rom_set = new byte[n2 * 2];
             for (i = 0; i < n2; i++)
             {
                 gfx22rom[i * 2] = (byte)(gfx2rom[i] >> 4);
                 gfx22rom[i * 2 + 1] = (byte)(gfx2rom[i] & 0x0f);
             }
-            sprite_totel_element = gfx22rom.Length / 0x100;
+            sprite_totel_element = gfx22romLength / 0x100;
             switch (Machine.sName)
             {
                 case "cuebrick":
@@ -116,7 +327,7 @@ namespace MAME.Core
                     K051960_memory_region = Machine.GetRom("k051960.rom");
                     K007232.k007232rom = Machine.GetRom("k007232.rom");
                     Upd7759.updrom = Machine.GetRom("upd.rom");
-                    titlerom = Machine.GetRom("title.rom");
+                    titlerom_set = Machine.GetRom("title.rom");
                     if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K051960_memory_region == null || Memory.audiorom_IsNull || K007232.k007232rom == null || Upd7759.updrom == null || titlerom == null)
                     {
                         Machine.bRom = false;
@@ -174,8 +385,8 @@ namespace MAME.Core
                 case "glfgreatj":
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K053245_memory_region[0] = Machine.GetRom("k053245.rom");
-                    zoomrom = Machine.GetRom("zoom.rom");
-                    user1rom = Machine.GetRom("user1.rom");
+                    zoomrom_set = Machine.GetRom("zoom.rom");
+                    user1rom_set = Machine.GetRom("user1.rom");
                     K053260.k053260rom = Machine.GetRom("k053260.rom");
                     if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom_IsNull || K053260.k053260rom == null)
                     {
@@ -186,8 +397,8 @@ namespace MAME.Core
                 case "prmrsocrj":
                     K052109_memory_region = Machine.GetRom("k052109.rom");
                     K053245_memory_region[0] = Machine.GetRom("k053245.rom");
-                    zoomrom = Machine.GetRom("zoom.rom");
-                    user1rom = Machine.GetRom("user1.rom");
+                    zoomrom_set = Machine.GetRom("zoom.rom");
+                    user1rom_set = Machine.GetRom("user1.rom");
                     K054539.k054539rom = Machine.GetRom("k054539.rom");
                     if (Memory.mainrom_IsNull || gfx1rom == null || gfx2rom == null || K052109_memory_region == null || K053245_memory_region[0] == null || zoomrom == null || user1rom == null || Memory.audiorom_IsNull || K054539.k054539rom == null)
                     {
@@ -585,7 +796,7 @@ namespace MAME.Core
         public static void tmnt_decode_sample()
         {
             int i;
-            sampledata = new short[0x40000];
+            sampledata_set = new short[0x40000];
             for (i = 0; i < 0x40000; i++)
             {
                 int val = titlerom[2 * i] + titlerom[2 * i + 1] * 256;

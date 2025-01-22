@@ -1,12 +1,196 @@
 ﻿using cpu.m68000;
+using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class Capcom
+    public unsafe partial class Capcom
     {
-        public static byte[] audiorom2;
+        //public static byte[] audiorom2;
         public static int basebankmain, basebanksnd1;
-        public static byte[] gfx1rom, gfx2rom, gfx3rom, gfx4rom, gfx5rom, gfx12rom, gfx22rom, gfx32rom, gfx42rom;
+        //public static byte[] /*gfx1rom,*/ /*gfx2rom, */gfx3rom, gfx4rom, gfx5rom, gfx12rom, gfx22rom, gfx32rom, gfx42rom;
+
+        #region //指针化 audiorom2
+        static byte[] audiorom2_src;
+        static GCHandle audiorom2_handle;
+        public static byte* audiorom2;
+        public static int audiorom2Length;
+        public static bool audiorom2_IsNull => audiorom2 == null;
+        public static byte[] audiorom2_set
+        {
+            set
+            {
+                audiorom2_handle.ReleaseGCHandle();
+                audiorom2_src = value;
+                audiorom2Length = value.Length;
+                audiorom2_src.GetObjectPtr(ref audiorom2_handle, ref audiorom2);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx2rom
+        static byte[] gfx2rom_src;
+        static GCHandle gfx2rom_handle;
+        public static byte* gfx2rom;
+        public static int gfx2romLength;
+        public static bool gfx2rom_IsNull => gfx2rom == null;
+        public static byte[] gfx2rom_set
+        {
+            set
+            {
+                gfx2rom_handle.ReleaseGCHandle();
+                gfx2rom_src = value;
+                gfx2romLength = value.Length;
+                gfx2rom_src.GetObjectPtr(ref gfx2rom_handle, ref gfx2rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx3rom
+        static byte[] gfx3rom_src;
+        static GCHandle gfx3rom_handle;
+        public static byte* gfx3rom;
+        public static int gfx3romLength;
+        public static bool gfx3rom_IsNull => gfx3rom == null;
+        public static byte[] gfx3rom_set
+        {
+            set
+            {
+                gfx3rom_handle.ReleaseGCHandle();
+                gfx3rom_src = value;
+                gfx3romLength = value.Length;
+                gfx3rom_src.GetObjectPtr(ref gfx3rom_handle, ref gfx3rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx4rom
+        static byte[] gfx4rom_src;
+        static GCHandle gfx4rom_handle;
+        public static byte* gfx4rom;
+        public static int gfx4romLength;
+        public static bool gfx4rom_IsNull => gfx4rom == null;
+        public static byte[] gfx4rom_set
+        {
+            set
+            {
+                gfx4rom_handle.ReleaseGCHandle();
+                gfx4rom_src = value;
+                gfx4romLength = value.Length;
+                gfx4rom_src.GetObjectPtr(ref gfx4rom_handle, ref gfx4rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx5rom
+        static byte[] gfx5rom_src;
+        static GCHandle gfx5rom_handle;
+        public static byte* gfx5rom;
+        public static int gfx5romLength;
+        public static bool gfx5rom_IsNull => gfx5rom == null;
+        public static byte[] gfx5rom_set
+        {
+            set
+            {
+                gfx5rom_handle.ReleaseGCHandle();
+                gfx5rom_src = value;
+                gfx5romLength = value.Length;
+                gfx5rom_src.GetObjectPtr(ref gfx5rom_handle, ref gfx5rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx12rom
+        static byte[] gfx12rom_src;
+        static GCHandle gfx12rom_handle;
+        public static byte* gfx12rom;
+        public static int gfx12romLength;
+        public static bool gfx12rom_IsNull => gfx12rom == null;
+        public static byte[] gfx12rom_set
+        {
+            set
+            {
+                gfx12rom_handle.ReleaseGCHandle();
+                gfx12rom_src = value;
+                gfx12romLength = value.Length;
+                gfx12rom_src.GetObjectPtr(ref gfx12rom_handle, ref gfx12rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx22rom
+        static byte[] gfx22rom_src;
+        static GCHandle gfx22rom_handle;
+        public static byte* gfx22rom;
+        public static int gfx22romLength;
+        public static bool gfx22rom_IsNull => gfx22rom == null;
+        public static byte[] gfx22rom_set
+        {
+            set
+            {
+                gfx22rom_handle.ReleaseGCHandle();
+                gfx22rom_src = value;
+                gfx22romLength = value.Length;
+                gfx22rom_src.GetObjectPtr(ref gfx22rom_handle, ref gfx22rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx32rom
+        static byte[] gfx32rom_src;
+        static GCHandle gfx32rom_handle;
+        public static byte* gfx32rom;
+        public static int gfx32romLength;
+        public static bool gfx32rom_IsNull => gfx32rom == null;
+        public static byte[] gfx32rom_set
+        {
+            set
+            {
+                gfx32rom_handle.ReleaseGCHandle();
+                gfx32rom_src = value;
+                gfx32romLength = value.Length;
+                gfx32rom_src.GetObjectPtr(ref gfx32rom_handle, ref gfx32rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx42rom
+        static byte[] gfx42rom_src;
+        static GCHandle gfx42rom_handle;
+        public static byte* gfx42rom;
+        public static int gfx42romLength;
+        public static bool gfx42rom_IsNull => gfx42rom == null;
+        public static byte[] gfx42rom_set
+        {
+            set
+            {
+                gfx42rom_handle.ReleaseGCHandle();
+                gfx42rom_src = value;
+                gfx42romLength = value.Length;
+                gfx42rom_src.GetObjectPtr(ref gfx42rom_handle, ref gfx42rom);
+            }
+        }
+        #endregion
+
+
         public static ushort dsw1, dsw2;
         public static byte bytedsw1, bytedsw2;
         public static ushort[] sf_objectram, sf_videoram;
@@ -33,25 +217,25 @@ namespace MAME.Core
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    gfx22rom = Machine.GetRom("gfx2.rom");
-                    n = gfx22rom.Length;
-                    gfx2rom = new byte[n * 2];
+                    gfx22rom_set = Machine.GetRom("gfx2.rom");
+                    n = gfx22romLength;
+                    gfx2rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx2rom[i * 2] = (byte)(gfx22rom[i] >> 4);
                         gfx2rom[i * 2 + 1] = (byte)(gfx22rom[i] & 0x0f);
                     }
-                    gfx32rom = Machine.GetRom("gfx3.rom");
-                    n = gfx32rom.Length;
-                    gfx3rom = new byte[n * 2];
+                    gfx32rom_set = Machine.GetRom("gfx3.rom");
+                    n = gfx32romLength;
+                    gfx3rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx3rom[i * 2] = (byte)(gfx32rom[i] >> 4);
@@ -78,40 +262,40 @@ namespace MAME.Core
                     Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    audiorom2 = Machine.GetRom("audio2.rom");
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    audiorom2_set = Machine.GetRom("audio2.rom");
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    gfx22rom = Machine.GetRom("gfx2.rom");
-                    n = gfx22rom.Length;
-                    gfx2rom = new byte[n * 2];
+                    gfx22rom_set = Machine.GetRom("gfx2.rom");
+                    n = gfx22romLength;
+                    gfx2rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx2rom[i * 2] = (byte)(gfx22rom[i] >> 4);
                         gfx2rom[i * 2 + 1] = (byte)(gfx22rom[i] & 0x0f);
                     }
-                    gfx32rom = Machine.GetRom("gfx3.rom");
-                    n = gfx32rom.Length;
-                    gfx3rom = new byte[n * 2];
+                    gfx32rom_set = Machine.GetRom("gfx3.rom");
+                    n = gfx32romLength;
+                    gfx3rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx3rom[i * 2] = (byte)(gfx32rom[i] >> 4);
                         gfx3rom[i * 2 + 1] = (byte)(gfx32rom[i] & 0x0f);
                     }
-                    gfx42rom = Machine.GetRom("gfx4.rom");
-                    n = gfx42rom.Length;
-                    gfx4rom = new byte[n * 2];
+                    gfx42rom_set = Machine.GetRom("gfx4.rom");
+                    n = gfx42romLength;
+                    gfx4rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx4rom[i * 2] = (byte)(gfx42rom[i] >> 4);
                         gfx4rom[i * 2 + 1] = (byte)(gfx42rom[i] & 0x0f);
                     }
-                    gfx5rom = Machine.GetRom("gfx5.rom");
+                    gfx5rom_set = Machine.GetRom("gfx5.rom");
                     Memory.Set_mainram(new byte[0x6000]);
                     Memory.Set_audioram(new byte[0x800]);
                     if (Memory.mainrom_IsNull || Memory.audiorom_IsNull || gfx12rom == null || gfx22rom == null || gfx32rom == null || gfx42rom == null || gfx5rom == null)

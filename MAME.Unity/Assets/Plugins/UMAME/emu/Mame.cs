@@ -308,7 +308,7 @@ namespace MAME.Core
                 playState = PlayState.PLAY_RUNNING;
             }
         }
-        public static void postload()
+        public unsafe static void postload()
         {
             int i;
             switch (Machine.sBoard)

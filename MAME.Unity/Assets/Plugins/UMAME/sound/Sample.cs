@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
@@ -7,7 +8,26 @@ namespace MAME.Core
     {
         public struct sample_channel
         {
-            public short[] source;
+            //public short[] source;
+
+            #region //指针化 source
+            short[] source_src;
+            GCHandle source_handle;
+            public short* source;
+            public int sourceLength;
+            public bool source_IsNull => source == null;
+            public short[] source_set
+            {
+                set
+                {
+                    source_handle.ReleaseGCHandle();
+                    source_src = value;
+                    sourceLength = value.Length;
+                    source_src.GetObjectPtr(ref source_handle, ref source);
+                }
+            }
+            #endregion
+
             public int source_length;
             public int source_num;
             public uint pos;
@@ -36,12 +56,12 @@ namespace MAME.Core
         }
         public static samples_info info = new samples_info();
         public delegate void starthandler();
-        public static void sample_start_raw_n(int num, int channel, short[] sampledata, int samples, int frequency, int loop)
+        public static void sample_start_raw_n(int num, int channel, short* sampledata, int samples, int frequency, int loop)
         {
             Sound.samplestream.stream_update();
             info.channel[channel].source_length = samples;
-            info.channel[channel].source = new short[samples];
-            Array.Copy(sampledata, 0, info.channel[channel].source, 0, samples);
+            info.channel[channel].source_set = new short[samples];
+            AxiArray.Copy(sampledata, 0, info.channel[channel].source, 0, samples);
             info.channel[channel].source_num = -1;
             info.channel[channel].pos = 0;
             info.channel[channel].frac = 0;
@@ -49,7 +69,7 @@ namespace MAME.Core
             info.channel[channel].step = (uint)(((long)info.channel[channel].basefreq << 24) / 48000);
             info.channel[channel].loop = (byte)loop;
         }
-        public static void sample_start_raw(int channel, short[] sampledata, int samples, int frequency, int loop)
+        public static void sample_start_raw(int channel, short* sampledata, int samples, int frequency, int loop)
         {
             sample_start_raw_n(0, channel, sampledata, samples, frequency, loop);
         }

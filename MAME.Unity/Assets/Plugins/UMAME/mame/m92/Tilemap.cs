@@ -22,8 +22,8 @@ namespace MAME.Core
                 M92.pf_layer[i].tmap.pixmap = new ushort[0x200 * 0x200];
                 M92.pf_layer[i].tmap.flagsmap = new byte[0x200, 0x200];
                 M92.pf_layer[i].tmap.tileflags = new byte[0x40, 0x40];
-                M92.pf_layer[i].tmap.total_elements = M92.gfx11rom.Length / 0x40;
-                M92.pf_layer[i].tmap.pen_data = new byte[0x40];
+                M92.pf_layer[i].tmap.total_elements = M92.gfx11romLength / 0x40;
+                M92.pf_layer[i].tmap.pen_data_set = new byte[0x40];
                 M92.pf_layer[i].tmap.pen_to_flags = new byte[3, 0x10];
                 M92.pf_layer[i].tmap.scrollrows = 512;
                 M92.pf_layer[i].tmap.scrollcols = 1;
@@ -45,8 +45,8 @@ namespace MAME.Core
                 M92.pf_layer[i].wide_tmap.pixmap = new ushort[0x200 * 0x400];
                 M92.pf_layer[i].wide_tmap.flagsmap = new byte[0x200, 0x400];
                 M92.pf_layer[i].wide_tmap.tileflags = new byte[0x40, 0x80];
-                M92.pf_layer[i].wide_tmap.total_elements = M92.gfx11rom.Length / 0x40;
-                M92.pf_layer[i].wide_tmap.pen_data = new byte[0x40];
+                M92.pf_layer[i].wide_tmap.total_elements = M92.gfx11romLength / 0x40;
+                M92.pf_layer[i].wide_tmap.pen_data_set = new byte[0x40];
                 M92.pf_layer[i].wide_tmap.pen_to_flags = new byte[3, 0x10];
                 M92.pf_layer[i].wide_tmap.scrollrows = 512;
                 M92.pf_layer[i].wide_tmap.scrollcols = 1;
@@ -241,7 +241,7 @@ namespace MAME.Core
             flags = ((attrib >> 9) & 3) ^ (attributes & 0x03);
             tileflags[row, col] = tile_drawM92(M92.gfx11rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
-        public byte tile_drawM92(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawM92(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -250,7 +250,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;

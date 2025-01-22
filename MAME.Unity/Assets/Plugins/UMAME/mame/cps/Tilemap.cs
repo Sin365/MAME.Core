@@ -19,7 +19,7 @@ namespace MAME.Core
             ttmap[0].flagsmap = new byte[0x200, 0x200];
             ttmap[0].tileflags = new byte[0x40, 0x40];
             ttmap[0].pen_to_flags = new byte[4, 16];
-            ttmap[0].pen_data = new byte[0x40];
+            ttmap[0].pen_data_set = new byte[0x40];
             ttmap[1] = new Tmap();
             ttmap[1].tilewidth = 0x10;
             ttmap[1].tileheight = 0x10;
@@ -30,7 +30,7 @@ namespace MAME.Core
             ttmap[1].flagsmap = new byte[0x400, 0x400];
             ttmap[1].tileflags = new byte[0x40, 0x40];
             ttmap[1].pen_to_flags = new byte[4, 16];
-            ttmap[1].pen_data = new byte[0x100];
+            ttmap[1].pen_data_set = new byte[0x100];
             ttmap[2] = new Tmap();
             ttmap[2].tilewidth = 0x20;
             ttmap[2].tileheight = 0x20;
@@ -41,7 +41,7 @@ namespace MAME.Core
             ttmap[2].flagsmap = new byte[0x800, 0x800];
             ttmap[2].tileflags = new byte[0x40, 0x40];
             ttmap[2].pen_to_flags = new byte[4, 16];
-            ttmap[2].pen_data = new byte[0x400];
+            ttmap[2].pen_data_set = new byte[0x400];
             for (i = 0; i < 3; i++)
             {
                 ttmap[i].rows = 0x40;
@@ -58,9 +58,9 @@ namespace MAME.Core
             ttmap[0].tile_update3 = ttmap[0].tile_updateC0;
             ttmap[1].tile_update3 = ttmap[1].tile_updateC1;
             ttmap[2].tile_update3 = ttmap[2].tile_updateC2;
-            ttmap[0].total_elements = CPS.gfxrom.Length / 0x40;
-            ttmap[1].total_elements = CPS.gfxrom.Length / 0x80;
-            ttmap[2].total_elements = CPS.gfxrom.Length / 0x200;
+            ttmap[0].total_elements = CPS.gfxromLength / 0x40;
+            ttmap[1].total_elements = CPS.gfxromLength / 0x80;
+            ttmap[2].total_elements = CPS.gfxromLength / 0x200;
         }
     }
     public unsafe partial class Tmap
@@ -95,13 +95,13 @@ namespace MAME.Core
                 {
                     if (match == 0)
                     {
-                        Array.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x40);
+                        AxiArray.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x40);
                     }
                     else
                     {
                         for (j = 0; j < 0x08; j++)
                         {
-                            Array.Copy(CPS.gfx1rom, code * 0x80 + gfxset * 8 + j * 0x10, pen_data, j * 8, 8);
+                            AxiArray.Copy(CPS.gfx1rom, code * 0x80 + gfxset * 8 + j * 0x10, pen_data, j * 8, 8);
                         }
                     }
                     palette_base0 = 0x10 * ((attr & 0x1f) + 0x20);
@@ -172,11 +172,11 @@ namespace MAME.Core
                 attr = CPS.gfxram[(CPS.scroll2 + 2 * memindex + 1) * 2] * 0x100 + CPS.gfxram[(CPS.scroll2 + 2 * memindex + 1) * 2 + 1];
                 if (match == 0)
                 {
-                    Array.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x100);
+                    AxiArray.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x100);
                 }
                 else
                 {
-                    Array.Copy(CPS.gfx1rom, code * 0x100, pen_data, 0, 0x100);
+                    AxiArray.Copy(CPS.gfx1rom, code * 0x100, pen_data, 0, 0x100);
                 }
                 palette_base1 = 0x10 * ((attr & 0x1f) + 0x40);
                 flags1 = (byte)(((attr & 0x60) >> 5) & 3);
@@ -245,11 +245,11 @@ namespace MAME.Core
                 attr = CPS.gfxram[(CPS.scroll3 + 2 * memindex + 1) * 2] * 0x100 + CPS.gfxram[(CPS.scroll3 + 2 * memindex + 1) * 2 + 1];
                 if (match == 0)
                 {
-                    Array.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x400);
+                    AxiArray.Copy(Tilemap.bb0F, 0, pen_data, 0, 0x400);
                 }
                 else
                 {
-                    Array.Copy(CPS.gfx1rom, code * 0x400, pen_data, 0, 0x400);
+                    AxiArray.Copy(CPS.gfx1rom, code * 0x400, pen_data, 0, 0x400);
                 }
                 palette_base2 = 0x10 * ((attr & 0x1f) + 0x60);
                 flags2 = (byte)(((attr & 0x60) >> 5) & 3);

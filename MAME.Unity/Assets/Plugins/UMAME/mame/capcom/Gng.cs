@@ -1,9 +1,85 @@
-﻿namespace MAME.Core
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace MAME.Core
 {
     public unsafe partial class Capcom
     {
-        public static byte[] gng_fgvideoram, gng_bgvideoram;
-        public static byte[] scrollx, scrolly;
+        //public static byte[] gng_fgvideoram, gng_bgvideoram;
+        //public static byte[] scrollx, scrolly;
+
+        #region //指针化 gng_fgvideoram
+        static byte[] gng_fgvideoram_src;
+        static GCHandle gng_fgvideoram_handle;
+        public static byte* gng_fgvideoram;
+        public static int gng_fgvideoramLength;
+        public static bool gng_fgvideoram_IsNull => gng_fgvideoram == null;
+        public static byte[] gng_fgvideoram_set
+        {
+            set
+            {
+                gng_fgvideoram_handle.ReleaseGCHandle();
+                gng_fgvideoram_src = value;
+                gng_fgvideoramLength = value.Length;
+                gng_fgvideoram_src.GetObjectPtr(ref gng_fgvideoram_handle, ref gng_fgvideoram);
+            }
+        }
+        #endregion
+
+        #region //指针化 gng_bgvideoram
+        static byte[] gng_bgvideoram_src;
+        static GCHandle gng_bgvideoram_handle;
+        public static byte* gng_bgvideoram;
+        public static int gng_bgvideoramLength;
+        public static bool gng_bgvideoram_IsNull => gng_bgvideoram == null;
+        public static byte[] gng_bgvideoram_set
+        {
+            set
+            {
+                gng_bgvideoram_handle.ReleaseGCHandle();
+                gng_bgvideoram_src = value;
+                gng_bgvideoramLength = value.Length;
+                gng_bgvideoram_src.GetObjectPtr(ref gng_bgvideoram_handle, ref gng_bgvideoram);
+            }
+        }
+        #endregion
+
+        #region //指针化 scrollx
+        static byte[] scrollx_src;
+        static GCHandle scrollx_handle;
+        public static byte* scrollx;
+        public static int scrollxLength;
+        public static bool scrollx_IsNull => scrollx == null;
+        public static byte[] scrollx_set
+        {
+            set
+            {
+                scrollx_handle.ReleaseGCHandle();
+                scrollx_src = value;
+                scrollxLength = value.Length;
+                scrollx_src.GetObjectPtr(ref scrollx_handle, ref scrollx);
+            }
+        }
+        #endregion
+
+        #region //指针化 scrolly
+        static byte[] scrolly_src;
+        static GCHandle scrolly_handle;
+        public static byte* scrolly;
+        public static int scrollyLength;
+        public static bool scrolly_IsNull => scrolly == null;
+        public static byte[] scrolly_set
+        {
+            set
+            {
+                scrolly_handle.ReleaseGCHandle();
+                scrolly_src = value;
+                scrollyLength = value.Length;
+                scrolly_src.GetObjectPtr(ref scrolly_handle, ref scrolly);
+            }
+        }
+        #endregion
+
         public static void gng_bankswitch_w(byte data)
         {
             if (data == 4)
@@ -21,10 +97,10 @@
         }
         public static void video_start_gng()
         {
-            gng_fgvideoram = new byte[0x800];
-            gng_bgvideoram = new byte[0x800];
-            scrollx = new byte[2];
-            scrolly = new byte[2];
+            gng_fgvideoram_set = new byte[0x800];
+            gng_bgvideoram_set = new byte[0x800];
+            scrollx_set = new byte[2];
+            scrolly_set = new byte[2];
         }
         public static void gng_fgvideoram_w(int offset, byte data)
         {

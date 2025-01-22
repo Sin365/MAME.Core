@@ -93,7 +93,7 @@ namespace MAME.Core
             save_ram_unlocked = reader.ReadByte();
             audio_cpu_nmi_enabled = reader.ReadBoolean();
             audio_cpu_nmi_pending = reader.ReadBoolean();
-            mainram2 = reader.ReadBytes(0x10000);
+            mainram2_set = reader.ReadBytes(0x10000);
             pvc_cartridge_ram = reader.ReadBytes(0x2000);
             for (i = 0; i < 2; i++)
             {

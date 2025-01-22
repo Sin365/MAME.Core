@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class M92
+    public unsafe partial class M92
     {
         public static byte irqvector;
         public static ushort sound_status;
@@ -14,7 +15,100 @@ namespace MAME.Core
         public static int m92_scanline_param;
         public static int setvector_param;
         public static byte m92_sprite_buffer_busy;
-        public static byte[] gfx1rom, gfx11rom, gfx2rom, gfx21rom, eeprom;
+        //public static byte[] /*gfx1rom,*/ /*gfx11rom,*//* gfx2rom,*/ /*gfx21rom,*/ eeprom;
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx11rom
+        static byte[] gfx11rom_src;
+        static GCHandle gfx11rom_handle;
+        public static byte* gfx11rom;
+        public static int gfx11romLength;
+        public static bool gfx11rom_IsNull => gfx11rom == null;
+        public static byte[] gfx11rom_set
+        {
+            set
+            {
+                gfx11rom_handle.ReleaseGCHandle();
+                gfx11rom_src = value;
+                gfx11romLength = value.Length;
+                gfx11rom_src.GetObjectPtr(ref gfx11rom_handle, ref gfx11rom);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 gfx2rom
+        static byte[] gfx2rom_src;
+        static GCHandle gfx2rom_handle;
+        public static byte* gfx2rom;
+        public static int gfx2romLength;
+        public static bool gfx2rom_IsNull => gfx2rom == null;
+        public static byte[] gfx2rom_set
+        {
+            set
+            {
+                gfx2rom_handle.ReleaseGCHandle();
+                gfx2rom_src = value;
+                gfx2romLength = value.Length;
+                gfx2rom_src.GetObjectPtr(ref gfx2rom_handle, ref gfx2rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx21rom
+        static byte[] gfx21rom_src;
+        static GCHandle gfx21rom_handle;
+        public static byte* gfx21rom;
+        public static int gfx21romLength;
+        public static bool gfx21rom_IsNull => gfx21rom == null;
+        public static byte[] gfx21rom_set
+        {
+            set
+            {
+                gfx21rom_handle.ReleaseGCHandle();
+                gfx21rom_src = value;
+                gfx21romLength = value.Length;
+                gfx21rom_src.GetObjectPtr(ref gfx21rom_handle, ref gfx21rom);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 eeprom
+        static byte[] eeprom_src;
+        static GCHandle eeprom_handle;
+        public static byte* eeprom;
+        public static int eepromLength;
+        public static bool eeprom_IsNull => eeprom == null;
+        public static byte[] eeprom_set
+        {
+            set
+            {
+                eeprom_handle.ReleaseGCHandle();
+                eeprom_src = value;
+                eepromLength = value.Length;
+                eeprom_src.GetObjectPtr(ref eeprom_handle, ref eeprom);
+            }
+        }
+        #endregion
+
+
         public static byte[] gunforce_decryption_table = new byte[256] {
             0xff,0x90,0x90,0x2c,0x90,0x90,0x43,0x88, 0x90,0x13,0x0a,0xbd,0xba,0x60,0xea,0x90, /* 00 */
 	        0x90,0x90,0xf2,0x29,0xb3,0x22,0x90,0x0c, 0xa9,0x5f,0x9d,0x07,0x90,0x90,0x0b,0xbb, /* 10 */
@@ -241,23 +335,23 @@ namespace MAME.Core
             Iremga20.iremrom = Machine.GetRom("irem.rom");
             Memory.Set_mainram(new byte[0x10000]);
             Memory.Set_audioram(new byte[0x4000]);
-            gfx1rom = Machine.GetRom("gfx1.rom");
-            n1 = gfx1rom.Length;
-            gfx11rom = new byte[n1 * 2];
+            gfx1rom_set = Machine.GetRom("gfx1.rom");
+            n1 = gfx1romLength;
+            gfx11rom_set = new byte[n1 * 2];
             for (i1 = 0; i1 < n1; i1++)
             {
                 gfx11rom[i1 * 2] = (byte)(gfx1rom[i1] >> 4);
                 gfx11rom[i1 * 2 + 1] = (byte)(gfx1rom[i1] & 0x0f);
             }
-            gfx2rom = Machine.GetRom("gfx2.rom");
-            n2 = gfx2rom.Length;
-            gfx21rom = new byte[n2 * 2];
+            gfx2rom_set = Machine.GetRom("gfx2.rom");
+            n2 = gfx2romLength;
+            gfx21rom_set = new byte[n2 * 2];
             for (i2 = 0; i2 < n2; i2++)
             {
                 gfx21rom[i2 * 2] = (byte)(gfx2rom[i2] >> 4);
                 gfx21rom[i2 * 2 + 1] = (byte)(gfx2rom[i2] & 0x0f);
             }
-            eeprom = Machine.GetRom("eeprom.rom");
+            eeprom_set = Machine.GetRom("eeprom.rom");
             m92_game_kludge = 0;
             m92_irq_vectorbase = 0x80;
             m92_sprite_buffer_busy = 1;

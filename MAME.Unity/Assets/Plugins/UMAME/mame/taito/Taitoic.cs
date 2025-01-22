@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Taito
+    public unsafe partial class Taito
     {
         public static int PC080SN_chips;
         public static ushort[][] PC080SN_ctrl;
@@ -74,11 +74,11 @@ namespace MAME.Core
                         PC080SN_tilemap[i][j].height = 0x200;
                         PC080SN_tilemap[i][j].enable = true;
                         PC080SN_tilemap[i][j].all_tiles_dirty = true;
-                        PC080SN_tilemap[i][j].total_elements = gfx1rom.Length / 0x40;
+                        PC080SN_tilemap[i][j].total_elements = gfx1romLength / 0x40;
                         PC080SN_tilemap[i][j].pixmap = new ushort[0x200 * 0x200];
                         PC080SN_tilemap[i][j].flagsmap = new byte[0x200, 0x200];
                         PC080SN_tilemap[i][j].tileflags = new byte[64, 64];
-                        PC080SN_tilemap[i][j].pen_data = new byte[0x40];
+                        PC080SN_tilemap[i][j].pen_data_set = new byte[0x40];
                         PC080SN_tilemap[i][j].pen_to_flags = new byte[1, 16];
                         PC080SN_tilemap[i][j].pen_to_flags[0, 0] = 0;
                         for (k = 1; k < 16; k++)
@@ -101,11 +101,11 @@ namespace MAME.Core
                         PC080SN_tilemap[i][j].height = 0x200;
                         PC080SN_tilemap[i][j].enable = true;
                         PC080SN_tilemap[i][j].all_tiles_dirty = true;
-                        PC080SN_tilemap[i][j].total_elements = gfx1rom.Length / 0x40;
+                        PC080SN_tilemap[i][j].total_elements = gfx1romLength / 0x40;
                         PC080SN_tilemap[i][j].pixmap = new ushort[0x200 * 0x400];
                         PC080SN_tilemap[i][j].flagsmap = new byte[0x200, 0x400];
                         PC080SN_tilemap[i][j].tileflags = new byte[128, 64];
-                        PC080SN_tilemap[i][j].pen_data = new byte[0x40];
+                        PC080SN_tilemap[i][j].pen_data_set = new byte[0x40];
                         PC080SN_tilemap[i][j].pen_to_flags = new byte[1, 16];
                         PC080SN_tilemap[i][j].pen_to_flags[0, 0] = 0;
                         for (k = 1; k < 16; k++)

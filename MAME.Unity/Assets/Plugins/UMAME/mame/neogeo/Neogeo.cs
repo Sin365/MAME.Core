@@ -1,9 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class Neogeo
+    public unsafe partial class Neogeo
     {
         private static int NEOGEO_HBEND = 0x01e;//30	/* this should really be 29.5 */
         private static int NEOGEO_HBSTART = 0x15e;//350 /* this should really be 349.5 */
@@ -25,18 +26,58 @@ namespace MAME.Core
         public static byte main_cpu_vector_table_source;
         //public static byte audio_result;
         public static byte[] audio_cpu_banks;
-        public static byte[] mainbiosrom, mainram2, audiobiosrom, fixedrom, fixedbiosrom, zoomyrom, spritesrom, pvc_cartridge_ram;
+        public static byte[] mainbiosrom, /*mainram2,*/ audiobiosrom, fixedrom, fixedbiosrom, zoomyrom, /*spritesrom,*/ pvc_cartridge_ram;
         public static byte[] extra_ram = new byte[0x2000];
         public static uint fatfury2_prot_data;
         public static ushort neogeo_rng;
         private static byte save_ram_unlocked;
         public static bool audio_cpu_nmi_enabled, audio_cpu_nmi_pending;
+
+
+        #region //指针化 mainram2
+        static byte[] mainram2_src;
+        static GCHandle mainram2_handle;
+        public static byte* mainram2;
+        public static int mainram2Length;
+        public static bool mainram2_IsNull => mainram2 == null;
+        public static byte[] mainram2_set
+        {
+            set
+            {
+                mainram2_handle.ReleaseGCHandle();
+                mainram2_src = value;
+                mainram2Length = value.Length;
+                mainram2_src.GetObjectPtr(ref mainram2_handle, ref mainram2);
+            }
+        }
+        #endregion
+
+        #region //指针化 spritesrom
+        static byte[] spritesrom_src;
+        static GCHandle spritesrom_handle;
+        public static byte* spritesrom;
+        public static int spritesromLength;
+        public static bool spritesrom_IsNull => spritesrom == null;
+        public static byte[] spritesrom_set
+        {
+            set
+            {
+                spritesrom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                spritesrom_src = value;
+                spritesromLength = value.Length;
+                spritesrom_src.GetObjectPtr(ref spritesrom_handle, ref spritesrom);
+            }
+        }
+        #endregion
+
         public static void NeogeoInit()
         {
             audio_cpu_banks = new byte[4];
             pvc_cartridge_ram = new byte[0x2000];
             Memory.Set_mainram(new byte[0x10000]);
-            mainram2 = new byte[0x10000];
+            mainram2_set = new byte[0x10000];
             Memory.Set_audioram(new byte[0x800]);
             Machine.bRom = true;
             dsw = 0xff;
@@ -49,7 +90,7 @@ namespace MAME.Core
             fixedrom = Machine.GetRom("fixed.rom");
             FM.ymsndrom = Machine.GetRom("ymsnd.rom");
             YMDeltat.ymsnddeltatrom = Machine.GetRom("ymsnddeltat.rom");
-            spritesrom = Machine.GetRom("sprites.rom");
+            spritesrom_set = Machine.GetRom("sprites.rom");
             if (fixedbiosrom == null || zoomyrom == null || audiobiosrom == null || mainbiosrom == null || Memory.mainrom_IsNull || Memory.audiorom_IsNull || fixedrom == null || FM.ymsndrom == null || spritesrom == null)
             {
                 Machine.bRom = false;

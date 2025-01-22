@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
@@ -34,7 +35,7 @@ namespace MAME.Core
         public static int scroll1, scroll2, scroll3;
         public static int scroll1xoff = 0, scroll2xoff = 0, scroll3xoff = 0;
         public static int obj, other;
-        private static ushort[] cps1_buffered_obj, cps2_buffered_obj, uuBFF;
+        private static ushort[] cps1_buffered_obj, /*cps2_buffered_obj,*/ uuBFF;
         private static int cps1_last_sprite_offset;
         private static int[] cps1_stars_enabled;
         private static byte TILEMAP_PIXEL_TRANSPARENT = 0x00;		/* transparent if in none of the layers below */
@@ -48,6 +49,25 @@ namespace MAME.Core
         public static int pri_ctrl;
 
         public static bool bRecord;
+
+
+        #region //指针化 cps2_buffered_obj
+        static ushort[] cps2_buffered_obj_src;
+        static GCHandle cps2_buffered_obj_handle;
+        public static ushort* cps2_buffered_obj;
+        public static int cps2_buffered_objLength;
+        public static bool cps2_buffered_obj_IsNull => cps2_buffered_obj == null;
+        public static ushort[] cps2_buffered_obj_set
+        {
+            set
+            {
+                cps2_buffered_obj_handle.ReleaseGCHandle();
+                cps2_buffered_obj_src = value;
+                cps2_buffered_objLength = value.Length;
+                cps2_buffered_obj_src.GetObjectPtr(ref cps2_buffered_obj_handle, ref cps2_buffered_obj);
+            }
+        }
+        #endregion
 
         private static int cps1_base(int offset, int boundary)
         {
@@ -296,9 +316,9 @@ namespace MAME.Core
             primasks = new uint[8];
             cps1_stars_enabled = new int[2];
             cps1_buffered_obj = new ushort[0x400];
-            cps2_buffered_obj = new ushort[0x1000];
-            cps2_objram1 = new ushort[0x1000];
-            cps2_objram2 = new ushort[0x1000];
+            cps2_buffered_obj_set = new ushort[0x1000];
+            cps2_objram1_set = new ushort[0x1000];
+            cps2_objram2_set = new ushort[0x1000];
 
             uuBFF = new ushort[0x200 * 0x200];
             for (i = 0; i < 0x40000; i++)
@@ -306,13 +326,13 @@ namespace MAME.Core
                 uuBFF[i] = 0xbff;
             }
             Array.Clear(cps1_buffered_obj, 0, 0x400);
-            Array.Clear(cps2_buffered_obj, 0, 0x1000);
+            AxiArray.Clear(cps2_buffered_obj, 0, 0x1000);
 
-            Array.Clear(gfxram, 0, 0x30000);
-            Array.Clear(cps_a_regs, 0, 0x20);
-            Array.Clear(cps_b_regs, 0, 0x20);
-            Array.Clear(cps2_objram1, 0, 0x1000);
-            Array.Clear(cps2_objram2, 0, 0x1000);
+            AxiArray.Clear(gfxram, 0, 0x30000);
+            AxiArray.Clear(cps_a_regs, 0, 0x20);
+            AxiArray.Clear(cps_b_regs, 0, 0x20);
+            AxiArray.Clear(cps2_objram1, 0, 0x1000);
+            AxiArray.Clear(cps2_objram2, 0, 0x1000);
 
             cps_a_regs[CPS1_OBJ_BASE] = 0x9200;
             cps_a_regs[CPS1_SCROLL1_BASE] = 0x9000;
@@ -853,11 +873,11 @@ namespace MAME.Core
             }
             if (baseptr == 0x7000)
             {
-                Array.Copy(cps2_objram1, cps2_buffered_obj, 0x1000);
+                AxiArray.Copy(cps2_objram1, cps2_buffered_obj, 0x1000);
             }
             else
             {
-                Array.Copy(cps2_objram2, cps2_buffered_obj, 0x1000);
+                AxiArray.Copy(cps2_objram2, cps2_buffered_obj, 0x1000);
             }
         }
     }

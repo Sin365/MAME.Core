@@ -816,8 +816,8 @@ namespace MAME.Core
                             MC68000.m1.WriteLong = CPS.MCWriteLong_sf2m3;
                             break;
                         case "sf2m10":
-                            CPS.mainram2 = new byte[0x100000];
-                            CPS.mainram3 = new byte[0x100];
+                            CPS.mainram2_set = new byte[0x100000];
+                            CPS.mainram3_set = new byte[0x100];
                             MC68000.m1.ReadByte = CPS.MCReadByte_sf2m10;
                             MC68000.m1.ReadWord = MC68000.m1.ReadPcrelWord = CPS.MCReadWord_sf2m10;
                             MC68000.m1.ReadLong = MC68000.m1.ReadPcrelLong = CPS.MCReadLong_sf2m10;

@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class Konami68000
+    public unsafe partial class Konami68000
     {
         private static byte[] K052109_memory_region;
         public static int K052109_videoram_F_offset, K052109_videoram2_F_offset, K052109_colorram_F_offset, K052109_videoram_A_offset, K052109_videoram2_A_offset, K052109_colorram_A_offset, K052109_videoram_B_offset, K052109_videoram2_B_offset, K052109_colorram_B_offset;
@@ -87,14 +87,14 @@ namespace MAME.Core
                 K052109_tilemap[i].pixmap = new ushort[0x100 * 0x200];
                 K052109_tilemap[i].flagsmap = new byte[0x100, 0x200];
                 K052109_tilemap[i].tileflags = new byte[0x20, 0x40];
-                K052109_tilemap[i].pen_data = new byte[0x40];
+                K052109_tilemap[i].pen_data_set = new byte[0x40];
                 K052109_tilemap[i].pen_to_flags = new byte[1, 16];
                 K052109_tilemap[i].pen_to_flags[0, 0] = 0;
                 for (j = 1; j < 16; j++)
                 {
                     K052109_tilemap[i].pen_to_flags[0, j] = 0x10;
                 }
-                K052109_tilemap[i].total_elements = gfx12rom.Length / 0x40;
+                K052109_tilemap[i].total_elements = gfx12romLength / 0x40;
             }
             K052109_tilemap[0].tile_update3 = K052109_tilemap[0].tile_updateKonami68000_0;
             K052109_tilemap[1].tile_update3 = K052109_tilemap[1].tile_updateKonami68000_1;

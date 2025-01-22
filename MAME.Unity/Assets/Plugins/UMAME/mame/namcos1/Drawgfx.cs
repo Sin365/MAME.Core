@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class Drawgfx
+    public unsafe partial class Drawgfx
     {
         public static void common_drawgfx_na(int sizex, int sizey, int tx, int ty, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {

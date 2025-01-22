@@ -1,16 +1,58 @@
 ﻿using cpu.m68000;
 using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class PGM
+    public unsafe partial class PGM
     {
         public static byte[] mainbiosrom, videobios, audiobios;
-        public static byte[] pgm_bg_videoram, pgm_tx_videoram, pgm_rowscrollram, pgm_videoregs, sprmaskrom, sprcolrom, tilesrom, tiles1rom, tiles2rom, pgm_sprite_a_region;
+        public static byte[] pgm_bg_videoram, pgm_tx_videoram, pgm_rowscrollram, pgm_videoregs, sprmaskrom, sprcolrom, tilesrom, /*tiles1rom,*/ /*tiles2rom, */pgm_sprite_a_region;
         public static byte CalVal, CalMask, CalCom = 0, CalCnt = 0;
         public static uint[] arm7_shareram;
         public static uint arm7_latch;
         public static int pgm_sprite_a_region_allocate;
+
+        #region //指针化 tiles1rom
+        static byte[] tiles1rom_src;
+        static GCHandle tiles1rom_handle;
+        public static byte* tiles1rom;
+        public static int tiles1romLength;
+        public static bool tiles1rom_IsNull => tiles1rom == null;
+        public static byte[] tiles1rom_set
+        {
+            set
+            {
+                tiles1rom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                tiles1rom_src = value;
+                tiles1romLength = value.Length;
+                tiles1rom_src.GetObjectPtr(ref tiles1rom_handle, ref tiles1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 tiles2rom
+        static byte[] tiles2rom_src;
+        static GCHandle tiles2rom_handle;
+        public static byte* tiles2rom;
+        public static int tiles2romLength;
+        public static bool tiles2rom_IsNull => tiles2rom == null;
+        public static byte[] tiles2rom_set
+        {
+            set
+            {
+                tiles2rom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                tiles2rom_src = value;
+                tiles2romLength = value.Length;
+                tiles2rom_src.GetObjectPtr(ref tiles2rom_handle, ref tiles2rom);
+            }
+        }
+        #endregion
+
         public static void PGMInit()
         {
             Machine.bRom = true;
@@ -35,7 +77,7 @@ namespace MAME.Core
             Array.Copy(videobios, tilesrom, 0x200000);
             Array.Copy(bb2, 0, tilesrom, 0x400000, n2);
             n3 = tilesrom.Length;
-            tiles1rom = new byte[n3 * 2];
+            tiles1rom_set = new byte[n3 * 2];
             for (i3 = 0; i3 < n3; i3++)
             {
                 tiles1rom[i3 * 2] = (byte)(tilesrom[i3] & 0x0f);
@@ -61,7 +103,7 @@ namespace MAME.Core
         private static void expand_32x32x5bpp()
         {
             int n2 = tilesrom.Length / 5 * 8;
-            tiles2rom = new byte[n2];
+            tiles2rom_set = new byte[n2];
             int cnt;
             byte pix;
             for (cnt = 0; cnt < tilesrom.Length / 5; cnt++)

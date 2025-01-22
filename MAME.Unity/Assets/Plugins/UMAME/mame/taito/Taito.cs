@@ -1,11 +1,50 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class Taito
+    public unsafe partial class Taito
     {
         public static int basebankmain, basebanksnd;
-        public static byte[] bb1, bublbobl_mcu_sharedram, videoram, bublbobl_objectram, slaverom, mcurom, mcuram, mainram2, mainram3, subrom;
+        public static byte[] bb1, bublbobl_mcu_sharedram, videoram, bublbobl_objectram, slaverom,/* mcurom,*/ mcuram, /*mainram2,*/ mainram3, subrom;
+
+
+        #region //指针化 mcurom
+        static byte[] mcurom_src;
+        static GCHandle mcurom_handle;
+        public static byte* mcurom;
+        public static int mcuromLength;
+        public static bool mcurom_IsNull => mcurom == null;
+        public static byte[] mcurom_set
+        {
+            set
+            {
+                mcurom_handle.ReleaseGCHandle();
+                mcurom_src = value;
+                mcuromLength = value.Length;
+                mcurom_src.GetObjectPtr(ref mcurom_handle, ref mcurom);
+            }
+        }
+        #endregion
+
+        #region //指针化 mainram2
+        static byte[] mainram2_src;
+        static GCHandle mainram2_handle;
+        public static byte* mainram2;
+        public static int mainram2Length;
+        public static bool mainram2_IsNull => mainram2 == null;
+        public static byte[] mainram2_set
+        {
+            set
+            {
+                mainram2_handle.ReleaseGCHandle();
+                mainram2_src = value;
+                mainram2Length = value.Length;
+                mainram2_src.GetObjectPtr(ref mainram2_handle, ref mainram2);
+            }
+        }
+        #endregion
+
         public static void TaitoInit()
         {
             int i, n;
@@ -26,15 +65,15 @@ namespace MAME.Core
                     slaverom = Machine.GetRom("slave.rom");
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    prom = Machine.GetRom("proms.rom");
+                    prom_set = Machine.GetRom("proms.rom");
                     bublbobl_video_enable = 1;
                     if (Memory.mainrom_IsNull || slaverom == null || Memory.audiorom_IsNull || gfx1rom == null || prom == null)
                     {
@@ -65,16 +104,16 @@ namespace MAME.Core
                     slaverom = Machine.GetRom("slave.rom");
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    mcurom = Machine.GetRom("mcu.rom");
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    mcurom_set = Machine.GetRom("mcu.rom");
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    prom = Machine.GetRom("proms.rom");
+                    prom_set = Machine.GetRom("proms.rom");
                     bublbobl_video_enable = 0;
                     if (Memory.mainrom_IsNull || slaverom == null || Memory.audiorom_IsNull || mcurom == null || gfx1rom == null || prom == null)
                     {
@@ -94,7 +133,7 @@ namespace MAME.Core
                 case "sboblboblc":
                 case "dland":
                 case "bbredux":
-                    mainram2 = new byte[0x100];
+                    mainram2_set = new byte[0x100];
                     mainram3 = new byte[0x100];
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
@@ -105,15 +144,15 @@ namespace MAME.Core
                     slaverom = Machine.GetRom("slave.rom");
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    prom = Machine.GetRom("proms.rom");
+                    prom_set = Machine.GetRom("proms.rom");
                     bublbobl_video_enable = 0;
                     if (Memory.mainrom_IsNull || slaverom == null || Memory.audiorom_IsNull || gfx1rom == null || prom == null)
                     {
@@ -127,7 +166,7 @@ namespace MAME.Core
                     break;
                 case "bublboblb":
                 case "boblcave":
-                    mainram2 = new byte[0x100];
+                    mainram2_set = new byte[0x100];
                     mainram3 = new byte[0x100];
                     videoram = new byte[0x1d00];
                     bublbobl_objectram = new byte[0x300];
@@ -138,15 +177,15 @@ namespace MAME.Core
                     slaverom = Machine.GetRom("slave.rom");
                     //Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
                     Memory.Set_audiorom(Machine.GetRom("audiocpu.rom"));
-                    gfx12rom = Machine.GetRom("gfx1.rom");
-                    n = gfx12rom.Length;
-                    gfx1rom = new byte[n * 2];
+                    gfx12rom_set = Machine.GetRom("gfx1.rom");
+                    n = gfx12romLength;
+                    gfx1rom_set = new byte[n * 2];
                     for (i = 0; i < n; i++)
                     {
                         gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                         gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                     }
-                    prom = Machine.GetRom("proms.rom");
+                    prom_set = Machine.GetRom("proms.rom");
                     bublbobl_video_enable = 0;
                     if (Memory.mainrom_IsNull || slaverom == null || Memory.audiorom_IsNull || gfx1rom == null || prom == null)
                     {
@@ -163,30 +202,30 @@ namespace MAME.Core
                 case "opwolfj":
                 case "opwolfu":
                     {
-                        mainram2 = new byte[0x10000];
+                        mainram2_set = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
-                        //Memory.audiorom = new byte[0x20000];
+                        //Memory.audiorom_set = new byte[0x20000];
                         //Array.Copy(bb1, 0, Memory.audiorom, 0, 0x10000);
                         byte[] temprom = new byte[0x20000];
                         Array.Copy(bb1, 0, temprom, 0, 0x10000);
                         Memory.Set_audiorom(temprom);
 
-                        gfx12rom = Machine.GetRom("gfx1.rom");
-                        n = gfx12rom.Length;
-                        gfx1rom = new byte[n * 2];
+                        gfx12rom_set = Machine.GetRom("gfx1.rom");
+                        n = gfx12romLength;
+                        gfx1rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                             gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                         }
-                        gfx22rom = Machine.GetRom("gfx2.rom");
-                        n = gfx22rom.Length;
-                        gfx2rom = new byte[n * 2];
+                        gfx22rom_set = Machine.GetRom("gfx2.rom");
+                        n = gfx22romLength;
+                        gfx2rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx2rom[i * 2] = (byte)(gfx22rom[i] >> 4);
@@ -207,31 +246,31 @@ namespace MAME.Core
                     break;
                 case "opwolfb":
                     {
-                        mainram2 = new byte[0x10000];
+                        mainram2_set = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
-                        //Memory.audiorom = new byte[0x20000];
+                        //Memory.audiorom_set = new byte[0x20000];
                         //Array.Copy(bb1, 0, Memory.audiorom, 0, 0x10000);
-                        byte[] temprom = new byte[0x20000];
-                        Array.Copy(bb1, 0, temprom, 0, 0x10000);
-                        Memory.Set_audiorom(temprom);
+                        byte[] temprom_set = new byte[0x20000];
+                        Array.Copy(bb1, 0, temprom_set, 0, 0x10000);
+                        Memory.Set_audiorom(temprom_set);
 
                         subrom = Machine.GetRom("sub.rom");
-                        gfx12rom = Machine.GetRom("gfx1.rom");
-                        n = gfx12rom.Length;
-                        gfx1rom = new byte[n * 2];
+                        gfx12rom_set = Machine.GetRom("gfx1.rom");
+                        n = gfx12romLength;
+                        gfx1rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                             gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                         }
-                        gfx22rom = Machine.GetRom("gfx2.rom");
-                        n = gfx22rom.Length;
-                        gfx2rom = new byte[n * 2];
+                        gfx22rom_set = Machine.GetRom("gfx2.rom");
+                        n = gfx22romLength;
+                        gfx2rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx2rom[i * 2] = (byte)(gfx22rom[i] >> 4);
@@ -252,31 +291,30 @@ namespace MAME.Core
                     break;
                 case "opwolfp":
                     {
-                        mainram2 = new byte[0x10000];
+                        mainram2_set = new byte[0x10000];
                         cchip_ram = new byte[0x2000];
                         Generic.paletteram16_set = new ushort[0x800];
                         Memory.Set_mainram(new byte[0x8000]);
                         Memory.Set_audioram(new byte[0x1000]);
                         Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
                         bb1 = Machine.GetRom("audiocpu.rom");
-                        //Memory.audiorom = new byte[0x20000];
+                        //Memory.audiorom_set = new byte[0x20000];
                         //Array.Copy(bb1, 0, Memory.audiorom, 0, 0x10000);
-
                         byte[] temprom = new byte[0x20000];
                         Array.Copy(bb1, 0, temprom, 0, 0x10000);
                         Memory.Set_audiorom(temprom);
 
-                        gfx12rom = Machine.GetRom("gfx1.rom");
-                        n = gfx12rom.Length;
-                        gfx1rom = new byte[n * 2];
+                        gfx12rom_set = Machine.GetRom("gfx1.rom");
+                        n = gfx12romLength;
+                        gfx1rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx1rom[i * 2] = (byte)(gfx12rom[i] >> 4);
                             gfx1rom[i * 2 + 1] = (byte)(gfx12rom[i] & 0x0f);
                         }
-                        gfx22rom = Machine.GetRom("gfx2.rom");
-                        n = gfx22rom.Length;
-                        gfx2rom = new byte[n * 2];
+                        gfx22rom_set = Machine.GetRom("gfx2.rom");
+                        n = gfx22romLength;
+                        gfx2rom_set = new byte[n * 2];
                         for (i = 0; i < n; i++)
                         {
                             gfx2rom[i * 2] = (byte)(gfx22rom[i] >> 4);

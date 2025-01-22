@@ -102,7 +102,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x4000));
-            mainram2 = reader.ReadBytes(0x4000);
+            mainram2_set = reader.ReadBytes(0x4000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Cpuint.LoadStateBinary(reader);
@@ -214,7 +214,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x4000));
-            mainram2 = reader.ReadBytes(0x4000);
+            mainram2_set = reader.ReadBytes(0x4000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
@@ -895,7 +895,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x4000));
-            mainram2 = reader.ReadBytes(0x80);
+            mainram2_set = reader.ReadBytes(0x80);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
@@ -999,7 +999,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x4000));
-            mainram2 = reader.ReadBytes(0x80);
+            mainram2_set = reader.ReadBytes(0x80);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);

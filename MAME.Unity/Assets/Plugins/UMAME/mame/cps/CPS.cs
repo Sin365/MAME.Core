@@ -1,15 +1,312 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
-    public partial class CPS
+    public unsafe partial class CPS
     {
-        public static ushort[] cps_a_regs, cps_b_regs, cps2_objram1, cps2_objram2, cps2_output;
-        public static byte[] mainromop, gfxrom, gfx1rom, audioromop, starsrom, user1rom;
-        public static byte[] gfxram;
-        public static byte[] qsound_sharedram1, qsound_sharedram2;
-        public static byte[] mainram2, mainram3;
+        //public static ushort[] cps_a_regs, cps_b_regs, cps2_objram1, cps2_objram2, cps2_output;
+        //public static byte[] mainromop, gfxrom, gfx1rom, audioromop, starsrom, user1rom;
+
+        #region //指针化 cps_a_regs
+        static ushort[] cps_a_regs_src;
+        static GCHandle cps_a_regs_handle;
+        public static ushort* cps_a_regs;
+        public static int cps_a_regsLength;
+        public static bool cps_a_regs_IsNull => cps_a_regs == null;
+        public static ushort[] cps_a_regs_set
+        {
+            set
+            {
+                cps_a_regs_handle.ReleaseGCHandle();
+                cps_a_regs_src = value;
+                cps_a_regsLength = value.Length;
+                cps_a_regs_src.GetObjectPtr(ref cps_a_regs_handle, ref cps_a_regs);
+            }
+        }
+        #endregion
+
+
+        #region //指针化 cps_b_regs
+        static ushort[] cps_b_regs_src;
+        static GCHandle cps_b_regs_handle;
+        public static ushort* cps_b_regs;
+        public static int cps_b_regsLength;
+        public static bool cps_b_regs_IsNull => cps_b_regs == null;
+        public static ushort[] cps_b_regs_set
+        {
+            set
+            {
+                cps_b_regs_handle.ReleaseGCHandle();
+                cps_b_regs_src = value;
+                cps_b_regsLength = value.Length;
+                cps_b_regs_src.GetObjectPtr(ref cps_b_regs_handle, ref cps_b_regs);
+            }
+        }
+        #endregion
+
+        #region //指针化 cps2_objram1
+        static ushort[] cps2_objram1_src;
+        static GCHandle cps2_objram1_handle;
+        public static ushort* cps2_objram1;
+        public static int cps2_objram1Length;
+        public static bool cps2_objram1_IsNull => cps2_objram1 == null;
+        public static ushort[] cps2_objram1_set
+        {
+            set
+            {
+                cps2_objram1_handle.ReleaseGCHandle();
+                cps2_objram1_src = value;
+                cps2_objram1Length = value.Length;
+                cps2_objram1_src.GetObjectPtr(ref cps2_objram1_handle, ref cps2_objram1);
+            }
+        }
+        #endregion
+
+        #region //指针化 cps2_objram2
+        static ushort[] cps2_objram2_src;
+        static GCHandle cps2_objram2_handle;
+        public static ushort* cps2_objram2;
+        public static int cps2_objram2Length;
+        public static bool cps2_objram2_IsNull => cps2_objram2 == null;
+        public static ushort[] cps2_objram2_set
+        {
+            set
+            {
+                cps2_objram2_handle.ReleaseGCHandle();
+                cps2_objram2_src = value;
+                cps2_objram2Length = value.Length;
+                cps2_objram2_src.GetObjectPtr(ref cps2_objram2_handle, ref cps2_objram2);
+            }
+        }
+        #endregion
+
+        #region //指针化 cps2_output
+        static ushort[] cps2_output_src;
+        static GCHandle cps2_output_handle;
+        public static ushort* cps2_output;
+        public static int cps2_outputLength;
+        public static bool cps2_output_IsNull => cps2_output == null;
+        public static ushort[] cps2_output_set
+        {
+            set
+            {
+                cps2_output_handle.ReleaseGCHandle();
+                cps2_output_src = value;
+                cps2_outputLength = value.Length;
+                cps2_output_src.GetObjectPtr(ref cps2_output_handle, ref cps2_output);
+            }
+        }
+        #endregion
+
+        #region //指针化mainromop
+        static byte[] mainromop_src;
+        static GCHandle mainromop_handle;
+        public static byte* mainromop;
+        public static int mainromopLength;
+        public static bool mainromop_IsNull => mainromop == null;
+        public static byte[] mainromop_set
+        {
+            set
+            {
+                mainromop_handle.ReleaseGCHandle();
+                mainromop_src = value;
+                mainromopLength = value.Length;
+                mainromop_src.GetObjectPtr(ref mainromop_handle, ref mainromop);
+            }
+        }
+        #endregion
+
+        #region //指针化gfxrom
+        static byte[] gfxrom_src;
+        static GCHandle gfxrom_handle;
+        public static byte* gfxrom;
+        public static int gfxromLength;
+        public static bool gfxrom_IsNull => gfxrom == null;
+        public static byte[] gfxrom_set
+        {
+            set
+            {
+                gfxrom_handle.ReleaseGCHandle();
+                gfxrom_src = value;
+                gfxromLength = value.Length;
+                gfxrom_src.GetObjectPtr(ref gfxrom_handle, ref gfxrom);
+            }
+        }
+        #endregion
+
+
+        #region //指针化gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化audioromop
+        static byte[] audioromop_src;
+        static GCHandle audioromop_handle;
+        public static byte* audioromop;
+        public static int audioromopLength;
+        public static bool audioromop_IsNull => audioromop == null;
+        public static byte[] audioromop_set
+        {
+            set
+            {
+                audioromop_handle.ReleaseGCHandle();
+                audioromop_src = value;
+                audioromopLength = value.Length;
+                audioromop_src.GetObjectPtr(ref audioromop_handle, ref audioromop);
+            }
+        }
+        #endregion
+
+        #region //指针化starsrom
+        static byte[] starsrom_src;
+        static GCHandle starsrom_handle;
+        public static byte* starsrom;
+        public static int starsromLength;
+        public static bool starsrom_IsNull => starsrom == null;
+        public static byte[] starsrom_set
+        {
+            set
+            {
+                starsrom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                starsrom_src = value;
+                starsromLength = value.Length;
+                starsrom_src.GetObjectPtr(ref starsrom_handle, ref starsrom);
+            }
+        }
+        #endregion
+
+        #region //指针化user1rom
+        static byte[] user1rom_src;
+        static GCHandle user1rom_handle;
+        public static byte* user1rom;
+        public static int user1romLength;
+        public static bool user1rom_IsNull => user1rom == null;
+        public static byte[] user1rom_set
+        {
+            set
+            {
+                user1rom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
+                user1rom_src = value;
+                user1romLength = value.Length;
+                user1rom_src.GetObjectPtr(ref user1rom_handle, ref user1rom);
+            }
+        }
+        #endregion
+
+        //public static byte[] gfxram;
+        //public static byte[] qsound_sharedram1, qsound_sharedram2;
+        //public static byte[] mainram2, mainram3;
+
+        #region //指针化 gfxram
+        static byte[] gfxram_src;
+        static GCHandle gfxram_handle;
+        public static byte* gfxram;
+        public static int gfxramLength;
+        public static bool gfxram_IsNull => gfxram == null;
+        public static byte[] gfxram_set
+        {
+            set
+            {
+                gfxram_handle.ReleaseGCHandle();
+                gfxram_src = value;
+                gfxramLength = value.Length;
+                gfxram_src.GetObjectPtr(ref gfxram_handle, ref gfxram);
+            }
+        }
+        #endregion
+
+        #region //指针化 qsound_sharedram1
+        static byte[] qsound_sharedram1_src;
+        static GCHandle qsound_sharedram1_handle;
+        public static byte* qsound_sharedram1;
+        public static int qsound_sharedram1Length;
+        public static bool qsound_sharedram1_IsNull => qsound_sharedram1 == null;
+        public static byte[] qsound_sharedram1_set
+        {
+            set
+            {
+                qsound_sharedram1_handle.ReleaseGCHandle();
+                qsound_sharedram1_src = value;
+                qsound_sharedram1Length = value.Length;
+                qsound_sharedram1_src.GetObjectPtr(ref qsound_sharedram1_handle, ref qsound_sharedram1);
+            }
+        }
+        #endregion
+
+        #region //指针化 qsound_sharedram2
+        static byte[] qsound_sharedram2_src;
+        static GCHandle qsound_sharedram2_handle;
+        public static byte* qsound_sharedram2;
+        public static int qsound_sharedram2Length;
+        public static bool qsound_sharedram2_IsNull => qsound_sharedram2 == null;
+        public static byte[] qsound_sharedram2_set
+        {
+            set
+            {
+                qsound_sharedram2_handle.ReleaseGCHandle();
+                qsound_sharedram2_src = value;
+                qsound_sharedram2Length = value.Length;
+                qsound_sharedram2_src.GetObjectPtr(ref qsound_sharedram2_handle, ref qsound_sharedram2);
+            }
+        }
+        #endregion
+
+        #region //指针化 mainram2
+        static byte[] mainram2_src;
+        static GCHandle mainram2_handle;
+        public static byte* mainram2;
+        public static int mainram2Length;
+        public static bool mainram2_IsNull => mainram2 == null;
+        public static byte[] mainram2_set
+        {
+            set
+            {
+                mainram2_handle.ReleaseGCHandle();
+                mainram2_src = value;
+                mainram2Length = value.Length;
+                mainram2_src.GetObjectPtr(ref mainram2_handle, ref mainram2);
+            }
+        }
+        #endregion
+
+        #region //指针化 mainram3
+        static byte[] mainram3_src;
+        static GCHandle mainram3_handle;
+        public static byte* mainram3;
+        public static int mainram3Length;
+        public static bool mainram3_IsNull => mainram3 == null;
+        public static byte[] mainram3_set
+        {
+            set
+            {
+                mainram3_handle.ReleaseGCHandle();
+                mainram3_src = value;
+                mainram3Length = value.Length;
+                mainram3_src.GetObjectPtr(ref mainram3_handle, ref mainram3);
+            }
+        }
+        #endregion
+
         public static byte dswa, dswb, dswc;
         public static int cps_version;
         public static int basebanksnd;
@@ -46,16 +343,16 @@ namespace MAME.Core
         public static void CPSInit()
         {
             int i, n;
-            cps_a_regs = new ushort[0x20];
-            cps_b_regs = new ushort[0x20];
-            gfxram = new byte[0x30000];
+            cps_a_regs_set = new ushort[0x20];
+            cps_b_regs_set = new ushort[0x20];
+            gfxram_set = new byte[0x30000];
             Memory.Set_mainram(new byte[0x10000]);
             Memory.Set_audioram(new byte[0x800]);
             Machine.bRom = true;
             Memory.Set_mainrom(Machine.GetRom("maincpu.rom"));
-            gfxrom = Machine.GetRom("gfx.rom");
-            n = gfxrom.Length;
-            gfx1rom = new byte[n * 2];
+            gfxrom_set = Machine.GetRom("gfx.rom");
+            n = gfxromLength;
+            gfx1rom_set = new byte[n * 2];
             for (i = 0; i < n; i++)
             {
                 gfx1rom[i * 2] = (byte)(gfxrom[i] & 0x0f);
@@ -68,7 +365,7 @@ namespace MAME.Core
             {
                 case "CPS-1":
                     cps_version = 1;
-                    starsrom = Machine.GetRom("stars.rom");
+                    starsrom_set = Machine.GetRom("stars.rom");
                     OKI6295.okirom = Machine.GetRom("oki.rom");
                     if (Memory.mainrom_IsNull || gfxrom == null || Memory.audiorom_IsNull || OKI6295.okirom == null)
                     {
@@ -77,10 +374,10 @@ namespace MAME.Core
                     break;
                 case "CPS-1(QSound)":
                     cps_version = 1;
-                    qsound_sharedram1 = new byte[0x1000];
-                    qsound_sharedram2 = new byte[0x1000];
-                    audioromop = Machine.GetRom("audiocpuop.rom");
-                    user1rom = Machine.GetRom("user1.rom");
+                    qsound_sharedram1_set = new byte[0x1000];
+                    qsound_sharedram2_set = new byte[0x1000];
+                    audioromop_set = Machine.GetRom("audiocpuop.rom");
+                    user1rom_set = Machine.GetRom("user1.rom");
                     QSound.qsoundrom = ByteToSbyte(Machine.GetRom("qsound.rom"));
                     if (Memory.mainrom_IsNull || audioromop == null || gfxrom == null || Memory.audiorom_IsNull || QSound.qsoundrom == null)
                     {
@@ -89,22 +386,22 @@ namespace MAME.Core
                     break;
                 case "CPS2":
                     cps_version = 2;
-                    cps2_objram1 = new ushort[0x1000];
-                    cps2_objram2 = new ushort[0x1000];
-                    cps2_output = new ushort[0x06];
+                    cps2_objram1_set = new ushort[0x1000];
+                    cps2_objram2_set = new ushort[0x1000];
+                    cps2_output_set = new ushort[0x06];
                     cps2networkpresent = 0;
                     cps2_objram_bank = 0;
                     scancount = 0;
                     cps1_scanline1 = 262;
                     cps1_scanline2 = 262;
                     cps1_scancalls = 0;
-                    qsound_sharedram1 = new byte[0x1000];
-                    qsound_sharedram2 = new byte[0x1000];
+                    qsound_sharedram1_set = new byte[0x1000];
+                    qsound_sharedram2_set = new byte[0x1000];
                     if (Machine.sManufacturer != "bootleg")
                     {
-                        mainromop = Machine.GetRom("maincpuop.rom");
+                        mainromop_set = Machine.GetRom("maincpuop.rom");
                     }
-                    audioromop = Machine.GetRom("audiocpu.rom");
+                    audioromop_set = Machine.GetRom("audiocpu.rom");
                     QSound.qsoundrom = ByteToSbyte(Machine.GetRom("qsound.rom"));
                     if (Memory.mainrom_IsNull || (Machine.sManufacturer != "bootleg" && mainromop == null) || audioromop == null || gfxrom == null || Memory.audiorom_IsNull || QSound.qsoundrom == null)
                     {

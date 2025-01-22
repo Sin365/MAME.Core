@@ -1,8 +1,8 @@
 ﻿namespace MAME.Core
 {
-    public partial class Drawgfx
+    public unsafe partial class Drawgfx
     {
-        public static void common_drawgfxzoom_taitob(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley)
+        public static void common_drawgfxzoom_taitob(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley)
         {
             if ((scalex == 0) || (scaley == 0))
             {
@@ -108,7 +108,7 @@
                 }
             }
         }
-        public static void common_drawgfx_taitob(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
+        public static void common_drawgfx_taitob(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {
             int ox;
             int oy;
@@ -167,7 +167,7 @@
             int colorbase = color;
             blockmove_8toN_transpen_raw16_taitob(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, sx, sy);
         }
-        public static void blockmove_8toN_transpen_raw16_taitob(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int sx, int sy)
+        public static void blockmove_8toN_transpen_raw16_taitob(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int sx, int sy)
         {
             int ydir, xdir, col, i, j, offsetx, offsety;
             int srcdata_offset = code * 0x100;

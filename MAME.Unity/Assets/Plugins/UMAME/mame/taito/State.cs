@@ -305,7 +305,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x1800));
-            mainram2 = reader.ReadBytes(0x100);
+            mainram2_set = reader.ReadBytes(0x100);
             mainram3 = reader.ReadBytes(0x100);
             Memory.Set_audioram(reader.ReadBytes(0x1000));
             for (i = 0; i < 3; i++)
@@ -703,7 +703,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x8000));
-            mainram2 = reader.ReadBytes(0x10000);
+            mainram2_set = reader.ReadBytes(0x10000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x1000));
             for (i = 0; i < Z80A.nZ80; i++)

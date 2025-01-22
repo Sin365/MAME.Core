@@ -96,6 +96,8 @@ namespace MAME.Core
             set
             {
                 videoram_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 videoram_src = value;
                 videoramLength = value.Length;
                 videoram_src.GetObjectPtr(ref videoram_handle, ref videoram);
@@ -182,6 +184,8 @@ namespace MAME.Core
             set
             {
                 spriteram16_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 spriteram16_src = value;
                 spriteram16Length = value.Length;
                 spriteram16_src.GetObjectPtr(ref spriteram16_handle, ref spriteram16);
@@ -199,6 +203,8 @@ namespace MAME.Core
             set
             {
                 spriteram16_2_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 spriteram16_2_src = value;
                 spriteram16_2Length = value.Length;
                 spriteram16_2_src.GetObjectPtr(ref spriteram16_2_handle, ref spriteram16_2);

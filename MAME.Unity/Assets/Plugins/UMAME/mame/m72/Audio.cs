@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class M72
+    public unsafe partial class M72
     {
         public static int setvector_param;
         public static byte irqvector;
@@ -107,7 +107,7 @@
         public static void m72_sample_w(byte data)
         {
             DAC.dac_signed_data_w(0, data);
-            sample_addr = (sample_addr + 1) & (samplesrom.Length - 1);
+            sample_addr = (sample_addr + 1) & (samplesromLength - 1);
         }
     }
 }

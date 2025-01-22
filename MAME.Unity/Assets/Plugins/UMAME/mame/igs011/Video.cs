@@ -1,6 +1,6 @@
 ﻿namespace MAME.Core
 {
-    public partial class IGS011
+    public unsafe partial class IGS011
     {
         private static byte lhb2_pen_hi;
         private static byte[][] layer;
@@ -268,11 +268,11 @@
             bool depth4;
             int clear, opaque, z;
             byte trans_pen, clear_pen, pen_hi, pen = 0;
-            int gfx_size = gfx1rom.Length;
+            int gfx_size = gfx1romLength;
             int gfx2_size = 0;
             if (gfx2rom != null)
             {
-                gfx2_size = gfx2rom.Length;
+                gfx2_size = gfx2romLength;
             }
             blitter.flags = data;
             opaque = (blitter.flags & 0x0008) == 0 ? 1 : 0;

@@ -2,7 +2,7 @@
 {
     public unsafe partial class Konami68000
     {
-        public static void common_drawgfxzoom_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley)
+        public static void common_drawgfxzoom_konami68000(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley)
         {
             if ((scalex == 0) || (scaley == 0))
             {
@@ -100,7 +100,7 @@
                 }
             }
         }
-        public static void common_drawgfxzoom_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley, uint pri_mask)
+        public static void common_drawgfxzoom_konami68000(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, int transparent_color, int scalex, int scaley, uint pri_mask)
         {
             if ((scalex == 0) || (scaley == 0))
             {
@@ -202,7 +202,7 @@
                 }
             }
         }
-        public static void common_drawgfx_konami68000(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint pri_mask)
+        public static void common_drawgfx_konami68000(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip, uint pri_mask)
         {
             int ox;
             int oy;
@@ -265,7 +265,7 @@
             int colorbase = color * 0x10;
             blockmove_8toN_transpen_pri16_konami68000(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, pri_mask, sx, sy);
         }
-        public static void blockmove_8toN_transpen_pri16_konami68000(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo,
+        public static void blockmove_8toN_transpen_pri16_konami68000(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo,
                 int leftskip, int topskip, int flipx, int flipy,
                 int dstwidth, int dstheight, int colorbase, uint pmask, int sx, int sy)
         {

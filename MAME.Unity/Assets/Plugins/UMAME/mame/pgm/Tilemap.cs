@@ -2,7 +2,7 @@
 
 namespace MAME.Core
 {
-    public partial class PGM
+    public unsafe partial class PGM
     {
         public static Tmap pgm_tx_tilemap, pgm_bg_tilemap;
         public static void tilemap_init()
@@ -23,7 +23,7 @@ namespace MAME.Core
             pgm_tx_tilemap.tile_update3 = pgm_tx_tilemap.tile_updatePgmtx;
             pgm_tx_tilemap.tilemap_draw_instance3 = pgm_tx_tilemap.tilemap_draw_instancePgm;
             pgm_tx_tilemap.total_elements = 0x800000 / 0x20;
-            pgm_tx_tilemap.pen_data = new byte[0x40];
+            pgm_tx_tilemap.pen_data_set = new byte[0x40];
             pgm_tx_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 0; i < 15; i++)
             {
@@ -49,7 +49,7 @@ namespace MAME.Core
             pgm_bg_tilemap.tile_update3 = pgm_bg_tilemap.tile_updatePgmbg;
             pgm_bg_tilemap.tilemap_draw_instance3 = pgm_bg_tilemap.tilemap_draw_instancePgm;
             pgm_bg_tilemap.total_elements = 0x3333;
-            pgm_bg_tilemap.pen_data = new byte[0x400];
+            pgm_bg_tilemap.pen_data_set = new byte[0x400];
             pgm_bg_tilemap.pen_to_flags = new byte[1, 32];
             for (i = 0; i < 31; i++)
             {
@@ -62,7 +62,7 @@ namespace MAME.Core
             pgm_bg_tilemap.colscroll = new int[pgm_bg_tilemap.scrollcols];
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tile_updatePgmtx(int col, int row)
         {
@@ -98,7 +98,7 @@ namespace MAME.Core
             int xoffs;
             byte andmask = 0xff, ormask = 0;
             byte pen, map;
-            Array.Copy(PGM.tiles1rom, pendata_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(PGM.tiles1rom, pendata_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += height - 1;
@@ -257,7 +257,7 @@ namespace MAME.Core
             int xoffs;
             byte andmask = 0xff, ormask = 0;
             byte pen, map;
-            Array.Copy(PGM.tiles2rom, pendata_offset, pen_data, 0, 0x400);
+            AxiArray.Copy(PGM.tiles2rom, pendata_offset, pen_data, 0, 0x400);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += height - 1;

@@ -2,7 +2,7 @@
 {
     public unsafe partial class Drawgfx
     {
-        public static void common_drawgfx_m72(byte[] bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
+        public static void common_drawgfx_m72(byte* bb1, int code, int color, int flipx, int flipy, int sx, int sy, RECT clip)
         {
             int ox;
             int oy;
@@ -61,7 +61,7 @@
             int colorbase = 0x10 * color;
             blockmove_8toN_transpen16_m72(bb1, code, sw, sh, 0x10, ls, ts, flipx, flipy, dw, dh, colorbase, sy, sx);
         }
-        public static void blockmove_8toN_transpen16_m72(byte[] bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
+        public static void blockmove_8toN_transpen16_m72(byte* bb1, int code, int srcwidth, int srcheight, int srcmodulo, int leftskip, int topskip, int flipx, int flipy, int dstwidth, int dstheight, int colorbase, int offsety, int offsetx)
         {
             int ydir, xdir, col, i, j;
             int srcdata_offset = code * 0x100;

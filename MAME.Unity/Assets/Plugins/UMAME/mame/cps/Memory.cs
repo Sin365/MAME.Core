@@ -906,7 +906,7 @@ namespace MAME.Core
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < mainromop.Length)
+                if (address < mainromopLength)
                 {
                     result = (sbyte)(mainromop[address]);
                 }
@@ -923,7 +923,7 @@ namespace MAME.Core
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < mainromop.Length)
+                if (address < mainromopLength)
                 {
                     result = (sbyte)mainromop[address];
                 }
@@ -1071,7 +1071,7 @@ namespace MAME.Core
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < mainromop.Length)
+                if (address + 1 < mainromopLength)
                 {
                     result = (short)(mainromop[address] * 0x100 + mainromop[address + 1]);
                 }
@@ -1088,7 +1088,7 @@ namespace MAME.Core
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < mainromop.Length)
+                if (address + 1 < mainromopLength)
                 {
                     result = (short)(mainromop[address] * 0x100 + mainromop[address + 1]);
                 }
@@ -1214,7 +1214,7 @@ namespace MAME.Core
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < mainromop.Length)
+                if (address + 3 < mainromopLength)
                 {
                     result = (int)(mainromop[address] * 0x1000000 + mainromop[address + 1] * 0x10000 + mainromop[address + 2] * 0x100 + mainromop[address + 3]);
                 }
@@ -1231,7 +1231,7 @@ namespace MAME.Core
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < mainromop.Length)
+                if (address + 3 < mainromopLength)
                 {
                     result = (int)(mainromop[address] * 0x1000000 + mainromop[address + 1] * 0x10000 + mainromop[address + 2] * 0x100 + mainromop[address + 3]);
                 }

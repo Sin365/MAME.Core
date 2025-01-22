@@ -63,7 +63,7 @@ namespace MAME.Core
             }
         }
     }
-    public partial class Tmap
+    public unsafe partial class Tmap
     {
         public void tile_updateNa(int col, int row)
         {

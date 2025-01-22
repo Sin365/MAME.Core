@@ -1,13 +1,105 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 
 namespace MAME.Core
 {
     public unsafe partial class Taito
     {
-        public static byte[] gfx1rom, gfx2rom, gfx12rom, gfx22rom, prom;
+        //public static byte[] /*gfx1rom, *//*gfx2rom,*/ /*gfx12rom,*/ /*gfx22rom*//*, prom*/;
         public static int bublbobl_objectram_size = 0x300;
         public static RECT cliprect;
         public static ushort[] uuFF;
+
+        #region //指针化 gfx1rom
+        static byte[] gfx1rom_src;
+        static GCHandle gfx1rom_handle;
+        public static byte* gfx1rom;
+        public static int gfx1romLength;
+        public static bool gfx1rom_IsNull => gfx1rom == null;
+        public static byte[] gfx1rom_set
+        {
+            set
+            {
+                gfx1rom_handle.ReleaseGCHandle();
+                gfx1rom_src = value;
+                gfx1romLength = value.Length;
+                gfx1rom_src.GetObjectPtr(ref gfx1rom_handle, ref gfx1rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx2rom
+        static byte[] gfx2rom_src;
+        static GCHandle gfx2rom_handle;
+        public static byte* gfx2rom;
+        public static int gfx2romLength;
+        public static bool gfx2rom_IsNull => gfx2rom == null;
+        public static byte[] gfx2rom_set
+        {
+            set
+            {
+                gfx2rom_handle.ReleaseGCHandle();
+                gfx2rom_src = value;
+                gfx2romLength = value.Length;
+                gfx2rom_src.GetObjectPtr(ref gfx2rom_handle, ref gfx2rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx12rom
+        static byte[] gfx12rom_src;
+        static GCHandle gfx12rom_handle;
+        public static byte* gfx12rom;
+        public static int gfx12romLength;
+        public static bool gfx12rom_IsNull => gfx12rom == null;
+        public static byte[] gfx12rom_set
+        {
+            set
+            {
+                gfx12rom_handle.ReleaseGCHandle();
+                gfx12rom_src = value;
+                gfx12romLength = value.Length;
+                gfx12rom_src.GetObjectPtr(ref gfx12rom_handle, ref gfx12rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 gfx22rom
+        static byte[] gfx22rom_src;
+        static GCHandle gfx22rom_handle;
+        public static byte* gfx22rom;
+        public static int gfx22romLength;
+        public static bool gfx22rom_IsNull => gfx22rom == null;
+        public static byte[] gfx22rom_set
+        {
+            set
+            {
+                gfx22rom_handle.ReleaseGCHandle();
+                gfx22rom_src = value;
+                gfx22romLength = value.Length;
+                gfx22rom_src.GetObjectPtr(ref gfx22rom_handle, ref gfx22rom);
+            }
+        }
+        #endregion
+
+        #region //指针化 prom
+        static byte[] prom_src;
+        static GCHandle prom_handle;
+        public static byte* prom;
+        public static int promLength;
+        public static bool prom_IsNull => prom == null;
+        public static byte[] prom_set
+        {
+            set
+            {
+                prom_handle.ReleaseGCHandle();
+                prom_src = value;
+                promLength = value.Length;
+                prom_src.GetObjectPtr(ref prom_handle, ref prom);
+            }
+        }
+        #endregion
+
         public static void video_start_bublbobl()
         {
             int i;

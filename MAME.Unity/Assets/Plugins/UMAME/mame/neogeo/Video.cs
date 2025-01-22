@@ -823,8 +823,8 @@ namespace MAME.Core
         }
         private static void optimize_sprite_data()
         {
-            sprite_gfx_address_mask = (uint)(spritesrom.Length * 2 - 1);
-            for (int i = 0; i < spritesrom.Length; i++)
+            sprite_gfx_address_mask = (uint)(spritesromLength * 2 - 1);
+            for (int i = 0; i < spritesromLength; i++)
             {
                 sprite_gfx[i * 2] = (byte)((spritesrom[i] & 0xf0) >> 4);
                 sprite_gfx[i * 2 + 1] = (byte)(spritesrom[i] & 0x0f);
@@ -917,7 +917,7 @@ namespace MAME.Core
         }
         public static void video_start_neogeo()
         {
-            sprite_gfx = new byte[spritesrom.Length * 2];
+            sprite_gfx = new byte[spritesromLength * 2];
             neogeo_videoram = new ushort[0x10000];
             palettes = new ushort[2, 0x1000];
             pens = new int[0x1000];

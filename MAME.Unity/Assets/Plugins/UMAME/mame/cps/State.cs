@@ -115,8 +115,10 @@ namespace MAME.Core
                 writer.Write(Cpuexec.cpu[i].localtime.attoseconds);
             }
             EmuTimer.SaveStateBinary(writer);
-            writer.Write(qsound_sharedram1);
-            writer.Write(qsound_sharedram2);
+            //writer.Write(qsound_sharedram1);
+            //writer.Write(qsound_sharedram2);
+            writer.Write(qsound_sharedram1, 0, qsound_sharedram1Length);
+            writer.Write(qsound_sharedram2, 0, qsound_sharedram2Length);
             QSound.SaveStateBinary(writer);
             writer.Write(Sound.qsoundstream.output_sampindex);
             writer.Write(Sound.qsoundstream.output_base_sampindex);
@@ -178,8 +180,10 @@ namespace MAME.Core
                 writer.Write(Cpuexec.cpu[i].localtime.attoseconds);
             }
             EmuTimer.SaveStateBinary(writer);
-            writer.Write(qsound_sharedram1);
-            writer.Write(qsound_sharedram2);
+            //writer.Write(qsound_sharedram1);
+            //writer.Write(qsound_sharedram2);
+            writer.Write(qsound_sharedram1, 0, qsound_sharedram1Length);
+            writer.Write(qsound_sharedram2, 0, qsound_sharedram2Length);
             QSound.SaveStateBinary(writer);
             writer.Write(Sound.qsoundstream.output_sampindex);
             writer.Write(Sound.qsoundstream.output_base_sampindex);
@@ -207,7 +211,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x10000));
-            gfxram = reader.ReadBytes(0x30000);
+            gfxram_set = reader.ReadBytes(0x30000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
@@ -277,7 +281,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x10000));
-            gfxram = reader.ReadBytes(0x30000);
+            gfxram_set = reader.ReadBytes(0x30000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
@@ -296,8 +300,8 @@ namespace MAME.Core
                 Cpuexec.cpu[i].localtime.attoseconds = reader.ReadInt64();
             }
             EmuTimer.LoadStateBinary(reader);
-            qsound_sharedram1 = reader.ReadBytes(0x1000);
-            qsound_sharedram2 = reader.ReadBytes(0x1000);
+            qsound_sharedram1_set = reader.ReadBytes(0x1000);
+            qsound_sharedram2_set = reader.ReadBytes(0x1000);
             QSound.LoadStateBinary(reader);
             Sound.qsoundstream.output_sampindex = reader.ReadInt32();
             Sound.qsoundstream.output_base_sampindex = reader.ReadInt32();
@@ -340,7 +344,7 @@ namespace MAME.Core
                 Palette.entry_color[i] = reader.ReadUInt32();
             }
             Memory.Set_mainram(reader.ReadBytes(0x10000));
-            gfxram = reader.ReadBytes(0x30000);
+            gfxram_set = reader.ReadBytes(0x30000);
             MC68000.m1.LoadStateBinary(reader);
             Memory.Set_audioram(reader.ReadBytes(0x800));
             Z80A.zz1[0].LoadStateBinary(reader);
@@ -359,8 +363,8 @@ namespace MAME.Core
                 Cpuexec.cpu[i].localtime.attoseconds = reader.ReadInt64();
             }
             EmuTimer.LoadStateBinary(reader);
-            qsound_sharedram1 = reader.ReadBytes(0x1000);
-            qsound_sharedram2 = reader.ReadBytes(0x1000);
+            qsound_sharedram1_set = reader.ReadBytes(0x1000);
+            qsound_sharedram2_set = reader.ReadBytes(0x1000);
             QSound.LoadStateBinary(reader);
             Sound.qsoundstream.output_sampindex = reader.ReadInt32();
             Sound.qsoundstream.output_base_sampindex = reader.ReadInt32();

@@ -161,7 +161,7 @@ namespace MAME.Core
             flags = (((attr & 0xc000) >> 14) & 3) ^ (attributes & 0x03);
             tileflags[row, col] = tile_drawTaitobg_opwolf(Taito.gfx1rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
-        public byte tile_drawTaitobg_opwolf(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawTaitobg_opwolf(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -170,7 +170,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;

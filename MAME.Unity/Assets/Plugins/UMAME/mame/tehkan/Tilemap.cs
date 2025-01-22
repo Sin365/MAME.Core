@@ -17,11 +17,11 @@ namespace MAME.Core
             bg_tilemap.height = 0x100;
             bg_tilemap.enable = true;
             bg_tilemap.all_tiles_dirty = true;
-            bg_tilemap.total_elements = gfx2rom.Length / 0x40;
+            bg_tilemap.total_elements = gfx2romLength / 0x40;
             bg_tilemap.pixmap = new ushort[0x100 * 0x100];
             bg_tilemap.flagsmap = new byte[0x100, 0x100];
             bg_tilemap.tileflags = new byte[32, 32];
-            bg_tilemap.pen_data = new byte[0x100];
+            bg_tilemap.pen_data_set = new byte[0x100];
             bg_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 0; i < 16; i++)
             {
@@ -43,11 +43,11 @@ namespace MAME.Core
             fg_tilemap.height = 0x100;
             fg_tilemap.enable = true;
             fg_tilemap.all_tiles_dirty = true;
-            fg_tilemap.total_elements = gfx1rom.Length / 0x40;
+            fg_tilemap.total_elements = gfx1romLength / 0x40;
             fg_tilemap.pixmap = new ushort[0x100 * 0x100];
             fg_tilemap.flagsmap = new byte[0x100, 0x100];
             fg_tilemap.tileflags = new byte[32, 32];
-            fg_tilemap.pen_data = new byte[0x100];
+            fg_tilemap.pen_data_set = new byte[0x100];
             fg_tilemap.pen_to_flags = new byte[1, 16];
             fg_tilemap.pen_to_flags[0, 0] = 0;
             for (i = 1; i < 16; i++)
@@ -100,7 +100,7 @@ namespace MAME.Core
             group = 0;
             tileflags[row, col] = tile_drawTehkanfg(Tehkan.gfx1rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
-        public byte tile_drawTehkanbg(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawTehkanbg(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -109,7 +109,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;
@@ -143,7 +143,7 @@ namespace MAME.Core
             }
             return (byte)(andmask ^ ormask);
         }
-        public byte tile_drawTehkanfg(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawTehkanfg(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -152,7 +152,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;

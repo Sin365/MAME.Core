@@ -22,11 +22,11 @@ namespace MAME.Core
             bg_tilemap.height = 0x400;
             bg_tilemap.enable = true;
             bg_tilemap.all_tiles_dirty = true;
-            bg_tilemap.total_elements = gfx1rom.Length / 0x100;
+            bg_tilemap.total_elements = gfx1romLength / 0x100;
             bg_tilemap.pixmap = new ushort[0x400 * 0x400];
             bg_tilemap.flagsmap = new byte[0x400, 0x400];
             bg_tilemap.tileflags = new byte[64, 64];
-            bg_tilemap.pen_data = new byte[0x100];
+            bg_tilemap.pen_data_set = new byte[0x100];
             bg_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 0; i < 16; i++)
             {
@@ -48,11 +48,11 @@ namespace MAME.Core
             fg_tilemap.height = 0x400;
             fg_tilemap.enable = true;
             fg_tilemap.all_tiles_dirty = true;
-            fg_tilemap.total_elements = gfx1rom.Length / 0x100;
+            fg_tilemap.total_elements = gfx1romLength / 0x100;
             fg_tilemap.pixmap = new ushort[0x400 * 0x400];
             fg_tilemap.flagsmap = new byte[0x400, 0x400];
             fg_tilemap.tileflags = new byte[64, 64];
-            fg_tilemap.pen_data = new byte[0x100];
+            fg_tilemap.pen_data_set = new byte[0x100];
             fg_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 1; i < 16; i++)
             {
@@ -76,11 +76,11 @@ namespace MAME.Core
             tx_tilemap.height = 0x100;
             tx_tilemap.enable = true;
             tx_tilemap.all_tiles_dirty = true;
-            tx_tilemap.total_elements = gfx1rom.Length / 0x40;
+            tx_tilemap.total_elements = gfx1romLength / 0x40;
             tx_tilemap.pixmap = new ushort[0x100 * 0x200];
             tx_tilemap.flagsmap = new byte[0x100, 0x200];
             tx_tilemap.tileflags = new byte[32, 64];
-            tx_tilemap.pen_data = new byte[0x40];
+            tx_tilemap.pen_data_set = new byte[0x40];
             tx_tilemap.pen_to_flags = new byte[1, 16];
             for (i = 1; i < 16; i++)
             {
@@ -254,7 +254,7 @@ namespace MAME.Core
             flags = attributes & 0x03;
             tileflags[row, col] = tile_drawTaitobtx(Taitob.gfx0rom, pen_data_offset, x0, y0, palette_base, group, flags);
         }
-        public byte tile_drawTaitob(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawTaitob(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -263,7 +263,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x100);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x100);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;
@@ -293,7 +293,7 @@ namespace MAME.Core
             }
             return (byte)(andmask ^ ormask);
         }
-        public byte tile_drawTaitobtx(byte[] bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
+        public byte tile_drawTaitobtx(byte* bb1, int pen_data_offset, int x0, int y0, int palette_base, int group, int flags)
         {
             byte andmask = 0xff, ormask = 0;
             int dx0 = 1, dy0 = 1;
@@ -302,7 +302,7 @@ namespace MAME.Core
             int offset1 = 0;
             int offsety1;
             int xoffs;
-            Array.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
+            AxiArray.Copy(bb1, pen_data_offset, pen_data, 0, 0x40);
             if ((flags & Tilemap.TILE_FLIPY) != 0)
             {
                 y0 += tileheight - 1;
