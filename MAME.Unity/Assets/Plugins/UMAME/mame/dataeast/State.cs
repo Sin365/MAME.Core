@@ -18,10 +18,10 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x800);
+            writer.Write(Memory.mainram, 0, 0x800);
             writer.Write(Generic.videoram, 0, 0x800);
             writer.Write(Generic.spriteram, 0, 0x200);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             M6502.mm1[0].SaveStateBinary(writer);
             M6502.mm1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);

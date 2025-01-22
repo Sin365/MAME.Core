@@ -193,9 +193,9 @@
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < Memory.mainrom_Lenght)
+                if (address < Memory.mainromLength)
                 {
-                    result = (sbyte)Memory.mainrom_Ptr[address];
+                    result = (sbyte)Memory.mainrom[address];
                 }
                 else
                 {
@@ -233,7 +233,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffff)
             {
-                result = (sbyte)Memory.mainram_Ptr[address & 0xffff];
+                result = (sbyte)Memory.mainram[address & 0xffff];
             }
             return result;
         }
@@ -243,9 +243,9 @@
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < Memory.mainrom_Lenght)
+                if (address + 1 < Memory.mainromLength)
                 {
-                    result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
+                    result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
                 }
                 else
                 {
@@ -276,7 +276,7 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffff)
             {
-                result = (short)(Memory.mainram_Ptr[(address & 0xffff)] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 1]);
+                result = (short)(Memory.mainram[(address & 0xffff)] * 0x100 + Memory.mainram[(address & 0xffff) + 1]);
             }
             return result;
         }
@@ -286,9 +286,9 @@
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < Memory.mainrom_Lenght)
+                if (address + 3 < Memory.mainromLength)
                 {
-                    result = (int)(Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3]);
+                    result = (int)(Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3]);
                 }
                 else
                 {
@@ -318,7 +318,7 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffff)
             {
-                result = (int)(Memory.mainram_Ptr[(address & 0xffff)] * 0x1000000 + Memory.mainram_Ptr[(address & 0xffff) + 1] * 0x10000 + Memory.mainram_Ptr[(address & 0xffff) + 2] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 3]);
+                result = (int)(Memory.mainram[(address & 0xffff)] * 0x1000000 + Memory.mainram[(address & 0xffff) + 1] * 0x10000 + Memory.mainram[(address & 0xffff) + 2] * 0x100 + Memory.mainram[(address & 0xffff) + 3]);
             }
             return result;
         }
@@ -367,7 +367,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value);
             }
             else
             {
@@ -413,8 +413,8 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)(value);
             }
             else
             {
@@ -466,10 +466,10 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value >> 24);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)(value >> 16);
-                Memory.mainram_Ptr[(address & 0xffff) + 2] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 3] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value >> 24);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)(value >> 16);
+                Memory.mainram[(address & 0xffff) + 2] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 3] = (byte)(value);
             }
             else
             {
@@ -482,9 +482,9 @@
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < Memory.mainrom_Lenght)
+                if (address < Memory.mainromLength)
                 {
-                    result = (sbyte)Memory.mainrom_Ptr[address];
+                    result = (sbyte)Memory.mainrom[address];
                 }
                 else
                 {
@@ -538,7 +538,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffff)
             {
-                result = (sbyte)Memory.mainram_Ptr[address & 0xffff];
+                result = (sbyte)Memory.mainram[address & 0xffff];
             }
             return result;
         }
@@ -548,9 +548,9 @@
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < Memory.mainrom_Lenght)
+                if (address + 1 < Memory.mainromLength)
                 {
-                    result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
+                    result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
                 }
                 else
                 {
@@ -593,7 +593,7 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffff)
             {
-                result = (short)(Memory.mainram_Ptr[(address & 0xffff)] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 1]);
+                result = (short)(Memory.mainram[(address & 0xffff)] * 0x100 + Memory.mainram[(address & 0xffff) + 1]);
             }
             return result;
         }
@@ -603,9 +603,9 @@
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < Memory.mainrom_Lenght)
+                if (address + 3 < Memory.mainromLength)
                 {
-                    result = (int)(Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3]);
+                    result = (int)(Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3]);
                 }
                 else
                 {
@@ -647,7 +647,7 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffff)
             {
-                result = (int)(Memory.mainram_Ptr[(address & 0xffff)] * 0x1000000 + Memory.mainram_Ptr[(address & 0xffff) + 1] * 0x10000 + Memory.mainram_Ptr[(address & 0xffff) + 2] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 3]);
+                result = (int)(Memory.mainram[(address & 0xffff)] * 0x1000000 + Memory.mainram[(address & 0xffff) + 1] * 0x10000 + Memory.mainram[(address & 0xffff) + 2] * 0x100 + Memory.mainram[(address & 0xffff) + 3]);
             }
             return result;
         }
@@ -704,7 +704,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value);
             }
             else
             {
@@ -760,8 +760,8 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)(value);
             }
             else
             {
@@ -827,10 +827,10 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffff)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value >> 24);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)(value >> 16);
-                Memory.mainram_Ptr[(address & 0xffff) + 2] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 3] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value >> 24);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)(value >> 16);
+                Memory.mainram[(address & 0xffff) + 2] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 3] = (byte)(value);
             }
             else
             {
@@ -958,9 +958,9 @@
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < Memory.mainrom_Lenght)
+                if (address < Memory.mainromLength)
                 {
-                    result = (sbyte)(Memory.mainrom_Ptr[address]);
+                    result = (sbyte)(Memory.mainrom[address]);
                 }
                 else
                 {
@@ -975,9 +975,9 @@
             sbyte result = 0;
             if (address <= 0x3fffff)
             {
-                if (address < Memory.mainrom_Lenght)
+                if (address < Memory.mainromLength)
                 {
-                    result = (sbyte)Memory.mainrom_Ptr[address];
+                    result = (sbyte)Memory.mainrom[address];
                 }
                 else
                 {
@@ -1091,7 +1091,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffef)
             {
-                result = (sbyte)Memory.mainram_Ptr[address & 0xffff];
+                result = (sbyte)Memory.mainram[address & 0xffff];
             }
             else if (address >= 0xfffff0 && address <= 0xfffffb)
             {
@@ -1110,9 +1110,9 @@
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < Memory.mainrom_Lenght)
+                if (address + 1 < Memory.mainromLength)
                 {
-                    result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
+                    result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
                 }
                 else
                 {
@@ -1127,9 +1127,9 @@
             short result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 1 < Memory.mainrom_Lenght)
+                if (address + 1 < Memory.mainromLength)
                 {
-                    result = (short)(Memory.mainrom_Ptr[address] * 0x100 + Memory.mainrom_Ptr[address + 1]);
+                    result = (short)(Memory.mainrom[address] * 0x100 + Memory.mainrom[address + 1]);
                 }
                 else
                 {
@@ -1222,7 +1222,7 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffef)
             {
-                return (short)(Memory.mainram_Ptr[(address & 0xffff)] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 1]);
+                return (short)(Memory.mainram[(address & 0xffff)] * 0x100 + Memory.mainram[(address & 0xffff) + 1]);
             }
             else if (address >= 0xfffff0 && address + 1 <= 0xfffffb)
             {
@@ -1241,9 +1241,9 @@
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < Memory.mainrom_Lenght)
+                if (address + 3 < Memory.mainromLength)
                 {
-                    result = (int)(Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3]);
+                    result = (int)(Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3]);
                 }
                 else
                 {
@@ -1258,9 +1258,9 @@
             int result = 0;
             if (address <= 0x3fffff)
             {
-                if (address + 3 < Memory.mainrom_Lenght)
+                if (address + 3 < Memory.mainromLength)
                 {
-                    result = (int)(Memory.mainrom_Ptr[address] * 0x1000000 + Memory.mainrom_Ptr[address + 1] * 0x10000 + Memory.mainrom_Ptr[address + 2] * 0x100 + Memory.mainrom_Ptr[address + 3]);
+                    result = (int)(Memory.mainrom[address] * 0x1000000 + Memory.mainrom[address + 1] * 0x10000 + Memory.mainrom[address + 2] * 0x100 + Memory.mainrom[address + 3]);
                 }
                 else
                 {
@@ -1362,7 +1362,7 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffef)
             {
-                result = (int)(Memory.mainram_Ptr[(address & 0xffff)] * 0x1000000 + Memory.mainram_Ptr[(address & 0xffff) + 1] * 0x10000 + Memory.mainram_Ptr[(address & 0xffff) + 2] * 0x100 + Memory.mainram_Ptr[(address & 0xffff) + 3]);
+                result = (int)(Memory.mainram[(address & 0xffff)] * 0x1000000 + Memory.mainram[(address & 0xffff) + 1] * 0x10000 + Memory.mainram[(address & 0xffff) + 2] * 0x100 + Memory.mainram[(address & 0xffff) + 3]);
             }
             else if (address >= 0xfffff0 && address + 3 <= 0xfffffb)
             {
@@ -1483,7 +1483,7 @@
             }
             else if (address >= 0xff0000 && address <= 0xffffef)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value);
             }
             else if (address >= 0xfffff0 && address <= 0xfffffb)
             {
@@ -1599,8 +1599,8 @@
             }
             else if (address >= 0xff0000 && address + 1 <= 0xffffef)
             {
-                Memory.mainram_Ptr[address & 0xffff] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)value;
+                Memory.mainram[address & 0xffff] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)value;
             }
             else if (address >= 0xfffff0 && address + 1 <= 0xfffffb)
             {
@@ -1732,10 +1732,10 @@
             }
             else if (address >= 0xff0000 && address + 3 <= 0xffffef)
             {
-                Memory.mainram_Ptr[(address & 0xffff)] = (byte)(value >> 24);
-                Memory.mainram_Ptr[(address & 0xffff) + 1] = (byte)(value >> 16);
-                Memory.mainram_Ptr[(address & 0xffff) + 2] = (byte)(value >> 8);
-                Memory.mainram_Ptr[(address & 0xffff) + 3] = (byte)(value);
+                Memory.mainram[(address & 0xffff)] = (byte)(value >> 24);
+                Memory.mainram[(address & 0xffff) + 1] = (byte)(value >> 16);
+                Memory.mainram[(address & 0xffff) + 2] = (byte)(value >> 8);
+                Memory.mainram[(address & 0xffff) + 3] = (byte)(value);
             }
             else if (address >= 0xfffff0 && address + 3 <= 0xfffffb)
             {

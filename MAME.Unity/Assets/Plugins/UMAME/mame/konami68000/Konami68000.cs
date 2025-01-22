@@ -925,12 +925,12 @@ namespace MAME.Core
             byte result = 0;
             if (addr <= 0x07ffff)
             {
-                result = Memory.mainrom_Ptr[addr];
+                result = Memory.mainrom[addr];
             }
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = addr - 0x104000;
-                result = Memory.mainram_Ptr[offset];
+                result = Memory.mainram[offset];
             }
             else if (addr >= 0x180000 && addr <= 0x183fff)
             {
@@ -952,12 +952,12 @@ namespace MAME.Core
             addr *= 2;
             if (addr <= 0x07ffff)
             {
-                result = (ushort)(Memory.mainrom_Ptr[addr] * 0x100 + Memory.mainrom_Ptr[addr + 1]);
+                result = (ushort)(Memory.mainrom[addr] * 0x100 + Memory.mainrom[addr + 1]);
             }
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = addr - 0x104000;
-                result = (ushort)(Memory.mainram_Ptr[offset] * 0x100 + Memory.mainram_Ptr[offset + 1]);
+                result = (ushort)(Memory.mainram[offset] * 0x100 + Memory.mainram[offset + 1]);
             }
             else if (addr >= 0x180000 && addr <= 0x183fff)
             {
@@ -987,8 +987,8 @@ namespace MAME.Core
             else if (addr >= 0x104000 && addr <= 0x107fff)
             {
                 int offset = (addr - 0x104000) / 2;
-                Memory.mainram_Ptr[offset] = (byte)(data >> 8);
-                Memory.mainram_Ptr[offset + 1] = (byte)data;
+                Memory.mainram[offset] = (byte)(data >> 8);
+                Memory.mainram[offset + 1] = (byte)data;
             }
         }
         public static void tmnt2_1c0800_w(int offset, ushort data)

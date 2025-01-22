@@ -8,9 +8,85 @@ namespace MAME.Core
     public unsafe class Memory
     {
         //public static byte[] mainrom, audiorom, mainram, audioram;
-        //public static byte[] ;
 
-        static byte[] mainrom, audiorom, mainram, audioram;
+
+        #region //指针化mainrom
+        static byte[] mainrom_src;
+        static GCHandle mainrom_handle;
+        public static byte* mainrom;
+        public static int mainromLength;
+        public static bool mainrom_IsNull => mainrom == null;
+        public static void Set_mainrom(byte[] data) { mainrom_set = data; }
+        public static byte[] mainrom_set
+        {
+            set
+            {
+                mainrom_handle.ReleaseGCHandle();
+                mainrom_src = value;
+                mainromLength = value.Length;
+                mainrom_src.GetObjectPtr(ref mainrom_handle, ref mainrom);
+            }
+        }
+        #endregion
+
+        #region //指针化audiorom
+        static byte[] audiorom_src;
+        static GCHandle audiorom_handle;
+        public static byte* audiorom;
+        public static int audioromLength;
+        public static bool audiorom_IsNull => audiorom == null;
+        public static void Set_audiorom(byte[] data) { audiorom_set = data; }
+        public static byte[] audiorom_set
+        {
+            set
+            {
+                audiorom_handle.ReleaseGCHandle();
+                audiorom_src = value;
+                audioromLength = value.Length;
+                audiorom_src.GetObjectPtr(ref audiorom_handle, ref audiorom);
+            }
+        }
+        #endregion
+
+        #region //指针化mainram
+        static byte[] mainram_src;
+        static GCHandle mainram_handle;
+        public static byte* mainram;
+        public static int mainramLength;
+        public static bool mainram_IsNull => mainram == null;
+        public static void Set_mainram(byte[] data) { mainram_set = data; }
+        public static byte[] mainram_set
+        {
+            set
+            {
+                mainram_handle.ReleaseGCHandle();
+                mainram_src = value;
+                mainramLength = value.Length;
+                mainram_src.GetObjectPtr(ref mainram_handle, ref mainram);
+            }
+        }
+        #endregion
+
+        #region //指针化audioram
+        static byte[] audioram_src;
+        static GCHandle audioram_handle;
+        public static byte* audioram;
+        public static int audioramLength;
+        public static bool audioram_IsNull => audioram == null;
+        public static void Set_audioram(byte[] data) { audioram_set = data; }
+        public static byte[] audioram_set
+        {
+            set
+            {
+                audioram_handle.ReleaseGCHandle();
+                audioram_src = value;
+                audioramLength = value.Length;
+                audioram_src.GetObjectPtr(ref audioram_handle, ref audioram);
+            }
+        }
+        #endregion
+
+
         public static void memory_reset()
         {
             switch (Machine.sBoard)
@@ -329,111 +405,6 @@ namespace MAME.Core
                     }
                     break;
             }
-        }
-
-        static GCHandle mainrom_handle;
-        public static byte* mainrom_Ptr;
-        public static int mainrom_Lenght;
-        public static bool mainrom_IsNull => mainrom == null;
-
-        public static void Set_mainrom(byte[] data)
-        {
-            Release_mainrom();
-            mainrom = data;
-            mainrom_handle = GCHandle.Alloc(mainrom, GCHandleType.Pinned);
-            mainrom_Ptr = (byte*)mainrom_handle.AddrOfPinnedObject();
-            mainrom_Lenght = data.Length;
-        }
-        static void Release_mainrom()
-        {
-            if (mainrom != null)
-            {
-                if (mainrom_handle.IsAllocated)
-                    mainrom_handle.Free();
-            }
-            mainrom = null;
-            mainrom_handle = default;
-            mainrom_Ptr = null;
-            mainrom_Lenght = default;
-        }
-
-
-        static GCHandle audiorom_handle;
-        public static byte* audiorom_Ptr;
-
-        public static bool audiorom_IsNull => audiorom == null;
-
-        public static void Set_audiorom(byte[] data)
-        {
-            Release_audiorom();
-            audiorom = data;
-            audiorom_handle = GCHandle.Alloc(audiorom, GCHandleType.Pinned);
-            audiorom_Ptr = (byte*)audiorom_handle.AddrOfPinnedObject();
-        }
-        static void Release_audiorom()
-        {
-            if (audiorom != null)
-            {
-                if (audiorom_handle.IsAllocated)
-                    audiorom_handle.Free();
-            }
-            audiorom = null;
-            audiorom_handle = default;
-            audiorom_Ptr = null;
-        }
-
-
-        static GCHandle mainram_handle;
-        public static byte* mainram_Ptr;
-        public static int mainram_Lenght;
-        public static bool mainram_IsNull => mainram == null;
-
-        public static void Set_mainram(byte[] data)
-        {
-            Release_mainram();
-            mainram = data;
-            mainram_handle = GCHandle.Alloc(mainram, GCHandleType.Pinned);
-            mainram_Ptr = (byte*)mainram_handle.AddrOfPinnedObject();
-            mainram_Lenght = data.Length;
-        }
-        static void Release_mainram()
-        {
-            if (mainram != null)
-            {
-                if (mainram_handle.IsAllocated)
-                    mainram_handle.Free();
-            }
-            mainram = null;
-            mainram_handle = default;
-            mainram_Ptr = null;
-            mainram_Lenght = default;
-        }
-
-
-        static GCHandle audioram_handle;
-        public static byte* audioram_Ptr;
-        public static int audioram_Lenght;
-        public static bool audioram_IsNull => audioram == null;
-
-        public static void Set_audioram(byte[] data)
-        {
-            Release_audioram();
-            audioram = data;
-            audioram_handle = GCHandle.Alloc(audioram, GCHandleType.Pinned);
-            audioram_Ptr = (byte*)audioram_handle.AddrOfPinnedObject();
-            audioram_Lenght = data.Length;
-        }
-        static void Release_audioram()
-        {
-            if (audioram != null)
-            {
-                if (audioram_handle.IsAllocated)
-                    audioram_handle.Free();
-            }
-            audioram = null;
-            audioram_handle = default;
-            audioram_Ptr = null;
-            audioram_Lenght = default;
         }
 
     }

@@ -59,9 +59,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x10000);
+            writer.Write(Memory.mainram, 0, 0x10000);
             Nec.nn1[0].SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x4000);
+            writer.Write(Memory.audioram, 0, 0x4000);
             Nec.nn1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             Cpuint.SaveStateBinary_v(writer);

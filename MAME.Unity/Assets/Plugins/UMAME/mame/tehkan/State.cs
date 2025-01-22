@@ -15,14 +15,14 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x1000);
+            writer.Write(Memory.mainram, 0, 0x1000);
             writer.Write(Generic.videoram, 0, 0x400);
             writer.Write(pbaction_videoram2, 0, 0x400);
             writer.Write(Generic.colorram, 0, 0x400);
             writer.Write(pbaction_colorram2, 0, 0x400);
             writer.Write(Generic.spriteram, 0, 0x80);
             writer.Write(Generic.paletteram, 0, 0x200);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Z80A.zz1[1].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);

@@ -45,10 +45,10 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             writer.Write(mainram2, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
             writer.Write(EmuTimer.global_basetime.attoseconds);
@@ -151,10 +151,10 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             writer.Write(mainram2, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -280,9 +280,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -419,9 +419,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -525,9 +525,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -629,9 +629,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -736,9 +736,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -838,10 +838,10 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             writer.Write(mainram2, 0, 0x80);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -946,10 +946,10 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             writer.Write(mainram2, 0, 0x80);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -1051,9 +1051,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);
@@ -1156,9 +1156,9 @@ namespace MAME.Core
             {
                 writer.Write(Palette.entry_color[i]);
             }
-            writer.Write(Memory.mainram_Ptr, 0, 0x4000);
+            writer.Write(Memory.mainram, 0, 0x4000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x2000);
+            writer.Write(Memory.audioram, 0, 0x2000);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);

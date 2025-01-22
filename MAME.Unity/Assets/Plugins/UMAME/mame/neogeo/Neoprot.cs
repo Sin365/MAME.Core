@@ -63,16 +63,16 @@ namespace MAME.Core
             switch (value)
             {
                 case 0x0090:
-                    Memory.mainrom_Ptr[0x100] = 0x00;
-                    Memory.mainrom_Ptr[0x101] = 0xc2;
-                    Memory.mainrom_Ptr[0x102] = 0x00;
-                    Memory.mainrom_Ptr[0x103] = 0xfd;
+                    Memory.mainrom[0x100] = 0x00;
+                    Memory.mainrom[0x101] = 0xc2;
+                    Memory.mainrom[0x102] = 0x00;
+                    Memory.mainrom[0x103] = 0xfd;
                     break;
                 case 0x00f0:
-                    Memory.mainrom_Ptr[0x100] = 0x4e;
-                    Memory.mainrom_Ptr[0x101] = 0x45;
-                    Memory.mainrom_Ptr[0x102] = 0x4f;
-                    Memory.mainrom_Ptr[0x103] = 0x2d;
+                    Memory.mainrom[0x100] = 0x4e;
+                    Memory.mainrom[0x101] = 0x45;
+                    Memory.mainrom[0x102] = 0x4f;
+                    Memory.mainrom[0x103] = 0x2d;
                     break;
                 default:
                     break;
@@ -305,7 +305,7 @@ namespace MAME.Core
                 extra_ram[0x1ff1] = 0xa0;
                 extra_ram[0x1ff2] &= 0x7f;
                 main_cpu_bank_address = address + 0x100000;
-                Memory.mainrom_Ptr[0x58197] = prt;
+                Memory.mainrom[0x58197] = prt;
             }
         }
         public static void kof2003p_w(int offset)
@@ -317,12 +317,12 @@ namespace MAME.Core
                 extra_ram[0x1ff1] &= 0xfe;
                 extra_ram[0x1ff2] &= 0x7f;
                 main_cpu_bank_address = address + 0x100000;
-                Memory.mainrom_Ptr[0x58197] = prt;
+                Memory.mainrom[0x58197] = prt;
             }
         }
         public static byte sbp_protection_r(int offset)
         {
-            byte origdata = Memory.mainrom_Ptr[offset + 0x200];
+            byte origdata = Memory.mainrom[offset + 0x200];
             byte data = (byte)BITSWAP8(origdata, 3, 2, 1, 0, 7, 6, 5, 4);
             int realoffset = 0x200 + offset;
             if (realoffset == 0xd5e || realoffset == 0xd5f)
@@ -348,7 +348,7 @@ namespace MAME.Core
         {
             if (extra_ram[0x1ffc] == 0 && extra_ram[0x1ffd] == 0)
             {
-                Memory.mainrom_Ptr[0xe0000 + offset] = (byte)data;
+                Memory.mainrom[0xe0000 + offset] = (byte)data;
             }
             else
             {
@@ -359,8 +359,8 @@ namespace MAME.Core
         {
             if (extra_ram[0x1ffc] == 0 && extra_ram[0x1ffd] == 0)
             {
-                Memory.mainrom_Ptr[0xe0000 + offset] = (byte)(data >> 8);
-                Memory.mainrom_Ptr[0xe0000 + offset + 1] = (byte)data;
+                Memory.mainrom[0xe0000 + offset] = (byte)(data >> 8);
+                Memory.mainrom[0xe0000 + offset + 1] = (byte)data;
             }
             else
             {
@@ -383,8 +383,8 @@ namespace MAME.Core
                     //Array.Copy(Memory.mainrom, ((data & 1) != 0) ? 0x810000 : 0x710000, Memory.mainrom, 0x10000, 0xcffff);
 
                     //TODO 验证拷贝可靠性
-                    byte* source = Memory.mainrom_Ptr + ((data & 1) != 0 ? 0x810000 : 0x710000);
-                    byte* destination = Memory.mainrom_Ptr + 0x10000;
+                    byte* source = Memory.mainrom + ((data & 1) != 0 ? 0x810000 : 0x710000);
+                    byte* destination = Memory.mainrom + 0x10000;
                     int length = 0xcffff; // 注意：这个长度是否正确取决于你的实际需求
                     Buffer.MemoryCopy(source, destination, length, length);
                 }
@@ -407,8 +407,8 @@ namespace MAME.Core
                     //Array.Copy(Memory.mainrom, ((data & 1) != 0) ? 0x810000 : 0x710000, Memory.mainrom, 0x10000, 0xcffff);
 
                     //TODO 验证拷贝可靠性
-                    byte* source = Memory.mainrom_Ptr + ((data & 1) != 0 ? 0x810000 : 0x710000);
-                    byte* destination = Memory.mainrom_Ptr + 0x10000;
+                    byte* source = Memory.mainrom + ((data & 1) != 0 ? 0x810000 : 0x710000);
+                    byte* destination = Memory.mainrom + 0x10000;
                     int length = 0xcffff; // 注意：这个长度是否正确取决于你的实际需求
                     Buffer.MemoryCopy(source, destination, length, length);
 

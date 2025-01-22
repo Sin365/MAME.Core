@@ -92,7 +92,7 @@ namespace MAME.Core
             }
             else
             {
-                result = Memory.mainram_Ptr[0];
+                result = Memory.mainram[0];
             }
             return result;
         }

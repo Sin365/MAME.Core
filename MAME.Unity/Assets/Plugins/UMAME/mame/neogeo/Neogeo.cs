@@ -262,7 +262,7 @@ namespace MAME.Core
         public static void main_cpu_bank_select_w(int data)
         {
             int bank_address;
-            int len = Memory.mainrom_Lenght;
+            int len = Memory.mainromLength;
             if ((len <= 0x100000) && ((data & 0x07) != 0))
             {
                 int i1 = 1;
@@ -313,7 +313,7 @@ namespace MAME.Core
         }
         public static void machine_start_neogeo()
         {
-            if (Memory.mainrom_Lenght > 0x100000)
+            if (Memory.mainromLength > 0x100000)
             {
                 main_cpu_bank_address = 0x100000;
             }

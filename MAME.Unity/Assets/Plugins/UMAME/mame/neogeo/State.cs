@@ -46,9 +46,9 @@ namespace MAME.Core
             writer.Write(auto_animation_disabled);
             writer.Write(auto_animation_counter);
             writer.Write(auto_animation_frame_counter);
-            writer.Write(Memory.mainram_Ptr, 0, 0x10000);
+            writer.Write(Memory.mainram, 0, 0x10000);
             MC68000.m1.SaveStateBinary(writer);
-            writer.Write(Memory.audioram_Ptr, 0, 0x800);
+            writer.Write(Memory.audioram, 0, 0x800);
             Z80A.zz1[0].SaveStateBinary(writer);
             Cpuint.SaveStateBinary(writer);
             writer.Write(EmuTimer.global_basetime.seconds);

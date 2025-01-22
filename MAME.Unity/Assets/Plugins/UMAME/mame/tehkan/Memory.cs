@@ -11,11 +11,11 @@ namespace MAME.Core
             byte result = 0;
             if (address >= 0 && address <= 0x7fff)
             {
-                result = Memory.mainrom_Ptr[address];
+                result = Memory.mainrom[address];
             }
             else if (address >= 0x8000 && address <= 0xbfff)
             {
-                result = Memory.mainrom_Ptr[address];
+                result = Memory.mainrom[address];
             }
             return result;
         }
@@ -28,7 +28,7 @@ namespace MAME.Core
             }
             else if (address >= 0x8000 && address <= 0xbfff)
             {
-                result = Memory.mainrom_Ptr[address];
+                result = Memory.mainrom[address];
             }
             return result;
         }
@@ -37,16 +37,16 @@ namespace MAME.Core
             byte result = 0;
             if (address >= 0 && address <= 0x7fff)
             {
-                result = Memory.mainrom_Ptr[address];
+                result = Memory.mainrom[address];
             }
             else if (address >= 0x8000 && address <= 0xbfff)
             {
-                result = Memory.mainrom_Ptr[address];
+                result = Memory.mainrom[address];
             }
             else if (address >= 0xc000 && address <= 0xcfff)
             {
                 int offset = address - 0xc000;
-                result = Memory.mainram_Ptr[offset];
+                result = Memory.mainram[offset];
             }
             else if (address >= 0xd000 && address <= 0xd3ff)
             {
@@ -121,16 +121,16 @@ namespace MAME.Core
         {
             if (address >= 0x0000 && address <= 0x7fff)
             {
-                Memory.mainrom_Ptr[address] = value;
+                Memory.mainrom[address] = value;
             }
             else if (address >= 0x8000 && address <= 0xbfff)
             {
-                Memory.mainrom_Ptr[address] = value;
+                Memory.mainrom[address] = value;
             }
             else if (address >= 0xc000 && address <= 0xcfff)
             {
                 int offset = address - 0xc000;
-                Memory.mainram_Ptr[offset] = value;
+                Memory.mainram[offset] = value;
             }
             else if (address >= 0xd000 && address <= 0xd3ff)
             {
@@ -196,7 +196,7 @@ namespace MAME.Core
             byte result = 0;
             if (address >= 0 && address <= 0x1fff)
             {
-                result = Memory.audiorom_Ptr[address];
+                result = Memory.audiorom[address];
             }
             return result;
         }
@@ -205,12 +205,12 @@ namespace MAME.Core
             byte result = 0;
             if (address >= 0 && address <= 0x1fff)
             {
-                result = Memory.audiorom_Ptr[address];
+                result = Memory.audiorom[address];
             }
             else if (address >= 0x4000 && address <= 0x47ff)
             {
                 int offset = address - 0x4000;
-                result = Memory.audioram_Ptr[offset];
+                result = Memory.audioram[offset];
             }
             else if (address == 0x8000)
             {
@@ -222,12 +222,12 @@ namespace MAME.Core
         {
             if (address >= 0 && address <= 0x1fff)
             {
-                Memory.audiorom_Ptr[address] = value;
+                Memory.audiorom[address] = value;
             }
             else if (address >= 0x4000 && address <= 0x47ff)
             {
                 int offset = address - 0x4000;
-                Memory.audioram_Ptr[offset] = value;
+                Memory.audioram[offset] = value;
             }
             else if (address == 0xffff)
             {
