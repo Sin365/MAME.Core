@@ -85,6 +85,8 @@ namespace MAME.Core
             set
             {
                 samplesrom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 samplesrom_src = value;
                 samplesromLength = value.Length;
                 samplesrom_src.GetObjectPtr(ref samplesrom_handle, ref samplesrom);

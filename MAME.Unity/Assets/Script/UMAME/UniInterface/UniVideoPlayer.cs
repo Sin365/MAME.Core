@@ -64,8 +64,6 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
     void Update()
     {
         if (!bInit) return;
-        m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mDataLenght);
-        m_rawBufferWarper.Apply();
     }
 
     public void SubmitVideo(int[] data, long frame_number)
@@ -79,6 +77,8 @@ public class UniVideoPlayer : MonoBehaviour, IVideoPlayer
         //mFrameData = data;
 
         //Debug.Log($"frame_number -> {frame_number}");
+        m_rawBufferWarper.LoadRawTextureData(mFrameDataPtr, mDataLenght);
+        m_rawBufferWarper.Apply();
     }
 
     public byte[] GetScreenImg()

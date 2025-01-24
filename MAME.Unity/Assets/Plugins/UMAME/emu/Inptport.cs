@@ -649,7 +649,7 @@ namespace MAME.Core
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;
@@ -684,7 +684,7 @@ namespace MAME.Core
                 delta -= analog.delta * 0x200;
                 analog.lastdigital = 1;
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 keypressed = true;
                 delta += analog.delta * 0x200;

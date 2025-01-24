@@ -1,6 +1,7 @@
 using MAME.Core;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
 using UnityEngine;
 
 public class UniKeyboard : MonoBehaviour, IKeyboard
@@ -22,12 +23,13 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     public List<UILongClickButton> mUIBtns = new List<UILongClickButton>();
     #endregion
 
-    public static Dictionary<KeyCode, MotionKey> dictKeyCfgs = new Dictionary<KeyCode, MotionKey>();
-    public static KeyCode[] CheckList;
+    public static Dictionary<KeyCode, ulong> dictKeyCfgs = new Dictionary<KeyCode, ulong>();
     bool bReplayMode;
     PlayMode mPlayMode;
     ReplayMode mReplayMode;
     ulong last_CurryInpuAllData_test = 0;
+
+    public static KeyCode[] CheckList;
 
     void Awake()
     {
@@ -72,27 +74,15 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         Init(false);
     }
 
-    public MotionKey[] GetPressedKeys()
+    public ulong GetPressedKeys()
     {
-        MotionKey[] currkey;
         ulong InputData;
         if (!bReplayMode)
-            currkey = mPlayMode.GetPressedKeys(out InputData);
+            InputData = mPlayMode.GetPressedKeys();
         else
-            currkey = mReplayMode.GetPressedKeys(out InputData);
-#if UNITY_EDITOR
-        if (last_CurryInpuAllData_test != InputData)
-        {
-            string TempStr = "";
-            foreach (var item in currkey)
-            {
-                TempStr += $"{item.ToString()}|";
-            }
-            Debug.Log($"{UMAME.instance.mUniVideoPlayer.mFrame} | {EmuTimer.get_current_time().attoseconds} |{EmuTimer.get_current_time().seconds} |   {InputData} |   {TempStr}");
-            last_CurryInpuAllData_test = InputData;
-        }
-#endif
-        return currkey;
+            InputData = mReplayMode.GetPressedKeys();
+
+        return InputData;
     }
 
     public void UpdateInputKey()
@@ -157,13 +147,9 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
     }
     public class PlayMode
     {
-        Dictionary<KeyCode, MotionKey> dictKeyCfgs => UniKeyboard.dictKeyCfgs;
         UniKeyboard mUniKeyboard;
-        KeyCode[] CheckList => UniKeyboard.CheckList;
         ulong tempInputAllData = 0;
-        List<MotionKey> temp = new List<MotionKey>();
         public ulong CurryInpuAllData = 0;
-        public MotionKey[] mCurrKey = new MotionKey[0];
 
         public PlayMode(UniKeyboard uniKeyboard)
         {
@@ -173,13 +159,12 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
         public void UpdateLogic()
         {
             tempInputAllData = 0;
-            temp.Clear();
+
             for (int i = 0; i < CheckList.Length; i++)
             {
                 if (Input.GetKey(CheckList[i]))
                 {
-                    MotionKey mk = dictKeyCfgs[CheckList[i]];
-                    temp.Add(mk);
+                    ulong mk = dictKeyCfgs[CheckList[i]];
                     tempInputAllData |= (ulong)mk;
                 }
             }
@@ -190,110 +175,90 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
                 {
                     for (int j = 0; j < mUniKeyboard.mUIBtns[i].Key.Length; j++)
                     {
-                        MotionKey mk = (MotionKey)mUniKeyboard.mUIBtns[i].Key[j];
-                        temp.Add(mk);
+                        ulong mk = (ulong)mUniKeyboard.mUIBtns[i].Key[j];
                         tempInputAllData |= (ulong)mk;
                     }
                 }
             }
 
             Vector2Int inputV2 = mUniKeyboard.mJoystick.RawInputV2;
-            //Debug.Log($"{inputV2.x},{inputV2.y}");
             if (inputV2.x > 0)
             {
-                temp.Add(MotionKey.P1_RIGHT);
                 tempInputAllData |= (ulong)MotionKey.P1_RIGHT;
             }
             else if (inputV2.x < 0)
             {
-                temp.Add(MotionKey.P1_LEFT);
                 tempInputAllData |= (ulong)MotionKey.P1_LEFT;
             }
             if (inputV2.y > 0)
             {
-                temp.Add(MotionKey.P1_UP);
                 tempInputAllData |= (ulong)MotionKey.P1_UP;
             }
             else if (inputV2.y < 0)
             {
-                temp.Add(MotionKey.P1_DOWN);
                 tempInputAllData |= (ulong)MotionKey.P1_DOWN;
             }
             CurryInpuAllData = tempInputAllData;
-            mCurrKey = temp.ToArray();
         }
 
-        public MotionKey[] GetPressedKeys(out ulong InputData)
+        public ulong GetPressedKeys()
         {
-            //UMAME.instance.mReplayWriter.NextFramebyFrameIdx((int)UMAME.instance.mUniVideoPlayer.mFrame, CurryInpuAllData);
             UMAME.instance.mReplayWriter.NextFramebyFrameIdx((int)UMAME.instance.mUniVideoPlayer.mFrame, CurryInpuAllData);
-            InputData = CurryInpuAllData;
-            return mCurrKey;
+
+#if UNITY_EDITOR
+            string ShowKeyNames = string.Empty;
+            foreach (string keyname in GetInputpDataToMotionKey(CurryInpuAllData))
+            {
+                ShowKeyNames += keyname + "   |";
+            }
+            Debug.Log("GetPressedKeys=>" + ShowKeyNames);
+#endif
+            return CurryInpuAllData;
         }
     }
     public class ReplayMode
     {
-        public MotionKey[] mCurrKey = new MotionKey[0];
-        MotionKey[] ReplayCheckKey;
         ulong currInputData;
-        List<MotionKey> temp = new List<MotionKey>();
 
         public ReplayMode()
         {
-            ReplayCheckKey = dictKeyCfgs.Values.ToArray();
+            currInputData = 0;
         }
 
-        public MotionKey[] GetPressedKeys(out ulong InputData)
+        public ulong GetPressedKeys()
         {
             //有变化
-            //if (UMAME.instance.mReplayReader.NextFrame(out AxiReplay.ReplayStep stepData))
             int targetFrame = (int)UMAME.instance.mUniVideoPlayer.mFrame;
-            //if (UMAME.instance.mReplayReader.NextFramebyFrameIdx(targetFrame, out AxiReplay.ReplayStep stepData))
-            //{
-            //    temp.Clear();
-            //    //有数据
-            //    for (int i = 0; i < ReplayCheckKey.Length; i++)
-            //    {
-            //        if ((stepData.InPut & (ulong)ReplayCheckKey[i]) > 0)
-            //            temp.Add(ReplayCheckKey[i]);
-            //    }
-            //    mCurrKey = temp.ToArray();
-            //}
             AxiReplay.ReplayStep stepData;
 
             if (UMAME.instance.mReplayReader.NextFramebyFrameIdx(targetFrame, out stepData))
             {
-                temp.Clear();
-                //List<MotionKey> temp = new List<MotionKey>();
-                //temp.Clear();
-                ////有数据
-                //for (int i = 0; i < ReplayCheckKey.Length; i++)
-                //{
-                //    if ((stepData.InPut & (ulong)ReplayCheckKey[i]) > 0)
-                //        temp.Add(ReplayCheckKey[i]);
-                //}
-                //mCurrKey = temp.ToArray();
-                foreach (MotionKey key in GetStepDataToMotionKey(stepData))
+#if UNITY_EDITOR
+                string ShowKeyNames = string.Empty;
+                foreach (string keyname in GetInputpDataToMotionKey(stepData.InPut))
                 {
-                    temp.Add(key);
+                    ShowKeyNames += keyname + "   |";
                 }
-                mCurrKey = temp.ToArray();
+                Debug.Log("GetPressedKeys=>" + ShowKeyNames);
+#endif
                 currInputData = stepData.InPut;
             }
-            InputData = currInputData;
-            return mCurrKey;
+            return currInputData;
         }
 
-        IEnumerable<MotionKey> GetStepDataToMotionKey(AxiReplay.ReplayStep stepData)
+    }
+
+
+
+    public static IEnumerable<string> GetInputpDataToMotionKey(ulong inputdata)
+    {
+        if (inputdata == 0)
+            yield break;
+        for (int i = 0; i < MotionKey.AllNeedCheckList.Length; i++)
         {
-            //有数据
-            for (int i = 0; i < ReplayCheckKey.Length; i++)
-            {
-                if ((stepData.InPut & (ulong)ReplayCheckKey[i]) > 0)
-                    yield return ReplayCheckKey[i];
-            }
+            if ((inputdata & MotionKey.AllNeedCheckList[i]) > 0)
+                yield return MotionKey.GetKeyName(MotionKey.AllNeedCheckList[i]);
         }
-
     }
     #endregion
 }

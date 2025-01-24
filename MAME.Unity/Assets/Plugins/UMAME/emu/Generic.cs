@@ -167,6 +167,8 @@ namespace MAME.Core
             set
             {
                 spriteram_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 spriteram_src = value;
                 spriteramLength = value.Length;
                 spriteram_src.GetObjectPtr(ref spriteram_handle, ref spriteram);

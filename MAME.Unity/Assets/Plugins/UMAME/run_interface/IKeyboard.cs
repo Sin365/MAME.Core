@@ -2,6 +2,6 @@
 {
     public interface IKeyboard
     {
-        MotionKey[] GetPressedKeys();
+        ulong GetPressedKeys();
     }
 }

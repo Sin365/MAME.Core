@@ -46,6 +46,9 @@ namespace MAME.Core
             )
         {
             AxiMemoryEx.Init();
+
+            AxiTimeSpan.Init(itime);
+
             Mame.RomRoot = RomDir;
             EmuLogger.BindFunc(ilog);
             Video.BindFunc(ivp);
@@ -58,7 +61,11 @@ namespace MAME.Core
             MAMEDBHelper.LoadROMXML(resource.mame);
             Keyboard.InitializeInput(ikb);
             Mouse.InitialMouse(imou);
-            AxiTimeSpan.Init(itime);
+        }
+
+        public void ResetRomRoot(string RomDir)
+        {
+            Mame.RomRoot = RomDir;
         }
 
 

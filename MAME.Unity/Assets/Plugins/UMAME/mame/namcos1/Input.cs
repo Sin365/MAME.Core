@@ -86,7 +86,7 @@ namespace MAME.Core
             {
                 byte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 byte0 &= unchecked((byte)~0x40);
             }
@@ -142,7 +142,7 @@ namespace MAME.Core
             {
                 byte1 |= 0x20;
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 byte1 &= unchecked((byte)~0x40);
             }
@@ -217,7 +217,7 @@ namespace MAME.Core
             {
                 byte0 |= 0x20;
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 byte0 &= unchecked((byte)~0x40);
             }
@@ -241,7 +241,7 @@ namespace MAME.Core
             {
                 byte1 |= 0x20;
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 byte1 &= unchecked((byte)~0x40);
             }
@@ -350,7 +350,7 @@ namespace MAME.Core
             {
                 byte01 &= unchecked((byte)~0x02);
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 byte01 |= 0x04;
             }
@@ -374,7 +374,7 @@ namespace MAME.Core
             {
                 byte00 &= unchecked((byte)~0x02);
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.O))
             {
                 byte00 |= 0x04;
             }
@@ -430,7 +430,7 @@ namespace MAME.Core
             {
                 byte03 &= unchecked((byte)~0x02);
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 byte03 |= 0x04;
             }
@@ -454,7 +454,7 @@ namespace MAME.Core
             {
                 byte02 &= unchecked((byte)~0x02);
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
                 byte02 |= 0x04;
             }

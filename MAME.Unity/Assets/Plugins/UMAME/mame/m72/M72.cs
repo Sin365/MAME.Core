@@ -65,6 +65,8 @@ namespace MAME.Core
             set
             {
                 samplesrom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 samplesrom_src = value;
                 samplesromLength = value.Length;
                 samplesrom_src.GetObjectPtr(ref samplesrom_handle, ref samplesrom);
@@ -121,6 +123,8 @@ namespace MAME.Core
             set
             {
                 gfx3rom_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 gfx3rom_src = value;
                 gfx3romLength = value.Length;
                 gfx3rom_src.GetObjectPtr(ref gfx3rom_handle, ref gfx3rom);

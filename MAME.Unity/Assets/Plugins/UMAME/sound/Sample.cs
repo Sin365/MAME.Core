@@ -21,6 +21,8 @@ namespace MAME.Core
                 set
                 {
                     source_handle.ReleaseGCHandle();
+                    if (value == null)
+                        return;
                     source_src = value;
                     sourceLength = value.Length;
                     source_src.GetObjectPtr(ref source_handle, ref source);

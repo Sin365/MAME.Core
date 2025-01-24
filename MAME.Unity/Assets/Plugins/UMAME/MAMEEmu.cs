@@ -28,6 +28,8 @@ namespace MAME.Core
             ITimeSpan itime
             ) => mameMainMotion.Init(RomDir, ilog, iRes, ivp, isp, ikb, imou, itime);
 
+        public void ResetRomRoot(string RomDir) => mameMainMotion.ResetRomRoot(RomDir);
+
         public Dictionary<string, RomInfo> GetGameList() => mameMainMotion.GetGameList();
         public void LoadRom(string Name) => mameMainMotion.LoadRom(Name);
         public void GetGameScreenSize(out int _width, out int _height, out IntPtr _framePtr) => mameMainMotion.GetGameScreenSize(out _width, out _height, out _framePtr);
@@ -37,7 +39,7 @@ namespace MAME.Core
         public void UnlockNextFreme(int moreTick = 1) => mameMainMotion.UnlockNextFreme(moreTick);
         public void StopGame() => mameMainMotion.StopGame();
         public long currEmuFrame => Video.screenstate.frame_number;
-
+        public bool IsPaused => Mame.paused;
         public void LoadState(BinaryReader sr)
         {
             Mame.paused = true;
@@ -62,6 +64,12 @@ namespace MAME.Core
             mameMainMotion.StopGame();
             mameMainMotion = null;
             GC.Collect();
+            AxiMemoryEx.FreeAllGCHandle();
+        }
+
+        public void SetPaused(bool ispaused)
+        {
+            Mame.paused = ispaused;
         }
     }
 }

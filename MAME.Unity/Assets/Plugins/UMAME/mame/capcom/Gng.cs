@@ -55,6 +55,8 @@ namespace MAME.Core
             set
             {
                 scrollx_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 scrollx_src = value;
                 scrollxLength = value.Length;
                 scrollx_src.GetObjectPtr(ref scrollx_handle, ref scrollx);
@@ -73,6 +75,8 @@ namespace MAME.Core
             set
             {
                 scrolly_handle.ReleaseGCHandle();
+                if (value == null)
+                    return;
                 scrolly_src = value;
                 scrollyLength = value.Length;
                 scrolly_src.GetObjectPtr(ref scrolly_handle, ref scrolly);

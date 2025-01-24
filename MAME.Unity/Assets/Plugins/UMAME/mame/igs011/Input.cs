@@ -87,7 +87,7 @@ namespace MAME.Core
             {
                 sbyte0 |= 0x40;
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.L))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.L))
             {
                 sbyte2 &= ~0x08;
             }
@@ -111,7 +111,7 @@ namespace MAME.Core
             {
 
             }
-            if (Keyboard.IsPressed(MotionKey.P1_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.O))
+            if (Keyboard.IsPressed(MotionKey.P1_BTN_E))//if (Keyboard.IsPressed(Corekey.O))
             {
 
             }
@@ -167,7 +167,7 @@ namespace MAME.Core
             {
                 sbyte2 |= unchecked((sbyte)0x80);
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_E))//if (Keyboard.IsPressed(Corekey.NumPad3))
             {
                 sbyte1 &= unchecked((sbyte)~0x80);
             }
@@ -191,7 +191,7 @@ namespace MAME.Core
             {
 
             }
-            if (Keyboard.IsPressed(MotionKey.P2_UNKNOW_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
+            if (Keyboard.IsPressed(MotionKey.P2_BTN_F))//if (Keyboard.IsPressed(Corekey.NumPad6))
             {
 
             }
