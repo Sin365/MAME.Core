@@ -46,14 +46,18 @@
             {
                 Cpuint.lvec.Add(new vec(1, EmuTimer.get_current_time()));
                 setvector_param = 1;
-                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                EmuTimer.emu_timer timer = null;
+                //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.setvector, true);
                 EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
             else
             {
                 Cpuint.lvec.Add(new vec(2, EmuTimer.get_current_time()));
                 setvector_param = 2;
-                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                EmuTimer.emu_timer timer = null;
+                //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.setvector, true);
                 EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }
@@ -64,7 +68,9 @@
                 Sound.soundlatch_w(data);
                 Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
                 setvector_param = 3;
-                EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+                EmuTimer.emu_timer timer = null;
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.setvector, true);
                 EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
             }
         }
@@ -73,14 +79,18 @@
             Sound.soundlatch_w(data);
             Cpuint.lvec.Add(new vec(3, EmuTimer.get_current_time()));
             setvector_param = 3;
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+            //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true); 
+            EmuTimer.emu_timer timer = null;
+            EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.setvector, true);
             EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m72_sound_irq_ack_w(int offset, byte data)
         {
             Cpuint.lvec.Add(new vec(4, EmuTimer.get_current_time()));
             setvector_param = 4;
-            EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+            //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.setvector, true);
+            EmuTimer.emu_timer timer = null;
+            EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.setvector, true);
             EmuTimer.timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void m72_set_sample_start(int start)

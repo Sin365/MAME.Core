@@ -170,7 +170,8 @@ namespace MAME.Core
             Palette.palette_init();
             Generic.generic_machine_init();
             EmuTimer.timer_init();
-            soft_reset_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Mame_soft_reset, false);
+            //soft_reset_timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Mame_soft_reset, false);
+            EmuTimer.timer_alloc_common(ref soft_reset_timer ,EmuTimer.TIME_ACT.Mame_soft_reset, false);
             Window.osd_init();
             Inptport.input_port_init();
             Cpuexec.cpuexec_init();

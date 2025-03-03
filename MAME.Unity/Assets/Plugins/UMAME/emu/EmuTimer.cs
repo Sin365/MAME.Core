@@ -462,12 +462,16 @@ namespace MAME.Core
         }
         public static void timer_pulse_internal(Atime period, TIME_ACT action)
         {
-            emu_timer timer = timer_alloc_common(action, false);
+            //emu_timer timer = timer_alloc_common(action, false);
+            emu_timer timer = null;
+            timer_alloc_common(ref timer, action, false);
             timer_adjust_periodic(timer, period, period);
         }
         public static void timer_set_internal(TIME_ACT action)
         {
-            emu_timer timer = timer_alloc_common(action, true);
+            //emu_timer timer = timer_alloc_common(action, true);
+            emu_timer timer = null;
+            timer_alloc_common(ref timer,action, true);
             timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
         public static void timer_list_insert(emu_timer timer1)
@@ -611,10 +615,13 @@ namespace MAME.Core
                 }
             }
         }
-        public static emu_timer timer_alloc_common(TIME_ACT action, bool temp)
+        public static emu_timer timer_alloc_common(ref emu_timer timer,TIME_ACT action, bool temp)
         {
             Atime time = get_current_time();
-            emu_timer timer = new emu_timer();
+            if (timer == null)
+                timer = new emu_timer();
+
+            //emu_timer timer = new emu_timer();
             timer.action = action;
             timer.enabled = false;
             timer.temporary = temp;
