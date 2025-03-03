@@ -7,6 +7,7 @@ using cpu.nec;
 using cpu.z80;
 using System;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace MAME.Core
 {
@@ -2346,8 +2347,13 @@ namespace MAME.Core
                     break;
             }
         }
+
+
         public static void cpuexec_timeslice()
         {
+            //cpuexec_timeslice_ForMultiThread();
+            //return;
+
             Atime target = EmuTimer.lt[0].expire;
             Atime tbase = EmuTimer.global_basetime;
             int ran;
@@ -2383,6 +2389,73 @@ namespace MAME.Core
                     }
                 }
             }
+            for (icpu = 0; icpu < ncpu; icpu++)
+            {
+                if (cpu[icpu].suspend != 0 && cpu[icpu].eatcycles != 0 && Attotime.attotime_compare(cpu[icpu].localtime, target) < 0)
+                {
+                    at = Attotime.attotime_sub(target, cpu[icpu].localtime);
+                    cpu[icpu].cycles_running = (int)(at.seconds * cpu[icpu].cycles_per_second + at.attoseconds / cpu[icpu].attoseconds_per_cycle);
+                    cpu[icpu].totalcycles += (ulong)cpu[icpu].cycles_running;
+                    cpu[icpu].localtime = Attotime.attotime_add(cpu[icpu].localtime, new Atime(cpu[icpu].cycles_running / cpu[icpu].cycles_per_second, cpu[icpu].cycles_running * cpu[icpu].attoseconds_per_cycle));
+                }
+                cpu[icpu].suspend = cpu[icpu].nextsuspend;
+                cpu[icpu].eatcycles = cpu[icpu].nexteatcycles;
+            }
+            EmuTimer.timer_set_global_time(target);
+            //if (EmuTimer.global_basetime.attoseconds == 0 && Machine.mainMotion.cheatmotion.lockState == CheatMotion.LockState.LOCK_SECOND)
+            //{
+            //    Machine.mainMotion.cheatmotion.ApplyCheat();
+            //}
+        }
+
+        public static void cpuexec_timeslice_ForMultiThread()
+        {
+            Atime target = EmuTimer.lt[0].expire;
+            Atime tbase = EmuTimer.global_basetime;
+            int ran;
+            Atime at;
+            int i, j;
+            for (icpu = 0; icpu < ncpu; icpu++)
+            {
+                cpu[icpu].suspend = cpu[icpu].nextsuspend;
+                cpu[icpu].eatcycles = cpu[icpu].nexteatcycles;
+            }
+            // 创建并启动多个任务
+            Task[] tasks = new Task[ncpu];
+
+            for (icpu = 0; icpu < ncpu; icpu++)
+            {
+                int taskId = icpu; // 避免闭包问题
+                tasks[icpu] = Task.Run(() =>
+                {
+                    if (cpu[taskId].suspend == 0)
+                    {
+                        at = Attotime.attotime_sub(target, cpu[taskId].localtime);
+                        cpu[taskId].cycles_running = (int)(at.seconds * cpu[taskId].cycles_per_second + at.attoseconds / cpu[taskId].attoseconds_per_cycle);
+                        if (cpu[taskId].cycles_running > 0)
+                        {
+                            cpu[taskId].cycles_stolen = 0;
+                            activecpu = taskId;
+                            ran = cpu[taskId].ExecuteCycles(cpu[taskId].cycles_running);
+                            activecpu = -1;
+                            ran -= cpu[taskId].cycles_stolen;
+                            cpu[taskId].totalcycles += (ulong)ran;
+                            cpu[taskId].localtime = Attotime.attotime_add(cpu[taskId].localtime, new Atime(ran / cpu[taskId].cycles_per_second, ran * cpu[taskId].attoseconds_per_cycle));
+                            if (Attotime.attotime_compare(cpu[taskId].localtime, target) < 0)
+                            {
+                                if (Attotime.attotime_compare(cpu[taskId].localtime, tbase) > 0)
+                                    target = cpu[taskId].localtime;
+                                else
+                                    target = tbase;
+                            }
+                        }
+                    }
+                });
+            }
+
+            // 同步等待所有任务完成
+            Task.WaitAll(tasks);
+
             for (icpu = 0; icpu < ncpu; icpu++)
             {
                 if (cpu[icpu].suspend != 0 && cpu[icpu].eatcycles != 0 && Attotime.attotime_compare(cpu[icpu].localtime, target) < 0)
