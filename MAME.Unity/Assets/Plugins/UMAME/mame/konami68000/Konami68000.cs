@@ -815,8 +815,9 @@ namespace MAME.Core
         {
             Cpuint.cpunum_set_input_line(1, (int)LineState.INPUT_LINE_NMI, LineState.CLEAR_LINE);
             //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common( EmuTimer.TIME_ACT.Konami68000_nmi_callback, true);
-            EmuTimer.timer_alloc_common(ref EmuTimer.TempTimerData, EmuTimer.TIME_ACT.Konami68000_nmi_callback, true);
-            EmuTimer.timer_adjust_periodic(EmuTimer.TempTimerData, new Atime(0, (long)50e12), Attotime.ATTOTIME_NEVER);
+            EmuTimer.emu_timer timer = null;
+            EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.Konami68000_nmi_callback, true);
+            EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)50e12), Attotime.ATTOTIME_NEVER);
         }
         public static ushort punkshot_kludge_r()
         {

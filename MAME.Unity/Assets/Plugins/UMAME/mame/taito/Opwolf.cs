@@ -982,8 +982,9 @@ namespace MAME.Core
             {
                 current_cmd = 0xf5;
                 //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.Taito_opwolf_timer_callback, true);
-                EmuTimer.timer_alloc_common(ref EmuTimer.TempTimerData, EmuTimer.TIME_ACT.Taito_opwolf_timer_callback, true);
-                EmuTimer.timer_adjust_periodic(EmuTimer.TempTimerData, new Atime(0, (long)(80000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = null;
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.Taito_opwolf_timer_callback, true);
+                EmuTimer.timer_adjust_periodic(timer, new Atime(0, (long)(80000 * Cpuexec.cpu[0].attoseconds_per_cycle)), Attotime.ATTOTIME_NEVER);
             }
             cchip_last_7a = cchip_ram[0x7a];
             if (cchip_ram[0x7f] == 0xa)

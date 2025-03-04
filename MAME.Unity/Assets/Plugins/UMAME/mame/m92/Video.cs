@@ -46,8 +46,9 @@ namespace MAME.Core
                 Generic.buffer_spriteram16_w();
                 m92_sprite_buffer_busy = 0;
                 //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_alloc_common(ref EmuTimer.TempTimerData, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_adjust_periodic(EmuTimer.TempTimerData, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = null;
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m92_spritecontrol_w2(int offset, byte data)
@@ -69,8 +70,9 @@ namespace MAME.Core
                 Generic.buffer_spriteram16_w();
                 m92_sprite_buffer_busy = 0;
                 //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_alloc_common(ref EmuTimer.TempTimerData, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_adjust_periodic(EmuTimer.TempTimerData, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = null;
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m92_spritecontrol_w(int offset, ushort data)
@@ -92,8 +94,9 @@ namespace MAME.Core
                 Generic.buffer_spriteram16_w();
                 m92_sprite_buffer_busy = 0;
                 //EmuTimer.emu_timer timer = EmuTimer.timer_alloc_common(EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_alloc_common(ref EmuTimer.TempTimerData, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
-                EmuTimer.timer_adjust_periodic(EmuTimer.TempTimerData, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
+                EmuTimer.emu_timer timer = null;
+                EmuTimer.timer_alloc_common(ref timer, EmuTimer.TIME_ACT.M92_spritebuffer_callback, true);
+                EmuTimer.timer_adjust_periodic(timer, Attotime.attotime_mul(new Atime(0, (long)(1e18 / 26666000)), 0x400), Attotime.ATTOTIME_NEVER);
             }
         }
         public static void m92_videocontrol_w(byte data)
