@@ -206,12 +206,12 @@ public class UniKeyboard : MonoBehaviour, IKeyboard
             UMAME.instance.mReplayWriter.NextFramebyFrameIdx((int)UMAME.instance.mUniVideoPlayer.mFrame, CurryInpuAllData);
 
 #if UNITY_EDITOR
-            string ShowKeyNames = string.Empty;
-            foreach (string keyname in GetInputpDataToMotionKey(CurryInpuAllData))
-            {
-                ShowKeyNames += keyname + "   |";
-            }
-            Debug.Log("GetPressedKeys=>" + ShowKeyNames);
+            //string ShowKeyNames = string.Empty;
+            //foreach (string keyname in GetInputpDataToMotionKey(CurryInpuAllData))
+            //{
+            //    ShowKeyNames += keyname + "   |";
+            //}
+            //Debug.Log("GetPressedKeys=>" + ShowKeyNames);
 #endif
             return CurryInpuAllData;
         }
