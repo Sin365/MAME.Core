@@ -26,6 +26,7 @@ namespace MAME.Core
             public Atime start;
             public Atime expire;
         }
+        public static emu_timer TempTimerData;
         public class emu_timer2
         {
             public int index;
@@ -463,17 +464,16 @@ namespace MAME.Core
         public static void timer_pulse_internal(Atime period, TIME_ACT action)
         {
             //emu_timer timer = timer_alloc_common(action, false);
-            emu_timer timer = null;
-            timer_alloc_common(ref timer, action, false);
-            timer_adjust_periodic(timer, period, period);
+            timer_alloc_common(ref EmuTimer.TempTimerData, action, false);
+            timer_adjust_periodic(EmuTimer.TempTimerData, period, period);
         }
         public static void timer_set_internal(TIME_ACT action)
         {
             //emu_timer timer = timer_alloc_common(action, true);
-            emu_timer timer = null;
-            timer_alloc_common(ref timer,action, true);
-            timer_adjust_periodic(timer, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
+            timer_alloc_common(ref EmuTimer.TempTimerData, action, true);
+            timer_adjust_periodic(EmuTimer.TempTimerData, Attotime.ATTOTIME_ZERO, Attotime.ATTOTIME_NEVER);
         }
+
         public static void timer_list_insert(emu_timer timer1)
         {
             int i;
@@ -615,7 +615,7 @@ namespace MAME.Core
                 }
             }
         }
-        public static emu_timer timer_alloc_common(ref emu_timer timer,TIME_ACT action, bool temp)
+        public static emu_timer timer_alloc_common(ref emu_timer timer, TIME_ACT action, bool temp)
         {
             Atime time = get_current_time();
             if (timer == null)
