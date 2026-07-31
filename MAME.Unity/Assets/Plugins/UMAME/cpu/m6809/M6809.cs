@@ -7,7 +7,7 @@ namespace cpu.m6809
     public partial class M6809 : cpuexec_data
     {
         public static M6809[] mm1;
-        public Action[] insn;
+        //public Action[] insn;
         public Register PC, PPC, D, DP, U, S, X, Y, EA;
         public byte CC, ireg;
         public LineState[] irq_state = new LineState[2];
@@ -48,7 +48,7 @@ namespace cpu.m6809
                 pendingCycles = value;
             }
         }
-        public byte[] flags8i = new byte[256]
+        public readonly static byte[] flags8i = new byte[256]
 {
 0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -67,7 +67,7 @@ namespace cpu.m6809
 0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,
 0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08
 };
-        public byte[] flags8d = new byte[256]
+        public readonly static byte[] flags8d = new byte[256]
 {
 0x04,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
@@ -86,7 +86,7 @@ namespace cpu.m6809
 0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,
 0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08,0x08
 };
-        private byte[] cycles_6809 = new byte[]
+        public readonly static byte[] cycles_6809 = new byte[]
         {
             0x06,0x06,0x02,0x06,0x06,0x02,0x06,0x06,0x06,0x06,0x06,0x02,0x06,0x06,0x03,0x06,
             0x00,0x00,0x02,0x04,0x02,0x02,0x05,0x09,0x02,0x02,0x03,0x02,0x03,0x02,0x08,0x06,
@@ -107,41 +107,530 @@ namespace cpu.m6809
         };
         public M6809()
         {
-            insn = new Action[]{
-                neg_di,neg_di,illegal,com_di,lsr_di,illegal,ror_di,asr_di,
-                asl_di,rol_di,dec_di,illegal,inc_di,tst_di,jmp_di,clr_di,
-                pref10,pref11,nop,sync,illegal,illegal,lbra,lbsr,
-                illegal,daa,orcc,illegal,andcc,sex,exg,tfr,
-                bra,brn,bhi,bls,bcc,bcs,bne,beq,
-                bvc,bvs,bpl,bmi,bge,blt,bgt,ble,
-                leax,leay,leas,leau,pshs,puls,pshu,pulu,
-                illegal,rts,abx,rti,cwai,mul,illegal,swi,
-                nega,illegal,illegal,coma,lsra,illegal,rora,asra,
-                asla,rola,deca,illegal,inca,tsta,illegal,clra,
-                negb,illegal,illegal,comb,lsrb,illegal,rorb,asrb,
-                aslb,rolb,decb,illegal,incb,tstb,illegal,clrb,
-                neg_ix,illegal,illegal,com_ix,lsr_ix,illegal,ror_ix,asr_ix,
-                asl_ix,rol_ix,dec_ix,illegal,inc_ix,tst_ix,jmp_ix,clr_ix,
-                neg_ex,illegal,illegal,com_ex,lsr_ex,illegal,ror_ex,asr_ex,
-                asl_ex,rol_ex,dec_ex,illegal,inc_ex,tst_ex,jmp_ex,clr_ex,
-                suba_im,cmpa_im,sbca_im,subd_im,anda_im,bita_im,lda_im,sta_im,
-                eora_im,adca_im,ora_im,adda_im,cmpx_im,bsr,ldx_im,stx_im,
-                suba_di,cmpa_di,sbca_di,subd_di,anda_di,bita_di,lda_di,sta_di,
-                eora_di,adca_di,ora_di,adda_di,cmpx_di,jsr_di,ldx_di,stx_di,
-                suba_ix,cmpa_ix,sbca_ix,subd_ix,anda_ix,bita_ix,lda_ix,sta_ix,
-                eora_ix,adca_ix,ora_ix,adda_ix,cmpx_ix,jsr_ix,ldx_ix,stx_ix,
-                suba_ex,cmpa_ex,sbca_ex,subd_ex,anda_ex,bita_ex,lda_ex,sta_ex,
-                eora_ex,adca_ex,ora_ex,adda_ex,cmpx_ex,jsr_ex,ldx_ex,stx_ex,
-                subb_im,cmpb_im,sbcb_im,addd_im,andb_im,bitb_im,ldb_im,stb_im,
-                eorb_im,adcb_im,orb_im,addb_im,ldd_im,std_im,ldu_im,stu_im,
-                subb_di,cmpb_di,sbcb_di,addd_di,andb_di,bitb_di,ldb_di,stb_di,
-                eorb_di,adcb_di,orb_di,addb_di,ldd_di,std_di,ldu_di,stu_di,
-                subb_ix,cmpb_ix,sbcb_ix,addd_ix,andb_ix,bitb_ix,ldb_ix,stb_ix,
-                eorb_ix,adcb_ix,orb_ix,addb_ix,ldd_ix,std_ix,ldu_ix,stu_ix,
-                subb_ex,cmpb_ex,sbcb_ex,addd_ex,andb_ex,bitb_ex,ldb_ex,stb_ex,
-                eorb_ex,adcb_ex,orb_ex,addb_ex,ldd_ex,std_ex,ldu_ex,stu_ex
-            };
+            //insn = new Action[]{
+            //    neg_di,
+            //    neg_di,
+            //    illegal,
+            //    com_di,
+            //    lsr_di,
+            //    illegal,
+            //    ror_di,
+            //    asr_di,
+            //    asl_di,
+            //    rol_di,
+            //    dec_di,
+            //    illegal,
+            //    inc_di,
+            //    tst_di,
+            //    jmp_di,
+            //    clr_di,
+            //    pref10,
+            //    pref11,
+            //    nop,
+            //    sync,
+            //    illegal,
+            //    illegal,
+            //    lbra,
+            //    lbsr,
+            //    illegal,
+            //    daa,
+            //    orcc,
+            //    illegal,
+            //    andcc,
+            //    sex,
+            //    exg,
+            //    tfr,
+            //    bra,
+            //    brn,
+            //    bhi,
+            //    bls,
+            //    bcc,
+            //    bcs,
+            //    bne,
+            //    beq,
+            //    bvc,
+            //    bvs,
+            //    bpl,
+            //    bmi,
+            //    bge,
+            //    blt,
+            //    bgt,
+            //    ble,
+            //    leax,
+            //    leay,
+            //    leas,
+            //    leau,
+            //    pshs,
+            //    puls,
+            //    pshu,
+            //    pulu,
+            //    illegal,
+            //    rts,
+            //    abx,
+            //    rti,
+            //    cwai,
+            //    mul,
+            //    illegal,
+            //    swi,
+            //    nega,
+            //    illegal,
+            //    illegal,
+            //    coma,
+            //    lsra,
+            //    illegal,
+            //    rora,
+            //    asra,
+            //    asla,
+            //    rola,
+            //    deca,
+            //    illegal,
+            //    inca,
+            //    tsta,
+            //    illegal,
+            //    clra,
+            //    negb,
+            //    illegal,
+            //    illegal,
+            //    comb,
+            //    lsrb,
+            //    illegal,
+            //    rorb,
+            //    asrb,
+            //    aslb,
+            //    rolb,
+            //    decb,
+            //    illegal,
+            //    incb,
+            //    tstb,
+            //    illegal,
+            //    clrb,
+            //    neg_ix,
+            //    illegal,
+            //    illegal,
+            //    com_ix,
+            //    lsr_ix,
+            //    illegal,
+            //    ror_ix,
+            //    asr_ix,
+            //    asl_ix,
+            //    rol_ix,
+            //    dec_ix,
+            //    illegal,
+            //    inc_ix,
+            //    tst_ix,
+            //    jmp_ix,
+            //    clr_ix,
+            //    neg_ex,
+            //    illegal,
+            //    illegal,
+            //    com_ex,
+            //    lsr_ex,
+            //    illegal,
+            //    ror_ex,
+            //    asr_ex,
+            //    asl_ex,
+            //    rol_ex,
+            //    dec_ex,
+            //    illegal,
+            //    inc_ex,
+            //    tst_ex,
+            //    jmp_ex,
+            //    clr_ex,
+            //    suba_im,
+            //    cmpa_im,
+            //    sbca_im,
+            //    subd_im,
+            //    anda_im,
+            //    bita_im,
+            //    lda_im,
+            //    sta_im,
+            //    eora_im,
+            //    adca_im,
+            //    ora_im,
+            //    adda_im,
+            //    cmpx_im,
+            //    bsr,
+            //    ldx_im,
+            //    stx_im,
+            //    suba_di,
+            //    cmpa_di,
+            //    sbca_di,
+            //    subd_di,
+            //    anda_di,
+            //    bita_di,
+            //    lda_di,
+            //    sta_di,
+            //    eora_di,
+            //    adca_di,
+            //    ora_di,
+            //    adda_di,
+            //    cmpx_di,
+            //    jsr_di,
+            //    ldx_di,
+            //    stx_di,
+            //    suba_ix,
+            //    cmpa_ix,
+            //    sbca_ix,
+            //    subd_ix,
+            //    anda_ix,
+            //    bita_ix,
+            //    lda_ix,
+            //    sta_ix,
+            //    eora_ix,
+            //    adca_ix,
+            //    ora_ix,
+            //    adda_ix,
+            //    cmpx_ix,
+            //    jsr_ix,
+            //    ldx_ix,
+            //    stx_ix,
+            //    suba_ex,
+            //    cmpa_ex,
+            //    sbca_ex,
+            //    subd_ex,
+            //    anda_ex,
+            //    bita_ex,
+            //    lda_ex,
+            //    sta_ex,
+            //    eora_ex,
+            //    adca_ex,
+            //    ora_ex,
+            //    adda_ex,
+            //    cmpx_ex,
+            //    jsr_ex,
+            //    ldx_ex,
+            //    stx_ex,
+            //    subb_im,
+            //    cmpb_im,
+            //    sbcb_im,
+            //    addd_im,
+            //    andb_im,
+            //    bitb_im,
+            //    ldb_im,
+            //    stb_im,
+            //    eorb_im,
+            //    adcb_im,
+            //    orb_im,
+            //    addb_im,
+            //    ldd_im,
+            //    std_im,
+            //    ldu_im,
+            //    stu_im,
+            //    subb_di,
+            //    cmpb_di,
+            //    sbcb_di,
+            //    addd_di,
+            //    andb_di,
+            //    bitb_di,
+            //    ldb_di,
+            //    stb_di,
+            //    eorb_di,
+            //    adcb_di,
+            //    orb_di,
+            //    addb_di,
+            //    ldd_di,
+            //    std_di,
+            //    ldu_di,
+            //    stu_di,
+            //    subb_ix,
+            //    cmpb_ix,
+            //    sbcb_ix,
+            //    addd_ix,
+            //    andb_ix,
+            //    bitb_ix,
+            //    ldb_ix,
+            //    stb_ix,
+            //    eorb_ix,
+            //    adcb_ix,
+            //    orb_ix,
+            //    addb_ix,
+            //    ldd_ix,
+            //    std_ix,
+            //    ldu_ix,
+            //    stu_ix,
+            //    subb_ex,
+            //    cmpb_ex,
+            //    sbcb_ex,
+            //    addd_ex,
+            //    andb_ex,
+            //    bitb_ex,
+            //    ldb_ex,
+            //    stb_ex,
+            //    eorb_ex,
+            //    adcb_ex,
+            //    orb_ex,
+            //    addb_ex,
+            //    ldd_ex,
+            //    std_ex,
+            //    ldu_ex,
+            //    stu_ex
+            //};
         }
+
+
+        public void insn_run(int ireg)
+        {
+            switch (ireg)
+            {
+                case 0: adca_im(); return;
+                case 1: neg_di(); return;
+                case 2: illegal(); return;
+                case 3: com_di(); return;
+                case 4: lsr_di(); return;
+                case 5: illegal(); return;
+                case 6: ror_di(); return;
+                case 7: asr_di(); return;
+                case 8: asl_di(); return;
+                case 9: rol_di(); return;
+                case 10: dec_di(); return;
+                case 11: illegal(); return;
+                case 12: inc_di(); return;
+                case 13: tst_di(); return;
+                case 14: jmp_di(); return;
+                case 15: clr_di(); return;
+                case 16: pref10(); return;
+                case 17: pref11(); return;
+                case 18: nop(); return;
+                case 19: sync(); return;
+                case 20: illegal(); return;
+                case 21: illegal(); return;
+                case 22: lbra(); return;
+                case 23: lbsr(); return;
+                case 24: illegal(); return;
+                case 25: daa(); return;
+                case 26: orcc(); return;
+                case 27: illegal(); return;
+                case 28: andcc(); return;
+                case 29: sex(); return;
+                case 30: exg(); return;
+                case 31: tfr(); return;
+                case 32: bra(); return;
+                case 33: brn(); return;
+                case 34: bhi(); return;
+                case 35: bls(); return;
+                case 36: bcc(); return;
+                case 37: bcs(); return;
+                case 38: bne(); return;
+                case 39: beq(); return;
+                case 40: bvc(); return;
+                case 41: bvs(); return;
+                case 42: bpl(); return;
+                case 43: bmi(); return;
+                case 44: bge(); return;
+                case 45: blt(); return;
+                case 46: bgt(); return;
+                case 47: ble(); return;
+                case 48: leax(); return;
+                case 49: leay(); return;
+                case 50: leas(); return;
+                case 51: leau(); return;
+                case 52: pshs(); return;
+                case 53: puls(); return;
+                case 54: pshu(); return;
+                case 55: pulu(); return;
+                case 56: illegal(); return;
+                case 57: rts(); return;
+                case 58: abx(); return;
+                case 59: rti(); return;
+                case 60: cwai(); return;
+                case 61: mul(); return;
+                case 62: illegal(); return;
+                case 63: swi(); return;
+                case 64: nega(); return;
+                case 65: illegal(); return;
+                case 66: illegal(); return;
+                case 67: coma(); return;
+                case 68: lsra(); return;
+                case 69: illegal(); return;
+                case 70: rora(); return;
+                case 71: asra(); return;
+                case 72: asla(); return;
+                case 73: rola(); return;
+                case 74: deca(); return;
+                case 75: illegal(); return;
+                case 76: inca(); return;
+                case 77: tsta(); return;
+                case 78: illegal(); return;
+                case 79: clra(); return;
+                case 80: negb(); return;
+                case 81: illegal(); return;
+                case 82: illegal(); return;
+                case 83: comb(); return;
+                case 84: lsrb(); return;
+                case 85: illegal(); return;
+                case 86: rorb(); return;
+                case 87: asrb(); return;
+                case 88: aslb(); return;
+                case 89: rolb(); return;
+                case 90: decb(); return;
+                case 91: illegal(); return;
+                case 92: incb(); return;
+                case 93: tstb(); return;
+                case 94: illegal(); return;
+                case 95: clrb(); return;
+                case 96: neg_ix(); return;
+                case 97: illegal(); return;
+                case 98: illegal(); return;
+                case 99: com_ix(); return;
+                case 100: lsr_ix(); return;
+                case 101: illegal(); return;
+                case 102: ror_ix(); return;
+                case 103: asr_ix(); return;
+                case 104: asl_ix(); return;
+                case 105: rol_ix(); return;
+                case 106: dec_ix(); return;
+                case 107: illegal(); return;
+                case 108: inc_ix(); return;
+                case 109: tst_ix(); return;
+                case 110: jmp_ix(); return;
+                case 111: clr_ix(); return;
+                case 112: neg_ex(); return;
+                case 113: illegal(); return;
+                case 114: illegal(); return;
+                case 115: com_ex(); return;
+                case 116: lsr_ex(); return;
+                case 117: illegal(); return;
+                case 118: ror_ex(); return;
+                case 119: asr_ex(); return;
+                case 120: asl_ex(); return;
+                case 121: rol_ex(); return;
+                case 122: dec_ex(); return;
+                case 123: illegal(); return;
+                case 124: inc_ex(); return;
+                case 125: tst_ex(); return;
+                case 126: jmp_ex(); return;
+                case 127: clr_ex(); return;
+                case 128: suba_im(); return;
+                case 129: cmpa_im(); return;
+                case 130: sbca_im(); return;
+                case 131: subd_im(); return;
+                case 132: anda_im(); return;
+                case 133: bita_im(); return;
+                case 134: lda_im(); return;
+                case 135: sta_im(); return;
+                case 136: eora_im(); return;
+                case 137: adca_im(); return;
+                case 138: ora_im(); return;
+                case 139: adda_im(); return;
+                case 140: cmpx_im(); return;
+                case 141: bsr(); return;
+                case 142: ldx_im(); return;
+                case 143: stx_im(); return;
+                case 144: suba_di(); return;
+                case 145: cmpa_di(); return;
+                case 146: sbca_di(); return;
+                case 147: subd_di(); return;
+                case 148: anda_di(); return;
+                case 149: bita_di(); return;
+                case 150: lda_di(); return;
+                case 151: sta_di(); return;
+                case 152: eora_di(); return;
+                case 153: adca_di(); return;
+                case 154: ora_di(); return;
+                case 155: adda_di(); return;
+                case 156: cmpx_di(); return;
+                case 157: jsr_di(); return;
+                case 158: ldx_di(); return;
+                case 159: stx_di(); return;
+                case 160: suba_ix(); return;
+                case 161: cmpa_ix(); return;
+                case 162: sbca_ix(); return;
+                case 163: subd_ix(); return;
+                case 164: anda_ix(); return;
+                case 165: bita_ix(); return;
+                case 166: lda_ix(); return;
+                case 167: sta_ix(); return;
+                case 168: eora_ix(); return;
+                case 169: adca_ix(); return;
+                case 170: ora_ix(); return;
+                case 171: adda_ix(); return;
+                case 172: cmpx_ix(); return;
+                case 173: jsr_ix(); return;
+                case 174: ldx_ix(); return;
+                case 175: stx_ix(); return;
+                case 176: suba_ex(); return;
+                case 177: cmpa_ex(); return;
+                case 178: sbca_ex(); return;
+                case 179: subd_ex(); return;
+                case 180: anda_ex(); return;
+                case 181: bita_ex(); return;
+                case 182: lda_ex(); return;
+                case 183: sta_ex(); return;
+                case 184: eora_ex(); return;
+                case 185: adca_ex(); return;
+                case 186: ora_ex(); return;
+                case 187: adda_ex(); return;
+                case 188: cmpx_ex(); return;
+                case 189: jsr_ex(); return;
+                case 190: ldx_ex(); return;
+                case 191: stx_ex(); return;
+                case 192: subb_im(); return;
+                case 193: cmpb_im(); return;
+                case 194: sbcb_im(); return;
+                case 195: addd_im(); return;
+                case 196: andb_im(); return;
+                case 197: bitb_im(); return;
+                case 198: ldb_im(); return;
+                case 199: stb_im(); return;
+                case 200: eorb_im(); return;
+                case 201: adcb_im(); return;
+                case 202: orb_im(); return;
+                case 203: addb_im(); return;
+                case 204: ldd_im(); return;
+                case 205: std_im(); return;
+                case 206: ldu_im(); return;
+                case 207: stu_im(); return;
+                case 208: subb_di(); return;
+                case 209: cmpb_di(); return;
+                case 210: sbcb_di(); return;
+                case 211: addd_di(); return;
+                case 212: andb_di(); return;
+                case 213: bitb_di(); return;
+                case 214: ldb_di(); return;
+                case 215: stb_di(); return;
+                case 216: eorb_di(); return;
+                case 217: adcb_di(); return;
+                case 218: orb_di(); return;
+                case 219: addb_di(); return;
+                case 220: ldd_di(); return;
+                case 221: std_di(); return;
+                case 222: ldu_di(); return;
+                case 223: stu_di(); return;
+                case 224: subb_ix(); return;
+                case 225: cmpb_ix(); return;
+                case 226: sbcb_ix(); return;
+                case 227: addd_ix(); return;
+                case 228: andb_ix(); return;
+                case 229: bitb_ix(); return;
+                case 230: ldb_ix(); return;
+                case 231: stb_ix(); return;
+                case 232: eorb_ix(); return;
+                case 233: adcb_ix(); return;
+                case 234: orb_ix(); return;
+                case 235: addb_ix(); return;
+                case 236: ldd_ix(); return;
+                case 237: std_ix(); return;
+                case 238: ldu_ix(); return;
+                case 239: stu_ix(); return;
+                case 240: subb_ex(); return;
+                case 241: cmpb_ex(); return;
+                case 242: sbcb_ex(); return;
+                case 243: addd_ex(); return;
+                case 244: andb_ex(); return;
+                case 245: bitb_ex(); return;
+                case 246: ldb_ex(); return;
+                case 247: stb_ex(); return;
+                case 248: eorb_ex(); return;
+                case 249: adcb_ex(); return;
+                case 250: orb_ex(); return;
+                case 251: addb_ex(); return;
+                case 252: ldd_ex(); return;
+                case 253: std_ex(); return;
+                case 254: ldu_ex(); return;
+                case 255: stu_ex(); return;
+            }
+        }
+
         public override void Reset()
         {
             m6809_reset();
@@ -571,7 +1060,9 @@ namespace cpu.m6809
                     PPC = PC;
                     ireg = ReadOp(PC.LowWord);
                     PC.LowWord++;
-                    insn[ireg]();
+                    //insn[ireg]();
+                    //干掉Action[] 直接定位指令
+                    insn_run(ireg);
                     pendingCycles -= cycles_6809[ireg];
                     int delta = prevCycles - pendingCycles;
                     totalExecutedCycles += (ulong)delta;
